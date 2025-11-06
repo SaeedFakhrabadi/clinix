@@ -1,0 +1,18 @@
+@use 'functions' as *;
+
+// Font sizes
+$font-size-sm: space(5);
+$font-size-md: space(6);
+$font-size-base: space(7);
+$font-size-lg: space(8);
+$font-size-xl: space(12);
+$font-size-xxl: space(14);
+$font-size-xxxl: space(20);
+
+// Font weights
+$font-weight-normal: 400;
+$font-weight-bold: 900;
+
+// // Line heights
+// $line-height-base: 1.5;
+// $line-height-heading: 1.2;

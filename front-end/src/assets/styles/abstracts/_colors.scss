@@ -1,0 +1,35 @@
+// Color palette
+$colors: (
+  'red': #db140d,
+  'orange': #eb6919,
+  'yellow': #ffd447,
+  'green': #00fc15,
+  'blue': #035fff,
+  'purple': #b388eb,
+  'brown': #b64a08,
+  'gray': #777777,
+  'black': #222222,
+  'white': #dddddd,
+);
+
+// Background reference colors
+$light: #ffffff;
+$dark: #000000;
+
+// Theme roles
+$element-roles: (
+  'success': 'green',
+  'warning': 'yellow',
+  'danger': 'red',
+  'text': 'gray',
+  'title': 'blue',
+);
+$background-roles: (
+  'primary': 'blue',
+  'secondary': 'white',
+  'info': 'blue',
+  'bg': 'black',
+);
+
+// Shades
+$shades: 100, 200, 300, 400, 500, 600, 700, 800, 900;

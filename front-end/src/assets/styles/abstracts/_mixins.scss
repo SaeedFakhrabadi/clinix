@@ -1,0 +1,38 @@
+@use '../abstracts/functions' as *;
+
+@mixin flexbox($direction: row, $justify: center, $align: center, $gap: space(14), $wrap: wrap) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+  gap: $gap;
+  flex-wrap: $wrap;
+}
+
+@mixin lineClamp($linesNumber: 3) {
+  -webkit-line-clamp: $linesNumber;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  overflow: hidden;
+}
+
+// @mixin mobile {
+//   @media (max-width: 600px) {
+//     @content;
+//   }
+// }
+
+// @mixin card-shadow {
+//   box-shadow: 0 20px 60px rgba(red, 0.2);
+// }
+
+// @keyframes fadeInUp {
+//   from {
+//     opacity: 0;
+//     transform: translateY(30px);
+//   }
+//   to {
+//     opacity: 1;
+//     transform: translateY(0);
+//   }
+// }
