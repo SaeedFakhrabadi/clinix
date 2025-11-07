@@ -21,7 +21,7 @@
 
 	// Tabs
 	import { useActiveTabStore } from '@/stores/activeTab';
-	import router from '../routers/router';
+	import router from '../routers';
 
 	const activeTabStore = useActiveTabStore();
 

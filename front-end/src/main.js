@@ -4,7 +4,7 @@ import piniaPersist from 'pinia-plugin-persistedstate';
 // import Toast from "vue-toastification";
 // import "vue-toastification/dist/index.css";
 import App from './App.vue';
-import router from '@/routers/router';
+import router from '@/routers';
 import '@/assets/styles/main.scss';
 
 const pinia = createPinia();
