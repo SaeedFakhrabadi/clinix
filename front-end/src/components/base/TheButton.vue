@@ -4,7 +4,7 @@
 	const props = defineProps({
 		label: { type: String, default: 'ثبت' },
 		type: { type: String, default: 'submit' },
-		width: { type: Number, default: 60 },
+		width: { type: String, default: '100%' },
 		// iconName: String,
 	});
 
@@ -23,7 +23,7 @@
 </script>
 
 <template>
-	<button class="base-button" :class="[TheButtonModifier]" :style="{ width: width + 'px' }">
+	<button class="base-button" :class="[TheButtonModifier]" :style="{ width: width }">
 		<h5>{{ label }}</h5>
 		<!-- <SvgIcon v-if="iconName" class="base-button__icon" :name="iconName" /> -->
 	</button>
@@ -34,7 +34,7 @@
 		background-color: transparent;
 		border-radius: space(4);
 		cursor: pointer;
-		height: space(18);
+		height: space(20);
 		@include flexbox(row, center, center);
 	}
 
@@ -45,7 +45,7 @@
 	}
 
 	.base-button--submit:hover {
-		background-color: var(--primary-400);
+		background-color: var(--primary-500);
 	}
 
 	.base-button--cancel {
@@ -69,14 +69,14 @@
 	}
 
 	.base-button--big {
-		background-color: var(--primary-700);
+		background-color: var(--primary-100);
 		border: none;
 		color: var(--text-900);
 		height: space(30);
 	}
 
 	.base-button--big:hover {
-		background-color: var(--primary-900);
+		background-color: var(--primary-500);
 	}
 
 	// .base-button__icon {

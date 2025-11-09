@@ -1,5 +1,5 @@
 <script setup>
-	import { toPersianNumbers } from '@/utils/toPersianNumbers.js';
+	import { toPersianDigits } from '@/utils/toPersianDigits.js';
 </script>
 
 <template>
@@ -10,7 +10,7 @@
 			<div class="dashboard__footer-title">
 				<h4>ساخته شده با عشق توسط تیم کلینیکس</h4>
 			</div>
-			<p class="dashboard__footer-copyright">&copy; تمامی حقوق محفوظ است ({{ toPersianNumbers(1404) }})</p>
+			<p class="dashboard__footer-copyright">&copy; تمامی حقوق محفوظ است ({{ toPersianDigits(1404) }})</p>
 		</footer>
 	</div>
 </template>

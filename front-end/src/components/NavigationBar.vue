@@ -55,7 +55,7 @@
 			</div>
 			<div class="navigation-bar__buttons">
 				<TheButton @click="toggleTheme" type="hollow" :label="theme === 'light' ? 'تاریک' : 'روشن'" />
-				<TheButton type="submit" label="ورود" />
+				<TheButton type="submit" label="ورود" @click="router.push({ name: 'Login' })" />
 				<TheButton type="cancel" label="ثبت نام" @click="router.push({ name: 'SignUp' })" />
 			</div>
 		</div>
@@ -120,7 +120,8 @@
 		}
 
 		&__buttons {
-			@include flexbox(row, center, center, space(8));
+			width: space(120);
+			@include flexbox(row, center, center, space(8), nowrap);
 			@media (max-width: space(300)) {
 				display: none;
 			}

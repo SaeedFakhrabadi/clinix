@@ -10,9 +10,9 @@
 <template>
 	<div class="home">
 		<header class="home__header">
-			<h1 class="home__slogan">کلینیکس، بزرگترین سامانه آنلاین مدیریت و رزرو نوبت کلینیک های پزشکی</h1>
-			<h3 class="home__sub-slogan">برای رزرو نوبت کلیک کنید</h3>
-			<TheButton type="big" label="ثبت نوبت" width="100" @click="scrollToContent" />
+			<h1 class="home__slogan">کلینیکس، بزرگترین کلینیک آنلاین برای مدیریت و رزرو نوبت پزشکی</h1>
+			<h3 class="home__sub-slogan">همین الآن برای رزرو نوبت کلیک کنید</h3>
+			<TheButton type="big" label="رزرو نوبت" width="100px" @click="scrollToContent" />
 		</header>
 		<div class="home__content"></div>
 	</div>
@@ -21,20 +21,16 @@
 <style lang="scss" scoped>
 	.home {
 		&__header {
-			background-image: linear-gradient(45deg, var(--secondary-400), var(--primary-600));
+			background-image: linear-gradient(0deg, var(--primary-600), var(--bg-900));
 			width: 100%;
-			height: space(320);
+			height: space(300);
 			@include flexbox(column, center, center, space(20));
 		}
 
 		&__slogan {
-			background-image: linear-gradient(45deg, var(--text-900), var(--text-400));
-			background-clip: text;
-			-webkit-text-fill-color: transparent;
-			animation: subtle-shake 3s infinite alternate ease-in-out;
-			@media (max-width: space(600)) {
-				display: none;
-			}
+			color: var(--text-900);
+			animation: subtle-shake 3s infinite alternate ease;
+			@include flexbox(row, center, center, space(0), wrap);
 		}
 
 		@keyframes subtle-shake {
@@ -42,16 +38,13 @@
 				transform: translate(space(0), space(0));
 			}
 			25% {
-				transform: translate(space(1), space(1));
+				transform: translate(space(0), space(2));
 			}
 			50% {
-				transform: translate(space(1), space(-1));
+				transform: translate(space(0), space(0));
 			}
 			75% {
-				transform: translate(space(-1), space(1));
-			}
-			100% {
-				transform: translate(space(-1), space(-1));
+				transform: translate(space(0), space(2));
 			}
 		}
 

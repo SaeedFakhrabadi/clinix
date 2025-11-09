@@ -1,3 +1,6 @@
 <template>
-  <router-view />
+	<div>
+		<NavigationBar />
+		<router-view />
+	</div>
 </template>
