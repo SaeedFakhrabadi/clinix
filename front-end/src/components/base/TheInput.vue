@@ -1,5 +1,5 @@
 <script setup>
-	import { computed, ref, toRefs, watch } from 'vue';
+	import { computed, ref } from 'vue';
 	import { toPersianDigits } from '@/utils/toPersianDigits';
 
 	const props = defineProps({
@@ -9,7 +9,7 @@
 		},
 		isMandatory: {
 			type: Boolean,
-			default: false,
+			default: true,
 		},
 		placeholder: {
 			type: String,
@@ -18,6 +18,10 @@
 		type: {
 			type: String,
 			default: 'text',
+		},
+		digitsOnly: {
+			type: Boolean,
+			default: false,
 		},
 		errorMessage: {
 			type: String,
@@ -29,24 +33,25 @@
 
 	const inputValue = defineModel();
 
-	const { type, label, errorMessage } = toRefs(props);
+	const isPasswordVisible = ref(false);
 
-	const isPassword = computed(() => type.value === 'password');
+	const isPassword = computed(() => props.type === 'password');
 
 	const eyeIconName = computed(() => (isPasswordVisible.value ? 'eye-slash' : 'eye'));
 
-	const inputType = computed(() => (isPassword.value && isPasswordVisible.value ? 'text' : props.type));
+	const inputType = computed(() =>
+		isPassword.value && isPasswordVisible.value ? 'text' : props.type,
+	);
 
-	const isPasswordVisible = ref(false);
-	const togglePasswordVisibility = () => {
-		isPasswordVisible.value = !isPasswordVisible.value;
+	const togglePasswordVisibility = () => (isPasswordVisible.value = !isPasswordVisible.value);
+
+	const handleInput = (event) => {
+		if (props.digitsOnly) {
+			let val = event?.target?.value ?? '';
+			val = val.replace(/[^\d]/g, '');
+			inputValue.value = val;
+		}
 	};
-
-	// const isDescription = computed(() => props.label === 'توضیحات');
-
-	// const heightClass = computed(() => (isDescription.value ? 'base-input--description' : 'base-input--default'));
-
-	watch(inputValue, (newVal) => (inputValue.value = toPersianDigits(newVal)));
 </script>
 
 <template>
@@ -82,10 +87,16 @@
 					v-model="inputValue"
 					:placeholder="placeholder"
 					:type="inputType"
+					@input="handleInput"
 					@blur="emit('blur', inputValue)"
 					@focus="emit('focus', inputValue)"
 				/>
-				<SvgLoader v-if="isPassword" class="input-box__icon" :name="eyeIconName" @click="togglePasswordVisibility" />
+				<SvgLoader
+					v-if="isPassword"
+					class="input-box__icon"
+					:name="eyeIconName"
+					@click="togglePasswordVisibility"
+				/>
 			</div>
 			<h6 class="container__error-message">{{ toPersianDigits(errorMessage) }}</h6>
 		</div>
@@ -136,6 +147,10 @@
 				height: space(20);
 			}
 
+			&__input::placeholder {
+				color: var(--text-500);
+			}
+
 			&:focus-within,
 			&:hover {
 				border-right: space(2) solid var(--text-100);
@@ -160,7 +175,7 @@
 		&__error-message {
 			user-select: none;
 			min-height: space(12);
-			color: var(--danger-300);
+			color: var(--danger-600);
 			@include flexbox();
 			@include lineClamp(1);
 		}

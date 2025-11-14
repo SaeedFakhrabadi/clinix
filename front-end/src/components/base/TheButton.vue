@@ -39,33 +39,33 @@
 	}
 
 	.base-button--submit {
-		background-color: var(--primary-700);
+		background-color: var(--primary-500);
 		border: none;
 		color: var(--text-900);
 	}
 
 	.base-button--submit:hover {
-		background-color: var(--primary-500);
+		background-color: var(--primary-100);
 	}
 
 	.base-button--cancel {
-		border: space(1) solid var(--secondary-400);
-		color: var(--secondary-400);
+		border: space(1) solid var(--primary-500);
+		color: var(--primary-500);
 	}
 
 	.base-button--cancel:hover {
-		background-color: var(--secondary-400);
+		background-color: var(--primary-500);
 		color: var(--text-900);
 	}
 
 	.base-button--hollow {
-		border: space(1) solid var(--primary-400);
-		color: var(--primary-400);
+		border: space(1) solid var(--text-900);
+		color: var(--text-900);
 	}
 
 	.base-button--hollow:hover {
-		background-color: var(--primary-400);
-		color: var(--text-900);
+		background-color: var(--text-900);
+		color: var(--text-100);
 	}
 
 	.base-button--big {

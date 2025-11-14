@@ -1,60 +1,57 @@
 <script setup>
-	import { ref } from 'vue';
-	import router from '../../routers';
+	import { useForm, useField } from 'vee-validate';
+	import { loginSchema } from '@/schemas';
+	import { useRouter } from 'vue-router';
 
-	// داده های فرم
-	const email = ref('');
-	const phone = ref('');
-	const password = ref('');
+	const router = useRouter();
 
-	// ارورها
-	const errors = ref({
-		email: '',
-		phone: '',
-		password: '',
+	const { handleSubmit } = useForm({
+		validationSchema: loginSchema,
+		initialValues: {
+			identifier: '',
+			password: '',
+		},
 	});
 
-	// اعتبارسنجی ساده هنگام submit
-	const validate = () => {
-		let valid = true;
-		errors.value.email = /\S+@\S+\.\S+/.test(email.value) ? '' : 'ایمیل معتبر نیست';
-		errors.value.phone = /^\d{10,15}$/.test(phone.value) ? '' : 'شماره تلفن معتبر نیست';
-		errors.value.password = password.value.length >= 6 ? '' : 'رمز عبور باید حداقل 6 کاراکتر باشد';
+	const { value: identifier, errorMessage: identifierError } = useField('identifier');
+	const { value: password, errorMessage: passwordError } = useField('password');
 
-		Object.values(errors.value).forEach((e) => {
-			if (e) valid = false;
-		});
-		return valid;
-	};
-
-	const handleSubmit = () => {
-		router.push({ name: 'RecoveryPassword' });
-		if (validate()) {
-			alert('ثبت‌نام با موفقیت انجام شد!');
-			// اینجا میتونی API call بزنی
-		}
-	};
+	const onSubmit = handleSubmit(() => {
+		router.push({ name: 'Profile' });
+	});
 </script>
 
 <template>
-	<form class="form" @submit.prevent="handleSubmit">
+	<form class="form" @submit.prevent="onSubmit">
 		<h3 class="form__title">ورود</h3>
-		<TheInput
-			label="شماره تلفن / ایمیل"
-			:is-mandatory="true"
-			placeholder="شماره تلفن یا ایمیل خود را وارد کنید"
-			v-model="email"
-			:error-message="errors.email"
-		/>
-		<TheInput
-			label="رمز عبور"
-			:is-mandatory="true"
-			type="password"
-			placeholder="رمز عبور"
-			v-model="password"
-			:error-message="errors.password"
-		/>
-		<TheButton type="submit" label="ثبت نام"></TheButton>
+		<div class="form__inputs">
+			<TheInput
+				label="شماره تلفن / ایمیل"
+				placeholder="شماره تلفن یا ایمیل خود را وارد کنید"
+				v-model="identifier"
+				:error-message="identifierError"
+			/>
+			<TheInput
+				label="رمز عبور"
+				type="password"
+				placeholder="رمز عبور"
+				v-model="password"
+				:error-message="passwordError"
+			/>
+		</div>
+		<TheButton type="submit" label="ورود" />
+		<div class="form__texts">
+			<h5 class="form__text">
+				حساب کاربری ندارید ؟
+				<router-link class="form__link" :to="{ name: 'SignUp' }">ثبت نام</router-link>
+			</h5>
+			<h5 class="form__text">
+				رمز عبور خود را فراموش کرده اید ؟
+				<router-link class="form__link" :to="{ name: 'RecoveryPassword' }">
+					بازنشانی رمز عبور
+				</router-link>
+			</h5>
+		</div>
 	</form>
 </template>
 
@@ -63,6 +60,22 @@
 		&__title {
 			text-align: center;
 			color: var(--text-900);
+			border-bottom: space(0.5) solid var(--primary-100);
+		}
+
+		&__inputs,
+		&__texts {
+			width: 100%;
+		}
+
+		&__text {
+			color: var(--text-900);
+			text-align: center;
+		}
+
+		&__link {
+			color: var(--text-500);
+			text-decoration: underline;
 		}
 	}
 </style>

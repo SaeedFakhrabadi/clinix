@@ -1,90 +1,62 @@
 <script setup>
-	import { ref } from 'vue';
-	import router from '../../routers';
+	import { useForm, useField } from 'vee-validate';
+	import { signUpSchema } from '@/schemas';
+	import { useRouter } from 'vue-router';
 
-	// داده های فرم
-	const name = ref('');
-	const email = ref('');
-	const phone = ref('');
-	const age = ref('');
-	const password = ref('');
-	const confirmPassword = ref('');
+	const router = useRouter();
 
-	// ارورها
-	const errors = ref({
-		name: '',
-		email: '',
-		phone: '',
-		age: '',
-		password: '',
-		confirmPassword: '',
+	const { handleSubmit } = useForm({
+		validationSchema: signUpSchema,
+		initialValues: {
+			name: '',
+			email: '',
+			phoneNumber: '',
+			password: '',
+		},
 	});
 
-	// اعتبارسنجی ساده هنگام submit
-	const validate = () => {
-		let valid = true;
-		errors.value.name = name.value.trim() ? '' : 'نام الزامی است';
-		errors.value.email = /\S+@\S+\.\S+/.test(email.value) ? '' : 'ایمیل معتبر نیست';
-		errors.value.phone = /^\d{10,15}$/.test(phone.value) ? '' : 'شماره تلفن معتبر نیست';
-		errors.value.password = password.value.length >= 6 ? '' : 'رمز عبور باید حداقل 6 کاراکتر باشد';
-		errors.value.confirmPassword = confirmPassword.value === password.value ? '' : 'تکرار رمز عبور اشتباه است';
+	const { value: name, errorMessage: nameError } = useField('name');
+	const { value: email, errorMessage: emailError } = useField('email');
+	const { value: phoneNumber, errorMessage: phoneNumberError } = useField('phoneNumber');
+	const { value: password, errorMessage: passwordError } = useField('password');
 
-		Object.values(errors.value).forEach((e) => {
-			if (e) valid = false;
-		});
-		return valid;
-	};
-
-	const handleSubmit = () => {
-		// router.push({ name: 'Login' });
-		if (validate()) {
-			alert('ثبت‌نام با موفقیت انجام شد!');
-			// اینجا میتونی API call بزنی
-		}
-	};
+	const onSubmit = handleSubmit(() => {
+		router.push({ name: 'Login' });
+	});
 </script>
 
 <template>
-	<form class="form" @submit.prevent="handleSubmit">
+	<form class="form" @submit.prevent="onSubmit">
 		<h3 class="form__title">ثبت نام</h3>
-		<TheInput
-			label="نام"
-			:is-mandatory="true"
-			placeholder="نام خود را وارد کنید"
-			v-model="name"
-			:error-message="errors.name"
-		/>
-		<TheInput
-			label="ایمیل"
-			:is-mandatory="true"
-			placeholder="ایمیل خود را وارد کنید"
-			v-model="email"
-			:error-message="errors.email"
-		/>
-		<TheInput
-			label="شماره تلفن"
-			:is-mandatory="true"
-			placeholder="شماره تلفن"
-			v-model="phone"
-			:error-message="errors.phone"
-		/>
-		<TheInput
-			label="رمز عبور"
-			:is-mandatory="true"
-			type="password"
-			placeholder="رمز عبور"
-			v-model="password"
-			:error-message="errors.password"
-		/>
-		<TheInput
-			label="تکرار رمز عبور"
-			:is-mandatory="true"
-			type="password"
-			placeholder="رمز عبور را دوباره وارد کنید"
-			v-model="confirmPassword"
-			:error-message="errors.confirmPassword"
-		/>
-		<TheButton type="submit" label="ثبت نام"></TheButton>
+		<div class="form__inputs">
+			<TheInput
+				label="نام"
+				placeholder="نام خود را وارد کنید"
+				v-model="name"
+				:error-message="nameError"
+			/>
+			<TheInput
+				label="ایمیل"
+				placeholder="مانند : example.gmail.com"
+				v-model="email"
+				:error-message="emailError"
+			/>
+			<TheInput
+				label="شماره تلفن"
+				placeholder="مانند : 09123456789"
+				v-model="phoneNumber"
+				:digits-only="true"
+				:error-message="phoneNumberError"
+			/>
+			<TheInput
+				label="رمز عبور"
+				type="password"
+				placeholder="رمز عبور دلخواه خود را وارد کنید"
+				v-model="password"
+				:error-message="passwordError"
+			/>
+		</div>
+		<TheButton type="submit" label="ثبت نام" />
 	</form>
 </template>
 
@@ -93,6 +65,11 @@
 		&__title {
 			text-align: center;
 			color: var(--text-900);
+			border-bottom: space(0.5) solid var(--primary-100);
+		}
+
+		&__inputs {
+			width: 100%;
 		}
 	}
 </style>

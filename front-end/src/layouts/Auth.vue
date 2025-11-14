@@ -13,10 +13,11 @@
 
 		&__form {
 			width: 20%;
-			background-color: var(--primary-200);
-			box-shadow: space(0) space(0) space(5) var(--text-900);
+			background-color: var(--primary-700);
+			box-shadow: space(0) space(0) space(3) var(--text-900);
 			padding: space(14);
 			border-radius: space(14);
+			@include flexbox(column, center, center, space(10));
 			@media (max-width: space(600)) {
 				width: 30%;
 			}

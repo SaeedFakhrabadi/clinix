@@ -1,90 +1,38 @@
 <script setup>
-	import { ref } from 'vue';
-	import router from '../../routers';
+	import { useForm, useField } from 'vee-validate';
+	import { recoveryPasswordSchema } from '@/schemas';
+	import { useRouter } from 'vue-router';
 
-	// داده های فرم
-	const name = ref('');
-	const email = ref('');
-	const phone = ref('');
-	const age = ref('');
-	const password = ref('');
-	const confirmPassword = ref('');
+	const router = useRouter();
 
-	// ارورها
-	const errors = ref({
-		name: '',
-		email: '',
-		phone: '',
-		age: '',
-		password: '',
-		confirmPassword: '',
+	const { handleSubmit } = useForm({
+		validationSchema: recoveryPasswordSchema,
+		initialValues: {
+			identifier: '',
+		},
 	});
 
-	// اعتبارسنجی ساده هنگام submit
-	const validate = () => {
-		let valid = true;
-		errors.value.name = name.value.trim() ? '' : 'نام الزامی است';
-		errors.value.email = /\S+@\S+\.\S+/.test(email.value) ? '' : 'ایمیل معتبر نیست';
-		errors.value.phone = /^\d{10,15}$/.test(phone.value) ? '' : 'شماره تلفن معتبر نیست';
-		errors.value.password = password.value.length >= 6 ? '' : 'رمز عبور باید حداقل 6 کاراکتر باشد';
-		errors.value.confirmPassword = confirmPassword.value === password.value ? '' : 'تکرار رمز عبور اشتباه است';
+	const { value: identifier, errorMessage: identifierError } = useField('identifier');
 
-		Object.values(errors.value).forEach((e) => {
-			if (e) valid = false;
-		});
-		return valid;
-	};
-
-	const handleSubmit = () => {
-		router.push({ name: 'ChangePassword' });
-		if (validate()) {
-			alert('ثبت‌نام با موفقیت انجام شد!');
-			// اینجا میتونی API call بزنی
-		}
-	};
+	const onSubmit = handleSubmit(() => {
+		router.push({ name: 'Login' });
+	});
 </script>
 
 <template>
-	<form class="form" @submit.prevent="handleSubmit">
-		<h3 class="form__title">بازنشانی رمز</h3>
+	<form class="form" @submit.prevent="onSubmit">
+		<h3 class="form__title">بازنشانی رمز عبور</h3>
+		<h5 class="form__text">
+			برای بازنشانی رمز عبور ایمیل یا شماره تلفن خود را وارد کنید تا رمز عبور جدید برای شما ارسال
+			شود
+		</h5>
 		<TheInput
-			label="نام"
-			:is-mandatory="true"
-			placeholder="نام خود را وارد کنید"
-			v-model="name"
-			:error-message="errors.name"
+			label="شماره تلفن / ایمیل"
+			placeholder="شماره تلفن یا ایمیل خود را وارد کنید"
+			v-model="identifier"
+			:error-message="identifierError"
 		/>
-		<TheInput
-			label="ایمیل"
-			:is-mandatory="true"
-			placeholder="ایمیل خود را وارد کنید"
-			v-model="email"
-			:error-message="errors.email"
-		/>
-		<TheInput
-			label="شماره تلفن"
-			:is-mandatory="true"
-			placeholder="شماره تلفن"
-			v-model="phone"
-			:error-message="errors.phone"
-		/>
-		<TheInput
-			label="رمز عبور"
-			:is-mandatory="true"
-			type="password"
-			placeholder="رمز عبور"
-			v-model="password"
-			:error-message="errors.password"
-		/>
-		<TheInput
-			label="تکرار رمز عبور"
-			:is-mandatory="true"
-			type="password"
-			placeholder="رمز عبور را دوباره وارد کنید"
-			v-model="confirmPassword"
-			:error-message="errors.confirmPassword"
-		/>
-		<TheButton type="submit" label="ثبت نام"></TheButton>
+		<TheButton type="submit" label="بازنشانی رمز عبور" />
 	</form>
 </template>
 
@@ -92,6 +40,11 @@
 	.form {
 		&__title {
 			text-align: center;
+			color: var(--text-900);
+			border-bottom: space(0.5) solid var(--primary-100);
+		}
+
+		&__text {
 			color: var(--text-900);
 		}
 	}

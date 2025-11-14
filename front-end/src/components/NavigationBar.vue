@@ -21,8 +21,10 @@
 
 	// Tabs
 	import { useActiveTabStore } from '@/stores/activeTab';
-	import router from '../routers';
+	import { useRouter } from 'vue-router';
 
+	const router = useRouter();
+	
 	const activeTabStore = useActiveTabStore();
 
 	const setActiveTab = (tab) => activeTabStore.setActiveTab(tab);
@@ -42,7 +44,12 @@
 				<h2 class="navigation-bar__title">کلینیکس</h2>
 			</router-link>
 			<div class="navigation-bar__menu">
-				<router-link v-for="tab in tabs" :key="tab.name" :to="{ name: tab.name }" @click="setActiveTab(tab.name)">
+				<router-link
+					v-for="tab in tabs"
+					:key="tab.name"
+					:to="{ name: tab.name }"
+					@click="setActiveTab(tab.name)"
+				>
 					<h4
 						class="navigation-bar__menu-tab"
 						:class="{
@@ -54,7 +61,11 @@
 				</router-link>
 			</div>
 			<div class="navigation-bar__buttons">
-				<TheButton @click="toggleTheme" type="hollow" :label="theme === 'light' ? 'تاریک' : 'روشن'" />
+				<TheButton
+					@click="toggleTheme"
+					type="hollow"
+					:label="theme === 'light' ? 'تاریک' : 'روشن'"
+				/>
 				<TheButton type="submit" label="ورود" @click="router.push({ name: 'Login' })" />
 				<TheButton type="cancel" label="ثبت نام" @click="router.push({ name: 'SignUp' })" />
 			</div>
