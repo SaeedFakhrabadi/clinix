@@ -54,7 +54,7 @@
 	}
 
 	.base-button--cancel:hover {
-		background-color: var(--primary-500);
+		background-color: var(--primary-800);
 		color: var(--text-900);
 	}
 

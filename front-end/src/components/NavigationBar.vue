@@ -5,6 +5,7 @@
 	const savedTheme = localStorage.getItem('theme');
 	const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 	const theme = ref(savedTheme || (prefersDark ? 'dark' : 'light'));
+	const isLightImage = computed(() => theme.value === 'light');
 
 	const toggleTheme = () => {
 		theme.value = theme.value === 'light' ? 'dark' : 'light';
@@ -22,9 +23,10 @@
 	// Tabs
 	import { useActiveTabStore } from '@/stores/activeTab';
 	import { useRouter } from 'vue-router';
+	import { computed } from 'vue';
 
 	const router = useRouter();
-	
+
 	const activeTabStore = useActiveTabStore();
 
 	const setActiveTab = (tab) => activeTabStore.setActiveTab(tab);
@@ -41,7 +43,8 @@
 	<nav class="navigation-bar">
 		<div class="navigation-bar__container">
 			<router-link :to="{ name: 'Home' }" @click="setActiveTab('')">
-				<h2 class="navigation-bar__title">کلینیکس</h2>
+				<img v-if="isLightImage" class="navigation-bar__image" src="./../../public/navicon.png" />
+				<img v-else class="navigation-bar__image" src="./../../public/navicon-hover.png" />
 			</router-link>
 			<div class="navigation-bar__menu">
 				<router-link
@@ -77,7 +80,7 @@
 	.navigation-bar {
 		position: sticky;
 		top: space(0);
-		padding: space(2) 15%;
+		padding: space(0) 15%;
 		background-color: var(--bg-900);
 		box-shadow: space(0) space(2) space(4) var(--text-100);
 		z-index: 10;
@@ -91,20 +94,9 @@
 			}
 		}
 
-		&__title {
-			color: var(--title-500);
-			text-shadow: space(0) space(1) space(7) var(--title-500);
-			@include flexbox(row, center, center, space(2));
-
-			&:hover {
-				color: var(--title-200);
-				text-shadow: space(0) space(1) space(15) var(--title-200);
-			}
-		}
-
 		&__image {
-			width: space(15);
-			height: space(15);
+			width: space(100);
+			@include flexbox();
 		}
 
 		&__menu {

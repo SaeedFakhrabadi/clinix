@@ -140,7 +140,7 @@
 				background-color: transparent;
 				font-size: space(7);
 				color: var(--text-900);
-				padding-inline: space(2);
+				padding-right: space(2);
 				border: none;
 				outline: none;
 				width: 100%;
@@ -167,7 +167,7 @@
 
 			&__icon {
 				color: var(--primary-100);
-				margin-inline: space(4);
+				margin-inline: space(3);
 				cursor: pointer;
 			}
 		}
