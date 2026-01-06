@@ -1,15 +1,22 @@
 <template>
-	<div>
-		<NavigationBar />
-		<div class="container"><router-view class="container__form" /></div>
+	<div class="auth">
+		<TheNavbar />
+		<main class="auth__main-content">
+			<router-view class="auth__form" />
+		</main>
 	</div>
 </template>
 
 <style lang="scss" scoped>
-	.container {
-		height: 91vh;
-		transition: none;
-		@include flexbox();
+	.auth {
+		height: 100vh;
+
+		&__main-content {
+			height: calc(100% - space(32));
+			padding-top: space(32);
+			width: 100%;
+			@include flexbox(row, center, center);
+		}
 
 		&__form {
 			width: 20%;

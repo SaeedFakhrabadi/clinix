@@ -5,25 +5,25 @@ import Components from 'unplugin-vue-components/vite';
 import svgLoader from 'vite-svg-loader';
 
 export default defineConfig({
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-    },
-  },
-  plugins: [
-    vue(),
-    svgLoader(),
-    Components({
-      dirs: ['src'],
-      extensions: ['vue'],
-      deep: true,
-      dts: './components.d.ts',
-    }),
-  ],
-  css: {
-    preprocessorOptions: {
-      scss: {
-        additionalData: `
+	resolve: {
+		alias: {
+			'@': path.resolve(__dirname, './src'),
+		},
+	},
+	plugins: [
+		vue(),
+		svgLoader(),
+		Components({
+			dirs: ['src'],
+			extensions: ['vue'],
+			deep: true,
+			dts: './components.d.ts',
+		}),
+	],
+	css: {
+		preprocessorOptions: {
+			scss: {
+				additionalData: `
           @use "@/assets/styles/abstracts/functions" as *;
           @use "@/assets/styles/abstracts/colors" as *;
           @use "@/assets/styles/abstracts/mixins" as *;
@@ -33,7 +33,7 @@ export default defineConfig({
           @use "@/assets/styles/base/fonts" as *;
           @use "@/assets/styles/base/typography" as *;
           `,
-      },
-    },
-  },
+			},
+		},
+	},
 });

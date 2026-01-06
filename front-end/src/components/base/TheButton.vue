@@ -23,7 +23,11 @@
 </script>
 
 <template>
-	<button class="base-button" :class="[TheButtonModifier]" :style="{ width: width }">
+	<button
+		class="base-button"
+		:class="[TheButtonModifier]"
+		:style="{ width: width }"
+	>
 		<h5>{{ label }}</h5>
 		<!-- <SvgIcon v-if="iconName" class="base-button__icon" :name="iconName" /> -->
 	</button>
@@ -33,19 +37,20 @@
 	.base-button {
 		background-color: transparent;
 		border-radius: space(4);
+		user-select: none;
 		cursor: pointer;
 		height: space(20);
 		@include flexbox(row, center, center);
 	}
 
 	.base-button--submit {
-		background-color: var(--primary-500);
+		background-color: var(--primary-100);
 		border: none;
 		color: var(--text-900);
 	}
 
 	.base-button--submit:hover {
-		background-color: var(--primary-100);
+		background-color: var(--primary-500);
 	}
 
 	.base-button--cancel {

@@ -10,9 +10,9 @@ export default {
 			component: () => import('@/views/auth/Login.vue'),
 		},
 		{
-			path: 'sign-up',
-			name: 'SignUp',
-			component: () => import('@/views/auth/SignUp.vue'),
+			path: 'register',
+			name: 'Register',
+			component: () => import('@/views/auth/Register.vue'),
 		},
 		{
 			path: 'recovery-password',

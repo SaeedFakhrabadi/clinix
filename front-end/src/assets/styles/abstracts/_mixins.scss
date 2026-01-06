@@ -1,19 +1,25 @@
 @use '../abstracts/functions' as *;
 
-@mixin flexbox($direction: row, $justify: center, $align: center, $gap: space(14), $wrap: wrap) {
-  display: flex;
-  flex-direction: $direction;
-  justify-content: $justify;
-  align-items: $align;
-  gap: $gap;
-  flex-wrap: $wrap;
+@mixin flexbox(
+	$direction: row,
+	$justify: center,
+	$align: center,
+	$gap: space(14),
+	$wrap: wrap
+) {
+	display: flex;
+	flex-direction: $direction;
+	justify-content: $justify;
+	align-items: $align;
+	gap: $gap;
+	flex-wrap: $wrap;
 }
 
 @mixin lineClamp($linesNumber: 3) {
-  -webkit-line-clamp: $linesNumber;
-  -webkit-box-orient: vertical;
-  display: -webkit-box;
-  overflow: hidden;
+	-webkit-line-clamp: $linesNumber;
+	-webkit-box-orient: vertical;
+	display: -webkit-box;
+	overflow: hidden;
 }
 
 // @mixin mobile {

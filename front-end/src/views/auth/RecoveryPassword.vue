@@ -12,7 +12,8 @@
 		},
 	});
 
-	const { value: identifier, errorMessage: identifierError } = useField('identifier');
+	const { value: identifier, errorMessage: identifierError } =
+		useField('identifier');
 
 	const onSubmit = handleSubmit(() => {
 		router.push({ name: 'Login' });
@@ -23,8 +24,8 @@
 	<form class="form" @submit.prevent="onSubmit">
 		<h3 class="form__title">بازنشانی رمز عبور</h3>
 		<h5 class="form__text">
-			برای بازنشانی رمز عبور ایمیل یا شماره تلفن خود را وارد کنید تا رمز عبور جدید برای شما ارسال
-			شود
+			برای بازنشانی رمز عبور ایمیل یا شماره تلفن خود را وارد کنید تا رمز عبور
+			جدید برای شما ارسال شود.
 		</h5>
 		<TheInput
 			label="شماره تلفن / ایمیل"

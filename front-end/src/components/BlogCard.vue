@@ -17,21 +17,12 @@
 </script>
 
 <template>
-	<router-link
-		:to="{ name: 'Blog', query: { blogNumber: props.id } }"
-	>
+	<router-link :to="{ name: 'Blog', query: { blogNumber: props.id } }">
 		<div class="blog-card">
-			<img
-				class="blog-card__image"
-				:src="imageSrc"
-				:alt="title"
-			/>
+			<img class="blog-card__image" :src="imageSrc" :alt="title" />
 			<h4 class="blog-card__title">{{ title }}</h4>
 			<div class="blog-card__details">
-				<h5
-					>زمان مطالعه:
-					{{ toPersianNumbers(time) }} دقیقه</h5
-				>
+				<h5>زمان مطالعه: {{ toPersianNumbers(time) }} دقیقه</h5>
 				<div class="blog-card__categories">
 					<h5>دسته بندی:</h5>
 					<h6
@@ -99,7 +90,6 @@
 
 	.blog-card:hover {
 		border: space(1) solid transparent;
-		box-shadow: space(0) space(0) space(5) space(3)
-			var(--primary-100);
+		box-shadow: space(0) space(0) space(5) space(3) var(--primary-100);
 	}
 </style>

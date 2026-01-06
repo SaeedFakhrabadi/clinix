@@ -13,7 +13,8 @@
 		},
 	});
 
-	const { value: identifier, errorMessage: identifierError } = useField('identifier');
+	const { value: identifier, errorMessage: identifierError } =
+		useField('identifier');
 	const { value: password, errorMessage: passwordError } = useField('password');
 
 	const onSubmit = handleSubmit(() => {
@@ -43,7 +44,9 @@
 		<div class="form__texts">
 			<h5 class="form__text">
 				حساب کاربری ندارید ؟
-				<router-link class="form__link" :to="{ name: 'SignUp' }">ثبت نام</router-link>
+				<router-link class="form__link" :to="{ name: 'Register' }"
+					>ثبت نام</router-link
+				>
 			</h5>
 			<h5 class="form__text">
 				رمز عبور خود را فراموش کرده اید ؟

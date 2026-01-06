@@ -1,12 +1,12 @@
 <script setup>
 	import { useForm, useField } from 'vee-validate';
-	import { signUpSchema } from '@/schemas';
+	import { RegisterSchema } from '@/schemas';
 	import { useRouter } from 'vue-router';
 
 	const router = useRouter();
 
 	const { handleSubmit } = useForm({
-		validationSchema: signUpSchema,
+		validationSchema: RegisterSchema,
 		initialValues: {
 			name: '',
 			email: '',
@@ -17,7 +17,8 @@
 
 	const { value: name, errorMessage: nameError } = useField('name');
 	const { value: email, errorMessage: emailError } = useField('email');
-	const { value: phoneNumber, errorMessage: phoneNumberError } = useField('phoneNumber');
+	const { value: phoneNumber, errorMessage: phoneNumberError } =
+		useField('phoneNumber');
 	const { value: password, errorMessage: passwordError } = useField('password');
 
 	const onSubmit = handleSubmit(() => {

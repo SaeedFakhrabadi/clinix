@@ -14,8 +14,10 @@
 		},
 	});
 
-	const { value: oldPassword, errorMessage: oldPasswordError } = useField('oldPassword');
-	const { value: newPassword, errorMessage: newPasswordError } = useField('newPassword');
+	const { value: oldPassword, errorMessage: oldPasswordError } =
+		useField('oldPassword');
+	const { value: newPassword, errorMessage: newPasswordError } =
+		useField('newPassword');
 	const { value: confirmNewPassword, errorMessage: confirmNewPasswordError } =
 		useField('confirmNewPassword');
 

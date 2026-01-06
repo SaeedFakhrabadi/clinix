@@ -32,18 +32,18 @@
 	const emit = defineEmits(['blur', 'focus']);
 
 	const inputValue = defineModel();
-
 	const isPasswordVisible = ref(false);
 
 	const isPassword = computed(() => props.type === 'password');
-
-	const eyeIconName = computed(() => (isPasswordVisible.value ? 'eye-slash' : 'eye'));
-
+	const eyeIconName = computed(() =>
+		isPasswordVisible.value ? 'eye-slash' : 'eye',
+	);
 	const inputType = computed(() =>
 		isPassword.value && isPasswordVisible.value ? 'text' : props.type,
 	);
 
-	const togglePasswordVisibility = () => (isPasswordVisible.value = !isPasswordVisible.value);
+	const togglePasswordVisibility = () =>
+		(isPasswordVisible.value = !isPasswordVisible.value);
 
 	const handleInput = (event) => {
 		if (props.digitsOnly) {
@@ -81,7 +81,10 @@
 				<h5 class="label-box__text">{{ label }}</h5>
 				<h5 v-if="isMandatory" class="label-box__mandatory">*</h5>
 			</label>
-			<div class="container__input-box input-box" :class="{ 'input-box--error': errorMessage }">
+			<div
+				class="container__input-box input-box"
+				:class="{ 'input-box--error': errorMessage }"
+			>
 				<input
 					class="input-box__input"
 					v-model="inputValue"
@@ -98,7 +101,9 @@
 					@click="togglePasswordVisibility"
 				/>
 			</div>
-			<h6 class="container__error-message">{{ toPersianDigits(errorMessage) }}</h6>
+			<h6 class="container__error-message">
+				{{ toPersianDigits(errorMessage) }}
+			</h6>
 		</div>
 	</div>
 </template>
@@ -129,7 +134,7 @@
 		}
 
 		.input-box {
-			background-image: linear-gradient(90deg, var(--bg-700), var(--bg-900));
+			background-image: linear-gradient(90deg, var(--bg-800), var(--bg-900));
 			border-right: space(4) solid var(--text-100);
 			border-top-left-radius: space(4);
 			border-bottom-left-radius: space(4);
