@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-	<div>
+	<div class="profile">
 		<p>
 			تمرین بخش فرانت اند طراحی و پیادهسازی وبسایت «CourseHub» شرح کلی هدف این
 			تمرین، طراحی و پیادهسازی یک وبسایت آموزشی با نام «CourseHub» است. این
@@ -53,4 +53,9 @@
 	</div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+	.profile {
+		padding: space(4);
+		color: var(--text-600);
+	}
+</style>

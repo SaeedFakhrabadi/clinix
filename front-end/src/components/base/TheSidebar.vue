@@ -2,6 +2,7 @@
 	import { defineProps } from 'vue';
 	import { useRouter } from 'vue-router';
 	import { useActiveTabStore } from '@/stores/activeTab';
+	import { useCurrentUserStore } from '@/stores/currentUser';
 
 	const props = defineProps({
 		items: { type: Array },
@@ -10,11 +11,11 @@
 	const router = useRouter();
 	const activeTabStore = useActiveTabStore();
 
-	const setActiveTab = (tab) => activeTabStore.setActiveTab(tab);
-
 	const isActiveTab = (tab) => activeTabStore.activeTab === tab;
 
 	const logout = () => {
+		const currentUserStore = useCurrentUserStore();
+		currentUserStore.setCurrentUser();
 		router.push({ name: 'Login' });
 	};
 </script>
@@ -31,13 +32,18 @@
 				<router-link
 					class="menu__tab"
 					:class="{ 'menu__tab--active': isActiveTab(item.name) }"
-					@click="setActiveTab(item.name)"
 					:to="{ name: item.name }"
 				>
 					{{ item.label }}
 				</router-link>
 			</li>
-			<TheButton label="خروج" type="cancel" @click="logout" />
+			<TheButton
+				label="خروج"
+				type="cancel"
+				labelColor="danger-100"
+				iconName="logout"
+				@click="logout"
+			/>
 		</ul>
 	</aside>
 </template>
@@ -45,11 +51,20 @@
 <style lang="scss" scoped>
 	.sidebar {
 		background-color: var(--bg-900);
-		width: space(150);
+		width: space(180);
 		height: 100%;
 		border-left: space(1) solid var(--primary-500);
 		transition: none;
 		@include flexbox(column, start, center);
+		@media (max-width: $lg) {
+			width: space(150);
+		}
+		@media (max-width: $md) {
+			width: space(120);
+		}
+		@media (max-width: $sm) {
+			display: none;
+		}
 
 		.header {
 			width: 90%;
@@ -61,6 +76,7 @@
 			&__profile {
 				width: space(50);
 				height: space(50);
+				color: var(--text-900);
 			}
 
 			&__name {
@@ -85,11 +101,12 @@
 				border-right: space(5) solid transparent;
 				padding-right: space(3);
 				color: var(--title-500);
+				transition: all 0.5s ease;
 				cursor: pointer;
 				@include flexbox(row, start, center, space(0));
 
 				&:hover {
-					background-color: var(--primary-800);
+					background-color: var(--primary-600);
 				}
 
 				&--active {

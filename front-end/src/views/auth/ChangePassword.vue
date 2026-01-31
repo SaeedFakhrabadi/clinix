@@ -32,6 +32,7 @@
 		<div class="form__inputs">
 			<TheInput
 				label="رمز عبور قبلی"
+				iconName="password"
 				type="password"
 				placeholder="رمز عبور قبلی خود را وارد کنید"
 				v-model="oldPassword"
@@ -39,6 +40,7 @@
 			/>
 			<TheInput
 				label="رمز عبور جدید"
+				iconName="password"
 				type="password"
 				placeholder="رمز عبور جدید خود را وارد کنید"
 				v-model="newPassword"
@@ -46,6 +48,7 @@
 			/>
 			<TheInput
 				label="تکرار رمز عبور جدید"
+				iconName="password"
 				type="password"
 				placeholder="رمز عبور جدید خود را مجدد وارد کنید"
 				v-model="confirmNewPassword"

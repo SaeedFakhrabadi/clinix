@@ -28,7 +28,8 @@
 			جدید برای شما ارسال شود.
 		</h5>
 		<TheInput
-			label="شماره تلفن / ایمیل"
+			label="شماره تلفن یا ایمیل"
+			iconName="user"
 			placeholder="شماره تلفن یا ایمیل خود را وارد کنید"
 			v-model="identifier"
 			:error-message="identifierError"

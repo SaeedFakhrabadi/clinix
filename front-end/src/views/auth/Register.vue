@@ -32,18 +32,21 @@
 		<div class="form__inputs">
 			<TheInput
 				label="نام"
+				iconName="id-card"
 				placeholder="نام خود را وارد کنید"
 				v-model="name"
 				:error-message="nameError"
 			/>
 			<TheInput
 				label="ایمیل"
+				iconName="email"
 				placeholder="مانند : example.gmail.com"
 				v-model="email"
 				:error-message="emailError"
 			/>
 			<TheInput
 				label="شماره تلفن"
+				iconName="phone"
 				placeholder="مانند : 09123456789"
 				v-model="phoneNumber"
 				:digits-only="true"
@@ -51,6 +54,7 @@
 			/>
 			<TheInput
 				label="رمز عبور"
+				iconName="password"
 				type="password"
 				placeholder="رمز عبور دلخواه خود را وارد کنید"
 				v-model="password"

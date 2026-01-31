@@ -5,7 +5,7 @@
 		{ label: 'لیست پزشکان', name: 'DoctorsList' },
 		{ label: 'اعلان ها و پیام ها', name: 'Home' },
 		{ label: 'امور مالی', name: 'Home' },
-		// { label: 'ارتباط با مدیریت سیستم', name: 'Home' },
+		{ label: 'ارتباط با مدیریت سیستم', name: 'Home' },
 	];
 </script>
 

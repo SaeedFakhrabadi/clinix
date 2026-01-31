@@ -15,9 +15,10 @@
 			</h1>
 			<h3 class="header__sub-slogan">همین الآن برای رزرو نوبت کلیک کنید</h3>
 			<TheButton
-				type="big"
+				type="submit"
 				label="رزرو نوبت"
 				width="100px"
+				height="60px"
 				@click="scrollToContent"
 			/>
 		</header>
@@ -121,9 +122,11 @@
 <style lang="scss" scoped>
 	.home {
 		.header {
-			background-color: var(--primary-900);
+			background-color: var(--primary-600);
 			width: 100%;
-			height: space(200);
+			padding-inline: space(4);
+			height: space(250);
+			text-align: center;
 			@include flexbox(column, center, center, space(20));
 
 			&__slogan {
@@ -153,6 +156,8 @@
 		}
 
 		.content {
+			padding: space(4);
+			color: var(--text-700);
 			@include flexbox(column, center, right);
 		}
 	}

@@ -14,24 +14,26 @@
 		&__main-content {
 			height: calc(100% - space(32));
 			padding-top: space(32);
-			width: 100%;
+			max-width: space(650);
+			margin: 0 auto;
 			@include flexbox(row, center, center);
 		}
 
 		&__form {
-			width: 20%;
+			width: 30%;
 			background-color: var(--primary-700);
 			box-shadow: space(0) space(0) space(3) var(--text-900);
 			padding: space(14);
 			border-radius: space(14);
 			@include flexbox(column, center, center, space(10));
-			@media (max-width: space(600)) {
-				width: 30%;
-			}
-			@media (max-width: space(450)) {
+
+			@media (max-width: $lg) {
 				width: 40%;
 			}
-			@media (max-width: space(300)) {
+			@media (max-width: $md) {
+				width: 50%;
+			}
+			@media (max-width: $sm) {
 				width: 80%;
 			}
 		}

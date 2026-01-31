@@ -2,7 +2,7 @@
 	// Theme
 	import { ref, onMounted, watch, computed } from 'vue';
 
-	const savedTheme = localStorage.getItem('theme');
+	const savedTheme = sessionStorage.getItem('theme');
 	const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 	const theme = ref(savedTheme || (prefersDark ? 'dark' : 'light'));
 	const isLightTheme = computed(() => theme.value === 'light');
@@ -13,7 +13,7 @@
 
 	watch(theme, (newTheme) => {
 		document.documentElement.setAttribute('data-theme', newTheme);
-		localStorage.setItem('theme', newTheme);
+		sessionStorage.setItem('theme', newTheme);
 	});
 
 	onMounted(() => {
@@ -27,34 +27,27 @@
 	const router = useRouter();
 	const activeTabStore = useActiveTabStore();
 
-	const setActiveTab = (tab) => activeTabStore.setActiveTab(tab);
-
 	const isActiveTab = (tab) => activeTabStore.activeTab === tab;
 
 	const tabs = [
-		{ name: 'Home', label: 'مطالب' },
-		{ name: 'Profile', label: 'درباره ما' },
+		{ name: 'Landing', label: 'خانه' },
+		{ name: 'Profile', label: 'پروفایل' },
 		{ name: 'Register', label: 'ثبت نام' },
-		{ name: 'Login', label: 'دیتای ماک شده' },
+		{ name: 'Login', label: 'ورود' },
 	];
 </script>
 
 <template>
 	<nav class="navbar">
 		<div class="navbar__container">
-			<router-link
-				class="navbar__brand brand"
-				:to="{ name: 'Home' }"
-				@click="setActiveTab('')"
-			>
-				<img class="brand__image" v-if="isLightTheme" src="/navicon-dark.png" />
-				<img class="brand__image" v-else src="/navicon-light.png" />
+			<router-link class="navbar__brand brand" :to="{ name: 'Landing' }">
+				<h1 class="brand__text">CLINIX</h1>
 			</router-link>
+			<div class="navbar__bergur bergur"></div>
 			<ul class="navbar__menu menu">
 				<li v-for="(tab, index) in tabs" :key="index" class="menu__item">
 					<h4 v-if="index > 0" class="menu__divider">|</h4>
 					<router-link
-						@click="setActiveTab(tab.name)"
 						:to="{ name: tab.name }"
 						class="menu__tab"
 						:class="{ 'menu__tab--active': isActiveTab(tab.name) }"
@@ -64,19 +57,21 @@
 				</li>
 			</ul>
 			<section class="navbar__buttons buttons">
-				<TheButton
+				<SvgLoader
+					class="buttons__theme-icon"
+					:name="isLightTheme ? 'moon' : 'sun'"
 					@click="toggleTheme"
-					type="hollow"
-					:label="isLightTheme ? 'تاریک' : 'روشن'"
 				/>
 				<TheButton
 					type="submit"
 					label="ورود"
+					width="80px"
 					@click="router.push({ name: 'Login' })"
 				/>
 				<TheButton
 					type="cancel"
 					label="ثبت نام"
+					width="80px"
 					@click="router.push({ name: 'Register' })"
 				/>
 			</section>
@@ -97,24 +92,41 @@
 
 		&__container {
 			width: space(650);
-			@include flexbox(row, space-between);
-			@media (max-width: space(300)) {
-				@include flexbox();
-			}
+			@include flexbox(row, space-between, center, space(0), nowrap);
 		}
 
 		.brand {
-			&__image {
-				width: space(100);
-				height: space(32);
-				@include flexbox();
+			background-color: var(--primary-500);
+			width: space(100);
+			height: space(32);
+			transition: all 0.4s ease;
+			@include flexbox();
+
+			&__text {
+				color: var(--text-900);
+			}
+		}
+
+		.brand:hover {
+			background-color: var(--primary-100);
+		}
+
+		.bergur {
+			width: space(20);
+			height: space(20);
+			background-color: red;
+			margin-left: space(6);
+
+			@media (min-width: $sm) {
+				display: none;
 			}
 		}
 
 		.menu {
 			height: space(20);
 			@include flexbox(column, center, center, space(5));
-			@media (max-width: space(450)) {
+
+			@media (max-width: $md) {
 				display: none;
 			}
 
@@ -131,12 +143,15 @@
 			&__tab {
 				height: 100%;
 				color: var(--title-500);
+				transition: all 0.5s ease;
 				padding-inline: space(4);
+				border-top-left-radius: space(3);
+				border-top-right-radius: space(3);
 				border-bottom: space(1) solid transparent;
 				@include flexbox();
 
 				&:hover {
-					background-color: var(--primary-800);
+					background-color: var(--primary-600);
 				}
 
 				&--active {
@@ -149,8 +164,14 @@
 			padding-inline: space(5);
 			width: space(120);
 			@include flexbox(row, center, center, space(8), nowrap);
-			@media (max-width: space(300)) {
+
+			@media (max-width: $sm) {
 				display: none;
+			}
+
+			&__theme-icon {
+				color: var(--text-900);
+				cursor: pointer;
 			}
 		}
 	}

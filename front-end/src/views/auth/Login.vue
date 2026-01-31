@@ -2,6 +2,7 @@
 	import { useForm, useField } from 'vee-validate';
 	import { loginSchema } from '@/schemas';
 	import { useRouter } from 'vue-router';
+	import { useCurrentUserStore } from '@/stores/currentUser';
 
 	const router = useRouter();
 
@@ -18,6 +19,12 @@
 	const { value: password, errorMessage: passwordError } = useField('password');
 
 	const onSubmit = handleSubmit(() => {
+		const currentUserStore = useCurrentUserStore();
+		const userData = {
+			identifier: identifier.value,
+			password: password.value,
+		};
+		currentUserStore.setCurrentUser(userData);
 		router.push({ name: 'Profile' });
 	});
 </script>
@@ -27,13 +34,15 @@
 		<h3 class="form__title">ورود</h3>
 		<div class="form__inputs">
 			<TheInput
-				label="شماره تلفن / ایمیل"
+				label="شماره تلفن یا ایمیل"
+				iconName="user"
 				placeholder="شماره تلفن یا ایمیل خود را وارد کنید"
 				v-model="identifier"
 				:error-message="identifierError"
 			/>
 			<TheInput
 				label="رمز عبور"
+				iconName="password"
 				type="password"
 				placeholder="رمز عبور"
 				v-model="password"
