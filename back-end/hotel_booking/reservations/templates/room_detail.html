@@ -1,0 +1,22 @@
+{% extends "master.html" %}
+
+{% block title %}
+  Details about {{ myroom.roomnumber }} {{ myroom.hotel.name }}
+{% endblock %}
+
+
+{% block content %}
+  <h1>Room {{ myroom.room_number }}</h1>
+
+  <p>Hotel: {{ myroom.hotel.name }}</p>
+  <p>City: {{ myroom.hotel.city }}</p>
+  <p>Capacity: {{ myroom.capacity }}</p>
+  <p>Price per night: {{ myroom.price_per_night }}</p>
+
+  {% if myroom.is_available %}
+    <p>Status: Available</p>
+  {% else %}
+    <p>Status: Not available</p>
+  {% endif %}
+  
+{% endblock %}

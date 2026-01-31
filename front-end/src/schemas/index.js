@@ -14,21 +14,21 @@ const REQUIRED = {
 	OLD_PASSWORD: 'رمز عبور قبلی الزامی است',
 	NEW_PASSWORD: 'رمز عبور فعلی الزامی است',
 	CONFIRM_PASSWORD: 'تکرار رمز عبور الزامی است',
-	IDENTIFIER: 'ایمیل یا شماره تلفن الزامی است',
+	IDENTIFIER: 'شماره تلفن یا ایمیل الزامی است',
 };
 
 const INVALID = {
 	EMAIL: 'ایمیل معتبر نیست',
 	PHONE: 'شماره تلفن معتبر نیست',
 	PASSWORD: 'رمز عبور باید حداقل 8 کاراکتر و شامل حداقل یک حرف انگلیسی باشد',
-	IDENTIFIER: 'ایمیل یا شماره تلفن معتبر نیست',
+	IDENTIFIER: 'شماره تلفن یا ایمیل معتبر نیست',
 	CONFIRM_PASSWORD: 'تکرار رمز عبور فعلی اشتباه است',
 	SAME_PASSWORD: 'رمز عبور قبلی و فعلی یکسان هستند',
 	MAX_20: 'حداکثر 20 کاراکتر مجاز است',
 	MAX_40: 'حداکثر 40 کاراکتر مجاز است',
 };
 
-export const signUpSchema = yup.object({
+export const RegisterSchema = yup.object({
 	name: yup.string().trim().max(20, INVALID.MAX_20).required(REQUIRED.NAME),
 
 	email: yup
@@ -38,7 +38,10 @@ export const signUpSchema = yup.object({
 		.required(REQUIRED.EMAIL)
 		.matches(REGEXES.EMAIL, INVALID.EMAIL),
 
-	phoneNumber: yup.string().required(REQUIRED.PHONE).matches(REGEXES.PHONE_NUMBER, INVALID.PHONE),
+	phoneNumber: yup
+		.string()
+		.required(REQUIRED.PHONE)
+		.matches(REGEXES.PHONE_NUMBER, INVALID.PHONE),
 
 	password: yup
 		.string()

@@ -1,0 +1,24 @@
+{% extends "master.html" %}
+
+{% block title %}
+Hotels - List of all Hotels
+{% endblock %}
+
+{% block content %}
+<h1>Hotels</h1>
+
+<ul>
+  {% for hotel in myhotels %}
+    <li>
+      <a href="/hotels/{{ hotel.id }}/">
+        {{ hotel.name }} ({{ hotel.city }})
+      </a>
+    </li>
+  {% empty %}
+    <li>No hotels available.</li>
+  {% endfor %}
+</ul>
+
+<p>Back to <a href="/">Home Page</a></p>
+
+{% endblock %}

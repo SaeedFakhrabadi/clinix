@@ -3,47 +3,30 @@
 	import { toPersianDigits } from '@/utils/toPersianDigits';
 
 	const props = defineProps({
-		label: {
-			type: String,
-			required: true,
-		},
-		isMandatory: {
-			type: Boolean,
-			default: true,
-		},
-		placeholder: {
-			type: String,
-			required: true,
-		},
-		type: {
-			type: String,
-			default: 'text',
-		},
-		digitsOnly: {
-			type: Boolean,
-			default: false,
-		},
-		errorMessage: {
-			type: String,
-			default: '',
-		},
+		label: { type: String, required: true },
+		isMandatory: { type: Boolean, default: true },
+		iconName: { type: String, required: true },
+		placeholder: { type: String, default: '' },
+		type: { type: String, default: 'text' },
+		digitsOnly: { type: Boolean, default: false },
+		errorMessage: { type: String, default: '' },
 	});
 
 	const emit = defineEmits(['blur', 'focus']);
 
 	const inputValue = defineModel();
-
 	const isPasswordVisible = ref(false);
 
 	const isPassword = computed(() => props.type === 'password');
-
-	const eyeIconName = computed(() => (isPasswordVisible.value ? 'eye-slash' : 'eye'));
-
+	const eyeIconName = computed(() =>
+		isPasswordVisible.value ? 'eye-slash' : 'eye',
+	);
 	const inputType = computed(() =>
 		isPassword.value && isPasswordVisible.value ? 'text' : props.type,
 	);
 
-	const togglePasswordVisibility = () => (isPasswordVisible.value = !isPasswordVisible.value);
+	const togglePasswordVisibility = () =>
+		(isPasswordVisible.value = !isPasswordVisible.value);
 
 	const handleInput = (event) => {
 		if (props.digitsOnly) {
@@ -81,7 +64,11 @@
 				<h5 class="label-box__text">{{ label }}</h5>
 				<h5 v-if="isMandatory" class="label-box__mandatory">*</h5>
 			</label>
-			<div class="container__input-box input-box" :class="{ 'input-box--error': errorMessage }">
+			<div
+				class="container__input-box input-box"
+				:class="{ 'input-box--error': errorMessage }"
+			>
+				<SvgLoader class="input-box__icon" v-if="iconName" :name="iconName" />
 				<input
 					class="input-box__input"
 					v-model="inputValue"
@@ -93,12 +80,14 @@
 				/>
 				<SvgLoader
 					v-if="isPassword"
-					class="input-box__icon"
+					class="input-box__eye-icon"
 					:name="eyeIconName"
 					@click="togglePasswordVisibility"
 				/>
 			</div>
-			<h6 class="container__error-message">{{ toPersianDigits(errorMessage) }}</h6>
+			<h6 class="container__error-message">
+				{{ toPersianDigits(errorMessage) }}
+			</h6>
 		</div>
 	</div>
 </template>
@@ -129,18 +118,24 @@
 		}
 
 		.input-box {
-			background-image: linear-gradient(90deg, var(--bg-700), var(--bg-900));
+			background-image: linear-gradient(90deg, var(--bg-800), var(--bg-900));
 			border-right: space(4) solid var(--text-100);
 			border-top-left-radius: space(4);
 			border-bottom-left-radius: space(4);
+			transition: all 0.2s ease;
 			outline: space(0.5) solid var(--text-500);
 			@include flexbox(row, center, center, space(0), nowrap);
+
+			&__icon {
+				color: var(--primary-100);
+				margin-right: space(3);
+			}
 
 			&__input {
 				background-color: transparent;
 				font-size: space(7);
 				color: var(--text-900);
-				padding-right: space(2);
+				padding-inline: space(3);
 				border: none;
 				outline: none;
 				width: 100%;
@@ -165,9 +160,9 @@
 				border-right: space(2) solid var(--danger-100);
 			}
 
-			&__icon {
-				color: var(--primary-100);
-				margin-inline: space(3);
+			&__eye-icon {
+				color: var(--text-900);
+				margin-left: space(3);
 				cursor: pointer;
 			}
 		}

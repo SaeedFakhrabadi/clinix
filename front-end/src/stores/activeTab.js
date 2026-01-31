@@ -1,25 +1,22 @@
-import { ref } from 'vue';
-
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 import { defineStore } from 'pinia';
 
 export const useActiveTabStore = defineStore(
-  'activeTab',
-  () => {
-    const activeTab = ref('LLLL');
+	'activeTab',
+	() => {
+		const route = useRoute();
 
-    const setActiveTab = (tab) => {
-      activeTab.value = tab;
-    };
+		const activeTab = computed(() => route.matched[1].name);
 
-    return {
-      activeTab,
-      setActiveTab,
-    };
-  },
-  {
-    persist: {
-      key: 'activeTab',
-      storage: sessionStorage,
-    },
-  },
+		return {
+			activeTab,
+		};
+	},
+	{
+		persist: {
+			key: 'activeTab',
+			storage: sessionStorage,
+		},
+	},
 );

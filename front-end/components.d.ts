@@ -8,12 +8,8 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    A: typeof import('./src/views/auth/a.vue')['default']
     App: typeof import('./src/App.vue')['default']
     Auth: typeof import('./src/layouts/Auth.vue')['default']
-    BaseButton: typeof import('./src/components/base/BaseButton.vue')['default']
-    BaseInput: typeof import('./src/components/base/BaseInput.vue')['default']
-    BaseRouterLink: typeof import('./src/components/base/BaseRouterLink.vue')['default']
     BlogCard: typeof import('./src/components/BlogCard.vue')['default']
     ChangePassword: typeof import('./src/views/auth/ChangePassword.vue')['default']
     Dashboard: typeof import('./src/layouts/Dashboard.vue')['default']
@@ -22,14 +18,15 @@ declare module 'vue' {
     Home: typeof import('./src/layouts/Home.vue')['default']
     Landing: typeof import('./src/views/home/Landing.vue')['default']
     Login: typeof import('./src/views/auth/Login.vue')['default']
-    NavigationBar: typeof import('./src/components/NavigationBar.vue')['default']
     Profile: typeof import('./src/views/dashboard/Profile.vue')['default']
     RecoveryPassword: typeof import('./src/views/auth/RecoveryPassword.vue')['default']
+    Register: typeof import('./src/views/auth/Register.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    SignUp: typeof import('./src/views/auth/SignUp.vue')['default']
     SvgLoader: typeof import('./src/components/base/SvgLoader.vue')['default']
     TheButton: typeof import('./src/components/base/TheButton.vue')['default']
     TheInput: typeof import('./src/components/base/TheInput.vue')['default']
+    TheNavbar: typeof import('./src/components/base/TheNavbar.vue')['default']
+    TheSidebar: typeof import('./src/components/base/TheSidebar.vue')['default']
   }
 }

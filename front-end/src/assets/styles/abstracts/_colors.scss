@@ -6,6 +6,7 @@ $colors: (
 	'green': #00fc15,
 	'blue': #2b7fff,
 	'purple': #b388eb,
+	'pink': #ff7a7a,
 	'brown': #b64a08,
 	'gray': #737373,
 	'black': #222222,
@@ -22,10 +23,10 @@ $element-roles: (
 	'warning': 'yellow',
 	'danger': 'red',
 	'text': 'gray',
-	'title': 'blue',
+	'title': 'purple',
 );
 $background-roles: (
-	'primary': 'blue',
+	'primary': 'purple',
 	'secondary': 'white',
 	'info': 'blue',
 	'bg': 'black',

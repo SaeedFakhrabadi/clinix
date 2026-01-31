@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { useCurrentUserStore } from '@/stores/currentUser';
 
 import homeRoutes from './home';
 import authRoutes from './auth';
@@ -26,6 +27,22 @@ const router = createRouter({
 		if (alwaysScrollToTop.includes(to.name)) return { top: 0 };
 		return {};
 	},
+});
+
+// Navigation guard
+router.beforeEach((to, from, next) => {
+	const currentUserStore = useCurrentUserStore();
+	const isAuthenticated = !!currentUserStore.currentUser;
+
+	if (to.path.startsWith('/dashboard') && !isAuthenticated) {
+		return next('/auth/login');
+	}
+
+	if (to.path.startsWith('/auth') && isAuthenticated) {
+		return next('/dashboard/profile');
+	}
+
+	next();
 });
 
 export default router;
