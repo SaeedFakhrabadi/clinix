@@ -16,5 +16,13 @@
 
 <template>
 	<component v-if="iconComponent" :is="iconComponent" :class="props.class" />
-	<div v-else class="text-red-500">Icon not found</div>
+	<div class="icon-not-found" v-else>
+		<h6>Icon not found</h6>
+	</div>
 </template>
+
+<style lang="scss" scoped>
+	.icon-not-found {
+		color: var(--danger-100);
+	}
+</style>

@@ -19,19 +19,19 @@
 		}
 
 		&__form {
-			width: 20%;
+			width: 30%;
 			background-color: var(--primary-700);
 			box-shadow: space(0) space(0) space(3) var(--text-900);
 			padding: space(14);
 			border-radius: space(14);
 			@include flexbox(column, center, center, space(10));
-			@media (max-width: space(600)) {
-				width: 30%;
-			}
-			@media (max-width: space(450)) {
+			@media (max-width: space(496)) {
 				width: 40%;
 			}
-			@media (max-width: space(300)) {
+			@media (max-width: space(384)) {
+				width: 50%;
+			}
+			@media (max-width: space(288)) {
 				width: 80%;
 			}
 		}

@@ -29,6 +29,7 @@
 		</h5>
 		<TheInput
 			label="شماره تلفن / ایمیل"
+			iconName="eye"
 			placeholder="شماره تلفن یا ایمیل خود را وارد کنید"
 			v-model="identifier"
 			:error-message="identifierError"

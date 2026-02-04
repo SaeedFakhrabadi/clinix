@@ -1,5 +1,5 @@
-import { ref } from 'vue';
-
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 import { defineStore } from 'pinia';
 
 export const useActiveTabStore = defineStore(
