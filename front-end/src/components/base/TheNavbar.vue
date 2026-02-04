@@ -27,27 +27,34 @@
 	const router = useRouter();
 	const activeTabStore = useActiveTabStore();
 
+	const setActiveTab = (tab) => activeTabStore.setActiveTab(tab);
+
 	const isActiveTab = (tab) => activeTabStore.activeTab === tab;
 
 	const tabs = [
-		{ name: 'Landing', label: 'خانه' },
-		{ name: 'Profile', label: 'پروفایل' },
+		{ name: 'Home', label: 'مطالب' },
+		{ name: 'Profile', label: 'درباره ما' },
 		{ name: 'Register', label: 'ثبت نام' },
-		{ name: 'Login', label: 'ورود' },
+		{ name: 'Login', label: 'دیتای ماک شده' },
 	];
 </script>
 
 <template>
 	<nav class="navbar">
 		<div class="navbar__container">
-			<router-link class="navbar__brand brand" :to="{ name: 'Landing' }">
-				<h1 class="brand__text">CLINIX</h1>
+			<router-link
+				class="navbar__brand brand"
+				:to="{ name: 'Home' }"
+				@click="setActiveTab('')"
+			>
+				<img class="brand__image" v-if="isLightTheme" src="/navicon-dark.png" />
+				<img class="brand__image" v-else src="/navicon-light.png" />
 			</router-link>
-			<div class="navbar__bergur bergur"></div>
 			<ul class="navbar__menu menu">
 				<li v-for="(tab, index) in tabs" :key="index" class="menu__item">
 					<h4 v-if="index > 0" class="menu__divider">|</h4>
 					<router-link
+						@click="setActiveTab(tab.name)"
 						:to="{ name: tab.name }"
 						class="menu__tab"
 						:class="{ 'menu__tab--active': isActiveTab(tab.name) }"
@@ -61,12 +68,10 @@
 					@click="toggleTheme"
 					type="hollow"
 					:label="isLightTheme ? 'تاریک' : 'روشن'"
-					iconName="eye"
 				/>
 				<TheButton
 					type="submit"
 					label="ورود"
-					bgColorHover="danger-700"
 					@click="router.push({ name: 'Login' })"
 				/>
 				<TheButton
@@ -93,38 +98,23 @@
 		&__container {
 			width: space(650);
 			@include flexbox(row, space-between);
-		}
-
-		.brand {
-			background-color: var(--primary-500);
-			width: space(100);
-			height: space(32);
-			transition: all 0.4s ease;
-			@include flexbox();
-
-			&__text {
-				color: var(--text-900);
+			@media (max-width: space(300)) {
+				@include flexbox();
 			}
 		}
 
-		.brand:hover {
-			background-color: var(--primary-100);
-		}
-
-		.bergur {
-			width: space(20);
-			height: space(20);
-			background-color: red;
-			margin-left: space(6);
-			@media (min-width: space(288)) {
-				display: none;
+		.brand {
+			&__image {
+				width: space(100);
+				height: space(32);
+				@include flexbox();
 			}
 		}
 
 		.menu {
 			height: space(20);
 			@include flexbox(column, center, center, space(5));
-			@media (max-width: space(496)) {
+			@media (max-width: space(450)) {
 				display: none;
 			}
 
@@ -141,13 +131,12 @@
 			&__tab {
 				height: 100%;
 				color: var(--title-500);
-				transition: all 0.5s ease;
 				padding-inline: space(4);
 				border-bottom: space(1) solid transparent;
 				@include flexbox();
 
 				&:hover {
-					background-color: var(--primary-600);
+					background-color: var(--primary-800);
 				}
 
 				&--active {
@@ -160,7 +149,7 @@
 			padding-inline: space(5);
 			width: space(120);
 			@include flexbox(row, center, center, space(8), nowrap);
-			@media (max-width: space(288)) {
+			@media (max-width: space(300)) {
 				display: none;
 			}
 		}

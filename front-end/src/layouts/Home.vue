@@ -3,19 +3,17 @@
 </script>
 
 <template>
-	<div class="home">
+	<div class="dashboard">
 		<TheNavbar />
-		<main class="home__main-content">
-			<router-view class="home__content" />
-			<footer class="home__footer footer">
-				<div class="footer__title">
-					<h4>ساخته شده با عشق توسط تیم کلینیکس</h4>
-				</div>
-				<p class="footer__copyright">
-					&copy; تمامی حقوق محفوظ است ({{ toPersianDigits(1404) }})
-				</p>
-			</footer>
-		</main>
+		<router-view class="dashboard__content" />
+		<footer class="dashboard__footer footer">
+			<div class="footer__title">
+				<h4>ساخته شده با عشق توسط تیم کلینیکس</h4>
+			</div>
+			<p class="footer__copyright">
+				&copy; تمامی حقوق محفوظ است ({{ toPersianDigits(1404) }})
+			</p>
+		</footer>
 	</div>
 </template>
 
@@ -31,7 +29,9 @@
 		}
 
 		&__content {
-			padding-top: space(20);
+			padding-top: space(50);
+			margin: 0 auto;
+			max-width: space(650);
 			@include flexbox(row, start, start, space(0));
 		}
 

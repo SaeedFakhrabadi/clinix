@@ -14,8 +14,7 @@
 		&__main-content {
 			height: calc(100% - space(32));
 			padding-top: space(32);
-			max-width: space(650);
-			margin: 0 auto;
+			width: 100%;
 			@include flexbox(row, center, center);
 		}
 

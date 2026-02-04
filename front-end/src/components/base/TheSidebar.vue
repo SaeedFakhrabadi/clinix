@@ -2,7 +2,6 @@
 	import { defineProps } from 'vue';
 	import { useRouter } from 'vue-router';
 	import { useActiveTabStore } from '@/stores/activeTab';
-	import { useCurrentUserStore } from '@/stores/currentUser';
 
 	const props = defineProps({
 		items: { type: Array },
@@ -11,11 +10,11 @@
 	const router = useRouter();
 	const activeTabStore = useActiveTabStore();
 
+	const setActiveTab = (tab) => activeTabStore.setActiveTab(tab);
+
 	const isActiveTab = (tab) => activeTabStore.activeTab === tab;
 
 	const logout = () => {
-		const currentUserStore = useCurrentUserStore();
-		currentUserStore.setCurrentUser();
 		router.push({ name: 'Login' });
 	};
 </script>
@@ -32,6 +31,7 @@
 				<router-link
 					class="menu__tab"
 					:class="{ 'menu__tab--active': isActiveTab(item.name) }"
+					@click="setActiveTab(item.name)"
 					:to="{ name: item.name }"
 				>
 					{{ item.label }}
@@ -50,9 +50,6 @@
 		border-left: space(1) solid var(--primary-500);
 		transition: none;
 		@include flexbox(column, start, center);
-		@media (max-width: space(288)) {
-			display: none;
-		}
 
 		.header {
 			width: 90%;
@@ -88,12 +85,11 @@
 				border-right: space(5) solid transparent;
 				padding-right: space(3);
 				color: var(--title-500);
-				transition: all 0.5s ease;
 				cursor: pointer;
 				@include flexbox(row, start, center, space(0));
 
 				&:hover {
-					background-color: var(--primary-600);
+					background-color: var(--primary-800);
 				}
 
 				&--active {

@@ -68,7 +68,6 @@
 				class="container__input-box input-box"
 				:class="{ 'input-box--error': errorMessage }"
 			>
-				<SvgLoader class="input-box__icon" v-if="iconName" :name="iconName" />
 				<input
 					class="input-box__input"
 					v-model="inputValue"

@@ -5,12 +5,15 @@ import { defineStore } from 'pinia';
 export const useActiveTabStore = defineStore(
 	'activeTab',
 	() => {
-		const route = useRoute();
+		const activeTab = ref('LLLL');
 
-		const activeTab = computed(() => route.matched[1].name);
+		const setActiveTab = (tab) => {
+			activeTab.value = tab;
+		};
 
 		return {
 			activeTab,
+			setActiveTab,
 		};
 	},
 	{

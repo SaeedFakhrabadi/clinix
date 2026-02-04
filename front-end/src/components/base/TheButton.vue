@@ -51,15 +51,25 @@
 		background-color: transparent;
 		border-radius: space(4);
 		user-select: none;
-		transition: all 0.4s ease;
 		cursor: pointer;
-		@include flexbox(row, center, center, space(2), nowrap);
+		height: space(20);
+		@include flexbox(row, center, center);
+	}
 
-		&--submit {
-			background-color: var(--primary-100);
-			border: none;
-			color: var(--text-900);
-		}
+	.base-button--submit {
+		background-color: var(--primary-100);
+		border: none;
+		color: var(--text-900);
+	}
+
+	.base-button--submit:hover {
+		background-color: var(--primary-500);
+	}
+
+	.base-button--cancel {
+		border: space(1) solid var(--primary-500);
+		color: var(--primary-500);
+	}
 
 		&--submit:hover {
 			background-color: var(--primary-500);
