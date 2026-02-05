@@ -3,6 +3,7 @@
 	import { loginSchema } from '@/schemas';
 	import { useRouter } from 'vue-router';
 	import { useCurrentUserStore } from '@/stores/currentUser';
+	import { login } from '@/services/auth';
 
 	const router = useRouter();
 
@@ -18,19 +19,65 @@
 		useField('identifier');
 	const { value: password, errorMessage: passwordError } = useField('password');
 
-	const onSubmit = handleSubmit(() => {
-		const currentUserStore = useCurrentUserStore();
-		const userData = {
-			identifier: identifier.value,
-			password: password.value,
-		};
-		currentUserStore.setCurrentUser(userData);
-		router.push({ name: 'Profile' });
-	});
+	const onSubmit = async () => {
+		try {
+
+			const currentUserStore = useCurrentUserStore();
+			const response = await login(identifier.value, password.value);
+			console.log("response", response);
+			
+			const userData = {
+				identifier: identifier.value,
+				password: password.value,
+			};
+			currentUserStore.setCurrentUser(userData);
+			router.push({ name: 'Profile' });
+		} catch (error) {
+			console.error("Error : ", error.response?.data || error.message);
+		}
+
+	};
+
+	// const onSubmit = async () => {
+  // const toastId = toast.info("...در حال بررسی اطلاعات", {
+  //   timeout: false,
+  //   closeOnClick: false,
+  // });
+
+  // try {
+  //   const response = await loginUser(email.value, password.value);
+
+  //   const token = response.data.data.accessToken;
+  //   userInfoStore.setToken(token);
+
+  //   const userInfoResponse = await getUserInfo(token);
+
+  //   userInfoStore.setUserInfo(userInfoResponse.data.data);
+
+  //   toast.dismiss(toastId);
+  //   toast.success(".با موفقیت وارد شدید");
+
+  //   router.push({ name: "Home" });
+  // } catch (error) {
+  //   emailResponseError.value = true;
+  //   passwordResponseError.value = true;
+  //   console.error("Error : ", error.response?.data || error.message);
+
+  //   const errorMessage = error?.response?.data?.data?.message?.fa;
+  //   toast.dismiss(toastId);
+  //   if (errorMessage === "ایمیل یا پسورد معتبر نمیباشد!") {
+  //     toast.error("!ایمیل یا رمز عبور معتبر نیست");
+  //   } else {
+  //     toast.error("!خطا در ورود");
+  //   }
+  // }
+// };
+
+const submitForm = handleSubmit(onSubmit);
 </script>
 
 <template>
-	<form class="form" @submit.prevent="onSubmit">
+	<form class="form" @submit.prevent="submitForm">
 		<h3 class="form__title">ورود</h3>
 		<div class="form__inputs">
 			<TheInput
