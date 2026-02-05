@@ -120,8 +120,8 @@
 		.input-box {
 			background-image: linear-gradient(90deg, var(--bg-800), var(--bg-900));
 			border-right: space(4) solid var(--text-100);
-			border-top-left-radius: space(4);
-			border-bottom-left-radius: space(4);
+			border-top-left-radius: space(10);
+			border-bottom-left-radius: space(10);
 			transition: all 0.2s ease;
 			outline: space(0.5) solid var(--text-500);
 			@include flexbox(row, center, center, space(0), nowrap);
@@ -162,7 +162,7 @@
 
 			&__eye-icon {
 				color: var(--text-900);
-				margin-left: space(3);
+				margin-left: space(5);
 				cursor: pointer;
 			}
 		}

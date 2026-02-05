@@ -1,0 +1,305 @@
+{
+  "info": {
+    "_postman_id": "55669204-2d8e-40af-bd9e-785f03e87eaa",
+    "name": "clinix",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "register",
+      "id": "449006fa-3500-4a35-8b78-10d7aa30d291",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\": \"testuser2\",\r\n    \"password\": \"StrongPass123!\",\r\n    \"password2\": \"StrongPass123!\",\r\n    \"email\": \"test@example.com\",\r\n    \"first_name\": \"Test\",\r\n    \"last_name\": \"User\"\r\n  }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/auth/register/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "register",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "login",
+      "id": "5bc74742-df60-4648-b36a-7533889b0590",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\": \"testuser2\",\r\n    \"password\": \"StrongPass123!\"\r\n  }"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/auth/login/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "login",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "forgot_password",
+      "id": "2d7ec71b-9e48-457c-8862-c17a790fc3fd",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"test@example.com\"\r\n}\r\n"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/auth/forgot_password/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "forgot_password",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "reset_password",
+      "id": "214c8c47-dc17-4aa4-ab00-fefd3bd1972b",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\": \"testuser2\",\r\n    \"password\": \"StrongPass123!\",\r\n    \"password2\": \"StrongPass123!\",\r\n    \"reset_id\": \"12a7601b-5977-4643-92e0-3a5a6f5cf22e\"\r\n  }"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/auth/reset_password/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "reset_password",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "logout",
+      "id": "ce842271-665c-463c-a44b-68facfe6d39e",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer <YOUR_ACCESS_TOKEN>",
+            "type": "default"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"refresh\": \"YOUR_REFRESH_TOKEN\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/auth/logout/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "logout",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "refresh-token",
+      "id": "80d1a03a-27b4-4aae-b2b2-4656cf367fbb",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"refresh\": \"YOUR_REFRESH_TOKEN\"\r\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/auth/token/refresh/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "token",
+            "refresh",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "token_verify",
+      "id": "298ed7b4-5289-4547-b6c8-ecca58ea2860",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"refresh\": \"YOUR_REFRESH_TOKEN\"\r\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/auth/token/token_verify/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "token",
+            "token_verify",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "admin",
+      "id": "45b9efb5-886e-4866-8c3a-9a8896632a25",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"refresh\": \"YOUR_REFRESH_TOKEN\"\r\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/admin/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "admin",
+            ""
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
