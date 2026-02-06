@@ -1,4 +1,8 @@
 from django.contrib import admin
-from .models import PasswordReset
+from .models import User, Appointment, Payment
 
-admin.site.register(PasswordReset)
+@admin.register(User)
+class UserAdmin(admin.ModelAdmin):
+    list_display = ("email", "role", "is_active", "is_staff")
+    list_filter = ("role", "is_active", "is_staff")
+    search_fields = ("email",)

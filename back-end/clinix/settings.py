@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,13 +38,18 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
     'Core',
     'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'drf_spectacular',
+]
+
+AUTH_USER_MODEL = "Core.User"
+
+AUTHENTICATION_BACKENDS = [
+    'Core.authentication.EmailOrPhoneBackend'
 ]
 
 REST_FRAMEWORK = {
@@ -54,8 +60,6 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
 }
-
-from datetime import timedelta
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
@@ -126,7 +130,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -137,14 +140,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
-
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR,  'staticfiles')
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'), )
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -160,6 +155,8 @@ EMAIL_PORT=465 # SSL
 EMAIL_USE_SSL=True
 EMAIL_HOST_USER="erfanmahmudi1383@gmail.com"
 EMAIL_HOST_PASSWORD="tszw lset sxkm band"
+
+DEFAULT_FROM_EMAIL = "Clinixs <no-reply@clinixs.com>"
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",

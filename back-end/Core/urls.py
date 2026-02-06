@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import AuthViewSet, UserViewSet, HomeAPIView
+from .views import AuthViewSet, HomeAPIView
 from rest_framework_simplejwt.views import TokenRefreshView, TokenVerifyView
 from rest_framework.permissions import AllowAny
 
@@ -13,12 +13,11 @@ class CustomRouter(DefaultRouter):
 
 router = CustomRouter()
 router.register(r'auth', AuthViewSet, basename='auth')
-router.register(r'users', UserViewSet)
 
 urlpatterns = [
     path('api/v1/', include([
-        path('', router.get_api_root_view(), name='api-root'),  # Public root page
-        path('', include(router.urls)),                         # /auth/, /users/
+        path('', router.get_api_root_view(), name='api-root'),
+        path('', include(router.urls)),
         
         # Standard JWT endpoints
         path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

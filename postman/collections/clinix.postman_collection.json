@@ -16,7 +16,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"username\": \"testuser2\",\r\n    \"password\": \"StrongPass123!\",\r\n    \"password2\": \"StrongPass123!\",\r\n    \"email\": \"test@example.com\",\r\n    \"first_name\": \"Test\",\r\n    \"last_name\": \"User\"\r\n  }",
+          "raw": "{\r\n    \"username\": \"test123\",\r\n    \"email\": \"testpa23@example.com\",\r\n    \"phonenumber\": \"03129981856\",\r\n    \"password\": \"StrogPass43211498!\",\r\n    \"role\": \"PATIENT\"\r\n  }",
           "options": {
             "raw": {
               "language": "json"
@@ -42,11 +42,98 @@
           ]
         }
       },
-      "response": []
+      "response": [
+        {
+          "id": "a1875bd9-7609-4ae7-bc4c-1f556f0c9047",
+          "name": "register_ex",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"test123\",\r\n    \"email\": \"testpa23@example.com\",\r\n    \"phonenumber\": \"03129981856\",\r\n    \"password\": \"StrogPass43211498!\",\r\n    \"role\": \"PATIENT\"\r\n  }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/auth/register/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "register",
+                ""
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Date",
+              "value": "Fri, 06 Feb 2026 20:02:33 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.13.3"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "POST, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "741"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "responseTime": "2026-02-06T20:29:22.651Z",
+          "body": "{\n    \"message\": \"ثبت\\u200cنام با موفقیت انجام شد\",\n    \"message_en\": \"User registered successfully\",\n    \"code\": \"registration_success\",\n    \"user\": {\n        \"id\": 16,\n        \"username\": \"test123\",\n        \"email\": \"testpa23@example.com\",\n        \"phonenumber\": \"03129981856\",\n        \"role\": \"PATIENT\"\n    },\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc3MDQ5NDU1MywiaWF0IjoxNzcwNDA4MTUzLCJqdGkiOiI3ZWM1YTkyZTNlYjE0YTg2YjA3ZGMzMTI0ZDczZmE3OSIsInVzZXJfaWQiOiIxNiJ9.pYfcGMWTHSTflYyZNPGQJ-2d7_vNmUya6dHpd3RzgCI\",\n    \"access\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzcwNDExNzUzLCJpYXQiOjE3NzA0MDgxNTMsImp0aSI6ImI0NzE5ZTdjNWI0YTQ0MTU4NjA2ODM3MmJkOTlmOTVhIiwidXNlcl9pZCI6IjE2In0.tRfOqgSYFiOPgX_uuEovMcGigY8k6HJulw2jq2flhVk\"\n}"
+        }
+      ]
     },
     {
       "name": "login",
       "id": "5bc74742-df60-4648-b36a-7533889b0590",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {}
+      },
       "request": {
         "method": "POST",
         "header": [
@@ -57,7 +144,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"username\": \"testuser2\",\r\n    \"password\": \"StrongPass123!\"\r\n  }"
+          "raw": "{\r\n    \"identifier\": \"testpa23@example.com\",\r\n    \"password\": \"StrogPass43211498!\"\r\n}"
         },
         "url": {
           "raw": "http://127.0.0.1:8000/api/v1/auth/login/",
@@ -78,7 +165,98 @@
           ]
         }
       },
-      "response": []
+      "response": [
+        {
+          "id": "97749fed-2e78-4678-8431-0cc92a836694",
+          "name": "login_ex",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"identifier\": \"testpa23@example.com\",\r\n    \"password\": \"StrogPass43211498!\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/auth/login/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "login",
+                ""
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Date",
+              "value": "Fri, 06 Feb 2026 20:23:28 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.13.3"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "POST, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "715"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "responseTime": "2026-02-06T20:29:09.599Z",
+          "body": "{\n    \"message\": \"ورود با موفقیت انجام شد\",\n    \"message_en\": \"Login successful\",\n    \"code\": \"login_success\",\n    \"user\": {\n        \"id\": 16,\n        \"username\": \"test123\",\n        \"email\": \"testpa23@example.com\",\n        \"phonenumber\": \"03129981856\",\n        \"role\": \"PATIENT\"\n    },\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc3MDQ5NTgwOCwiaWF0IjoxNzcwNDA5NDA4LCJqdGkiOiI1OTg0OTU0NGI2Y2U0ZjI4YjdkMDZkYWJiNWMyZjRhMyIsInVzZXJfaWQiOiIxNiJ9.3XU4KwD0N0RGW3lVYv-oBOYXXoNCvALFc1MEYjp7E48\",\n    \"access\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzcwNDEzMDA4LCJpYXQiOjE3NzA0MDk0MDgsImp0aSI6IjA0ZjhmNGJjODJkMzQ5MjA5OTE2N2IxZDZjMTRmM2M4IiwidXNlcl9pZCI6IjE2In0.L60BjNgoPJph-OjCHfzD2fb9c0xMLRHAOlW9QWGgX5k\"\n}"
+        }
+      ]
     },
     {
       "name": "forgot_password",
@@ -93,7 +271,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n  \"email\": \"test@example.com\"\r\n}\r\n"
+          "raw": "{\r\n  \"email\": \"testpa23@example.com\"\r\n}\r\n"
         },
         "url": {
           "raw": "http://127.0.0.1:8000/api/v1/auth/forgot_password/",
@@ -114,7 +292,98 @@
           ]
         }
       },
-      "response": []
+      "response": [
+        {
+          "id": "9bf041e7-041c-4801-a9f4-48101f35210d",
+          "name": "forgot_password_ex",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"testpa23@example.com\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/auth/forgot_password/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "forgot_password",
+                ""
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Date",
+              "value": "Fri, 06 Feb 2026 20:28:25 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.13.3"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "POST, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "140"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "responseTime": "2026-02-06T20:28:35.100Z",
+          "body": "{\n    \"message\": \"ایمیل بازنشانی رمز عبور ارسال شد\",\n    \"message_en\": \"Password reset email sent\",\n    \"code\": \"reset_email_sent\"\n}"
+        }
+      ]
     },
     {
       "name": "reset_password",
@@ -129,7 +398,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"username\": \"testuser2\",\r\n    \"password\": \"StrongPass123!\",\r\n    \"password2\": \"StrongPass123!\",\r\n    \"reset_id\": \"12a7601b-5977-4643-92e0-3a5a6f5cf22e\"\r\n  }"
+          "raw": "{\r\n    \"username\": \"test123\",\r\n    \"password\": \"StrogPass43211498!\",\r\n    \"password2\": \"StrogPass43211498!\",\r\n    \"reset_id\": \"c0e86284-6f86-43ad-a2c0-8550195b1568\"\r\n  }"
         },
         "url": {
           "raw": "http://127.0.0.1:8000/api/v1/auth/reset_password/",
@@ -150,7 +419,98 @@
           ]
         }
       },
-      "response": []
+      "response": [
+        {
+          "id": "c3319f75-a144-4389-9a28-cd90912c9e95",
+          "name": "reset_password_ex",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"test123\",\r\n    \"password\": \"StrogPass43211498!\",\r\n    \"password2\": \"StrogPass43211498!\",\r\n    \"reset_id\": \"24becbb5-ae27-4b34-a370-2e776366d5d6\"\r\n  }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/auth/reset_password/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "reset_password",
+                ""
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Date",
+              "value": "Fri, 06 Feb 2026 20:31:24 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.13.3"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "POST, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "142"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "responseTime": "2026-02-06T20:31:26.631Z",
+          "body": "{\n    \"message\": \"رمز عبور با موفقیت تغییر یافت\",\n    \"message_en\": \"Password reset successfully\",\n    \"code\": \"password_reset_success\"\n}"
+        }
+      ]
     },
     {
       "name": "logout",
@@ -166,7 +526,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"refresh\": \"YOUR_REFRESH_TOKEN\"\r\n}",
+          "raw": "{\r\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc3MDQ5NTgwOCwiaWF0IjoxNzcwNDA5NDA4LCJqdGkiOiI1OTg0OTU0NGI2Y2U0ZjI4YjdkMDZkYWJiNWMyZjRhMyIsInVzZXJfaWQiOiIxNiJ9.3XU4KwD0N0RGW3lVYv-oBOYXXoNCvALFc1MEYjp7E48\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -207,7 +567,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"refresh\": \"YOUR_REFRESH_TOKEN\"\r\n}"
+          "raw": "{\r\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc3MDQ5NjUxMSwiaWF0IjoxNzcwNDEwMTExLCJqdGkiOiJkZDMzM2Y2Y2RmZDc0YjVmYmFkYzNhNTIxODIxNTBkYSIsInVzZXJfaWQiOiIxNiJ9.0GdAVudhV7N_xurZZohZgR8Up3BdbnggmWiB442WoEM\"\r\n}"
         },
         "url": {
           "raw": "http://127.0.0.1:8000/api/v1/auth/token/refresh/",
@@ -229,7 +589,92 @@
           ]
         }
       },
-      "response": []
+      "response": [
+        {
+          "id": "e8ece250-82e4-474d-9671-396ae7f88bf9",
+          "name": "refresh-token_ex",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc3MDQ5NjUxMSwiaWF0IjoxNzcwNDEwMTExLCJqdGkiOiJkZDMzM2Y2Y2RmZDc0YjVmYmFkYzNhNTIxODIxNTBkYSIsInVzZXJfaWQiOiIxNiJ9.0GdAVudhV7N_xurZZohZgR8Up3BdbnggmWiB442WoEM\"\r\n}"
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/auth/token/refresh/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "token",
+                "refresh",
+                ""
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Date",
+              "value": "Fri, 06 Feb 2026 20:36:10 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.13.3"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "POST, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "491"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "responseTime": "2026-02-06T20:37:18.948Z",
+          "body": "{\n    \"access\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzcwNDEzNzcwLCJpYXQiOjE3NzA0MTAxNzAsImp0aSI6IjA5OGFiNDNmNTg3ZDQwY2JhOTVhNzdkODA0MmFhMmZiIiwidXNlcl9pZCI6IjE2In0.mEUhOAp2pg3vJCNE-Fn2NachqstJhpsGWXKKqoJiuko\",\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc3MDQ5NjU3MCwiaWF0IjoxNzcwNDEwMTcwLCJqdGkiOiI2MTgyYzkzNmQ3ODI0Yjc3YTY4ZTk3ZDQ1MTIxODllNyIsInVzZXJfaWQiOiIxNiJ9.VGA2nhX513ZzBwA_Fki4uTWpSd3UOX4B2sLGgUeepYc\"\n}"
+        }
+      ]
     },
     {
       "name": "token_verify",
@@ -244,7 +689,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"refresh\": \"YOUR_REFRESH_TOKEN\"\r\n}"
+          "raw": "{\r\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc3MDQ5Njc1NSwiaWF0IjoxNzcwNDEwMzU1LCJqdGkiOiI4OTRiZTc1YTZmNjM0YjQzODE4NTM2NDQxMGE2YTk2NCIsInVzZXJfaWQiOiIxNiJ9.T_Tf_-kT-AdX5MQKCh-KwJ9xJNFsKffNL03ErxIfOu8\"\r\n}"
         },
         "url": {
           "raw": "http://127.0.0.1:8000/api/v1/auth/token/token_verify/",
