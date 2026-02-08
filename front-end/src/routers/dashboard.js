@@ -14,10 +14,5 @@ export default {
 			name: 'History',
 			component: () => import('@/views/dashboard/History.vue'),
 		},
-		{
-			path: 'doctors-list',
-			name: 'DoctorsList',
-			component: () => import('@/views/dashboard/DoctorsList.vue'),
-		},
 	],
 };

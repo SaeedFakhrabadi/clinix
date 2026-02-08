@@ -1,10 +1,7 @@
 <script setup>
-	const scrollToContent = () => {
-		const content = document.querySelector('.content');
-		if (content) {
-			content.scrollIntoView({ behavior: 'smooth' });
-		}
-	};
+	import { useRouter } from 'vue-router';
+
+	const router = useRouter();
 </script>
 
 <template>
@@ -13,13 +10,15 @@
 			<h1 class="header__slogan">
 				کلینیکس، بزرگترین کلینیک آنلاین مدیریت و رزرو نوبت های پزشکی
 			</h1>
-			<h3 class="header__sub-slogan">همین الآن برای رزرو نوبت کلیک کنید</h3>
+			<h3 class="header__sub-slogan">
+				همین الآن برای مشاهده لیست پزشکان و رزرو نوبت کلیک کنید
+			</h3>
 			<TheButton
 				type="submit"
-				label="رزرو نوبت"
-				width="100px"
+				label="مشاهده لیست پزشکان"
+				width="160px"
 				height="60px"
-				@click="scrollToContent"
+				@click="() => router.push({ name: 'DoctorsList' })"
 			/>
 		</header>
 		<main class="home__content content">
@@ -122,7 +121,7 @@
 <style lang="scss" scoped>
 	.home {
 		.header {
-			background-color: var(--primary-600);
+			background-color: var(--bg-600);
 			width: 100%;
 			padding-inline: space(4);
 			height: space(250);
@@ -130,13 +129,13 @@
 			@include flexbox(column, center, center, space(20));
 
 			&__slogan {
-				color: var(--text-900);
+				color: var(--title-500);
 				animation: subtle-shake 3s infinite alternate ease;
 				@include flexbox(row, center, center, space(0), wrap);
 			}
 
 			&__sub-slogan {
-				color: var(--text-700);
+				color: var(--title-100);
 			}
 
 			@keyframes subtle-shake {

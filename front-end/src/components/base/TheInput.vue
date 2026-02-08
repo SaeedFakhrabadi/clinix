@@ -4,7 +4,7 @@
 
 	const props = defineProps({
 		label: { type: String, required: true },
-		isMandatory: { type: Boolean, default: true },
+		isMandatory: { type: Boolean, default: false },
 		iconName: { type: String, required: true },
 		placeholder: { type: String, default: '' },
 		type: { type: String, default: 'text' },
@@ -39,7 +39,7 @@
 
 <template>
 	<div class="the-input">
-		<div class="container">
+		<div class="the-input__container">
 			<!-- <textarea
       v-if="isDescription"
       class="base-input__field"
@@ -60,12 +60,12 @@
         {{ activityType.title }}
       </option>
     </select> -->
-			<label class="container__label label-box">
+			<label class="the-input__label label-box">
 				<h5 class="label-box__text">{{ label }}</h5>
 				<h5 v-if="isMandatory" class="label-box__mandatory">*</h5>
 			</label>
 			<div
-				class="container__input-box input-box"
+				class="the-input__input-box input-box"
 				:class="{ 'input-box--error': errorMessage }"
 			>
 				<SvgLoader class="input-box__icon" v-if="iconName" :name="iconName" />
@@ -85,7 +85,7 @@
 					@click="togglePasswordVisibility"
 				/>
 			</div>
-			<h6 class="container__error-message">
+			<h6 class="the-input__error-message error-message">
 				{{ toPersianDigits(errorMessage) }}
 			</h6>
 		</div>
@@ -95,11 +95,11 @@
 <style lang="scss" scoped>
 	.the-input {
 		width: 100%;
-	}
 
-	.container {
-		width: 100%;
-		@include flexbox(column, start, right, space(0));
+		&__container {
+			width: 100%;
+			@include flexbox(column, start, right, space(0));
+		}
 
 		.label-box {
 			width: 100%;
@@ -128,14 +128,14 @@
 
 			&__icon {
 				color: var(--primary-100);
-				margin-right: space(3);
+				margin: space(3);
 			}
 
 			&__input {
 				background-color: transparent;
 				font-size: space(7);
 				color: var(--text-900);
-				padding-inline: space(3);
+				padding-left: space(3);
 				border: none;
 				outline: none;
 				width: 100%;
@@ -167,9 +167,10 @@
 			}
 		}
 
-		&__error-message {
+		.error-message {
 			user-select: none;
-			min-height: space(12);
+			line-height: space(10);
+			min-height: space(10);
 			color: var(--danger-600);
 			@include flexbox();
 			@include lineClamp(1);

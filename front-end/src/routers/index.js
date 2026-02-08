@@ -32,7 +32,7 @@ const router = createRouter({
 // Navigation guard
 router.beforeEach((to, from, next) => {
 	const currentUserStore = useCurrentUserStore();
-	const isAuthenticated = !!currentUserStore.currentUser;
+	const isAuthenticated = !!currentUserStore?.currentUser;
 
 	if (to.path.startsWith('/dashboard') && !isAuthenticated) {
 		return next('/auth/login');
