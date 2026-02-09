@@ -100,7 +100,7 @@ class PasswordReset(models.Model):
         on_delete=models.CASCADE,
         related_name='password_resets'
     )
-    reset_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    verificationCode = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     created_when = models.DateTimeField(auto_now_add=True)
     # optional: ip_address = models.GenericIPAddressField(null=True, blank=True)
 
@@ -108,7 +108,7 @@ class PasswordReset(models.Model):
         ordering = ['-created_when']
 
     def __str__(self):
-        return f"Reset for {self.user} - {self.reset_id}"
+        return f"Reset for {self.user} - {self.verificationCode}"
 
     @property
     def is_expired(self):

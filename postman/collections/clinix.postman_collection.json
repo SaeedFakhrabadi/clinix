@@ -16,7 +16,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"username\": \"test123\",\r\n    \"email\": \"testpa23@example.com\",\r\n    \"phonenumber\": \"03129981856\",\r\n    \"password\": \"StrogPass43211498!\",\r\n    \"role\": \"PATIENT\"\r\n  }",
+          "raw": "{\r\n    \"username\": \"test1\",\r\n    \"email\": \"test1@example.com\",\r\n    \"phonenumber\": \"03129971456\",\r\n    \"password\": \"1234\"\r\n  }",
           "options": {
             "raw": {
               "language": "json"
@@ -44,14 +44,14 @@
       },
       "response": [
         {
-          "id": "a1875bd9-7609-4ae7-bc4c-1f556f0c9047",
-          "name": "register_ex",
+          "id": "78db0b5a-0c19-4116-87aa-b93de862793a",
+          "name": "register_easy_pass",
           "originalRequest": {
             "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"username\": \"test123\",\r\n    \"email\": \"testpa23@example.com\",\r\n    \"phonenumber\": \"03129981856\",\r\n    \"password\": \"StrogPass43211498!\",\r\n    \"role\": \"PATIENT\"\r\n  }",
+              "raw": "{\r\n    \"username\": \"test1\",\r\n    \"email\": \"test1@example.com\",\r\n    \"phonenumber\": \"03129971456\",\r\n    \"password\": \"1234\"\r\n  }",
               "options": {
                 "raw": {
                   "language": "json"
@@ -83,7 +83,7 @@
           "header": [
             {
               "key": "Date",
-              "value": "Fri, 06 Feb 2026 20:02:33 GMT"
+              "value": "Mon, 09 Feb 2026 19:46:25 GMT"
             },
             {
               "key": "Server",
@@ -107,7 +107,7 @@
             },
             {
               "key": "Content-Length",
-              "value": "741"
+              "value": "736"
             },
             {
               "key": "X-Content-Type-Options",
@@ -123,8 +123,8 @@
             }
           ],
           "cookie": [],
-          "responseTime": "2026-02-06T20:29:22.651Z",
-          "body": "{\n    \"message\": \"ثبت\\u200cنام با موفقیت انجام شد\",\n    \"message_en\": \"User registered successfully\",\n    \"code\": \"registration_success\",\n    \"user\": {\n        \"id\": 16,\n        \"username\": \"test123\",\n        \"email\": \"testpa23@example.com\",\n        \"phonenumber\": \"03129981856\",\n        \"role\": \"PATIENT\"\n    },\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc3MDQ5NDU1MywiaWF0IjoxNzcwNDA4MTUzLCJqdGkiOiI3ZWM1YTkyZTNlYjE0YTg2YjA3ZGMzMTI0ZDczZmE3OSIsInVzZXJfaWQiOiIxNiJ9.pYfcGMWTHSTflYyZNPGQJ-2d7_vNmUya6dHpd3RzgCI\",\n    \"access\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzcwNDExNzUzLCJpYXQiOjE3NzA0MDgxNTMsImp0aSI6ImI0NzE5ZTdjNWI0YTQ0MTU4NjA2ODM3MmJkOTlmOTVhIiwidXNlcl9pZCI6IjE2In0.tRfOqgSYFiOPgX_uuEovMcGigY8k6HJulw2jq2flhVk\"\n}"
+          "responseTime": "2026-02-09T19:46:30.011Z",
+          "body": "{\n    \"message\": \"ثبت\\u200cنام با موفقیت انجام شد\",\n    \"message_en\": \"User registered successfully\",\n    \"code\": \"registration_success\",\n    \"user\": {\n        \"id\": 18,\n        \"username\": \"test1\",\n        \"email\": \"test1@example.com\",\n        \"phonenumber\": \"03129971456\",\n        \"role\": \"PATIENT\"\n    },\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc3MDc1Mjc4NSwiaWF0IjoxNzcwNjY2Mzg1LCJqdGkiOiJiNTE0NzFlOWI3NTE0MjhiODBiYjQ0MWE0MzMzYzFmMiIsInVzZXJfaWQiOiIxOCJ9.o4gTlk7oV4jbL0AMc-FCRCgxCBctlc1osyMFpYDiv5w\",\n    \"access\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzcwNjY5OTg1LCJpYXQiOjE3NzA2NjYzODUsImp0aSI6IjMzNTQyNjU4YjRkNTQ2MmU4MjBmMDAyZjNiMWE2N2NiIiwidXNlcl9pZCI6IjE4In0.58qawit49R953gxDlhJisRy7giLlIB6F_bmt61jLNYo\"\n}"
         }
       ]
     },
@@ -567,7 +567,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc3MDQ5NjUxMSwiaWF0IjoxNzcwNDEwMTExLCJqdGkiOiJkZDMzM2Y2Y2RmZDc0YjVmYmFkYzNhNTIxODIxNTBkYSIsInVzZXJfaWQiOiIxNiJ9.0GdAVudhV7N_xurZZohZgR8Up3BdbnggmWiB442WoEM\"\r\n}"
+          "raw": "{\r\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzcwNDEzNzExLCJpYXQiOjE3NzA0MTAxMTEsImp0aSI6ImZlYTZlZmVlMjVmZDRkYWM5MjdjNzM2OTIwMDY2OGY2IiwidXNlcl9pZCI6IjE2In0.udbTBw9Y6bNA_4qvhCsg_mr7Qf9XTyPG-6ZYDACiY-E\"\r\n}"
         },
         "url": {
           "raw": "http://127.0.0.1:8000/api/v1/auth/token/refresh/",

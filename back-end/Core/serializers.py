@@ -2,21 +2,17 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 
-from .models import UserRoles
-
 User = get_user_model()
 
 class RegisterSerializer(serializers.ModelSerializer):     
-    password = serializers.CharField(write_only=True, validators=[validate_password])
-
-    role = serializers.ChoiceField(
-        choices=UserRoles.choices,
-        required=True,
+    password = serializers.CharField(
+        write_only=True,
+        # validators=[validate_password]
     )
 
     class Meta:
         model = User
-        fields = ('username', 'password', 'email', 'phonenumber', 'role')
+        fields = ('username', 'password', 'email', 'phonenumber')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
@@ -25,7 +21,6 @@ class RegisterSerializer(serializers.ModelSerializer):
             email=validated_data['email'],
             phonenumber=validated_data['phonenumber'],
             password=validated_data['password'],
-            role=validated_data['role'],
         )
 
 class LoginSerializer(serializers.Serializer):
@@ -45,27 +40,13 @@ class ForgetPasswordSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
 
 class ResetPasswordSerializer(serializers.Serializer):
-    reset_id = serializers.UUIDField(required=True)
-    password = serializers.CharField(
+    verificationCode = serializers.IntegerField(required=True)
+    newPassword = serializers.CharField(
         required=True,
         write_only=True,
-        validators=[validate_password],
+        # validators=[validate_password],
         style={'input_type': 'password'}
     )
-    password2 = serializers.CharField(
-        required=True,
-        write_only=True,
-        style={'input_type': 'password'},
-        label="Confirm password"
-    )
-
-    def validate(self, attrs):
-        if attrs['password'] != attrs['password2']:
-            raise serializers.ValidationError({
-                "password": "Password fields didn't match.",
-                "password2": "Password fields didn't match."
-            })
-        return attrs
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -75,7 +56,6 @@ class UserSerializer(serializers.ModelSerializer):
             'username',
             'email',
             'phonenumber',
-            'role',
         )
         read_only_fields = ('id', 'role')
 

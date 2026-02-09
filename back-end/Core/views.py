@@ -24,22 +24,20 @@ import uuid
 
 User = get_user_model()
 
-def success_response(message_fa, message_en, code="success", status_code=status.HTTP_200_OK, extra_data=None):
+def success_response(message, message_en, status_code=status.HTTP_200_OK, extra_data=None):
     data = {
-        "message": message_fa,
+        "message": message,
         "message_en": message_en,
-        "code": code,
     }
     if extra_data:
         data.update(extra_data)
     return Response(data, status=status_code)
 
 
-def error_response(message_fa, message_en, code="error", status_code=status.HTTP_400_BAD_REQUEST, extra_data=None):
+def error_response(message, message_en, status_code=status.HTTP_400_BAD_REQUEST, extra_data=None):
     data = {
-        "message": message_fa,
+        "message": message,
         "message_en": message_en,
-        "code": code,
     }
     if extra_data:
         data.update(extra_data)
@@ -55,25 +53,21 @@ class AuthViewSet(viewsets.ViewSet):
             try:
                 user = serializer.save()
 
-                refresh = RefreshToken.for_user(user)
+                refresh = RefreshToken.for_user(user).access_token
 
                 return success_response(
-                    message_fa="ثبت‌نام با موفقیت انجام شد",
+                    message="ثبت‌نام با موفقیت انجام شد",
                     message_en="User registered successfully",
-                    code="registration_success",
                     status_code=status.HTTP_201_CREATED,
                     extra_data={
-                        "user": UserSerializer(user).data,
-                        "refresh": str(refresh),
-                        "access": str(refresh.access_token),
+                        "access_token": str(refresh.access_token),
                     }
                 )
             
             except IntegrityError as e:
                 return error_response(
-                    message_fa="مشخصات وارد شده تکراری است!",
+                    message="مشخصات وارد شده تکراری است!",
                     message_en="The entered information is duplicate!",
-                    code="duplicate_entry",
                     extra_data={
                         "detail": "شماره تلفن یا ایمیل قبلاً ثبت شده است.",
                         "detail_en": "Phone number or email is already registered.",
@@ -83,19 +77,14 @@ class AuthViewSet(viewsets.ViewSet):
                 )
 
             except Exception as e:
-                # This should rarely happen now
-                import traceback
-                traceback.print_exc()  # ← print full stack trace to console
                 return error_response(
-                    message_fa="خطایی در ثبت‌نام رخ داد",
+                    message="خطایی در ثبت‌نام رخ داد",
                     message_en="An error occurred during registration",
-                    code="registration_failed"
                 )
         
         return error_response(
-            message_fa="داده‌های ارسالی معتبر نمی‌باشند",
+            message="داده‌های ارسالی معتبر نمی‌باشند",
             message_en="Invalid input data",
-            code="validation_error",
             status_code=status.HTTP_400_BAD_REQUEST,
             extra_data={"errors": serializer.errors}
         )
@@ -105,9 +94,8 @@ class AuthViewSet(viewsets.ViewSet):
         serializer = LoginSerializer(data=request.data)
         if not serializer.is_valid():
             return error_response(
-                message_fa="داده‌های ارسالی ناقص یا نامعتبر است",
+                message="داده‌های ارسالی ناقص یا نامعتبر است",
                 message_en="Invalid or incomplete input data",
-                code="validation_error",
                 extra_data={"errors": serializer.errors}
             )
 
@@ -120,20 +108,16 @@ class AuthViewSet(viewsets.ViewSet):
         if user:
             refresh = RefreshToken.for_user(user)
             return success_response(
-                message_fa="ورود با موفقیت انجام شد",
+                message="ورود با موفقیت انجام شد",
                 message_en="Login successful",
-                code="login_success",
                 extra_data={
-                    "user": UserSerializer(user).data,
-                    "refresh": str(refresh),
-                    "access": str(refresh.access_token),
+                    "access_token": str(refresh.access_token),
                 }
             )
 
         return error_response(
-            message_fa="اطلاعات وارد شده صحیح نمی‌باشند!",
+            message="اطلاعات وارد شده صحیح نمی‌باشند!",
             message_en="Invalid credentials!",
-            code="invalid_credentials",
             status_code=status.HTTP_401_UNAUTHORIZED,
             extra_data={
                 "detail": "ایمیل یا شماره تلفن یا رمز عبور اشتباه است.",
@@ -147,9 +131,8 @@ class AuthViewSet(viewsets.ViewSet):
         
         if not refresh_token:
             return error_response(
-                message_fa="توکن تازه‌سازی ارسال نشده است",
+                message="توکن تازه‌سازی ارسال نشده است",
                 message_en="Refresh token is required",
-                code="missing_refresh_token",
                 status_code=status.HTTP_400_BAD_REQUEST
             )
 
@@ -158,16 +141,15 @@ class AuthViewSet(viewsets.ViewSet):
             token.blacklist()
             
             return success_response(
-                message_fa="خروج با موفقیت انجام شد",
+                message="خروج با موفقیت انجام شد",
                 message_en="Logout successful",
                 code="logout_success"
             )
         
         except Exception as e:
             return error_response(
-                message_fa="خطا در فرآیند خروج",
+                message="خطا در فرآیند خروج",
                 message_en="Logout error",
-                code="logout_failed",
                 extra_data={"detail_en": str(e)},
                 status_code=status.HTTP_400_BAD_REQUEST
             )
@@ -177,9 +159,8 @@ class AuthViewSet(viewsets.ViewSet):
         serializer = ForgetPasswordSerializer(data=request.data)
         if not serializer.is_valid():
             return error_response(
-                message_fa="ایمیل نامعتبر است",
+                message="ایمیل نامعتبر است",
                 message_en="Invalid email format",
-                code="validation_error",
                 extra_data={"errors": serializer.errors}
             )
         
@@ -208,16 +189,15 @@ class AuthViewSet(viewsets.ViewSet):
             )
 
             return success_response(
-                message_fa="ایمیل بازنشانی رمز عبور ارسال شد",
+                message="ایمیل بازنشانی رمز عبور ارسال شد",
                 message_en="Password reset email sent",
                 code="reset_email_sent"
             )
             
         except User.DoesNotExist:
             return error_response(
-                message_fa="کاربری با این ایمیل یافت نشد",
+                message_="کاربری با این ایمیل یافت نشد",
                 message_en="User with this email does not exist",
-                code="user_not_found",
                 status_code=status.HTTP_404_NOT_FOUND
             )
 
@@ -227,43 +207,40 @@ class AuthViewSet(viewsets.ViewSet):
 
         if not serializer.is_valid():
             return error_response(
-                message_fa="داده‌های ارسالی نامعتبر است",
+                message="داده‌های ارسالی نامعتبر است",
                 message_en="Invalid input",
-                code="validation_error",
                 extra_data={"errors": serializer.errors}
             )
         
-        reset_id = serializer.validated_data['reset_id']
-        password = serializer.validated_data['password']
+        verificationCode = serializer.validated_data['verificationCode']
+        newPassword = serializer.validated_data['newPassword']
         
         try:
-            password_reset = PasswordReset.objects.get(reset_id=reset_id)
-            expiration_time = password_reset.created_when + timezone.timedelta(minutes=10)
+            password_reset = PasswordReset.objects.get(verificationCode=verificationCode)
+            expiration_time = password_reset.created_when + timezone.timedelta(minutes=2)
             
             if timezone.now() > expiration_time:
                 password_reset.delete()
                 return error_response(
-                    message_fa="لینک بازنشانی منقضی شده است",
+                    message="لینک بازنشانی منقضی شده است",
                     message_en="Reset link has expired",
-                    code="link_expired"
                 )
             
             user = password_reset.user
-            user.set_password(password)
+            user.set_password(newPassword)
             user.save()
             password_reset.delete()
             
             return success_response(
-                message_fa="رمز عبور با موفقیت تغییر یافت",
+                message="رمز عبور با موفقیت تغییر یافت",
                 message_en="Password reset successfully",
                 code="password_reset_success"
             )
             
         except PasswordReset.DoesNotExist:
             return error_response(
-                message_fa="کد بازنشانی نامعتبر است",
+                message="کد بازنشانی نامعتبر است",
                 message_en="Invalid reset ID",
-                code="invalid_reset_id",
                 status_code=status.HTTP_404_NOT_FOUND
             )
 
@@ -272,8 +249,7 @@ class HomeAPIView(APIView):
     
     def get(self, request):
         return success_response(
-            message_fa=f"خوش آمدید {request.user.username}",
+            message=f"خوش آمدید {request.user.username}",
             message_en=f"Welcome {request.user.username}",
-            code="welcome",
             extra_data={"user": UserSerializer(request.user).data}
         )
