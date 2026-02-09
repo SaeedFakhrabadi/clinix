@@ -2,39 +2,59 @@
 	import { useForm, useField } from 'vee-validate';
 	import { recoveryPasswordSchema } from '@/schemas';
 	import { useRouter } from 'vue-router';
+	import { recoveryPassword } from '@/services/auth';
+	import { useToast } from 'vue-toastification';
 
 	const router = useRouter();
+	const toast = useToast();
 
 	const { handleSubmit } = useForm({
 		validationSchema: recoveryPasswordSchema,
 		initialValues: {
-			identifier: '',
+			email: '',
 		},
 	});
 
-	const { value: identifier, errorMessage: identifierError } =
-		useField('identifier');
+	const { value: email, errorMessage: emailError } = useField('email');
 
-	const onSubmit = handleSubmit(() => {
-		router.push({ name: 'Login' });
-	});
+	const onSubmit = async () => {
+		const toastId = toast.info('...در حال بررسی اطلاعات', {
+			timeout: false,
+			closeOnClick: false,
+		});
+
+		try {
+			const response = await recoveryPassword(email.value);
+			toast.dismiss(toastId);
+			toast.success(response?.data?.message);
+
+			router.push({ name: 'ChangePassword' });
+		} catch (error) {
+			console.error('Error : ', error?.response?.data || error?.message);
+
+			toast.dismiss(toastId);
+			toast.error(error?.response?.data?.message ?? 'خطا در برقراری ارتباط')
+		}
+	};
+
+	const submitForm = handleSubmit(onSubmit);
 </script>
 
 <template>
-	<form class="form" @submit.prevent="onSubmit">
-		<h3 class="form__title">بازنشانی رمز عبور</h3>
+	<form class="form" @submit.prevent="submitForm">
+		<h3 class="form__title">بازیابی رمز عبور</h3>
 		<h5 class="form__text">
-			برای بازنشانی رمز عبور ایمیل یا شماره تلفن خود را وارد کنید تا رمز عبور
-			جدید برای شما ارسال شود.
+			ایمیل خود را وارد کنید تا کد تایید برای شما
+			ارسال شود.
 		</h5>
 		<TheInput
-			label="شماره تلفن یا ایمیل"
-			iconName="user"
-			placeholder="شماره تلفن یا ایمیل خود را وارد کنید"
-			v-model="identifier"
-			:error-message="identifierError"
+			label="ایمیل"
+			iconName="email"
+			placeholder="ایمیل خود را وارد کنید"
+			v-model="email"
+			:error-message="emailError"
 		/>
-		<TheButton type="submit" label="بازنشانی رمز عبور" />
+		<TheButton type="submit" label="درخواست ارسال کد تایید" />
 	</form>
 </template>
 

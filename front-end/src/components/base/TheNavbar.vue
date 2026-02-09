@@ -31,8 +31,8 @@
 
 	const tabs = [
 		{ name: 'Landing', label: 'خانه' },
+		{ name: 'DoctorsList', label: 'جستجوی پزشکان' },
 		{ name: 'Profile', label: 'پروفایل' },
-		{ name: 'Register', label: 'ثبت نام' },
 		{ name: 'Login', label: 'ورود' },
 	];
 </script>

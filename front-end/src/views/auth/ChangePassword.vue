@@ -2,42 +2,78 @@
 	import { useForm, useField } from 'vee-validate';
 	import { changePasswordSchema } from '@/schemas';
 	import { useRouter } from 'vue-router';
+	import { useCurrentUserStore } from '@/stores/currentUser';
+	import { changePassword } from '@/services/auth';
+	import { useToast } from 'vue-toastification';
 
 	const router = useRouter();
+	const toast = useToast();
+	const currentUserStore = useCurrentUserStore();
 
 	const { handleSubmit } = useForm({
 		validationSchema: changePasswordSchema,
 		initialValues: {
-			oldPassword: '',
+			verificationCode: '',
 			newPassword: '',
-			confirmNewPassword: '',
+			confirmPassword: '',
 		},
 	});
 
-	const { value: oldPassword, errorMessage: oldPasswordError } =
-		useField('oldPassword');
+	const { value: verificationCode, errorMessage: verificationCodeError } =
+		useField('verificationCode');
 	const { value: newPassword, errorMessage: newPasswordError } =
 		useField('newPassword');
-	const { value: confirmNewPassword, errorMessage: confirmNewPasswordError } =
-		useField('confirmNewPassword');
+	const { value: confirmPassword, errorMessage: confirmPasswordError } =
+		useField('confirmPassword');
 
-	const onSubmit = handleSubmit(() => {
-		router.push({ name: 'Profile' });
-	});
+	const onSubmit = async () => {
+		const toastId = toast.info('...در حال بررسی اطلاعات', {
+			timeout: false,
+			closeOnClick: false,
+		});
+
+		try {
+			const response = await changePassword(
+				verificationCode.value,
+				newPassword.value,
+			);
+
+			const userInfo = response?.data;
+			currentUserStore?.setCurrentUser(userInfo);
+
+			toast.dismiss(toastId);
+			toast.success(response?.data?.message);
+
+			router.push({ name: 'Profile' });
+		} catch (error) {
+			console.error('Error : ', error?.response?.data || error?.message);
+
+			toast.dismiss(toastId);
+			toast.error(error?.response?.data?.message ?? 'خطا در برقراری ارتباط');
+		}
+	};
+
+	const submitForm = handleSubmit(onSubmit);
 </script>
 
 <template>
-	<form class="form" @submit.prevent="onSubmit">
+	<form class="form" @submit.prevent="submitForm">
 		<h3 class="form__title">تغییر رمز عبور</h3>
+		<h5 class="form__text">
+			کد تایید ارسال شده و رمز عبور جدید خود را وارد کنید.
+		</h5>
 		<div class="form__inputs">
-			<TheInput
-				label="رمز عبور قبلی"
-				iconName="password"
-				type="password"
-				placeholder="رمز عبور قبلی خود را وارد کنید"
-				v-model="oldPassword"
-				:error-message="oldPasswordError"
-			/>
+			<div class="form__input-wrapper">
+				<TheInput
+					label="کد تایید"
+					iconName="message-check"
+					placeholder="مانند : 123456"
+					v-model="verificationCode"
+					:digits-only="true"
+					:error-message="verificationCodeError"
+				/>
+				<TheCountdownTimer class="form__counrdown-timer" />
+			</div>
 			<TheInput
 				label="رمز عبور جدید"
 				iconName="password"
@@ -47,12 +83,12 @@
 				:error-message="newPasswordError"
 			/>
 			<TheInput
-				label="تکرار رمز عبور جدید"
+				label="تکرار رمز عبور"
 				iconName="password"
 				type="password"
-				placeholder="رمز عبور جدید خود را مجدد وارد کنید"
-				v-model="confirmNewPassword"
-				:error-message="confirmNewPasswordError"
+				placeholder="رمز عبور خود را مجدد وارد کنید"
+				v-model="confirmPassword"
+				:error-message="confirmPasswordError"
 			/>
 		</div>
 		<TheButton type="submit" label="تغییر رمز عبور" />
@@ -67,8 +103,21 @@
 			border-bottom: space(0.5) solid var(--primary-100);
 		}
 
+		&__text {
+			color: var(--text-900);
+		}
+
 		&__inputs {
 			width: 100%;
+		}
+
+		&__input-wrapper {
+			position: relative;
+		}
+
+		&__counrdown-timer {
+			left: space(0);
+			top: space(0);
 		}
 	}
 </style>

@@ -2,8 +2,13 @@
 	import { useForm, useField } from 'vee-validate';
 	import { RegisterSchema } from '@/schemas';
 	import { useRouter } from 'vue-router';
+	import { useCurrentUserStore } from '@/stores/currentUser';
+	import { register } from '@/services/auth';
+	import { useToast } from 'vue-toastification';
 
 	const router = useRouter();
+	const toast = useToast();
+	const currentUserStore = useCurrentUserStore();
 
 	const { handleSubmit } = useForm({
 		validationSchema: RegisterSchema,
@@ -12,6 +17,7 @@
 			email: '',
 			phoneNumber: '',
 			password: '',
+			confirmPassword: '',
 		},
 	});
 
@@ -20,19 +26,48 @@
 	const { value: phoneNumber, errorMessage: phoneNumberError } =
 		useField('phoneNumber');
 	const { value: password, errorMessage: passwordError } = useField('password');
+	const { value: confirmPassword, errorMessage: confirmPasswordError } =
+		useField('confirmPassword');
 
-	const onSubmit = handleSubmit(() => {
-		router.push({ name: 'Login' });
-	});
+	const onSubmit = async () => {
+		const toastId = toast.info('...در حال ثبت اطلاعات', {
+			timeout: false,
+			closeOnClick: false,
+		});
+
+		try {
+			const response = await register(
+				name.value,
+				email.value,
+				phoneNumber.value,
+				password.value,
+			);
+
+			const userInfo = response?.data;
+			currentUserStore?.setCurrentUser(userInfo);
+
+			toast.dismiss(toastId);
+			toast.success(response?.data?.message);
+
+			router.push({ name: 'Profile' });
+		} catch (error) {
+			console.error('Error : ', error?.response?.data || error?.message);
+
+			toast.dismiss(toastId);
+			toast.error(error?.response?.data?.message ?? 'خطا در برقراری ارتباط');
+		}
+	};
+
+	const submitForm = handleSubmit(onSubmit);
 </script>
 
 <template>
-	<form class="form" @submit.prevent="onSubmit">
+	<form class="form" @submit.prevent="submitForm">
 		<h3 class="form__title">ثبت نام</h3>
 		<div class="form__inputs">
 			<TheInput
 				label="نام"
-				iconName="id-card"
+				iconName="user"
 				placeholder="نام خود را وارد کنید"
 				v-model="name"
 				:error-message="nameError"
@@ -59,6 +94,14 @@
 				placeholder="رمز عبور دلخواه خود را وارد کنید"
 				v-model="password"
 				:error-message="passwordError"
+			/>
+			<TheInput
+				label="تکرار رمز عبور"
+				iconName="password"
+				type="password"
+				placeholder="رمز عبور خود را مجدد وارد کنید"
+				v-model="confirmPassword"
+				:error-message="confirmPasswordError"
 			/>
 		</div>
 		<TheButton type="submit" label="ثبت نام" />

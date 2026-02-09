@@ -56,7 +56,7 @@
 		@include flexbox(row, center, center, space(2), nowrap);
 
 		&--submit {
-			background-color: var(--primary-100);
+			background-color: var(--primary-300);
 			border: none;
 			color: var(--text-900);
 		}
@@ -66,13 +66,12 @@
 		}
 
 		&--cancel {
-			border: space(1) solid var(--primary-500);
-			color: var(--primary-500);
+			border: space(1) solid var(--primary-100);
+			color: var(--primary-100);
 		}
 
 		&--cancel:hover {
-			background-color: var(--primary-800);
-			color: var(--text-900);
+			background-color: var(--primary-700);
 		}
 
 		&--hollow {

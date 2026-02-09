@@ -4,15 +4,35 @@ import { defineStore } from 'pinia';
 export const useCurrentUserStore = defineStore(
 	'currentUser',
 	() => {
-		const currentUser = ref();
+		const currentUser = ref({});
 
-		const setCurrentUser = (userData) => {
-			currentUser.value = userData;
+		const mappedRole = (role) => {
+			if (role === 'PATIENT') return 'بیمار';
+			if (role === 'DOCTOR') return 'پزشک';
+		};
+
+		const setCurrentUser = (userInfo) => {
+			currentUser.value = {
+				id: userInfo?.user?.id,
+				name: userInfo?.user?.username,
+				email: userInfo?.user?.email,
+				phoneNumber: userInfo?.user?.phonenumber,
+				role: {
+					text: mappedRole(userInfo?.user?.role),
+					value: userInfo?.user?.role,
+				},
+				token: userInfo?.refresh,
+			};
+		};
+
+		const removeCurrentUser = () => {
+			currentUser.value = null;
 		};
 
 		return {
 			currentUser,
 			setCurrentUser,
+			removeCurrentUser,
 		};
 	},
 	{

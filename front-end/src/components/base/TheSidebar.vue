@@ -10,13 +10,13 @@
 
 	const router = useRouter();
 	const activeTabStore = useActiveTabStore();
+	const currentUserStore = useCurrentUserStore();
 
 	const isActiveTab = (tab) => activeTabStore.activeTab === tab;
 
 	const logout = () => {
-		const currentUserStore = useCurrentUserStore();
-		currentUserStore.setCurrentUser();
 		router.push({ name: 'Login' });
+		currentUserStore.removeCurrentUser();
 	};
 </script>
 
@@ -24,11 +24,19 @@
 	<aside class="sidebar">
 		<header class="sidebar__header header">
 			<SvgLoader class="header__profile" name="profile-circle" />
-			<h4 class="header__name">محمد سعید فخرآبادی</h4>
+			<div class="header__user-info">
+				<span style="color: var(--text-900)">
+					{{ currentUserStore?.currentUser?.name }}
+				</span>
+				<span style="color: var(--text-100)">|</span>
+				<span style="color: var(--title-300)"
+					>{{ currentUserStore?.currentUser?.role?.text }}
+				</span>
+			</div>
 		</header>
 		<ul class="sidebar__menu menu">
 			<li v-for="(item, index) in props.items" :key="index" class="menu__item">
-				<hr v-if="index > 0" class="menu__divider" />
+				<hr class="menu__divider" />
 				<router-link
 					class="menu__tab"
 					:class="{ 'menu__tab--active': isActiveTab(item.name) }"
@@ -79,8 +87,10 @@
 				color: var(--text-900);
 			}
 
-			&__name {
+			&__user-info {
+				width: 100%;
 				color: var(--text-900);
+				@include flexbox(row, center, center, space(4));
 			}
 		}
 
@@ -95,11 +105,17 @@
 				@include flexbox(column, center, center, space(0));
 			}
 
+			&__divider {
+				width: 100%;
+				border: none;
+				border-top: space(0.5) solid var(--text-100);
+			}
+
 			&__tab {
-				width: calc(100% - space(8));
+				width: calc(100% - space(10));
 				height: space(30);
 				border-right: space(5) solid transparent;
-				padding-right: space(3);
+				padding-right: space(5);
 				color: var(--title-500);
 				transition: all 0.5s ease;
 				cursor: pointer;
@@ -112,12 +128,6 @@
 				&--active {
 					border-right: space(5) solid var(--title-100);
 				}
-			}
-
-			&__divider {
-				width: 100%;
-				border: none;
-				border-top: space(0.5) solid var(--text-100);
 			}
 		}
 	}

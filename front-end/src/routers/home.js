@@ -9,5 +9,10 @@ export default {
 			name: 'Landing',
 			component: () => import('@/views/home/Landing.vue'),
 		},
+		{
+			path: 'doctors-list',
+			name: 'DoctorsList',
+			component: () => import('@/views/home/DoctorsList.vue'),
+		},
 	],
 };

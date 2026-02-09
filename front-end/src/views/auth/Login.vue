@@ -4,8 +4,11 @@
 	import { useRouter } from 'vue-router';
 	import { useCurrentUserStore } from '@/stores/currentUser';
 	import { login } from '@/services/auth';
+	import { useToast } from 'vue-toastification';
 
 	const router = useRouter();
+	const toast = useToast();
+	const currentUserStore = useCurrentUserStore();
 
 	const { handleSubmit } = useForm({
 		validationSchema: loginSchema,
@@ -20,60 +23,30 @@
 	const { value: password, errorMessage: passwordError } = useField('password');
 
 	const onSubmit = async () => {
-		try {
+		const toastId = toast.info('...در حال بررسی اطلاعات', {
+			timeout: false,
+			closeOnClick: false,
+		});
 
-			const currentUserStore = useCurrentUserStore();
+		try {
 			const response = await login(identifier.value, password.value);
-			console.log("response", response);
-			
-			const userData = {
-				identifier: identifier.value,
-				password: password.value,
-			};
-			currentUserStore.setCurrentUser(userData);
+
+			const userInfo = response?.data;
+			currentUserStore?.setCurrentUser(userInfo);
+
+			toast.dismiss(toastId);
+			toast.success(response?.data?.message);
+
 			router.push({ name: 'Profile' });
 		} catch (error) {
-			console.error("Error : ", error.response?.data || error.message);
-		}
+			console.error('Error : ', error?.response?.data || error?.message);
 
+			toast.dismiss(toastId);
+			toast.error(error?.response?.data?.message ?? 'خطا در برقراری ارتباط')
+		}
 	};
 
-	// const onSubmit = async () => {
-  // const toastId = toast.info("...در حال بررسی اطلاعات", {
-  //   timeout: false,
-  //   closeOnClick: false,
-  // });
-
-  // try {
-  //   const response = await loginUser(email.value, password.value);
-
-  //   const token = response.data.data.accessToken;
-  //   userInfoStore.setToken(token);
-
-  //   const userInfoResponse = await getUserInfo(token);
-
-  //   userInfoStore.setUserInfo(userInfoResponse.data.data);
-
-  //   toast.dismiss(toastId);
-  //   toast.success(".با موفقیت وارد شدید");
-
-  //   router.push({ name: "Home" });
-  // } catch (error) {
-  //   emailResponseError.value = true;
-  //   passwordResponseError.value = true;
-  //   console.error("Error : ", error.response?.data || error.message);
-
-  //   const errorMessage = error?.response?.data?.data?.message?.fa;
-  //   toast.dismiss(toastId);
-  //   if (errorMessage === "ایمیل یا پسورد معتبر نمیباشد!") {
-  //     toast.error("!ایمیل یا رمز عبور معتبر نیست");
-  //   } else {
-  //     toast.error("!خطا در ورود");
-  //   }
-  // }
-// };
-
-const submitForm = handleSubmit(onSubmit);
+	const submitForm = handleSubmit(onSubmit);
 </script>
 
 <template>
@@ -82,7 +55,7 @@ const submitForm = handleSubmit(onSubmit);
 		<div class="form__inputs">
 			<TheInput
 				label="شماره تلفن یا ایمیل"
-				iconName="user"
+				iconName="id-card"
 				placeholder="شماره تلفن یا ایمیل خود را وارد کنید"
 				v-model="identifier"
 				:error-message="identifierError"
@@ -91,26 +64,24 @@ const submitForm = handleSubmit(onSubmit);
 				label="رمز عبور"
 				iconName="password"
 				type="password"
-				placeholder="رمز عبور"
+				placeholder="رمز عبور خود را وارد کنید"
 				v-model="password"
 				:error-message="passwordError"
 			/>
-		</div>
-		<TheButton type="submit" label="ورود" />
-		<div class="form__texts">
-			<h5 class="form__text">
-				حساب کاربری ندارید ؟
-				<router-link class="form__link" :to="{ name: 'Register' }"
-					>ثبت نام</router-link
-				>
-			</h5>
 			<h5 class="form__text">
 				رمز عبور خود را فراموش کرده اید ؟
 				<router-link class="form__link" :to="{ name: 'RecoveryPassword' }">
-					بازنشانی رمز عبور
+					بازیابی رمز عبور
 				</router-link>
 			</h5>
 		</div>
+		<TheButton type="submit" label="ورود" />
+		<h5 class="form__text">
+			حساب کاربری ندارید ؟
+			<router-link class="form__link" :to="{ name: 'Register' }">
+				ثبت نام
+			</router-link>
+		</h5>
 	</form>
 </template>
 
@@ -128,8 +99,10 @@ const submitForm = handleSubmit(onSubmit);
 		}
 
 		&__text {
+			width: 100%;
 			color: var(--text-900);
 			text-align: center;
+			margin-bottom: space(6);
 		}
 
 		&__link {

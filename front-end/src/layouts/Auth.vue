@@ -22,10 +22,10 @@
 		&__form {
 			width: 30%;
 			background-color: var(--primary-700);
-			box-shadow: space(0) space(0) space(3) var(--text-900);
+			box-shadow: space(0) space(0) space(5) var(--text-500);
 			padding: space(14);
 			border-radius: space(14);
-			@include flexbox(column, center, center, space(10));
+			@include flexbox(column, center, center, space(6));
 
 			@media (max-width: $lg) {
 				width: 40%;

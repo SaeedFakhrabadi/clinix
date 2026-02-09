@@ -24,9 +24,9 @@
 }
 
 @mixin media-sm {
-  @media (max-width: $sm) {
-    @content;
-  }
+	@media (max-width: $sm) {
+		@content;
+	}
 }
 
 // @mixin card-shadow {

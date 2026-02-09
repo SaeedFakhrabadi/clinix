@@ -4,6 +4,7 @@ const REGEXES = {
 	EMAIL: /^[A-Za-z][A-Za-z0-9._%+-]*@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
 	PHONE_NUMBER: /^09\d{9}$/,
 	PASSWORD: /^(?=.*[A-Za-z])[A-Za-z0-9!@#$%^&*()_\-+={};:'",.<>/?|~`]{8,}$/,
+	CODE: /^\d{6}$/,
 };
 
 const REQUIRED = {
@@ -15,6 +16,7 @@ const REQUIRED = {
 	NEW_PASSWORD: 'رمز عبور فعلی الزامی است',
 	CONFIRM_PASSWORD: 'تکرار رمز عبور الزامی است',
 	IDENTIFIER: 'شماره تلفن یا ایمیل الزامی است',
+	CODE: 'کد تایید الزامی است'
 };
 
 const INVALID = {
@@ -22,8 +24,9 @@ const INVALID = {
 	PHONE: 'شماره تلفن معتبر نیست',
 	PASSWORD: 'رمز عبور باید حداقل 8 کاراکتر و شامل حداقل یک حرف انگلیسی باشد',
 	IDENTIFIER: 'شماره تلفن یا ایمیل معتبر نیست',
-	CONFIRM_PASSWORD: 'تکرار رمز عبور فعلی اشتباه است',
-	SAME_PASSWORD: 'رمز عبور قبلی و فعلی یکسان هستند',
+	CONFIRM_PASSWORD: 'تکرار رمز عبور اشتباه است',
+	CODE: 'کد تایید باید 6 رقم باشد',
+	// SAME_PASSWORD: 'رمز عبور قبلی و فعلی یکسان هستند',
 	MAX_20: 'حداکثر 20 کاراکتر مجاز است',
 	MAX_40: 'حداکثر 40 کاراکتر مجاز است',
 };
@@ -48,6 +51,12 @@ export const RegisterSchema = yup.object({
 		.max(20, INVALID.MAX_20)
 		.required(REQUIRED.PASSWORD)
 		.matches(REGEXES.PASSWORD, INVALID.PASSWORD),
+
+	confirmPassword: yup
+		.string()
+		.max(20, INVALID.MAX_20)
+		.required(REQUIRED.CONFIRM_PASSWORD)
+		.oneOf([yup.ref('password')], INVALID.CONFIRM_PASSWORD),
 });
 
 export const loginSchema = yup.object({
@@ -69,23 +78,19 @@ export const loginSchema = yup.object({
 });
 
 export const recoveryPasswordSchema = yup.object({
-	identifier: yup
+	email: yup
 		.string()
 		.trim()
 		.max(40, INVALID.MAX_40)
-		.required(REQUIRED.IDENTIFIER)
-		.test('is-email-or-phone', INVALID.IDENTIFIER, (value) => {
-			if (!value) return false;
-			return REGEXES.EMAIL.test(value) || REGEXES.PHONE_NUMBER.test(value);
-		}),
+		.required(REQUIRED.EMAIL)
+		.matches(REGEXES.EMAIL, INVALID.EMAIL),
 });
 
 export const changePasswordSchema = yup.object({
-	oldPassword: yup
+	verificationCode: yup
 		.string()
-		.max(20, INVALID.MAX_20)
-		.required(REQUIRED.OLD_PASSWORD)
-		.matches(REGEXES.PASSWORD, INVALID.PASSWORD),
+		.required(REQUIRED.CODE)
+		.matches(REGEXES.CODE, INVALID.CODE),
 
 	newPassword: yup
 		.string()
@@ -94,7 +99,7 @@ export const changePasswordSchema = yup.object({
 		.matches(REGEXES.PASSWORD, INVALID.PASSWORD)
 		.notOneOf([yup.ref('oldPassword')], INVALID.SAME_PASSWORD),
 
-	confirmNewPassword: yup
+	confirmPassword: yup
 		.string()
 		.max(20, INVALID.MAX_20)
 		.required(REQUIRED.CONFIRM_PASSWORD)
