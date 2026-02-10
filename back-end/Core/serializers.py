@@ -1,6 +1,5 @@
-from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from django.contrib.auth.password_validation import validate_password
+from rest_framework import serializers
 
 User = get_user_model()
 
@@ -21,6 +20,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             email=validated_data['email'],
             phonenumber=validated_data['phonenumber'],
             password=validated_data['password'],
+            role="PATIENT"
         )
 
 class LoginSerializer(serializers.Serializer):
@@ -37,7 +37,7 @@ class LoginSerializer(serializers.Serializer):
         return attrs
 
 class ForgetPasswordSerializer(serializers.Serializer):
-    email = serializers.EmailField(required=True)
+    identifier = serializers.CharField(required=True)
 
 class ResetPasswordSerializer(serializers.Serializer):
     verificationCode = serializers.IntegerField(required=True)

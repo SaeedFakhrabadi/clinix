@@ -1,5 +1,10 @@
-from django.contrib.auth import authenticate, get_user_model
+import random
+
+import django.contrib.auth
 from rest_framework import viewsets, status
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -19,10 +24,9 @@ from .serializers import (
     UserSerializer,
     MessageSerializer
 )
+from kavenegar import *
 
-import uuid
-
-User = get_user_model()
+User = django.contrib.auth.get_user_model()
 
 def success_response(message, message_en, status_code=status.HTTP_200_OK, extra_data=None):
     data = {
@@ -53,7 +57,7 @@ class AuthViewSet(viewsets.ViewSet):
             try:
                 user = serializer.save()
 
-                refresh = RefreshToken.for_user(user).access_token
+                refresh = RefreshToken.for_user(user)
 
                 return success_response(
                     message="ثبت‌نام با موفقیت انجام شد",
@@ -76,7 +80,7 @@ class AuthViewSet(viewsets.ViewSet):
                     status_code=status.HTTP_400_BAD_REQUEST
                 )
 
-            except Exception as e:
+            except Exception:
                 return error_response(
                     message="خطایی در ثبت‌نام رخ داد",
                     message_en="An error occurred during registration",
@@ -99,7 +103,7 @@ class AuthViewSet(viewsets.ViewSet):
                 extra_data={"errors": serializer.errors}
             )
 
-        user = authenticate(
+        user = django.contrib.auth.authenticate(
             request,
             identifier=serializer.validated_data['identifier'],   # ← use identifier
             password=serializer.validated_data['password']
@@ -142,16 +146,14 @@ class AuthViewSet(viewsets.ViewSet):
             
             return success_response(
                 message="خروج با موفقیت انجام شد",
-                message_en="Logout successful",
-                code="logout_success"
+                message_en="Logout successful"
             )
         
-        except Exception as e:
+        except Exception:
             return error_response(
                 message="خطا در فرآیند خروج",
                 message_en="Logout error",
-                extra_data={"detail_en": str(e)},
-                status_code=status.HTTP_400_BAD_REQUEST
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
     @action(detail=False, methods=['post'])
@@ -164,39 +166,51 @@ class AuthViewSet(viewsets.ViewSet):
                 extra_data={"errors": serializer.errors}
             )
         
-        email = serializer.validated_data['email']
+        identifier = serializer.validated_data['identifier']
         
         try:
-            user = User.objects.get(email=email)
+            if is_email(identifier):
+                user = User.objects.get(email=identifier)
+                send_via = "email"
+            else:
+                user = User.objects.get(phonenumber=identifier)
+                send_via = "sms"
 
-            reset_id = uuid.uuid4()
+            code = random.randint(100000, 999999)
 
             PasswordReset.objects.update_or_create(
                 user=user,
                 defaults={
-                    "reset_id": reset_id,
+                    "verification_code": code,
                     "created_when": timezone.now()
                 }
             )
-            
-            reset_url = f"{settings.FRONTEND_URL}/reset-password/{reset_id}"
-            send_mail(
-                subject='درخواست بازنشانی رمز عبور - Clinixs',
-                message=f'سلام،\n\nبرای تغییر رمز عبور خود روی لینک زیر کلیک کنید:\n{reset_url}\n\nاین لینک ۱۰ دقیقه اعتبار دارد.\n\nبا احترام،\nتیم Clinixs',
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[email],
-                fail_silently=False,
-            )
+
+            if send_via == "email":
+                send_mail(
+                    subject="کد بازنشانی رمز عبور",
+                    message=f"کد بازنشانی شما: {code}\n\nاین کد ۲ دقیقه اعتبار دارد.",
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[user.email],
+                )
+
+            else:
+                api = KavenegarAPI(settings.KAVENEGAR_API_KEY)
+                params = {
+                    'sender': '2000660110', 'receptor': user.phonenumber,
+                    'message': f"کد بازنشانی رمز عبور شما: {code}"
+                }
+                response = api.sms_send(params)
+                print(response)
 
             return success_response(
-                message="ایمیل بازنشانی رمز عبور ارسال شد",
-                message_en="Password reset email sent",
-                code="reset_email_sent"
+                message="کد بازنشانی ارسال شد",
+                message_en="Verification code sent",
             )
             
         except User.DoesNotExist:
             return error_response(
-                message_="کاربری با این ایمیل یافت نشد",
+                message="کاربر یافت نشد",
                 message_en="User with this email does not exist",
                 status_code=status.HTTP_404_NOT_FOUND
             )
@@ -234,7 +248,6 @@ class AuthViewSet(viewsets.ViewSet):
             return success_response(
                 message="رمز عبور با موفقیت تغییر یافت",
                 message_en="Password reset successfully",
-                code="password_reset_success"
             )
             
         except PasswordReset.DoesNotExist:
@@ -253,3 +266,11 @@ class HomeAPIView(APIView):
             message_en=f"Welcome {request.user.username}",
             extra_data={"user": UserSerializer(request.user).data}
         )
+
+
+def is_email(value):
+    try:
+        validate_email(value)
+        return True
+    except ValidationError:
+        return False
