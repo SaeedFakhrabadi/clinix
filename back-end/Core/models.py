@@ -100,13 +100,13 @@ class PasswordReset(models.Model):
         on_delete=models.CASCADE,
         related_name='password_resets'
     )
-    verification_code = models.PositiveIntegerField()
+    verificationCode = models.PositiveIntegerField()
     created_when = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['-created_when']
         indexes = [
-            models.Index(fields=['user', 'verification_code']),
+            models.Index(fields=['user', 'verificationCode']),
         ]
 
     def __str__(self):

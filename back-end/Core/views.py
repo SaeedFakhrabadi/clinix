@@ -57,15 +57,15 @@ class AuthViewSet(viewsets.ViewSet):
             try:
                 user = serializer.save()
 
-                refresh = RefreshToken.for_user(user)
+                # refresh = RefreshToken.for_user(user)
 
                 return success_response(
                     message="ثبت‌نام با موفقیت انجام شد",
                     message_en="User registered successfully",
                     status_code=status.HTTP_201_CREATED,
-                    extra_data={
-                        "access_token": str(refresh.access_token),
-                    }
+                    # extra_data={
+                    #     "access_token": str(refresh.access_token),
+                    # }
                 )
             
             except IntegrityError as e:
@@ -110,13 +110,13 @@ class AuthViewSet(viewsets.ViewSet):
         )
 
         if user:
-            refresh = RefreshToken.for_user(user)
+            # refresh = RefreshToken.for_user(user)
             return success_response(
                 message="ورود با موفقیت انجام شد",
                 message_en="Login successful",
-                extra_data={
-                    "access_token": str(refresh.access_token),
-                }
+                # extra_data={
+                #     "access_token": str(refresh.access_token),
+                # }
             )
 
         return error_response(
@@ -129,32 +129,32 @@ class AuthViewSet(viewsets.ViewSet):
             }
         )
     
-    @action(detail=False, methods=['post'], permission_classes=[IsAuthenticated])
-    def logout(self, request):
-        refresh_token = request.data.get("refresh")
+    # @action(detail=False, methods=['post'], permission_classes=[IsAuthenticated])
+    # def logout(self, request):
+    #     access_token = request.data.get("access_token")
         
-        if not refresh_token:
-            return error_response(
-                message="توکن تازه‌سازی ارسال نشده است",
-                message_en="Refresh token is required",
-                status_code=status.HTTP_400_BAD_REQUEST
-            )
+    #     if not access_token:
+    #         return error_response(
+    #             message="توکن تازه‌سازی ارسال نشده است",
+    #             message_en="Refresh token is required",
+    #             status_code=status.HTTP_400_BAD_REQUEST
+    #         )
 
-        try:
-            token = RefreshToken(refresh_token)
-            token.blacklist()
+    #     try:
+    #         token = RefreshToken(access_token)
+    #         token.blacklist()
             
-            return success_response(
-                message="خروج با موفقیت انجام شد",
-                message_en="Logout successful"
-            )
+    #         return success_response(
+    #             message="خروج با موفقیت انجام شد",
+    #             message_en="Logout successful"
+    #         )
         
-        except Exception:
-            return error_response(
-                message="خطا در فرآیند خروج",
-                message_en="Logout error",
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
+    #     except Exception:
+    #         return error_response(
+    #             message="خطا در فرآیند خروج",
+    #             message_en="Logout error",
+    #             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
+    #         )
 
     @action(detail=False, methods=['post'])
     def forgot_password(self, request):
@@ -181,7 +181,7 @@ class AuthViewSet(viewsets.ViewSet):
             PasswordReset.objects.update_or_create(
                 user=user,
                 defaults={
-                    "verification_code": code,
+                    "verificationCode": code,
                     "created_when": timezone.now()
                 }
             )

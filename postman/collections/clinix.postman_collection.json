@@ -16,7 +16,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"username\": \"test1\",\r\n    \"email\": \"test1@example.com\",\r\n    \"phonenumber\": \"03129971456\",\r\n    \"password\": \"1234\"\r\n  }",
+          "raw": "{\r\n    \"username\": \"erfan2\",\r\n    \"email\": \"erfanmahmudi1384@gmail.com\",\r\n    \"phonenumber\": \"09150643159\",\r\n    \"password\": \"1234\"\r\n  }",
           "options": {
             "raw": {
               "language": "json"
@@ -44,14 +44,14 @@
       },
       "response": [
         {
-          "id": "78db0b5a-0c19-4116-87aa-b93de862793a",
-          "name": "register_easy_pass",
+          "id": "d6e2f570-8748-4607-8ce8-e094772e66c1",
+          "name": "register_final",
           "originalRequest": {
             "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"username\": \"test1\",\r\n    \"email\": \"test1@example.com\",\r\n    \"phonenumber\": \"03129971456\",\r\n    \"password\": \"1234\"\r\n  }",
+              "raw": "{\r\n    \"username\": \"erfan2\",\r\n    \"email\": \"erfanmahmudi138@gmail.com\",\r\n    \"phonenumber\": \"09150643158\",\r\n    \"password\": \"1234\"\r\n  }",
               "options": {
                 "raw": {
                   "language": "json"
@@ -83,7 +83,7 @@
           "header": [
             {
               "key": "Date",
-              "value": "Mon, 09 Feb 2026 19:46:25 GMT"
+              "value": "Wed, 11 Feb 2026 07:36:34 GMT"
             },
             {
               "key": "Server",
@@ -107,7 +107,7 @@
             },
             {
               "key": "Content-Length",
-              "value": "736"
+              "value": "107"
             },
             {
               "key": "X-Content-Type-Options",
@@ -123,8 +123,8 @@
             }
           ],
           "cookie": [],
-          "responseTime": "2026-02-09T19:46:30.011Z",
-          "body": "{\n    \"message\": \"ثبت\\u200cنام با موفقیت انجام شد\",\n    \"message_en\": \"User registered successfully\",\n    \"code\": \"registration_success\",\n    \"user\": {\n        \"id\": 18,\n        \"username\": \"test1\",\n        \"email\": \"test1@example.com\",\n        \"phonenumber\": \"03129971456\",\n        \"role\": \"PATIENT\"\n    },\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc3MDc1Mjc4NSwiaWF0IjoxNzcwNjY2Mzg1LCJqdGkiOiJiNTE0NzFlOWI3NTE0MjhiODBiYjQ0MWE0MzMzYzFmMiIsInVzZXJfaWQiOiIxOCJ9.o4gTlk7oV4jbL0AMc-FCRCgxCBctlc1osyMFpYDiv5w\",\n    \"access\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzcwNjY5OTg1LCJpYXQiOjE3NzA2NjYzODUsImp0aSI6IjMzNTQyNjU4YjRkNTQ2MmU4MjBmMDAyZjNiMWE2N2NiIiwidXNlcl9pZCI6IjE4In0.58qawit49R953gxDlhJisRy7giLlIB6F_bmt61jLNYo\"\n}"
+          "responseTime": "2026-02-11T07:36:58.053Z",
+          "body": "{\n    \"message\": \"ثبت\\u200cنام با موفقیت انجام شد\",\n    \"message_en\": \"User registered successfully\"\n}"
         }
       ]
     },
@@ -144,7 +144,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"identifier\": \"testpa23@example.com\",\r\n    \"password\": \"StrogPass43211498!\"\r\n}"
+          "raw": "{\r\n    \"identifier\": \"09150643159\",\r\n    \"password\": \"1234\"\r\n}"
         },
         "url": {
           "raw": "http://127.0.0.1:8000/api/v1/auth/login/",
@@ -167,26 +167,19 @@
       },
       "response": [
         {
-          "id": "97749fed-2e78-4678-8431-0cc92a836694",
-          "name": "login_ex",
+          "id": "97285815-ffe7-473e-bc37-10423489fdcf",
+          "name": "login_final",
           "originalRequest": {
             "method": "POST",
             "header": [
               {
                 "key": "Content-Type",
-                "name": "Content-Type",
-                "value": "application/json",
-                "type": "text"
+                "value": "application/json"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"identifier\": \"testpa23@example.com\",\r\n    \"password\": \"StrogPass43211498!\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
+              "raw": "{\r\n    \"identifier\": \"09150643159\",\r\n    \"password\": \"1234\"\r\n}"
             },
             "url": {
               "raw": "http://127.0.0.1:8000/api/v1/auth/login/",
@@ -213,7 +206,7 @@
           "header": [
             {
               "key": "Date",
-              "value": "Fri, 06 Feb 2026 20:23:28 GMT"
+              "value": "Wed, 11 Feb 2026 07:37:38 GMT"
             },
             {
               "key": "Server",
@@ -237,7 +230,7 @@
             },
             {
               "key": "Content-Length",
-              "value": "715"
+              "value": "88"
             },
             {
               "key": "X-Content-Type-Options",
@@ -253,8 +246,8 @@
             }
           ],
           "cookie": [],
-          "responseTime": "2026-02-06T20:29:09.599Z",
-          "body": "{\n    \"message\": \"ورود با موفقیت انجام شد\",\n    \"message_en\": \"Login successful\",\n    \"code\": \"login_success\",\n    \"user\": {\n        \"id\": 16,\n        \"username\": \"test123\",\n        \"email\": \"testpa23@example.com\",\n        \"phonenumber\": \"03129981856\",\n        \"role\": \"PATIENT\"\n    },\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc3MDQ5NTgwOCwiaWF0IjoxNzcwNDA5NDA4LCJqdGkiOiI1OTg0OTU0NGI2Y2U0ZjI4YjdkMDZkYWJiNWMyZjRhMyIsInVzZXJfaWQiOiIxNiJ9.3XU4KwD0N0RGW3lVYv-oBOYXXoNCvALFc1MEYjp7E48\",\n    \"access\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzcwNDEzMDA4LCJpYXQiOjE3NzA0MDk0MDgsImp0aSI6IjA0ZjhmNGJjODJkMzQ5MjA5OTE2N2IxZDZjMTRmM2M4IiwidXNlcl9pZCI6IjE2In0.L60BjNgoPJph-OjCHfzD2fb9c0xMLRHAOlW9QWGgX5k\"\n}"
+          "responseTime": "2026-02-11T07:37:40.406Z",
+          "body": "{\n    \"message\": \"ورود با موفقیت انجام شد\",\n    \"message_en\": \"Login successful\"\n}"
         }
       ]
     },
@@ -271,7 +264,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n  \"email\": \"testpa23@example.com\"\r\n}\r\n"
+          "raw": "{\r\n  \"identifier\": \"09150643158\"\r\n}\r\n"
         },
         "url": {
           "raw": "http://127.0.0.1:8000/api/v1/auth/forgot_password/",
@@ -294,26 +287,19 @@
       },
       "response": [
         {
-          "id": "9bf041e7-041c-4801-a9f4-48101f35210d",
-          "name": "forgot_password_ex",
+          "id": "1731c0d4-4bdd-46f0-b288-4a2ff89ca152",
+          "name": "forgot_password_final",
           "originalRequest": {
             "method": "POST",
             "header": [
               {
                 "key": "Content-Type",
-                "name": "Content-Type",
-                "value": "application/json",
-                "type": "text"
+                "value": "application/json"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"email\": \"testpa23@example.com\"\r\n}\r\n",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
+              "raw": "{\r\n  \"identifier\": \"test1@example.com\"\r\n}\r\n"
             },
             "url": {
               "raw": "http://127.0.0.1:8000/api/v1/auth/forgot_password/",
@@ -340,7 +326,7 @@
           "header": [
             {
               "key": "Date",
-              "value": "Fri, 06 Feb 2026 20:28:25 GMT"
+              "value": "Wed, 11 Feb 2026 07:07:56 GMT"
             },
             {
               "key": "Server",
@@ -364,7 +350,7 @@
             },
             {
               "key": "Content-Length",
-              "value": "140"
+              "value": "89"
             },
             {
               "key": "X-Content-Type-Options",
@@ -380,8 +366,8 @@
             }
           ],
           "cookie": [],
-          "responseTime": "2026-02-06T20:28:35.100Z",
-          "body": "{\n    \"message\": \"ایمیل بازنشانی رمز عبور ارسال شد\",\n    \"message_en\": \"Password reset email sent\",\n    \"code\": \"reset_email_sent\"\n}"
+          "responseTime": "2026-02-11T07:08:04.670Z",
+          "body": "{\n    \"message\": \"کد بازنشانی ارسال شد\",\n    \"message_en\": \"Verification code sent\"\n}"
         }
       ]
     },
@@ -398,7 +384,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"username\": \"test123\",\r\n    \"password\": \"StrogPass43211498!\",\r\n    \"password2\": \"StrogPass43211498!\",\r\n    \"reset_id\": \"c0e86284-6f86-43ad-a2c0-8550195b1568\"\r\n  }"
+          "raw": "{\r\n    \"verificationCode\": \"617723\",\r\n    \"newPassword\": \"StrogPass\"\r\n  }"
         },
         "url": {
           "raw": "http://127.0.0.1:8000/api/v1/auth/reset_password/",
@@ -422,7 +408,7 @@
       "response": [
         {
           "id": "c3319f75-a144-4389-9a28-cd90912c9e95",
-          "name": "reset_password_ex",
+          "name": "reset_password_final",
           "originalRequest": {
             "method": "POST",
             "header": [
@@ -435,7 +421,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"username\": \"test123\",\r\n    \"password\": \"StrogPass43211498!\",\r\n    \"password2\": \"StrogPass43211498!\",\r\n    \"reset_id\": \"24becbb5-ae27-4b34-a370-2e776366d5d6\"\r\n  }",
+              "raw": "{\r\n    \"verificationCode\": \"617723\",\r\n    \"newPassword\": \"StrogPass\"\r\n  }",
               "options": {
                 "raw": {
                   "language": "json"
@@ -511,207 +497,6 @@
           "body": "{\n    \"message\": \"رمز عبور با موفقیت تغییر یافت\",\n    \"message_en\": \"Password reset successfully\",\n    \"code\": \"password_reset_success\"\n}"
         }
       ]
-    },
-    {
-      "name": "logout",
-      "id": "ce842271-665c-463c-a44b-68facfe6d39e",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer <YOUR_ACCESS_TOKEN>",
-            "type": "default"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc3MDQ5NTgwOCwiaWF0IjoxNzcwNDA5NDA4LCJqdGkiOiI1OTg0OTU0NGI2Y2U0ZjI4YjdkMDZkYWJiNWMyZjRhMyIsInVzZXJfaWQiOiIxNiJ9.3XU4KwD0N0RGW3lVYv-oBOYXXoNCvALFc1MEYjp7E48\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "http://127.0.0.1:8000/api/v1/auth/logout/",
-          "protocol": "http",
-          "host": [
-            "127",
-            "0",
-            "0",
-            "1"
-          ],
-          "port": "8000",
-          "path": [
-            "api",
-            "v1",
-            "auth",
-            "logout",
-            ""
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "refresh-token",
-      "id": "80d1a03a-27b4-4aae-b2b2-4656cf367fbb",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzcwNDEzNzExLCJpYXQiOjE3NzA0MTAxMTEsImp0aSI6ImZlYTZlZmVlMjVmZDRkYWM5MjdjNzM2OTIwMDY2OGY2IiwidXNlcl9pZCI6IjE2In0.udbTBw9Y6bNA_4qvhCsg_mr7Qf9XTyPG-6ZYDACiY-E\"\r\n}"
-        },
-        "url": {
-          "raw": "http://127.0.0.1:8000/api/v1/auth/token/refresh/",
-          "protocol": "http",
-          "host": [
-            "127",
-            "0",
-            "0",
-            "1"
-          ],
-          "port": "8000",
-          "path": [
-            "api",
-            "v1",
-            "auth",
-            "token",
-            "refresh",
-            ""
-          ]
-        }
-      },
-      "response": [
-        {
-          "id": "e8ece250-82e4-474d-9671-396ae7f88bf9",
-          "name": "refresh-token_ex",
-          "originalRequest": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc3MDQ5NjUxMSwiaWF0IjoxNzcwNDEwMTExLCJqdGkiOiJkZDMzM2Y2Y2RmZDc0YjVmYmFkYzNhNTIxODIxNTBkYSIsInVzZXJfaWQiOiIxNiJ9.0GdAVudhV7N_xurZZohZgR8Up3BdbnggmWiB442WoEM\"\r\n}"
-            },
-            "url": {
-              "raw": "http://127.0.0.1:8000/api/v1/auth/token/refresh/",
-              "protocol": "http",
-              "host": [
-                "127",
-                "0",
-                "0",
-                "1"
-              ],
-              "port": "8000",
-              "path": [
-                "api",
-                "v1",
-                "auth",
-                "token",
-                "refresh",
-                ""
-              ]
-            }
-          },
-          "status": "OK",
-          "code": 200,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Date",
-              "value": "Fri, 06 Feb 2026 20:36:10 GMT"
-            },
-            {
-              "key": "Server",
-              "value": "WSGIServer/0.2 CPython/3.13.3"
-            },
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            },
-            {
-              "key": "Vary",
-              "value": "Accept, origin"
-            },
-            {
-              "key": "Allow",
-              "value": "POST, OPTIONS"
-            },
-            {
-              "key": "X-Frame-Options",
-              "value": "DENY"
-            },
-            {
-              "key": "Content-Length",
-              "value": "491"
-            },
-            {
-              "key": "X-Content-Type-Options",
-              "value": "nosniff"
-            },
-            {
-              "key": "Referrer-Policy",
-              "value": "same-origin"
-            },
-            {
-              "key": "Cross-Origin-Opener-Policy",
-              "value": "same-origin"
-            }
-          ],
-          "cookie": [],
-          "responseTime": "2026-02-06T20:37:18.948Z",
-          "body": "{\n    \"access\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzcwNDEzNzcwLCJpYXQiOjE3NzA0MTAxNzAsImp0aSI6IjA5OGFiNDNmNTg3ZDQwY2JhOTVhNzdkODA0MmFhMmZiIiwidXNlcl9pZCI6IjE2In0.mEUhOAp2pg3vJCNE-Fn2NachqstJhpsGWXKKqoJiuko\",\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc3MDQ5NjU3MCwiaWF0IjoxNzcwNDEwMTcwLCJqdGkiOiI2MTgyYzkzNmQ3ODI0Yjc3YTY4ZTk3ZDQ1MTIxODllNyIsInVzZXJfaWQiOiIxNiJ9.VGA2nhX513ZzBwA_Fki4uTWpSd3UOX4B2sLGgUeepYc\"\n}"
-        }
-      ]
-    },
-    {
-      "name": "token_verify",
-      "id": "298ed7b4-5289-4547-b6c8-ecca58ea2860",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc3MDQ5Njc1NSwiaWF0IjoxNzcwNDEwMzU1LCJqdGkiOiI4OTRiZTc1YTZmNjM0YjQzODE4NTM2NDQxMGE2YTk2NCIsInVzZXJfaWQiOiIxNiJ9.T_Tf_-kT-AdX5MQKCh-KwJ9xJNFsKffNL03ErxIfOu8\"\r\n}"
-        },
-        "url": {
-          "raw": "http://127.0.0.1:8000/api/v1/auth/token/token_verify/",
-          "protocol": "http",
-          "host": [
-            "127",
-            "0",
-            "0",
-            "1"
-          ],
-          "port": "8000",
-          "path": [
-            "api",
-            "v1",
-            "auth",
-            "token",
-            "token_verify",
-            ""
-          ]
-        }
-      },
-      "response": []
     },
     {
       "name": "admin",
