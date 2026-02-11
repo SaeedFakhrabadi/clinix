@@ -63,6 +63,9 @@ class AuthViewSet(viewsets.ViewSet):
                     message="ثبت‌نام با موفقیت انجام شد",
                     message_en="User registered successfully",
                     status_code=status.HTTP_201_CREATED,
+                    extra_data={
+                        'user': UserSerializer(user).data,
+                    }
                     # extra_data={
                     #     "access_token": str(refresh.access_token),
                     # }
@@ -114,9 +117,9 @@ class AuthViewSet(viewsets.ViewSet):
             return success_response(
                 message="ورود با موفقیت انجام شد",
                 message_en="Login successful",
-                # extra_data={
-                #     "access_token": str(refresh.access_token),
-                # }
+                extra_data={
+                    'user': UserSerializer(user).data,
+                }
             )
 
         return error_response(
@@ -236,7 +239,7 @@ class AuthViewSet(viewsets.ViewSet):
             if timezone.now() > expiration_time:
                 password_reset.delete()
                 return error_response(
-                    message="لینک بازنشانی منقضی شده است",
+                    message="کد تایید منقضی شده است",
                     message_en="Reset link has expired",
                 )
             
@@ -248,6 +251,9 @@ class AuthViewSet(viewsets.ViewSet):
             return success_response(
                 message="رمز عبور با موفقیت تغییر یافت",
                 message_en="Password reset successfully",
+                extra_data={
+                    'user': UserSerializer(user).data,
+                }
             )
             
         except PasswordReset.DoesNotExist:
