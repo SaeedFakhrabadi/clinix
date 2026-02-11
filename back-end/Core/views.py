@@ -211,7 +211,7 @@ class AuthViewSet(viewsets.ViewSet):
         
         try:
             password_reset = PasswordReset.objects.get(verificationCode=verificationCode)
-            expiration_time = password_reset.created_when + timezone.timedelta(minutes=2)
+            expiration_time = password_reset.created_when + timezone.timedelta(minutes=5)
             
             if timezone.now() > expiration_time:
                 password_reset.delete()
