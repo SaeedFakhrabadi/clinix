@@ -5,7 +5,7 @@
 	import { useCurrentUserStore } from '@/stores/currentUser';
 
 	const props = defineProps({
-		items: { type: Array },
+		items: { type: Array, required: true },
 	});
 
 	const router = useRouter();
@@ -30,29 +30,35 @@
 				</span>
 				<span style="color: var(--text-100)">|</span>
 				<span style="color: var(--title-300)"
-					>{{ currentUserStore?.currentUser?.role?.text }}
+					>{{ currentUserStore?.currentUser?.role?.label }}
 				</span>
 			</div>
 		</header>
-		<ul class="sidebar__menu menu">
-			<li v-for="(item, index) in props.items" :key="index" class="menu__item">
-				<hr class="menu__divider" />
-				<router-link
-					class="menu__tab"
-					:class="{ 'menu__tab--active': isActiveTab(item.name) }"
-					:to="{ name: item.name }"
+		<div class="sidebar__content">
+			<ul class="sidebar__menu menu">
+				<li
+					v-for="(item, index) in props.items"
+					:key="index"
+					class="menu__item"
 				>
-					{{ item.label }}
-				</router-link>
-			</li>
+					<router-link
+						class="menu__tab"
+						:class="{ 'menu__tab--active': isActiveTab(item?.name) }"
+						:to="{ name: item?.name }"
+					>
+						{{ item?.label }}
+					</router-link>
+					<hr class="menu__divider" />
+				</li>
+			</ul>
 			<TheButton
+				class="sidebar__exit"
 				label="خروج"
 				type="cancel"
-				labelColor="danger-100"
 				iconName="logout"
 				@click="logout"
 			/>
-		</ul>
+		</div>
 	</aside>
 </template>
 
@@ -94,11 +100,16 @@
 			}
 		}
 
-		.menu {
+		&__content {
 			width: 90%;
-			height: space(200);
-			overflow: auto;
-			@include flexbox(column, start, center, space(0), nowrap);
+			flex: 1;
+			padding-bottom: space(10);
+			@include flexbox(column, space-between, start, space(0));
+		}
+
+		.menu {
+			width: 100%;
+			@include flexbox(column, start, center, space(0));
 
 			&__item {
 				width: 100%;
@@ -122,12 +133,22 @@
 				@include flexbox(row, start, center, space(0));
 
 				&:hover {
-					background-color: var(--primary-600);
+					background-color: var(--primary-700);
 				}
 
 				&--active {
 					border-right: space(5) solid var(--title-100);
 				}
+			}
+		}
+
+		&__exit {
+			border: space(1) solid var(--red-100);
+			color: var(--red-100);
+			height: space(25);
+
+			&:hover {
+				background-color: var(--red-700);
 			}
 		}
 	}

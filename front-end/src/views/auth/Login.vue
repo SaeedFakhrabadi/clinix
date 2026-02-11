@@ -34,15 +34,15 @@
 			const userInfo = response?.data;
 			currentUserStore?.setCurrentUser(userInfo);
 
+			router.push({ name: 'Profile' });
+
 			toast.dismiss(toastId);
 			toast.success(response?.data?.message);
-
-			router.push({ name: 'Profile' });
 		} catch (error) {
 			console.error('Error : ', error?.response?.data || error?.message);
 
 			toast.dismiss(toastId);
-			toast.error(error?.response?.data?.message ?? 'خطا در برقراری ارتباط')
+			toast.error(error?.response?.data?.message ?? 'خطا در برقراری ارتباط');
 		}
 	};
 
@@ -68,20 +68,22 @@
 				v-model="password"
 				:error-message="passwordError"
 			/>
-			<h5 class="form__text">
-				رمز عبور خود را فراموش کرده اید ؟
-				<router-link class="form__link" :to="{ name: 'RecoveryPassword' }">
-					بازیابی رمز عبور
-				</router-link>
-			</h5>
+			<div class="form__texts">
+				<h5 class="form__text">
+					رمز عبور خود را فراموش کرده اید ؟
+					<router-link class="form__link" :to="{ name: 'RecoveryPassword' }">
+						بازیابی رمز عبور
+					</router-link>
+				</h5>
+				<h5 class="form__text">
+					حساب کاربری ندارید ؟
+					<router-link class="form__link" :to="{ name: 'Register' }">
+						ثبت نام
+					</router-link>
+				</h5>
+			</div>
 		</div>
 		<TheButton type="submit" label="ورود" />
-		<h5 class="form__text">
-			حساب کاربری ندارید ؟
-			<router-link class="form__link" :to="{ name: 'Register' }">
-				ثبت نام
-			</router-link>
-		</h5>
 	</form>
 </template>
 
@@ -101,8 +103,7 @@
 		&__text {
 			width: 100%;
 			color: var(--text-900);
-			text-align: center;
-			margin-bottom: space(6);
+			text-align: right;
 		}
 
 		&__link {

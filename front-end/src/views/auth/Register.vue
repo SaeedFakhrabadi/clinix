@@ -46,10 +46,10 @@
 			const userInfo = response?.data;
 			currentUserStore?.setCurrentUser(userInfo);
 
+			router.push({ name: 'Profile' });
+
 			toast.dismiss(toastId);
 			toast.success(response?.data?.message);
-
-			router.push({ name: 'Profile' });
 		} catch (error) {
 			console.error('Error : ', error?.response?.data || error?.message);
 
@@ -103,6 +103,12 @@
 				v-model="confirmPassword"
 				:error-message="confirmPasswordError"
 			/>
+			<h5 class="form__text">
+				حساب کاربری دارید ؟
+				<router-link class="form__link" :to="{ name: 'Login' }">
+					ورود
+				</router-link>
+			</h5>
 		</div>
 		<TheButton type="submit" label="ثبت نام" />
 	</form>
@@ -118,6 +124,17 @@
 
 		&__inputs {
 			width: 100%;
+		}
+
+		&__text {
+			width: 100%;
+			color: var(--text-900);
+			text-align: right;
+		}
+
+		&__link {
+			color: var(--text-500);
+			text-decoration: underline;
 		}
 	}
 </style>

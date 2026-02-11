@@ -25,15 +25,16 @@
 
 		try {
 			const response = await recoveryPassword(email.value);
-			toast.dismiss(toastId);
-			toast.success(response?.data?.message);
 
 			router.push({ name: 'ChangePassword' });
+
+			toast.dismiss(toastId);
+			toast.success(response?.data?.message);
 		} catch (error) {
 			console.error('Error : ', error?.response?.data || error?.message);
 
 			toast.dismiss(toastId);
-			toast.error(error?.response?.data?.message ?? 'خطا در برقراری ارتباط')
+			toast.error(error?.response?.data?.message ?? 'خطا در برقراری ارتباط');
 		}
 	};
 
@@ -44,8 +45,7 @@
 	<form class="form" @submit.prevent="submitForm">
 		<h3 class="form__title">بازیابی رمز عبور</h3>
 		<h5 class="form__text">
-			ایمیل خود را وارد کنید تا کد تایید برای شما
-			ارسال شود.
+			ایمیل خود را وارد کنید تا کد تایید برای شما ارسال شود.
 		</h5>
 		<TheInput
 			label="ایمیل"
@@ -67,6 +67,8 @@
 		}
 
 		&__text {
+			width: 100%;
+			text-align: right;
 			color: var(--text-900);
 		}
 	}

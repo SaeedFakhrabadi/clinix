@@ -10,9 +10,14 @@ export default {
 			component: () => import('@/views/dashboard/Profile.vue'),
 		},
 		{
-			path: 'history',
-			name: 'History',
-			component: () => import('@/views/dashboard/History.vue'),
+			path: 'reservations',
+			name: 'Reservations',
+			component: () => import('@/views/dashboard/Reservations.vue'),
+		},
+		{
+			path: 'transactions',
+			name: 'Transactions',
+			component: () => import('@/views/dashboard/Transactions.vue'),
 		},
 	],
 };

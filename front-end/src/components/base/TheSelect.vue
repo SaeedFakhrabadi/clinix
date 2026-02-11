@@ -21,7 +21,7 @@
 	const mappedOptions = () => {
 		return props.options.map((opt) => ({
 			value: opt.value,
-			text: opt.text,
+			label: opt.label,
 		}));
 	};
 
@@ -35,9 +35,9 @@
 	const handleBlur = () => emit('blur', selectedValue.value);
 	const handleFocus = () => emit('focus', selectedValue.value);
 
-  onMounted(()=>{
-    selectedValue.value = firstOptionValue.value;
-  })
+	onMounted(() => {
+		selectedValue.value = firstOptionValue.value;
+	});
 </script>
 
 <template>
@@ -67,7 +67,7 @@
 						:key="index"
 						:value="opt.value"
 					>
-						{{ opt.text }}
+						{{ opt.label }}
 					</option>
 				</select>
 			</div>

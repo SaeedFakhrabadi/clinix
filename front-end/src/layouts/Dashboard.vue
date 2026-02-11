@@ -1,12 +1,26 @@
 <script setup>
-	const sidebarItems = [
-		{ label: 'اطلاعات شخصی', name: 'Profile' },
-		{ label: 'تاریخچه نوبت ها', name: 'History' },
-		{ label: 'لیست پزشکان', name: 'DoctorsList' },
-		{ label: 'اعلان ها و پیام ها', name: 'Home' },
-		{ label: 'امور مالی', name: 'Home' },
-		{ label: 'ارتباط با مدیریت سیستم', name: 'Home' },
-	];
+	import { computed } from 'vue';
+	import { useCurrentUserStore } from '@/stores/currentUser';
+
+	const currentUserStore = useCurrentUserStore();
+
+	const userRole = computed(() => currentUserStore?.currentUser?.role?.value);
+	const sidebarItems = computed(() => {
+		if (userRole.value === 'PATIENT') {
+			return [
+				{ label: 'اطلاعات شخصی', name: 'Profile' },
+				{ label: 'نوبت ها', name: 'Reservations' },
+				{ label: 'تاریخچه تراکنش ها', name: 'Transactions' },
+				{ label: 'ارتباط با مدیریت سیستم', name: 'Home' },
+			];
+		} else if (userRole.value === 'DOCTOR') {
+			return [
+				{ label: 'اطلاعات شخصی', name: 'Profile' },
+				{ label: 'دکترم', name: 'Reservations' },
+				{ label: 'دکتر نیستم', name: 'Transactions' },
+			];
+		}
+	});
 </script>
 
 <template>
