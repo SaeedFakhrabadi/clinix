@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
+from .models import DoctorProfile, Comment, Reservation
 
 User = get_user_model()
 
@@ -57,21 +58,60 @@ class UserSerializer(serializers.ModelSerializer):
             'email',
             'phonenumber',
         )
-        read_only_fields = ('id', 'role')
+        read_only_fields = ('id',)
 
-class DoctorInfoSerializer(serializers.ModelSerializer):
+class DoctorListSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(source='user.username')
+
     class Meta:
-        model = User
-        fields = (
+        model = DoctorProfile
+        fields = [
             'id',
-            'username',
-            'specialty',
-            'clinic_name',
-            'price_per_visit',
-        )
+            'name',
+            'field',
+            'location',
+            'score',
+            'price',
+        ]
 
-class MessageSerializer(serializers.Serializer):
-    message = serializers.CharField()
-    message_en = serializers.CharField()
-    code = serializers.CharField(required=False, allow_blank=True)
+class CommentSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='patient.username')
 
+    class Meta:
+        model = Comment
+        fields = ['score', 'username', 'comment']
+
+class DoctorDetailSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(source='user.username')
+    comments = serializers.SerializerMethodField()
+
+    class Meta:
+        model = DoctorProfile
+        fields = [
+            'id',
+            'name',
+            'field',
+            'location',
+            'score',
+            'price',
+            'experience',
+            'start_working_hour',
+            'end_working_hour',
+            'comments',
+        ]
+
+    def get_comments(self, obj):
+        comments = Comment.objects.filter(doctor=obj.user)
+        return CommentSerializer(comments, many=True).data
+
+class ReservationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reservation
+        fields = [
+            'id',
+            'doctor',
+            'patient',
+            'start_reservation_hour',
+            'end_reservation_hour'
+        ]
+        read_only_fields = ['patient']

@@ -5,8 +5,10 @@ from django.contrib.auth.models import (
     PermissionsMixin,
 )
 from django.conf import settings
-import uuid
+from django.db.models import Q
 from django.utils import timezone
+from django.db.models import Avg
+from django.core.exceptions import ValidationError
 
 class UserRoles(models.TextChoices):
     PATIENT = "PATIENT", "Patient"
@@ -49,7 +51,7 @@ class UserManager(BaseUserManager):
         return self.create_user(username, email, phonenumber, password, **extra_fields)
     
 class User(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField(max_length=150, unique=True)
+    username = models.CharField(max_length=150)
     email = models.EmailField(unique=True)
     phonenumber = models.CharField(max_length=20, unique=True)
 
@@ -69,31 +71,139 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.username
 
-class WorkingHour(models.Model):
-    doctor = models.ForeignKey(
+class DoctorProfile(models.Model):
+    user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         limit_choices_to={'role': UserRoles.DOCTOR},
-        related_name='working_hours'
+        related_name='doctor_profile'
     )
-    day_of_week = models.IntegerField(
-        choices=[(i, day) for i, day in enumerate(
-            ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-        )]
-    )
-    start_time  = models.TimeField()
-    end_time    = models.TimeField()
-    is_available = models.BooleanField(default=True)
 
-class DoctorService(models.Model):
+    field = models.CharField(max_length=150)
+    location = models.CharField(max_length=255)
+    experience = models.PositiveIntegerField(help_text="Years of experience")
+    price = models.PositiveIntegerField()
+    score = models.FloatField(default=0)
+
+    start_working_hour = models.TimeField()
+    end_working_hour = models.TimeField()
+
+    def __str__(self):
+        return f"Dr. {self.user.username}"
+
+class Reservation(models.Model):
+
     doctor = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
+        related_name='doctor_reservations',
         limit_choices_to={'role': UserRoles.DOCTOR}
     )
-    name = models.CharField(max_length=150)           # e.g. "Check-up", "Surgery consult"
-    price = models.PositiveIntegerField()
-    
+
+    patient = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='patient_reservations',
+        limit_choices_to={'role': UserRoles.PATIENT}
+    )
+
+    start_reservation_hour = models.DateTimeField()
+    end_reservation_hour = models.DateTimeField()
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def clean(self):
+
+        # 1️⃣ start باید قبل از end باشد
+        if self.start_reservation_hour >= self.end_reservation_hour:
+            raise ValidationError("Start time must be before end time.")
+
+        # 2️⃣ زمان در گذشته نباشد
+        if self.start_reservation_hour < timezone.now():
+            raise ValidationError("Reservation time cannot be in the past.")
+
+        # 3️⃣ داخل ساعات کاری دکتر باشد
+        doctor_profile = self.doctor.doctor_profile
+
+        start_time = self.start_reservation_hour.time()
+        end_time = self.end_reservation_hour.time()
+
+        if not (
+            doctor_profile.start_working_hour <= start_time and
+            end_time <= doctor_profile.end_working_hour
+        ):
+            raise ValidationError("Reservation time is outside doctor's working hours.")
+
+        # 4️⃣ جلوگیری از overlap
+        overlapping = Reservation.objects.filter(
+            doctor=self.doctor
+        ).filter(
+            Q(start_reservation_hour__lt=self.end_reservation_hour) &
+            Q(end_reservation_hour__gt=self.start_reservation_hour)
+        )
+
+        if self.pk:
+            overlapping = overlapping.exclude(pk=self.pk)
+
+        if overlapping.exists():
+            raise ValidationError("This time slot is already booked.")
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.patient} → Dr.{self.doctor} ({self.start_reservation_hour})"
+
+class Comment(models.Model):
+    doctor = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='doctor_comments',
+        limit_choices_to={'role': UserRoles.DOCTOR}
+    )
+
+    patient = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='patient_comments',
+        limit_choices_to={'role': UserRoles.PATIENT}
+    )
+
+    reservation = models.OneToOneField(
+        Reservation,
+        on_delete=models.CASCADE
+    )
+
+    score = models.IntegerField()
+    comment = models.TextField()
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def clean(self):
+        # جلوگیری از mismatch
+        if self.reservation.doctor != self.doctor:
+            raise ValidationError("Reservation doctor mismatch.")
+
+        if self.reservation.patient != self.patient:
+            raise ValidationError("Reservation patient mismatch.")
+
+        if not (1 <= self.score <= 5):
+            raise ValidationError("Score must be between 1 and 5.")
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
+        # Update doctor score
+        avg_score = Comment.objects.filter(
+            doctor=self.doctor
+        ).aggregate(avg=Avg('score'))['avg']
+
+        profile = self.doctor.doctor_profile
+        profile.score = avg_score or 0
+        profile.save()
+
 class PasswordReset(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -115,45 +225,4 @@ class PasswordReset(models.Model):
     @property
     def is_expired(self):
         return timezone.now() > self.created_when + timezone.timedelta(minutes=2)
-
-class Appointment(models.Model):
-
-    class Status(models.TextChoices):
-        PENDING   = "PENDING",   "Pending"
-        CONFIRMED = "CONFIRMED", "Confirmed"
-        CANCELED  = "CANCELED",  "Canceled"
-
-    patient = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name="patient_appointments",
-        limit_choices_to={'role': UserRoles.PATIENT},
-    )
-
-    doctor = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name="doctor_appointments",
-        limit_choices_to={'role': UserRoles.DOCTOR},
-    )
-
-    appointment_time = models.DateTimeField()
-    status = models.CharField(
-        max_length=20,
-        choices=Status.choices,
-        default=Status.PENDING
-    )
-
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.patient} → Dr. {self.doctor} at {self.appointment_time}"
-
-class Payment(models.Model):
-    appointment = models.OneToOneField(
-        Appointment,
-        on_delete=models.CASCADE
-    )
-    amount = models.PositiveIntegerField()
-    is_paid = models.BooleanField(default=False)
-    paid_at = models.DateTimeField(null=True, blank=True)
+    

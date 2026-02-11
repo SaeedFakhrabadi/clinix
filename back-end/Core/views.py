@@ -9,20 +9,22 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework_simplejwt.tokens import RefreshToken
 from django.core.mail import send_mail
 from django.conf import settings
 from django.utils import timezone
 from django.db import IntegrityError
 
-from .models import PasswordReset
+from .models import DoctorProfile, PasswordReset, Reservation
 from .serializers import (
     LoginSerializer,
     RegisterSerializer,
     ForgetPasswordSerializer,
+    ReservationSerializer,
     ResetPasswordSerializer,
     UserSerializer,
-    MessageSerializer
+    DoctorListSerializer,
+    DoctorDetailSerializer,
+    CommentSerializer
 )
 from kavenegar import *
 
@@ -36,7 +38,6 @@ def success_response(message, message_en, status_code=status.HTTP_200_OK, extra_
     if extra_data:
         data.update(extra_data)
     return Response(data, status=status_code)
-
 
 def error_response(message, message_en, status_code=status.HTTP_400_BAD_REQUEST, extra_data=None):
     data = {
@@ -63,6 +64,9 @@ class AuthViewSet(viewsets.ViewSet):
                     message="ثبت‌نام با موفقیت انجام شد",
                     message_en="User registered successfully",
                     status_code=status.HTTP_201_CREATED,
+                    extra_data={
+                        "user": UserSerializer(user).data,
+                    }
                     # extra_data={
                     #     "access_token": str(refresh.access_token),
                     # }
@@ -114,9 +118,9 @@ class AuthViewSet(viewsets.ViewSet):
             return success_response(
                 message="ورود با موفقیت انجام شد",
                 message_en="Login successful",
-                # extra_data={
-                #     "access_token": str(refresh.access_token),
-                # }
+                extra_data={
+                    "user": UserSerializer(user).data,
+                }
             )
 
         return error_response(
@@ -128,33 +132,6 @@ class AuthViewSet(viewsets.ViewSet):
                 "detail_en": "Email/phonenumber or password is incorrect."
             }
         )
-    
-    # @action(detail=False, methods=['post'], permission_classes=[IsAuthenticated])
-    # def logout(self, request):
-    #     access_token = request.data.get("access_token")
-        
-    #     if not access_token:
-    #         return error_response(
-    #             message="توکن تازه‌سازی ارسال نشده است",
-    #             message_en="Refresh token is required",
-    #             status_code=status.HTTP_400_BAD_REQUEST
-    #         )
-
-    #     try:
-    #         token = RefreshToken(access_token)
-    #         token.blacklist()
-            
-    #         return success_response(
-    #             message="خروج با موفقیت انجام شد",
-    #             message_en="Logout successful"
-    #         )
-        
-    #     except Exception:
-    #         return error_response(
-    #             message="خطا در فرآیند خروج",
-    #             message_en="Logout error",
-    #             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
-    #         )
 
     @action(detail=False, methods=['post'])
     def forgot_password(self, request):
@@ -236,7 +213,7 @@ class AuthViewSet(viewsets.ViewSet):
             if timezone.now() > expiration_time:
                 password_reset.delete()
                 return error_response(
-                    message="لینک بازنشانی منقضی شده است",
+                    message="کد تایید منقضی شده است",
                     message_en="Reset link has expired",
                 )
             
@@ -248,6 +225,9 @@ class AuthViewSet(viewsets.ViewSet):
             return success_response(
                 message="رمز عبور با موفقیت تغییر یافت",
                 message_en="Password reset successfully",
+                extra_data={
+                    "user": UserSerializer(user).data,
+                }
             )
             
         except PasswordReset.DoesNotExist:
@@ -266,6 +246,66 @@ class HomeAPIView(APIView):
             message_en=f"Welcome {request.user.username}",
             extra_data={"user": UserSerializer(request.user).data}
         )
+    
+class DoctorsListAPIView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        doctors = DoctorProfile.objects.all()
+        serializer = DoctorListSerializer(doctors, many=True)
+        return Response(serializer.data)
+
+class DoctorDetailAPIView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, pk):
+        try:
+            doctor = DoctorProfile.objects.get(pk=pk)
+        except DoctorProfile.DoesNotExist:
+            return Response({"detail": "Not found"}, status=404)
+
+        serializer = DoctorDetailSerializer(doctor)
+        return Response(serializer.data)
+
+class ReservationCreateAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = ReservationSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(patient=request.user)
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+
+class UserReservationsAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        reservations = Reservation.objects.filter(patient=request.user)
+        serializer = ReservationSerializer(reservations, many=True)
+        return Response(serializer.data)
+
+class ReservationDeleteAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, pk):
+        try:
+            reservation = Reservation.objects.get(pk=pk, patient=request.user)
+        except Reservation.DoesNotExist:
+            return Response({"detail": "Not found"}, status=404)
+
+        reservation.delete()
+        return Response(status=204)
+
+class CommentCreateAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = CommentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(patient=request.user)
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
 
 
 def is_email(value):

@@ -16,7 +16,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"username\": \"erfan2\",\r\n    \"email\": \"erfanmahmudi1384@gmail.com\",\r\n    \"phonenumber\": \"09150643159\",\r\n    \"password\": \"1234\"\r\n  }",
+          "raw": "{\r\n    \"username\": \"erfan2\",\r\n    \"email\": \"erfanmahmudi123@gmail.com\",\r\n    \"phonenumber\": \"09160643168\",\r\n    \"password\": \"1234\"\r\n  }",
           "options": {
             "raw": {
               "language": "json"
@@ -44,14 +44,14 @@
       },
       "response": [
         {
-          "id": "d6e2f570-8748-4607-8ce8-e094772e66c1",
+          "id": "fe6927e6-71c5-4c22-84e8-62e08a6c2cc0",
           "name": "register_final",
           "originalRequest": {
             "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"username\": \"erfan2\",\r\n    \"email\": \"erfanmahmudi138@gmail.com\",\r\n    \"phonenumber\": \"09150643158\",\r\n    \"password\": \"1234\"\r\n  }",
+              "raw": "{\r\n    \"username\": \"erfan2\",\r\n    \"email\": \"erfanmahmudi123@gmail.com\",\r\n    \"phonenumber\": \"09160643168\",\r\n    \"password\": \"1234\"\r\n  }",
               "options": {
                 "raw": {
                   "language": "json"
@@ -83,7 +83,7 @@
           "header": [
             {
               "key": "Date",
-              "value": "Wed, 11 Feb 2026 07:36:34 GMT"
+              "value": "Wed, 11 Feb 2026 16:33:41 GMT"
             },
             {
               "key": "Server",
@@ -107,7 +107,7 @@
             },
             {
               "key": "Content-Length",
-              "value": "107"
+              "value": "207"
             },
             {
               "key": "X-Content-Type-Options",
@@ -123,8 +123,8 @@
             }
           ],
           "cookie": [],
-          "responseTime": "2026-02-11T07:36:58.053Z",
-          "body": "{\n    \"message\": \"ثبت\\u200cنام با موفقیت انجام شد\",\n    \"message_en\": \"User registered successfully\"\n}"
+          "responseTime": "2026-02-11T16:34:19.934Z",
+          "body": "{\n    \"message\": \"ثبت\\u200cنام با موفقیت انجام شد\",\n    \"message_en\": \"User registered successfully\",\n    \"user\": {\n        \"id\": 4,\n        \"username\": \"erfan2\",\n        \"email\": \"erfanmahmudi123@gmail.com\",\n        \"phonenumber\": \"09160643168\"\n    }\n}"
         }
       ]
     },
@@ -144,7 +144,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"identifier\": \"09150643159\",\r\n    \"password\": \"1234\"\r\n}"
+          "raw": "{\r\n    \"identifier\": \"erfanmahmudi123@gmail.com\",\r\n    \"password\": \"1234\"\r\n}"
         },
         "url": {
           "raw": "http://127.0.0.1:8000/api/v1/auth/login/",
@@ -167,7 +167,7 @@
       },
       "response": [
         {
-          "id": "97285815-ffe7-473e-bc37-10423489fdcf",
+          "id": "e2f865d6-382b-4a7c-817d-620da3a535db",
           "name": "login_final",
           "originalRequest": {
             "method": "POST",
@@ -179,7 +179,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"identifier\": \"09150643159\",\r\n    \"password\": \"1234\"\r\n}"
+              "raw": "{\r\n    \"identifier\": \"erfanmahmudi123@gmail.com\",\r\n    \"password\": \"1234\"\r\n}"
             },
             "url": {
               "raw": "http://127.0.0.1:8000/api/v1/auth/login/",
@@ -206,7 +206,7 @@
           "header": [
             {
               "key": "Date",
-              "value": "Wed, 11 Feb 2026 07:37:38 GMT"
+              "value": "Wed, 11 Feb 2026 16:34:05 GMT"
             },
             {
               "key": "Server",
@@ -230,7 +230,7 @@
             },
             {
               "key": "Content-Length",
-              "value": "88"
+              "value": "188"
             },
             {
               "key": "X-Content-Type-Options",
@@ -246,8 +246,8 @@
             }
           ],
           "cookie": [],
-          "responseTime": "2026-02-11T07:37:40.406Z",
-          "body": "{\n    \"message\": \"ورود با موفقیت انجام شد\",\n    \"message_en\": \"Login successful\"\n}"
+          "responseTime": "2026-02-11T16:34:34.769Z",
+          "body": "{\n    \"message\": \"ورود با موفقیت انجام شد\",\n    \"message_en\": \"Login successful\",\n    \"user\": {\n        \"id\": 4,\n        \"username\": \"erfan2\",\n        \"email\": \"erfanmahmudi123@gmail.com\",\n        \"phonenumber\": \"09160643168\"\n    }\n}"
         }
       ]
     },
