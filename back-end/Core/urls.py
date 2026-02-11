@@ -1,8 +1,17 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import AuthViewSet, HomeAPIView
-from rest_framework_simplejwt.views import TokenRefreshView, TokenVerifyView
 from rest_framework.permissions import AllowAny
+from .views import (
+    AuthViewSet,
+    HomeAPIView,
+    DoctorsListAPIView,
+    DoctorDetailAPIView,
+    ReservationCreateAPIView,
+    UserReservationsAPIView,
+    ReservationDeleteAPIView,
+    CommentCreateAPIView,
+)
 
 # Custom router to allow anonymous access to root
 class CustomRouter(DefaultRouter):
@@ -18,9 +27,20 @@ urlpatterns = [
     path('api/v1/', include([
         path('', router.get_api_root_view(), name='api-root'),
         path('', include(router.urls)),
-        
-        # Standard JWT endpoints
-        path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-        path('auth/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+
+        # Home
+        path('home/', HomeAPIView.as_view()),
+
+        # Doctors
+        path('doctors/', DoctorsListAPIView.as_view()),
+        path('doctors/<int:pk>/', DoctorDetailAPIView.as_view()),
+
+        # Reservations
+        path('reservations/', UserReservationsAPIView.as_view()),        # GET
+        path('reservations/create/', ReservationCreateAPIView.as_view()), # POST
+        path('reservations/<int:pk>/', ReservationDeleteAPIView.as_view()), # DELETE
+
+        # Comments
+        path('comments/create/', CommentCreateAPIView.as_view()),
     ])),
 ]

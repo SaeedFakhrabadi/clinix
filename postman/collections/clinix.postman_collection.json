@@ -530,6 +530,184 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "doctorsList",
+      "id": "1ae6bf68-89fc-4714-9325-3ed938b163f1",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/doctors/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "doctors",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "doctor_detail",
+      "id": "d3ea2247-b1dc-4a7d-911a-b8016b8c7204",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/doctors/1/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "doctors",
+            "1",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "reservationsList",
+      "id": "9c5b9376-0c85-4870-8e39-c5aead5e9a8b",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/reservations/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "reservations",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "create_reservation",
+      "id": "38af6286-399d-4574-8678-2579ea8713bb",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"doctor\": 1,\r\n  \"date\": \"2026-02-15\",\r\n  \"time\": \"14:30\",\r\n  \"reason\": \"General checkup\"\r\n}\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/reservations/create/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "reservations",
+            "create",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "delete_reservation",
+      "id": "04ecaab4-0007-4c04-9e41-cfd0cb922c28",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/reservations/1/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "reservations",
+            "1",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "create_comment",
+      "id": "5ac135f6-8447-4221-a9c7-52573bc1dd64",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"doctor\": 1,\r\n  \"text\": \"Dr. Bolorian was very professional and helpful.\"\r\n}\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/comments/create/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "comments",
+            "create",
+            ""
+          ]
+        }
+      },
+      "response": []
     }
   ]
 }

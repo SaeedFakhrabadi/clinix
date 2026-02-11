@@ -310,7 +310,6 @@ class CommentCreateAPIView(APIView):
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
 
-
 def is_email(value):
     try:
         validate_email(value)

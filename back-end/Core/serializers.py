@@ -58,7 +58,7 @@ class UserSerializer(serializers.ModelSerializer):
             'email',
             'phonenumber',
         )
-        read_only_fields = ('id',)
+        read_only_fields = ('id','role')
 
 class DoctorListSerializer(serializers.ModelSerializer):
     name = serializers.CharField(source='user.username')
