@@ -118,6 +118,9 @@ class AuthViewSet(viewsets.ViewSet):
             return success_response(
                 message="ورود با موفقیت انجام شد",
                 message_en="Login successful",
+                extra_data={
+                    "user": UserSerializer(user).data,
+                }
                 # extra_data={
                 #     "access_token": str(refresh.access_token),
                 # }
@@ -225,6 +228,9 @@ class AuthViewSet(viewsets.ViewSet):
             return success_response(
                 message="رمز عبور با موفقیت تغییر یافت",
                 message_en="Password reset successfully",
+                extra_data={
+                    "user": UserSerializer(user).data,
+                }
             )
             
         except PasswordReset.DoesNotExist:
