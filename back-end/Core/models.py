@@ -100,19 +100,21 @@ class PasswordReset(models.Model):
         on_delete=models.CASCADE,
         related_name='password_resets'
     )
-    verificationCode = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    verification_code = models.PositiveIntegerField()
     created_when = models.DateTimeField(auto_now_add=True)
-    # optional: ip_address = models.GenericIPAddressField(null=True, blank=True)
 
     class Meta:
         ordering = ['-created_when']
+        indexes = [
+            models.Index(fields=['user', 'verification_code']),
+        ]
 
     def __str__(self):
         return f"Reset for {self.user} - {self.verificationCode}"
 
     @property
     def is_expired(self):
-        return timezone.now() > self.created_when + timezone.timedelta(minutes=10)
+        return timezone.now() > self.created_when + timezone.timedelta(minutes=2)
 
 class Appointment(models.Model):
 
