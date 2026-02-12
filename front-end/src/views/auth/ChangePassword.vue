@@ -41,10 +41,10 @@
 			const userInfo = response?.data;
 			currentUserStore?.setCurrentUser(userInfo);
 
+			router.push({ name: 'Profile' });
+
 			toast.dismiss(toastId);
 			toast.success(response?.data?.message);
-
-			router.push({ name: 'Profile' });
 		} catch (error) {
 			console.error('Error : ', error?.response?.data || error?.message);
 
@@ -104,6 +104,8 @@
 		}
 
 		&__text {
+			width: 100%;
+			text-align: right;
 			color: var(--text-900);
 		}
 
@@ -113,11 +115,6 @@
 
 		&__input-wrapper {
 			position: relative;
-		}
-
-		&__counrdown-timer {
-			left: space(0);
-			top: space(0);
 		}
 	}
 </style>

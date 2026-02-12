@@ -14,10 +14,9 @@
 				همین الآن برای مشاهده لیست پزشکان و رزرو نوبت کلیک کنید
 			</h3>
 			<TheButton
+				class="header__button"
 				type="submit"
 				label="مشاهده لیست پزشکان"
-				width="160px"
-				height="60px"
 				@click="() => router.push({ name: 'DoctorsList' })"
 			/>
 		</header>
@@ -134,10 +133,6 @@
 				@include flexbox(row, center, center, space(0), wrap);
 			}
 
-			&__sub-slogan {
-				color: var(--title-100);
-			}
-
 			@keyframes subtle-shake {
 				0% {
 					transform: translate(space(0), space(0));
@@ -151,6 +146,15 @@
 				75% {
 					transform: translate(space(0), space(2));
 				}
+			}
+
+			&__sub-slogan {
+				color: var(--title-100);
+			}
+
+			&__button {
+				width: space(80);
+				height: space(30);
 			}
 		}
 

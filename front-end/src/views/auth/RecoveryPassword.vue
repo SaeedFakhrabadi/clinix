@@ -25,10 +25,11 @@
 
 		try {
 			const response = await recoveryPassword(email.value);
+			
+			router.push({ name: 'ChangePassword' });
+			
 			toast.dismiss(toastId);
 			toast.success(response?.data?.message);
-
-			router.push({ name: 'ChangePassword' });
 		} catch (error) {
 			console.error('Error : ', error?.response?.data || error?.message);
 
@@ -67,6 +68,8 @@
 		}
 
 		&__text {
+			width: 100%;
+			text-align: right;
 			color: var(--text-900);
 		}
 	}

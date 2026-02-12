@@ -2,26 +2,19 @@
 	import { computed } from 'vue';
 
 	const props = defineProps({
-		label: { type: String, required: true },
-		iconName: { type: String, default: '' },
-		type: { type: String, required: true },
-		width: { type: String, default: '100%' },
-		height: { type: String, default: '40px' },
-		labelColor: { type: String, default: '' },
-		// labelColorHover: { type: String, default: '' },
-		bgColor: { type: String, default: '' },
-		// bgColorHover: { type: String, default: '' },
-		// borderColor: { type: String, default: '' },
+		label: {
+			type: String,
+			required: true,
+		},
+		type: {
+			type: String,
+			required: true,
+		},
+		iconName: {
+			type: String,
+			default: '',
+		},
 	});
-
-	const varify = (variable) => `var(--${variable})`;
-
-	const defaultStyles = computed(() => ({
-		width: props.width,
-		height: props.height,
-		...(props.bgColor ? { backgroundColor: varify(props.bgColor) } : {}),
-		...(props.labelColor ? { color: varify(props.labelColor) } : {}),
-	}));
 
 	const TheButtonModifier = computed(() => {
 		switch (props.type) {
@@ -36,11 +29,7 @@
 </script>
 
 <template>
-	<button
-		class="the-button"
-		:class="[TheButtonModifier]"
-		:style="defaultStyles"
-	>
+	<button class="the-button" :class="[TheButtonModifier]">
 		<SvgLoader v-if="iconName" :name="iconName" />
 		<h5>{{ label }}</h5>
 	</button>
@@ -49,6 +38,8 @@
 <style lang="scss" scoped>
 	.the-button {
 		background-color: transparent;
+		width: 100%;
+		height: space(20);
 		border-radius: space(4);
 		user-select: none;
 		transition: all 0.4s ease;

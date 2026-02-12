@@ -4,7 +4,7 @@ import { defineStore } from 'pinia';
 export const useCurrentUserStore = defineStore(
 	'currentUser',
 	() => {
-		const currentUser = ref({});
+		const currentUser = ref(null);
 
 		const mappedRole = (role) => {
 			if (role === 'PATIENT') return 'بیمار';
@@ -21,7 +21,6 @@ export const useCurrentUserStore = defineStore(
 					text: mappedRole(userInfo?.user?.role),
 					value: userInfo?.user?.role,
 				},
-				token: userInfo?.refresh,
 			};
 		};
 

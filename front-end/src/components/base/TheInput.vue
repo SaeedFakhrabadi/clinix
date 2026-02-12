@@ -85,9 +85,10 @@
 					@click="togglePasswordVisibility"
 				/>
 			</div>
-			<h6 class="the-input__error-message error-message">
+			<h6 v-if="errorMessage" class="the-input__error-message error-message">
 				{{ toPersianDigits(errorMessage) }}
 			</h6>
+			<div v-else class="the-input__error-space"></div>
 		</div>
 	</div>
 </template>
@@ -133,6 +134,8 @@
 
 			&__input {
 				background-color: transparent;
+				border-top-left-radius: space(4);
+				border-bottom-left-radius: space(4);
 				font-size: space(7);
 				color: var(--text-900);
 				padding-left: space(3);
@@ -174,6 +177,10 @@
 			color: var(--danger-600);
 			@include flexbox();
 			@include lineClamp(1);
+		}
+
+		&__error-space{
+			min-height: space(4);
 		}
 	}
 </style>

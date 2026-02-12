@@ -18,7 +18,7 @@ export const register = (name, email, phoneNumber, password) => {
 
 export const recoveryPassword = (email) => {
 	return api.post('/v1/auth/forgot_password/', {
-		email: email,
+		identifier: email,
 	});
 };
 

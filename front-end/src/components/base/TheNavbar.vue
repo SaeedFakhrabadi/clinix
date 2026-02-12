@@ -32,8 +32,8 @@
 	const tabs = [
 		{ name: 'Landing', label: 'خانه' },
 		{ name: 'DoctorsList', label: 'جستجوی پزشکان' },
-		{ name: 'Profile', label: 'پروفایل' },
-		{ name: 'Login', label: 'ورود' },
+		{ name: 'Profile', label: 'پروف' },
+		{ name: 'ChangePassword', label: 'تغییر رمز' },
 	];
 </script>
 
@@ -63,12 +63,14 @@
 					@click="toggleTheme"
 				/>
 				<TheButton
+					class="buttons__button"
 					type="submit"
 					label="ورود"
 					width="80px"
 					@click="router.push({ name: 'Login' })"
 				/>
 				<TheButton
+					class="buttons__button"
 					type="cancel"
 					label="ثبت نام"
 					width="80px"
@@ -172,6 +174,10 @@
 			&__theme-icon {
 				color: var(--text-900);
 				cursor: pointer;
+			}
+
+			&__button {
+				width: space(46);
 			}
 		}
 	}
