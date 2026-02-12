@@ -57,7 +57,7 @@ class UserSerializer(serializers.ModelSerializer):
             'email',
             'phonenumber',
         )
-        read_only_fields = ('id', 'role')
+        read_only_fields = ('id')
 
 class DoctorInfoSerializer(serializers.ModelSerializer):
     class Meta:
