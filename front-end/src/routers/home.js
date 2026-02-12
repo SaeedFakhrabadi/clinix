@@ -14,5 +14,10 @@ export default {
 			name: 'DoctorsList',
 			component: () => import('@/views/home/DoctorsList.vue'),
 		},
+		{
+			path: 'doctor-details',
+			name: 'DoctorDetails',
+			component: () => import('@/views/home/DoctorDetails.vue'),
+		},
 	],
 };

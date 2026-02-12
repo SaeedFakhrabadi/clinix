@@ -4,11 +4,11 @@
 	const props = defineProps({
 		initialMinutes: {
 			type: Number,
-			default: 2,
+			default: 5,
 		},
 	});
 
-	const timer = ref(`02:00`);
+	const timer = ref(`05:00`);
 	let timerInterval = null;
 
 	const startTimer = () => {

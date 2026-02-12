@@ -13,6 +13,8 @@ declare module 'vue' {
     BlogCard: typeof import('./src/components/BlogCard.vue')['default']
     ChangePassword: typeof import('./src/views/auth/ChangePassword.vue')['default']
     Dashboard: typeof import('./src/layouts/Dashboard.vue')['default']
+    DoctoeDetails: typeof import('./src/views/home/DoctorDetails.vue')['default']
+    DoctorDetails: typeof import('./src/views/home/DoctorDetails.vue')['default']
     DoctorsList: typeof import('./src/views/home/DoctorsList.vue')['default']
     Home: typeof import('./src/layouts/Home.vue')['default']
     Landing: typeof import('./src/views/home/Landing.vue')['default']

@@ -1,0 +1,1 @@
+<template>DoctorDetails</template>

@@ -43,7 +43,9 @@
 			<router-link class="navbar__brand brand" :to="{ name: 'Landing' }">
 				<h1 class="brand__text">CLINIX</h1>
 			</router-link>
-			<div class="navbar__bergur bergur"></div>
+			<div class="navbar__burger burger">
+				<SvgLoader class="burger__icon" name="burger-menu" />
+			</div>
 			<ul class="navbar__menu menu">
 				<li v-for="(tab, index) in tabs" :key="index" class="menu__item">
 					<h4 v-if="index > 0" class="menu__divider">|</h4>
@@ -64,17 +66,17 @@
 				/>
 				<TheButton
 					class="buttons__button"
-					type="submit"
-					label="ورود"
-					width="80px"
-					@click="router.push({ name: 'Login' })"
-				/>
-				<TheButton
-					class="buttons__button"
 					type="cancel"
 					label="ثبت نام"
 					width="80px"
 					@click="router.push({ name: 'Register' })"
+				/>
+				<TheButton
+					class="buttons__button"
+					type="submit"
+					label="ورود"
+					width="80px"
+					@click="router.push({ name: 'Login' })"
 				/>
 			</section>
 		</div>
@@ -104,23 +106,26 @@
 			transition: all 0.4s ease;
 			@include flexbox();
 
+			&:hover {
+				background-color: var(--primary-100);
+			}
+
 			&__text {
 				color: var(--text-900);
 			}
 		}
 
-		.brand:hover {
-			background-color: var(--primary-100);
-		}
-
-		.bergur {
-			width: space(20);
+		.burger {
 			height: space(20);
-			background-color: red;
 			margin-left: space(6);
 
-			@media (min-width: $sm) {
+			@media (min-width: $md) {
 				display: none;
+			}
+
+			&__icon {
+				cursor: pointer;
+				color: var(--text-900);
 			}
 		}
 
@@ -163,11 +168,11 @@
 		}
 
 		.buttons {
-			padding-inline: space(5);
-			width: space(120);
-			@include flexbox(row, center, center, space(8), nowrap);
+			padding-inline: space(6);
+			min-width: space(120);
+			@include flexbox(row, space-between, center, space(0), nowrap);
 
-			@media (max-width: $sm) {
+			@media (max-width: $md) {
 				display: none;
 			}
 
