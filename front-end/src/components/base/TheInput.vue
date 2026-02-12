@@ -179,7 +179,7 @@
 			@include lineClamp(1);
 		}
 
-		&__error-space{
+		&__error-space {
 			min-height: space(4);
 		}
 	}

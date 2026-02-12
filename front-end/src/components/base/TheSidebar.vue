@@ -5,7 +5,7 @@
 	import { useCurrentUserStore } from '@/stores/currentUser';
 
 	const props = defineProps({
-		items: { type: Array },
+		items: { type: Array, required: true },
 	});
 
 	const router = useRouter();
@@ -30,7 +30,7 @@
 				</span>
 				<span style="color: var(--text-100)">|</span>
 				<span style="color: var(--title-300)"
-					>{{ currentUserStore?.currentUser?.role?.text }}
+					>{{ currentUserStore?.currentUser?.role?.label }}
 				</span>
 			</div>
 		</header>

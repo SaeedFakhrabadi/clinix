@@ -17,7 +17,7 @@ const REQUIRED = {
 	NEW_PASSWORD: 'رمز عبور فعلی الزامی است',
 	CONFIRM_PASSWORD: 'تکرار رمز عبور الزامی است',
 	IDENTIFIER: 'شماره تلفن یا ایمیل الزامی است',
-	CODE: 'کد تایید الزامی است'
+	CODE: 'کد تایید الزامی است',
 };
 
 const INVALID = {

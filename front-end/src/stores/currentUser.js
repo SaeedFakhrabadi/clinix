@@ -18,7 +18,7 @@ export const useCurrentUserStore = defineStore(
 				email: userInfo?.user?.email,
 				phoneNumber: userInfo?.user?.phonenumber,
 				role: {
-					text: mappedRole(userInfo?.user?.role),
+					label: mappedRole(userInfo?.user?.role),
 					value: userInfo?.user?.role,
 				},
 			};

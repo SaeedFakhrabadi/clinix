@@ -9,7 +9,7 @@
 	});
 
 	const timer = ref(`02:00`);
-	let timerInterval = null;	
+	let timerInterval = null;
 
 	const startTimer = () => {
 		let totalSeconds = props.initialMinutes * 60;
@@ -57,7 +57,7 @@
 		left: space(0);
 		top: space(0);
 		user-select: none;
-		
+
 		&__timer {
 			color: var(--danger-500);
 		}
