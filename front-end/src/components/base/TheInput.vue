@@ -7,6 +7,7 @@
 		isMandatory: { type: Boolean, default: false },
 		iconName: { type: String, required: true },
 		placeholder: { type: String, default: '' },
+		isDisabled: { type: Boolean, default: false },
 		type: { type: String, default: 'text' },
 		digitsOnly: { type: Boolean, default: false },
 		errorMessage: { type: String, default: '' },
@@ -53,6 +54,7 @@
 					class="input-box__input"
 					v-model="inputValue"
 					:placeholder="placeholder"
+					:disabled="isDisabled"
 					:type="inputType"
 					@input="handleInput"
 					@blur="emit('blur', inputValue)"
@@ -99,35 +101,14 @@
 		}
 
 		.input-box {
-			background-image: linear-gradient(90deg, var(--bg-800), var(--bg-900));
+			background-color: var(--bg-900);
 			border-right: space(4) solid var(--text-100);
 			border-top-left-radius: space(4);
 			border-bottom-left-radius: space(4);
+			position: relative;
 			transition: all 0.2s ease;
 			outline: space(0.5) solid var(--text-500);
 			@include flexbox(row, center, center, space(0), nowrap);
-
-			&__icon {
-				color: var(--primary-100);
-				margin: space(3);
-			}
-
-			&__input {
-				background-color: transparent;
-				border-top-left-radius: space(4);
-				border-bottom-left-radius: space(4);
-				font-size: space(7);
-				color: var(--text-900);
-				padding-left: space(3);
-				border: none;
-				outline: none;
-				width: 100%;
-				height: space(20);
-			}
-
-			&__input::placeholder {
-				color: var(--text-500);
-			}
 
 			&:focus-within,
 			&:hover {
@@ -141,6 +122,35 @@
 			&--error:focus-within,
 			&--error:hover {
 				border-right: space(2) solid var(--danger-100);
+			}
+
+			&__icon {
+				position: absolute;
+				right: space(0);
+				color: var(--primary-100);
+				padding: space(4.5) space(3);
+			}
+
+			&__input {
+				background-color: transparent;
+				border-top-left-radius: space(4);
+				border-bottom-left-radius: space(4);
+				color: var(--text-900);
+				padding: space(0) space(17) space(0) space(3);
+				border: none;
+				outline: none;
+				width: 100%;
+				height: space(20);
+
+				&::placeholder {
+					color: var(--text-500);
+				}
+
+				&:disabled {
+					background-color: var(--bg-600);
+					opacity: 0.5;
+					cursor: not-allowed;
+				}
 			}
 
 			&__eye-icon {

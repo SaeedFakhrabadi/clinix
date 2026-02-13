@@ -55,14 +55,14 @@
 		<div class="form__inputs">
 			<TheInput
 				label="شماره تلفن یا ایمیل"
-				iconName="id-card"
+				icon-name="id-card"
 				placeholder="شماره تلفن یا ایمیل خود را وارد کنید"
 				v-model="identifier"
 				:error-message="identifierError"
 			/>
 			<TheInput
 				label="رمز عبور"
-				iconName="password"
+				icon-name="password"
 				type="password"
 				placeholder="رمز عبور خود را وارد کنید"
 				v-model="password"

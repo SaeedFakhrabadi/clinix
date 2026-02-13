@@ -21,11 +21,15 @@
 	});
 
 	// Tabs
-	import { useActiveTabStore } from '@/stores/activeTab';
 	import { useRouter } from 'vue-router';
+	import { storeToRefs } from 'pinia';
+	import { useActiveTabStore } from '@/stores/activeTab';
+	import { useCurrentUserStore } from '@/stores/currentUser';
 
 	const router = useRouter();
 	const activeTabStore = useActiveTabStore();
+	const currentUserStore = useCurrentUserStore();
+	const { currentUser } = storeToRefs(currentUserStore);
 
 	const isActiveTab = (tab) => activeTabStore.activeTab === tab;
 
@@ -35,6 +39,11 @@
 		{ name: 'Profile', label: 'پروف' },
 		{ name: 'ChangePassword', label: 'تغییر رمز' },
 	];
+
+	const logout = () => {
+		router.push({ name: 'Login' });
+		currentUserStore.removeCurrentUser();
+	};
 </script>
 
 <template>
@@ -65,18 +74,32 @@
 					@click="toggleTheme"
 				/>
 				<TheButton
+					v-if="!currentUser"
 					class="buttons__button"
 					type="cancel"
 					label="ثبت نام"
-					width="80px"
 					@click="router.push({ name: 'Register' })"
 				/>
 				<TheButton
+					v-if="!currentUser"
 					class="buttons__button"
 					type="submit"
 					label="ورود"
-					width="80px"
 					@click="router.push({ name: 'Login' })"
+				/>
+				<TheButton
+					v-if="currentUser"
+					class="buttons__button"
+					type="cancel"
+					label="مشاهده پروفایل"
+					@click="router.push({ name: 'Profile' })"
+				/>
+				<TheButton
+					v-if="currentUser"
+					class="buttons__button buttons__button-exit"
+					type="submit"
+					label="خروج"
+					@click="logout"
 				/>
 			</section>
 		</div>
@@ -168,8 +191,7 @@
 		}
 
 		.buttons {
-			min-width: space(120);
-			@include flexbox(row, space-between, center, space(0), nowrap);
+			@include flexbox(row, space-between, center, space(6), nowrap);
 
 			@media (max-width: $xl) {
 				padding-inline: space(6);
@@ -184,7 +206,15 @@
 			}
 
 			&__button {
-				width: space(46);
+				width: space(50);
+			}
+
+			&__button-exit {
+				background-color: var(--red-300);
+
+				&:hover {
+					background-color: var(--red-500);
+				}
 			}
 		}
 	}

@@ -1,61 +1,264 @@
-<script setup></script>
+<script setup>
+	import { computed, onMounted } from 'vue';
+	import { useToast } from 'vue-toastification';
+	import { useForm, useField } from 'vee-validate';
+	import { storeToRefs } from 'pinia';
+	import { profileSchema } from '@/schemas';
+	import { editProfile } from '@/services/auth';
+	import { useCurrentUserStore } from '@/stores/currentUser';
+	import { toPersianDigits } from '@/utils/toPersianDigits';
+	import { addCommas } from '@/utils/addCommas';
+
+	const toast = useToast();
+
+	const currentUserStore = useCurrentUserStore();
+	const { currentUser } = storeToRefs(currentUserStore);
+
+	const isPatient = computed(() => currentUser.value.role.value === 'PATIENT');
+	const isDoctor = computed(() => currentUser.value.role.value === 'DOCTOR');
+
+	const { handleSubmit } = useForm({
+		validationSchema: profileSchema,
+		initialValues: {
+			name: '',
+			email: '',
+			phoneNumber: '',
+		},
+	});
+
+	const { value: name, errorMessage: nameError } = useField('name');
+	const { value: role, errorMessage: roleError } = useField('role');
+	const { value: email, errorMessage: emailError } = useField('email');
+	const { value: phoneNumber, errorMessage: phoneNumberError } =
+		useField('phoneNumber');
+
+	const onSubmit = async () => {
+		const toastId = toast.info('...در حال ثبت اطلاعات', {
+			timeout: false,
+			closeOnClick: false,
+		});
+
+		try {
+			const response = await editProfile(
+				name.value,
+				email.value,
+				phoneNumber.value,
+			);
+
+			const userInfo = response?.data;
+			currentUserStore?.setCurrentUser(userInfo);
+
+			toast.dismiss(toastId);
+			toast.success(response?.data?.message);
+		} catch (error) {
+			console.error('Error : ', error?.response?.data || error?.message);
+
+			toast.dismiss(toastId);
+			toast.error(error?.response?.data?.message ?? 'خطا در برقراری ارتباط');
+		}
+	};
+
+	const submitForm = handleSubmit(onSubmit);
+
+	const setDefaultInfo = () => {
+		name.value = currentUser.value?.name;
+		role.value = currentUser.value.role?.label;
+		email.value = currentUser.value?.email;
+		phoneNumber.value = currentUser.value?.phoneNumber;
+	};
+
+	onMounted(() => {
+		if (isPatient.value) {
+			setDefaultInfo();
+		}
+		if (isDoctor.value) {
+		}
+	});
+</script>
 
 <template>
 	<div class="profile">
-		<p>
-			تمرین بخش فرانت اند طراحی و پیادهسازی وبسایت «CourseHub» شرح کلی هدف این
-			تمرین، طراحی و پیادهسازی یک وبسایت آموزشی با نام «CourseHub» است. این
-			سامانه به کاربران امکان میدهد که در آن ثبتنام و ورود نمایند، دورههای
-			آموزشی مختلف را جستجو و رزرو کنند، پروفایل شخصی خود را مدیریت کنند و در
-			بخش نقد و بررسی دورهها مشارکت داشته باشند . صفحات موردنیاز: . ۱ صفحه ورود
-			و ثبتنام (Login & Signup) فرم ورود (Login): شامل فیلدهای ایمیل و رمز عبور
-			. فرم ثبتنام (Signup): شامل ایمیل، رمز عبور، تأیید رمز عبور . اطلاعات
-			کاربر پس از ثبتنام در LocalStorage ذخیره شود . اعتبارسنجی سمت کلاینت :
-			تمامی ورودیها )ایمیل معتبر، حداقل طول رمز عبور و مطابقت رمز با تأیید رمز(
-			باید پیش از ارسال بررسی شوند . . ۲ صفحه اصلی (Home Page) نوار جستجو برای
-			دورهها، همراه با امکان انتخاب دستهبندی )مانند برنامهنویسی، طراحی،
-			مارکتینگ( . بخش پیشنهادهای ویژه (Special Offers) نام درس: برنامهنویسی وب
-			استاد درس: دکتر بلوریان پاییز ۴۰۵ - ۱۴۰۴ مهلت تحویل: ۲۵ آذر ۱۴۰۴ تمرین
-			شماره ۱ دانشجویان محترم لطفاً به نکات زیر توجه کرده و آنها را رعایت
-			فرمایید : ❖ تحویل تکلیف فقط از طریق سامانه VU امکانپذیر است . ❖ فقط یک
-			فایل با فرمت ZIP و با نام StudentID-FullName-HWNumber.zip که در آن
-			StudentID شماره دانشجویی، FullName نام و نام خانوادگی و HWNumber شماره
-			تکلیف تحویلی است، بارگذاری شود . ❖ تحویل تکلیف بعد از مهلت مشخص شده نمرهای
-			نخواهد داشت . ❖ در صورت مشابهت غیر معقول و کپی برداری، برای طرفین نمره صفر
-			ثبت خواهد شد . نمایش دستهبندیهای محبوب به صورت کارتهای تصویری . نمایش لیست
-			نقد و بررسیهای برتر کاربران . لین کهای دسترسی سریع: ورود، پشتیبانی، مشاهده
-			پروفایل . . ۳ صفحه جستجوی دورهها (Course Search) نمایش لیست دورهها در قالب
-			کارتهای واکنشگرا . فیلترها : قیمت، مدرس، سطح دوره )مبتدی، متوسط، پیشرفته(،
-			زبان دوره . مرتبسازی : بر اساس امتیاز کاربران یا قیمت . عملیات فیلتر و
-			مرتبسازی باید به کمک JavaScript در سمت کلاینت پیادهسازی شود . . ۴ صفحه
-			جزئیات و رزرو دوره (Course Details & Reservation) نمایش اطلاعات کامل دوره
-			شامل تصویر/لوگو، نام دوره، مدرس، مدتزمان، قیمت و امتیاز کاربران . فرم رزرو
-			شامل: نام، شماره کارت تستی و تعداد صندلی . که پس از تکمیل اطلاعات، صرفاً
-			پیام موفقیت » رزرو « دکمه (Success Message) نمایش دهد . اعتبارسنجی فرم :
-			اطمینان از ورود اطلاعات کامل و صحیح )مثلاً شماره کارت باید فرمت معتبر
-			داشته باشد( . . ۵ صفحه پروفایل کاربر (User Profile) نمایش اطلاعات شخصی:
-			نام، ایمیل و شماره تماس . لیست رزروهای پیشین شامل نام دوره، تاریخ ثبتنام و
-			وضعیت پرداخت . لیست تراکن شها شامل مبلغ، وضعیت و روش پرداخت . . ۶ صفحه نقد
-			و بررسی دورهها (Course Reviews) فرم ارسال نظر شامل: انتخاب دوره، امتیاز
-			)از ۱ تا ۵ ( و متن نظر . نمایش لیست نقد و بررسیها با امکان فیلتر بر اساس
-			دوره . امکان کلیک روی هر نظر برای مشاهده جزئیات دوره مربوطه . تکنولوژ یها
-			و مهارتهای مورد استفاده ➢ HTML / CSS : طراحی ساختار پایه و استایلدهی صفحات
-			. ➢ Bootstrap : استفاده برای طراحی واکنشگرا (Responsive Design) ، فرمها،
-			کارتها و جدولها . ➢ JavaScript : مدیریت دادهها در LocalStorage ، پیادهسازی
-			فیلترها و مرتبسازی، و انجام اعتبارسنجی سمت کلاینت . ➢ React : استفاده از
-			React Router برای مدیریت مسیرها و ساختار کامپوننتبندی شده صفحات . نکات
-			کلیدی 1 . تمامی صفحات باید کاملاً واکنشگرا (Responsive) طراحی شوند تا در
-			نمایشگرهای مختلف )موبایل، تبلت، دسکتاپ( بهدرستی نمایش داده شوند . 2 .
-			اعتبارسنجی ورودیها در سمت کلاینت الزامی است؛ هیچ فرمی نباید بدون
-			اعتبارسنجی ارسال شود . 3 . استفاده از تمام تکنولوژ یهای ذکرشده (HTML, CSS,
-			Bootstrap, JavaScript, React) الزامی است .
-		</p>
+		<h2 class="profile__title">اطلاعات شخصی</h2>
+		<form v-if="isPatient" class="profile__form" @submit.prevent="submitForm">
+			<div class="profile__sections-patient">
+				<section class="profile__section-patient">
+					<TheInput
+						v-model="name"
+						label="نام"
+						icon-name="user"
+						:error-message="nameError"
+					/>
+					<TheInput
+						v-model="role"
+						label="نقش"
+						icon-name="user-role"
+						is-disabled
+					/>
+				</section>
+				<section class="profile__section-patient">
+					<TheInput
+						v-model="email"
+						label="ایمیل"
+						type="email"
+						icon-name="email"
+						:error-message="emailError"
+					/>
+					<TheInput
+						v-model="phoneNumber"
+						label="شماره تماس"
+						icon-name="phone"
+						digits-only
+						:error-message="phoneNumberError"
+					/>
+				</section>
+			</div>
+			<section class="profile__section-buttons">
+				<TheButton
+					type="cancel"
+					label="لغو تغییرات"
+					@click.prevent="setDefaultInfo"
+				/>
+				<TheButton type="submit" label="ثبت اطلاعات شخصی" />
+			</section>
+		</form>
+		<div v-if="isDoctor" class="profile__container">
+			<div class="profile__sections-doctor">
+				<section class="profile__section-doctor">
+					<div class="profile__item item">
+						<span class="item__label">نام:</span>
+						<h3 class="item__value">دکتر {{ currentUser.name }}</h3>
+					</div>
+					<div class="profile__item item">
+						<span class="item__label">شماره تلفن:</span>
+						<h3 class="item__value">
+							{{ toPersianDigits(currentUser.phoneNumber) }}
+						</h3>
+					</div>
+				</section>
+				<section class="profile__section-doctor">
+					<div class="profile__item item">
+						<span class="item__label">ایمیل:</span>
+						<h3 class="item__value">{{ currentUser.email }}</h3>
+					</div>
+				</section>
+			</div>
+		</div>
+		<h2 v-if="isDoctor" class="profile__title">اطلاعات پزشکی</h2>
+		<div v-if="isDoctor" class="profile__container">
+			<div class="profile__sections-doctor">
+				<section class="profile__section-doctor">
+					<div class="profile__item item">
+						<span class="item__label">تخصص:</span>
+						<h3 class="item__value">{{ currentUser.name }}</h3>
+					</div>
+					<div class="profile__item item">
+						<span class="item__label">سابقه کار:</span>
+						<h3 class="item__value">{{ toPersianDigits(12) }} سال</h3>
+					</div>
+				</section>
+				<section class="profile__section-doctor">
+					<div class="profile__item item">
+						<span class="item__label">قیمت ویزیت (ساعت):</span>
+						<h3 class="item__value">{{ addCommas(200000) }}</h3>
+					</div>
+					<div class="profile__item item">
+						<span class="item__label">میانگین امتیازات دریافتی:</span>
+						<h3 class="item__value">{{ toPersianDigits(`4.7 از 5`) }}</h3>
+					</div>
+				</section>
+				<section class="profile__section-doctor">
+					<div class="profile__item item">
+						<span class="item__label">موقعیت مطب:</span>
+						<h3 class="item__value">{{ currentUser.name }}</h3>
+					</div>
+				</section>
+			</div>
+		</div>
 	</div>
 </template>
 
 <style lang="scss" scoped>
 	.profile {
-		padding: space(4);
-		color: var(--text-600);
+		&__title {
+			color: var(--text-900);
+			padding-right: space(4);
+			border-right: space(4) solid var(--title-100);
+		}
+
+		&__form {
+			width: 100%;
+			@include flexbox(column, center, center, space(10));
+		}
+
+		&__sections-patient {
+			width: 100%;
+			@include flexbox(column, center, center, space(0));
+		}
+
+		&__section-patient {
+			width: 100%;
+			@include flexbox(row, center, start, space(10), nowrap);
+
+			@media (max-width: $md) {
+				@include flexbox(column, center, start, space(0));
+			}
+		}
+
+		&__section-buttons {
+			width: 100%;
+			@include flexbox(row, center, start, space(10), nowrap);
+
+			@media (max-width: $md) {
+				@include flexbox(column, center, start, space(14));
+			}
+		}
+
+		&__container {
+			width: 100%;
+			padding-block: space(10);
+			@include flexbox(column, center, start, space(10));
+		}
+
+		&__sections-doctor {
+			width: 100%;
+			@include flexbox(column, center, center, space(10));
+
+			@media (max-width: $lg) {
+				@include flexbox(column, center, start, space(0));
+			}
+		}
+
+		&__section-doctor {
+			width: 100%;
+			@include flexbox(row, center, start, space(0), nowrap);
+
+			@media (max-width: $lg) {
+				@include flexbox(column, center, start, space(0));
+			}
+		}
+
+		.item {
+			width: 100%;
+			@include flexbox(row, start, center, space(2), nowrap);
+
+			&__label {
+				font-size: space(10);
+				color: var(--text-400);
+				@include lineClamp(1);
+
+				@media (max-width: $md) {
+					font-size: space(8);
+				}
+			}
+
+			&__value {
+				color: var(--text-800);
+				@include lineClamp(1);
+
+				@media (max-width: $md) {
+					font-size: space(8);
+				}
+			}
+		}
 	}
 </style>

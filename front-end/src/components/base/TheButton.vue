@@ -31,7 +31,7 @@
 <template>
 	<button class="the-button" :class="[TheButtonModifier]">
 		<SvgLoader v-if="iconName" :name="iconName" />
-		<h5>{{ label }}</h5>
+		<h5 class="the-button__label">{{ label }}</h5>
 	</button>
 </template>
 
@@ -57,12 +57,13 @@
 		}
 
 		&--cancel {
+			background-color: var(--primary-700);
 			border: space(1) solid var(--primary-100);
-			color: var(--primary-100);
+			color: var(--text-900);
 		}
 
 		&--cancel:hover {
-			background-color: var(--primary-700);
+			background-color: var(--primary-600);
 		}
 
 		&--hollow {
@@ -73,6 +74,10 @@
 		&--hollow:hover {
 			background-color: var(--text-900);
 			color: var(--text-100);
+		}
+
+		&__label {
+			@include lineClamp(1);
 		}
 	}
 </style>

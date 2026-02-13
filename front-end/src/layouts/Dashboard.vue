@@ -8,16 +8,18 @@
 	const sidebarItems = computed(() => {
 		if (userRole.value === 'PATIENT') {
 			return [
+				{ label: 'پیام های دریافتی', name: 'Messages' },
 				{ label: 'اطلاعات شخصی', name: 'Profile' },
 				{ label: 'نوبت ها', name: 'Reservations' },
 				{ label: 'تاریخچه تراکنش ها', name: 'Transactions' },
-				{ label: 'ارتباط با مدیریت سیستم', name: 'Home' },
+				{ label: 'ثبت انتقادات و پیشنهادات', name: 'Home' },
 			];
 		} else if (userRole.value === 'DOCTOR') {
 			return [
+				{ label: 'پیام های دریافتی', name: 'Messages' },
 				{ label: 'اطلاعات شخصی', name: 'Profile' },
-				{ label: 'دکترم', name: 'Reservations' },
-				{ label: 'دکتر نیستم', name: 'Transactions' },
+				{ label: 'مدیریت نوبت ها', name: 'Reservations' },
+				{ label: 'مدیریت ساعات کاری', name: 'Transactions' },
 			];
 		}
 	});
@@ -29,7 +31,7 @@
 		<main class="dashboard__main-content">
 			<TheSidebar :items="sidebarItems" />
 			<div class="dashboard__content">
-				<router-view />
+				<router-view class="dashboard__page" />
 			</div>
 		</main>
 	</div>
@@ -50,8 +52,14 @@
 		&__content {
 			height: 100%;
 			flex: 1;
-			@include flexbox(row, start, start, space(0));
 			overflow: auto;
+			@include flexbox(row, start, start, space(0));
+		}
+
+		&__page {
+			width: 100%;
+			padding: space(8) space(6);
+			@include flexbox(column, start, start, space(8), nowrap);
 		}
 	}
 </style>

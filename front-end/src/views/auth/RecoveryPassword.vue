@@ -49,11 +49,16 @@
 		</h5>
 		<TheInput
 			label="ایمیل"
-			iconName="email"
+			icon-name="email"
 			placeholder="ایمیل خود را وارد کنید"
 			v-model="email"
 			:error-message="emailError"
 		/>
+		<h5 class="form__text">
+			<router-link class="form__link" :to="{ name: 'Login' }">
+				بازگشت به صفحه ورود
+			</router-link>
+		</h5>
 		<TheButton type="submit" label="درخواست ارسال کد تایید" />
 	</form>
 </template>
@@ -70,6 +75,11 @@
 			width: 100%;
 			text-align: right;
 			color: var(--text-900);
+		}
+
+		&__link {
+			color: var(--text-500);
+			text-decoration: underline;
 		}
 	}
 </style>

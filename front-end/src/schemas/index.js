@@ -32,7 +32,7 @@ const INVALID = {
 	MAX_40: 'حداکثر 40 کاراکتر مجاز است',
 };
 
-export const RegisterSchema = yup.object({
+export const registerSchema = yup.object({
 	name: yup.string().trim().max(20, INVALID.MAX_20).required(REQUIRED.NAME),
 
 	email: yup
@@ -105,4 +105,20 @@ export const changePasswordSchema = yup.object({
 		.max(20, INVALID.MAX_20)
 		.required(REQUIRED.CONFIRM_PASSWORD)
 		.oneOf([yup.ref('newPassword')], INVALID.CONFIRM_PASSWORD),
+});
+
+export const profileSchema = yup.object({
+	name: yup.string().trim().max(20, INVALID.MAX_20).required(REQUIRED.NAME),
+
+	email: yup
+		.string()
+		.trim()
+		.max(40, INVALID.MAX_40)
+		.required(REQUIRED.EMAIL)
+		.matches(REGEXES.EMAIL, INVALID.EMAIL),
+
+	phoneNumber: yup
+		.string()
+		.required(REQUIRED.PHONE)
+		.matches(REGEXES.PHONE_NUMBER, INVALID.PHONE),
 });

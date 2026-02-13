@@ -28,3 +28,11 @@ export const changePassword = (verificationCode, newPassword) => {
 		newPassword: newPassword,
 	});
 };
+
+export const editProfile = (name, email, phoneNumber) => {
+	return api.post('/v1/auth/profile/', {
+		username: name,
+		email: email,
+		phonenumber: phoneNumber,
+	});
+};

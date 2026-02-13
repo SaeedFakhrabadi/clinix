@@ -19,6 +19,7 @@ declare module 'vue' {
     Home: typeof import('./src/layouts/Home.vue')['default']
     Landing: typeof import('./src/views/home/Landing.vue')['default']
     Login: typeof import('./src/views/auth/Login.vue')['default']
+    Messages: typeof import('./src/views/dashboard/Messages.vue')['default']
     Profile: typeof import('./src/views/dashboard/Profile.vue')['default']
     RecoveryPassword: typeof import('./src/views/auth/RecoveryPassword.vue')['default']
     Register: typeof import('./src/views/auth/Register.vue')['default']

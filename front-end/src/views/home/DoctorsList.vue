@@ -193,7 +193,7 @@
 					v-model="searchQuery"
 					label="جستجوی پزشک بر اساس نام یا تخصص"
 					icon-name="search"
-					placeholder="نام یا تخصص پزشک را وارد کنید..."
+					placeholder="نام یا تخصص پزشک را وارد کنید"
 				/>
 				<TheSelect
 					v-model="sortQuery"
@@ -223,6 +223,10 @@
 				/>
 			</div>
 		</div>
+		<h4 class="doctors-list__text">
+			برای مشاهده جزییات مربوط به پزشک و رزرو نوبت ، روی پزشک مورد نظر کلیک
+			کنید:
+		</h4>
 		<TheTable
 			:headers="headers"
 			:rows="mappedDoctors"
@@ -237,7 +241,7 @@
 		padding-left: space(6);
 		width: 100%;
 		@include flexbox(column, center, start, space(14), nowrap);
-		
+
 		&__title {
 			color: var(--text-900);
 			padding-right: space(4);
@@ -265,6 +269,10 @@
 			@media (max-width: $sm) {
 				@include flexbox(column, center, center, space(0), nowrap);
 			}
+		}
+
+		&__text {
+			color: var(--text-900);
 		}
 	}
 </style>

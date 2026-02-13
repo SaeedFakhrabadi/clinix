@@ -55,7 +55,7 @@
 				class="sidebar__exit"
 				label="خروج"
 				type="cancel"
-				iconName="logout"
+				icon-name="logout"
 				@click="logout"
 			/>
 		</div>
@@ -133,22 +133,24 @@
 				@include flexbox(row, start, center, space(0));
 
 				&:hover {
-					background-color: var(--primary-700);
+					background-color: var(--primary-600);
 				}
 
 				&--active {
+					background-color: var(--primary-800);
 					border-right: space(5) solid var(--title-100);
 				}
 			}
 		}
 
 		&__exit {
+			background-color: var(--red-800);
 			border: space(1) solid var(--red-100);
 			color: var(--red-100);
 			height: space(25);
 
 			&:hover {
-				background-color: var(--red-700);
+				background-color: var(--red-600);
 			}
 		}
 	}

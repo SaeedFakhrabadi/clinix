@@ -18,8 +18,10 @@ export const useCurrentUserStore = defineStore(
 				email: userInfo?.user?.email,
 				phoneNumber: userInfo?.user?.phonenumber,
 				role: {
-					label: mappedRole(userInfo?.user?.role),
-					value: userInfo?.user?.role,
+					// label: mappedRole(userInfo?.user?.role),
+					// value: userInfo?.user?.role,
+					label: 'بیمار',
+					value: 'PATIENT',
 				},
 			};
 		};

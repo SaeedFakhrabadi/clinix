@@ -1,6 +1,6 @@
 <script setup>
 	import { useForm, useField } from 'vee-validate';
-	import { RegisterSchema } from '@/schemas';
+	import { registerSchema } from '@/schemas';
 	import { useRouter } from 'vue-router';
 	import { useCurrentUserStore } from '@/stores/currentUser';
 	import { register } from '@/services/auth';
@@ -11,7 +11,7 @@
 	const currentUserStore = useCurrentUserStore();
 
 	const { handleSubmit } = useForm({
-		validationSchema: RegisterSchema,
+		validationSchema: registerSchema,
 		initialValues: {
 			name: '',
 			email: '',
@@ -67,29 +67,29 @@
 		<div class="form__inputs">
 			<TheInput
 				label="نام"
-				iconName="user"
+				icon-name="user"
 				placeholder="نام خود را وارد کنید"
 				v-model="name"
 				:error-message="nameError"
 			/>
 			<TheInput
 				label="ایمیل"
-				iconName="email"
+				icon-name="email"
 				placeholder="مانند : example.gmail.com"
 				v-model="email"
 				:error-message="emailError"
 			/>
 			<TheInput
 				label="شماره تلفن"
-				iconName="phone"
+				icon-name="phone"
 				placeholder="مانند : 09123456789"
 				v-model="phoneNumber"
-				:digits-only="true"
+				digits-only
 				:error-message="phoneNumberError"
 			/>
 			<TheInput
 				label="رمز عبور"
-				iconName="password"
+				icon-name="password"
 				type="password"
 				placeholder="رمز عبور دلخواه خود را وارد کنید"
 				v-model="password"
@@ -97,7 +97,7 @@
 			/>
 			<TheInput
 				label="تکرار رمز عبور"
-				iconName="password"
+				icon-name="password"
 				type="password"
 				placeholder="رمز عبور خود را مجدد وارد کنید"
 				v-model="confirmPassword"

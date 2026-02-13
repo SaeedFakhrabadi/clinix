@@ -66,17 +66,17 @@
 			<div class="form__input-wrapper">
 				<TheInput
 					label="کد تایید"
-					iconName="message-check"
+					icon-name="message-check"
 					placeholder="مانند : 123456"
 					v-model="verificationCode"
-					:digits-only="true"
+					digits-only
 					:error-message="verificationCodeError"
 				/>
 				<TheCountdownTimer class="form__counrdown-timer" />
 			</div>
 			<TheInput
 				label="رمز عبور جدید"
-				iconName="password"
+				icon-name="password"
 				type="password"
 				placeholder="رمز عبور جدید خود را وارد کنید"
 				v-model="newPassword"
@@ -84,7 +84,7 @@
 			/>
 			<TheInput
 				label="تکرار رمز عبور"
-				iconName="password"
+				icon-name="password"
 				type="password"
 				placeholder="رمز عبور خود را مجدد وارد کنید"
 				v-model="confirmPassword"

@@ -121,8 +121,7 @@
 	.home {
 		.header {
 			background-color: var(--bg-600);
-			padding-inline: space(4);
-			height: space(250);
+			padding: space(10) space(4);
 			text-align: center;
 			@include flexbox(column, center, center, space(20));
 

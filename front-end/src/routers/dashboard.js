@@ -5,6 +5,11 @@ export default {
 	redirect: '/dashboard/profile',
 	children: [
 		{
+			path: 'messages',
+			name: 'Messages',
+			component: () => import('@/views/dashboard/Messages.vue'),
+		},
+		{
 			path: 'profile',
 			name: 'Profile',
 			component: () => import('@/views/dashboard/Profile.vue'),

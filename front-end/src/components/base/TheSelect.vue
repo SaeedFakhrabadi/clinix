@@ -8,7 +8,7 @@
 		iconName: { type: String, default: '' },
 		options: { type: Array, required: true },
 		errorMessage: { type: String, default: '' },
-		disabled: { type: Boolean, default: false },
+		isDisabled: { type: Boolean, default: false },
 	});
 
 	const emit = defineEmits(['blur', 'focus', 'change']);
@@ -52,7 +52,7 @@
 				<select
 					class="select-box__select"
 					:value="selectedValue ?? firstOptionValue"
-					:disabled="disabled"
+					:disabled="isDisabled"
 					:aria-invalid="!!errorMessage"
 					@change="handleChange"
 					@blur="handleBlur"
@@ -102,10 +102,11 @@
 		}
 
 		.select-box {
-			background-image: linear-gradient(90deg, var(--bg-800), var(--bg-900));
+			background-color: var(--bg-900);
 			border-right: space(4) solid var(--text-100);
 			border-top-left-radius: space(4);
 			border-bottom-left-radius: space(4);
+			position: relative;
 			transition: all 0.2s ease;
 			outline: space(0.5) solid var(--text-500);
 			@include flexbox(row, center, center, space(0), nowrap);
@@ -125,14 +126,19 @@
 			}
 
 			&__icon {
+				position: absolute;
+				right: space(0);
 				color: var(--primary-100);
-				margin: space(2);
+				padding: space(4.5) space(3);
 			}
 
 			&__select {
 				background-color: transparent;
+				border-top-left-radius: space(4);
+				border-bottom-left-radius: space(4);
 				color: var(--text-900);
-				margin-left: space(5);
+				padding-right: space(17);
+				margin-left: space(2);
 				border: none;
 				outline: none;
 				width: 100%;
@@ -140,6 +146,7 @@
 				cursor: pointer;
 
 				&:disabled {
+					background-color: var(--bg-600);
 					opacity: 0.5;
 					cursor: not-allowed;
 				}
