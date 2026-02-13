@@ -6,10 +6,7 @@
 		label: { type: String, required: true },
 		isMandatory: { type: Boolean, default: false },
 		iconName: { type: String, default: '' },
-		options: {
-			type: Array,
-			required: true,
-		},
+		options: { type: Array, required: true },
 		errorMessage: { type: String, default: '' },
 		disabled: { type: Boolean, default: false },
 	});
@@ -67,13 +64,14 @@
 						:key="index"
 						:value="opt.value"
 					>
-						{{ opt.label }}
+						{{ toPersianDigits(opt.label) }}
 					</option>
 				</select>
 			</div>
-			<h6 class="the-select__error-message">
+			<h6 v-if="errorMessage" class="the-select__error-message error-message">
 				{{ toPersianDigits(errorMessage) }}
 			</h6>
+			<div v-else class="the-select__error-space"></div>
 		</div>
 	</div>
 </template>
@@ -112,6 +110,20 @@
 			outline: space(0.5) solid var(--text-500);
 			@include flexbox(row, center, center, space(0), nowrap);
 
+			&:focus-within,
+			&:hover {
+				border-right: space(2) solid var(--text-100);
+			}
+
+			&--error {
+				border-right: space(4) solid var(--danger-100);
+			}
+
+			&--error:focus-within,
+			&--error:hover {
+				border-right: space(2) solid var(--danger-100);
+			}
+
 			&__icon {
 				color: var(--primary-100);
 				margin: space(2);
@@ -133,28 +145,22 @@
 				}
 			}
 
-			&:focus-within,
-			&:hover {
-				border-right: space(2) solid var(--text-100);
-			}
-
-			&--error {
-				border-right: space(4) solid var(--danger-100);
-			}
-
-			&--error:focus-within,
-			&--error:hover {
-				border-right: space(2) solid var(--danger-100);
+			&__option {
+				background-color: var(--bg-900);
 			}
 		}
 
-		&__error-message {
+		.error-message {
 			user-select: none;
 			line-height: space(10);
 			min-height: space(10);
 			color: var(--danger-600);
 			@include flexbox();
 			@include lineClamp(1);
+		}
+
+		&__error-space {
+			min-height: space(4);
 		}
 	}
 </style>

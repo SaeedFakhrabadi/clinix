@@ -26,13 +26,16 @@
 			padding-top: space(32);
 			margin: 0 auto;
 			overflow: auto;
-			max-width: space(650);
+			max-width: $xl;
 			@include flexbox(row, start, start, space(0));
 		}
 
 		&__content {
-			padding-top: space(20);
-			@include flexbox(row, start, start, space(0));
+			padding-block: space(8);
+
+			@media (max-width: $xl) {
+				padding-inline: space(6);
+			}
 		}
 
 		.footer {

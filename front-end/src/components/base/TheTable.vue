@@ -29,7 +29,7 @@
 			<h2>در حال دریافت اطلاعات...</h2>
 		</div>
 		<div v-else-if="!rows?.length" class="the-table__state">
-			<h2>اطلاعاتی برای نمایش وجود ندارد!</h2>
+			<h2>اطلاعاتی برای نمایش پیدا نشد!</h2>
 		</div>
 		<table v-else class="the-table__table table">
 			<thead class="table__head">
@@ -42,7 +42,7 @@
 						:key="header.value"
 						class="table__head-cell"
 					>
-						<h4>{{ header.label }}</h4>
+						<h4>{{ toPersianDigits(header.label) }}</h4>
 					</th>
 				</tr>
 			</thead>
@@ -88,13 +88,13 @@
 
 			&__head-cell {
 				color: var(--text-900);
-				padding: space(6);
+				padding-block: space(6);
 				border: space(1) solid var(--text-500);
 			}
 
 			&__body-cell {
 				color: var(--text-900);
-				padding: space(4);
+				padding-block: space(4);
 				border: space(1) solid var(--text-500);
 				text-align: center;
 			}

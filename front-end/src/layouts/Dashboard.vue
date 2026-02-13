@@ -43,7 +43,7 @@
 			height: calc(100% - space(32));
 			padding-top: space(32);
 			margin: 0 auto;
-			max-width: space(650);
+			max-width: $xl;
 			@include flexbox(row, start, start, space(0));
 		}
 

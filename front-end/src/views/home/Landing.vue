@@ -121,7 +121,6 @@
 	.home {
 		.header {
 			background-color: var(--bg-600);
-			width: 100%;
 			padding-inline: space(4);
 			height: space(250);
 			text-align: center;

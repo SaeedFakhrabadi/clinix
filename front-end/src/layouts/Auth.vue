@@ -14,7 +14,7 @@
 		&__main-content {
 			height: calc(100% - space(32));
 			padding-top: space(32);
-			max-width: space(650);
+			max-width: $xl;
 			margin: 0 auto;
 			@include flexbox(row, center, center);
 		}

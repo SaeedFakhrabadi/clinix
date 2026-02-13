@@ -40,26 +40,6 @@
 <template>
 	<div class="the-input">
 		<div class="the-input__container">
-			<!-- <textarea
-      v-if="isDescription"
-      class="base-input__field"
-      placeholder=" "
-      v-model="inputValue"
-      :style="{ marginTop: '10px' }"
-    ></textarea> -->
-			<!-- <select
-      v-else-if="isActivityType"
-      class="base-input__field"
-      v-model="inputValue"
-    >
-      <option
-        v-for="activityType in activityTypesStore.activityTypes"
-        :key="activityType.id"
-        :value="activityType.title"
-      >
-        {{ activityType.title }}
-      </option>
-    </select> -->
 			<label class="the-input__label label-box">
 				<h5 class="label-box__text">{{ label }}</h5>
 				<h5 v-if="isMandatory" class="label-box__mandatory">*</h5>

@@ -95,7 +95,7 @@
 		@include flexbox();
 
 		&__container {
-			width: space(650);
+			width: $xl;
 			@include flexbox(row, space-between, center, space(0), nowrap);
 		}
 
@@ -168,10 +168,12 @@
 		}
 
 		.buttons {
-			padding-inline: space(6);
 			min-width: space(120);
 			@include flexbox(row, space-between, center, space(0), nowrap);
 
+			@media (max-width: $xl) {
+				padding-inline: space(6);
+			}
 			@media (max-width: $md) {
 				display: none;
 			}
