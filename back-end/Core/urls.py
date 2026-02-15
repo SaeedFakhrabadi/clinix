@@ -36,7 +36,10 @@ urlpatterns = [
         path('doctors/<int:pk>/', DoctorDetailAPIView.as_view()),
 
         # Reservations
-        path('reservations/', UserReservationsAPIView.as_view()),        # GET
+        # path('reservations/', UserReservationsAPIView.as_view()),        # GET
+
+        path('reservations/<int:user_id>/', UserReservationsAPIView.as_view(), name='user-reservations'),
+
         path('reservations/create/', ReservationCreateAPIView.as_view()), # POST
         path('reservations/<int:pk>/', ReservationDeleteAPIView.as_view()), # DELETE
 

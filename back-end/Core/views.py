@@ -4,9 +4,6 @@ import django.contrib.auth
 from rest_framework import viewsets, status
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
-from rest_framework import status
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.core.mail import send_mail
@@ -14,7 +11,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.db import IntegrityError
 
-from .models import DoctorProfile, PasswordReset, Reservation
+from .models import DoctorProfile, PasswordReset, Reservation, User
 from .serializers import (
     LoginSerializer,
     RegisterSerializer,
@@ -27,6 +24,10 @@ from .serializers import (
     CommentSerializer
 )
 from kavenegar import *
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
 
 User = django.contrib.auth.get_user_model()
 
@@ -271,7 +272,8 @@ class DoctorDetailAPIView(APIView):
         return Response(serializer.data)
 
 class ReservationCreateAPIView(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def post(self, request):
         serializer = ReservationSerializer(data=request.data)
@@ -280,16 +282,51 @@ class ReservationCreateAPIView(APIView):
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
 
-class UserReservationsAPIView(APIView):
-    permission_classes = [IsAuthenticated]
+# class UserReservationsAPIView(APIView):
+#     permission_classes = [AllowAny]
+#
+#     def get(self, request):
+#         if request.user.is_authenticated:
+#             reservations = Reservation.objects.filter(patient=request.user)
+#         else:
+#             reservations = Reservation.objects.none()   # or .all() — be careful
+#
+#         serializer = ReservationSerializer(reservations, many=True)
+#         return Response(serializer.data)
 
-    def get(self, request):
-        reservations = Reservation.objects.filter(patient=request.user)
+class UserReservationsAPIView(APIView):
+    permission_classes = [AllowAny]   # ← no login required (dev phase)
+
+    def get(self, request, user_id):
+        # 1. Get the user or return 404
+        user = get_object_or_404(User, id=user_id)
+
+        # Optional: only allow patients (more strict)
+        # if user.role != UserRoles.PATIENT:
+        #     return Response(
+        #         {"detail": "This user is not a patient"},
+        #         status=status.HTTP_400_BAD_REQUEST
+        #     )
+
+        # 2. Get their reservations
+        reservations = Reservation.objects.filter(patient=user).order_by('-start_reservation_hour')
+
+        # 3. Serialize
         serializer = ReservationSerializer(reservations, many=True)
-        return Response(serializer.data)
+
+        # 4. Optional: enrich response with some user info
+        return Response({
+            "user_id": user.id,
+            "username": user.username,
+            "email": user.email,
+            "role": user.role,
+            "reservations_count": reservations.count(),
+            "reservations": serializer.data
+        })
 
 class ReservationDeleteAPIView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
+    # permission_classes = [IsAuthenticated]
 
     def delete(self, request, pk):
         try:
