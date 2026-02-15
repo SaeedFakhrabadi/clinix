@@ -62,6 +62,13 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(default=timezone.now, editable=False)
+
+    def get_full_name(self):
+        return self.username  # or combine with other fields later
+
+    def get_short_name(self):
+        return self.username
 
     objects = UserManager()
 
@@ -87,6 +94,9 @@ class DoctorProfile(models.Model):
 
     start_working_hour = models.TimeField()
     end_working_hour = models.TimeField()
+
+    def average_score_formatted(self):
+        return f"{self.score:.1f}" if self.score else "بدون امتیاز"
 
     def __str__(self):
         return f"Dr. {self.user.username}"
