@@ -90,7 +90,7 @@
 					class="buttons__button"
 					type="cancel"
 					label="مشاهده پروفایل"
-					@click="router.push({ name: 'Profile' })"
+					@click="router.push({ name: 'Notifications' })"
 				/>
 				<TheButton
 					v-if="currentUser"

@@ -86,7 +86,7 @@
 		loading.value = true;
 		try {
 			const response = await getReservations(currentUser.value?.id);
-			reservations.value = response?.data;
+			reservations.value = response?.data?.reservations;
 		} catch (error) {
 			console.error('Error : ', error?.response?.data || error?.message);
 
@@ -102,14 +102,16 @@
 <template>
 	<div class="reservations">
 		<div v-if="loading" class="reservations__state--loading">
-			<h2>در حال دریافت اطلاعات نوبت‌ها...</h2>
+			<h2>در حال دریافت اطلاعات نوبت ها...</h2>
 		</div>
 		<div v-else-if="error" class="reservations__state--error">
-			<h2>خطا در دریافت اطلاعات نوبت‌ها!</h2>
-			<p>{{ error.message || 'لطفاً دوباره تلاش کنید' }}</p>
+			<h2>خطا در دریافت اطلاعات نوبت ها!</h2>
 		</div>
 		<div v-else-if="reservations?.length" class="reservations__container">
-			<h2 class="reservations__title">لیست نوبت‌ها</h2>
+			<h2 class="reservations__title">لیست نوبت ها</h2>
+			<p class="reservations__text">
+				برای لغو نوبت روی سطر نوبت مورد نظر در جدول کلیک کنید
+			</p>
 			<TheTable
 				:headers="tableHeaders"
 				:rows="mappedReservations"
@@ -141,14 +143,20 @@
 				color: var(--danger-500);
 			}
 		}
+
 		&__container {
 			width: 100%;
 			@include flexbox(column, center, start, space(14), nowrap);
 		}
+		
 		&__title {
 			color: var(--text-900);
 			padding-right: space(4);
 			border-right: space(4) solid var(--title-100);
+		}
+
+		&__text {
+			color: var(--text-700);
 		}
 	}
 </style>

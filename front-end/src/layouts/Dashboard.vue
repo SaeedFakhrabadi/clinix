@@ -8,7 +8,7 @@
 	const sidebarItems = computed(() => {
 		if (userRole.value === 'PATIENT') {
 			return [
-				{ label: 'پیام های دریافتی', name: 'Messages' },
+				{ label: 'اعلان های دریافتی', name: 'Notifications' },
 				{ label: 'اطلاعات شخصی', name: 'Profile' },
 				{ label: 'نوبت ها', name: 'Reservations' },
 				{ label: 'تاریخچه تراکنش ها', name: 'Transactions' },
@@ -16,7 +16,7 @@
 			];
 		} else if (userRole.value === 'DOCTOR') {
 			return [
-				{ label: 'پیام های دریافتی', name: 'Messages' },
+				{ label: 'اعلان های دریافتی', name: 'Notifications' },
 				{ label: 'اطلاعات شخصی', name: 'Profile' },
 				{ label: 'مدیریت نوبت ها', name: 'Reservations' },
 				{ label: 'مدیریت ساعات کاری', name: 'Transactions' },

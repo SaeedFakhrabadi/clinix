@@ -2,12 +2,12 @@ export default {
 	path: '/dashboard',
 	name: 'Dashboard',
 	component: () => import('@/layouts/Dashboard.vue'),
-	redirect: '/dashboard/profile',
+	redirect: '/dashboard/notifications',
 	children: [
 		{
-			path: 'messages',
-			name: 'Messages',
-			component: () => import('@/views/dashboard/Messages.vue'),
+			path: 'notifications',
+			name: 'Notifications',
+			component: () => import('@/views/dashboard/Notifications.vue'),
 		},
 		{
 			path: 'profile',
