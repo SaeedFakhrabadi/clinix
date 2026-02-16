@@ -110,7 +110,6 @@ class ReservationSerializer(serializers.ModelSerializer):
         model = Reservation
         fields = [
             'id',
-            'doctor',
             'patient',
             'start_reservation_hour',
             'end_reservation_hour'

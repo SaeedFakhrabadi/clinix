@@ -1,13 +1,14 @@
 {
   "info": {
-    "_postman_id": "55669204-2d8e-40af-bd9e-785f03e87eaa",
+    "_postman_id": "631fbc75-f6fd-40be-bf1c-27bd0dfafd94",
     "name": "clinix",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "29756279",
+    "_collection_link": "https://go.postman.co/collection/29756279-631fbc75-f6fd-40be-bf1c-27bd0dfafd94?source=collection_link"
   },
   "item": [
     {
       "name": "register",
-      "id": "449006fa-3500-4a35-8b78-10d7aa30d291",
       "request": {
         "auth": {
           "type": "noauth"
@@ -44,7 +45,6 @@
       },
       "response": [
         {
-          "id": "fe6927e6-71c5-4c22-84e8-62e08a6c2cc0",
           "name": "register_final",
           "originalRequest": {
             "method": "POST",
@@ -130,7 +130,6 @@
     },
     {
       "name": "login",
-      "id": "5bc74742-df60-4648-b36a-7533889b0590",
       "protocolProfileBehavior": {
         "disabledSystemHeaders": {}
       },
@@ -167,7 +166,6 @@
       },
       "response": [
         {
-          "id": "e2f865d6-382b-4a7c-817d-620da3a535db",
           "name": "login_final",
           "originalRequest": {
             "method": "POST",
@@ -253,7 +251,6 @@
     },
     {
       "name": "forgot_password",
-      "id": "2d7ec71b-9e48-457c-8862-c17a790fc3fd",
       "request": {
         "method": "POST",
         "header": [
@@ -287,7 +284,6 @@
       },
       "response": [
         {
-          "id": "1731c0d4-4bdd-46f0-b288-4a2ff89ca152",
           "name": "forgot_password_final",
           "originalRequest": {
             "method": "POST",
@@ -373,7 +369,6 @@
     },
     {
       "name": "reset_password",
-      "id": "214c8c47-dc17-4aa4-ab00-fefd3bd1972b",
       "request": {
         "method": "POST",
         "header": [
@@ -407,7 +402,6 @@
       },
       "response": [
         {
-          "id": "c3319f75-a144-4389-9a28-cd90912c9e95",
           "name": "reset_password_final",
           "originalRequest": {
             "method": "POST",
@@ -500,7 +494,6 @@
     },
     {
       "name": "admin",
-      "id": "45b9efb5-886e-4866-8c3a-9a8896632a25",
       "request": {
         "method": "POST",
         "header": [
@@ -533,7 +526,6 @@
     },
     {
       "name": "doctorsList",
-      "id": "1ae6bf68-89fc-4714-9325-3ed938b163f1",
       "request": {
         "method": "GET",
         "header": [],
@@ -555,11 +547,82 @@
           ]
         }
       },
-      "response": []
+      "response": [
+        {
+          "name": "doctorsList_ex",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/doctors/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "doctors",
+                ""
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Date",
+              "value": "Sun, 15 Feb 2026 12:37:06 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.14.2"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "GET, HEAD, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "335"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"id\": 1,\n        \"name\": \"erfanmahmudi1383@gmail.com\",\n        \"field\": \"گوارش\",\n        \"location\": \"Mashhad\",\n        \"score\": 0,\n        \"price\": 10250000\n    },\n    {\n        \"id\": 2,\n        \"name\": \"drerfan\",\n        \"field\": \"قلب و عروق\",\n        \"location\": \"Isfahan\",\n        \"score\": 4,\n        \"price\": 25000000\n    },\n    {\n        \"id\": 3,\n        \"name\": \"drboog\",\n        \"field\": \"گوش و حلق و بینی\",\n        \"location\": \"Shiraz\",\n        \"score\": 5,\n        \"price\": 65000000\n    }\n]"
+        }
+      ]
     },
     {
       "name": "doctor_detail",
-      "id": "d3ea2247-b1dc-4a7d-911a-b8016b8c7204",
       "request": {
         "method": "GET",
         "header": [],
@@ -582,16 +645,88 @@
           ]
         }
       },
-      "response": []
+      "response": [
+        {
+          "name": "doctor_detail_ex",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/doctors/1/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "doctors",
+                "1",
+                ""
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Date",
+              "value": "Sun, 15 Feb 2026 12:37:12 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.14.2"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "GET, HEAD, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "207"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"id\": 1,\n    \"name\": \"erfanmahmudi1383@gmail.com\",\n    \"field\": \"گوارش\",\n    \"location\": \"Mashhad\",\n    \"score\": 0,\n    \"price\": 10250000,\n    \"experience\": 10,\n    \"start_working_hour\": \"06:00:00\",\n    \"end_working_hour\": \"14:30:30\",\n    \"comments\": []\n}"
+        }
+      ]
     },
     {
-      "name": "reservationsList",
-      "id": "9c5b9376-0c85-4870-8e39-c5aead5e9a8b",
+      "name": "reservation_by_user_id",
       "request": {
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://127.0.0.1:8000/api/v1/reservations/",
+          "raw": "http://127.0.0.1:8000/api/v1/reservations/1/",
           "protocol": "http",
           "host": [
             "127",
@@ -604,15 +739,88 @@
             "api",
             "v1",
             "reservations",
+            "1",
             ""
           ]
         }
       },
-      "response": []
+      "response": [
+        {
+          "name": "reservation_by_user_id_ex",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/reservations/1/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "reservations",
+                "1",
+                ""
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Date",
+              "value": "Sun, 15 Feb 2026 13:41:08 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.14.2"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "GET, HEAD, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "241"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"user_id\": 1,\n    \"username\": \"erfan2\",\n    \"email\": \"erfanmahmudi123@gmail.com\",\n    \"role\": \"PATIENT\",\n    \"reservations_count\": 1,\n    \"reservations\": [\n        {\n            \"id\": 2,\n            \"patient\": 1,\n            \"start_reservation_hour\": \"2026-02-15T16:00:00Z\",\n            \"end_reservation_hour\": \"2026-02-15T18:00:00Z\"\n        }\n    ]\n}"
+        }
+      ]
     },
     {
       "name": "create_reservation",
-      "id": "38af6286-399d-4574-8678-2579ea8713bb",
       "request": {
         "method": "POST",
         "header": [],
@@ -648,7 +856,6 @@
     },
     {
       "name": "delete_reservation",
-      "id": "04ecaab4-0007-4c04-9e41-cfd0cb922c28",
       "request": {
         "method": "DELETE",
         "header": [],
@@ -675,7 +882,6 @@
     },
     {
       "name": "create_comment",
-      "id": "5ac135f6-8447-4221-a9c7-52573bc1dd64",
       "request": {
         "method": "POST",
         "header": [],
