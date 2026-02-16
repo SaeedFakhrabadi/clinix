@@ -7,3 +7,8 @@ export const createReservation = (did, pid, time) => {
 		time: time,
 	});
 };
+
+// export const getReservations = () => {
+// 	return api.post('/v1/reservations', {
+// 	});
+// };

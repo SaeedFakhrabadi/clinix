@@ -50,7 +50,19 @@
 				:class="{ 'input-box--error': errorMessage }"
 			>
 				<SvgLoader class="input-box__icon" v-if="iconName" :name="iconName" />
+				<textarea
+					v-if="type === 'textarea'"
+					class="input-box__input"
+					style="height: 80px"
+					v-model="inputValue"
+					:placeholder="placeholder"
+					:disabled="isDisabled"
+					@input="handleInput"
+					@blur="emit('blur', inputValue)"
+					@focus="emit('focus', inputValue)"
+				/>
 				<input
+					v-else
 					class="input-box__input"
 					v-model="inputValue"
 					:placeholder="placeholder"

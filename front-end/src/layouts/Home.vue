@@ -1,20 +1,10 @@
-<script setup>
-	import { toPersianDigits } from '@/utils/toPersianDigits.js';
-</script>
+<script setup></script>
 
 <template>
 	<div class="home">
 		<TheNavbar />
 		<main class="home__main-content">
 			<router-view class="home__content" />
-			<footer class="home__footer footer">
-				<div class="footer__title">
-					<h4>ساخته شده با عشق توسط تیم کلینیکس</h4>
-				</div>
-				<p class="footer__copyright">
-					&copy; تمامی حقوق محفوظ است ({{ toPersianDigits(1404) }})
-				</p>
-			</footer>
 		</main>
 	</div>
 </template>
@@ -36,23 +26,6 @@
 
 			@media (max-width: $xl) {
 				padding-inline: space(6);
-			}
-		}
-
-		.footer {
-			background-color: var(--primary-800);
-			padding: space(10) space(0);
-			color: var(--text-600);
-			width: 100%;
-			border-top: 1px solid var(--text-100);
-			@include flexbox(column, center, center, space(2));
-
-			&__title {
-				@include flexbox(row, center, center, space(2));
-			}
-
-			&__copyright {
-				opacity: 0.6;
 			}
 		}
 	}

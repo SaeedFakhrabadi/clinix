@@ -30,6 +30,7 @@ const INVALID = {
 	CODE: 'کد تایید باید 6 رقم باشد',
 	MAX_20: 'حداکثر 20 کاراکتر مجاز است',
 	MAX_40: 'حداکثر 40 کاراکتر مجاز است',
+	MAX_100: 'حداکثر 100 کاراکتر مجاز است',
 };
 
 export const registerSchema = yup.object({
@@ -122,3 +123,7 @@ export const profileSchema = yup.object({
 		.required(REQUIRED.PHONE)
 		.matches(REGEXES.PHONE_NUMBER, INVALID.PHONE),
 });
+
+export const commentSchema = yup.object({
+	comment: yup.string().trim().max(100, INVALID.MAX_100),
+});	
