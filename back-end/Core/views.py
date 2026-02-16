@@ -11,7 +11,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.db import IntegrityError
 
-from .models import DoctorProfile, PasswordReset, Reservation, User, Notification, UserRoles
+from .models import DoctorProfile, PasswordReset, Reservation, User, Notification, UserRoles, Transaction
 from .serializers import (
     LoginSerializer,
     RegisterSerializer,
@@ -22,7 +22,7 @@ from .serializers import (
     DoctorListSerializer,
     DoctorDetailSerializer,
     ReservationCreateSerializer,
-    CommentCreateSerializer, NotificationSerializer
+    CommentCreateSerializer, NotificationSerializer, TransactionHistorySerializer, TransactionCreateSerializer
 )
 from kavenegar import *
 
@@ -416,4 +416,53 @@ class NotificationsListAPIView(APIView):
             message="لیست اعلان‌ها با موفقیت دریافت شد",
             message_en="Notifications retrieved successfully",
             extra_data={"notifications": serializer.data}
+        )
+
+# views.py   (add these two classes)
+
+class TransactionCreateAPIView(APIView):
+    permission_classes = [AllowAny]   # ← بعداً به IsAuthenticated تغییر دهید
+
+    def post(self, request):
+        serializer = TransactionCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            transaction = serializer.save()
+            return success_response(
+                message="تراکنش با موفقیت ثبت شد",
+                message_en="Transaction created successfully",
+                status_code=status.HTTP_201_CREATED,
+                extra_data={
+                    "transaction_id": transaction.id,
+                    "price": transaction.price,
+                    "status": transaction.status,
+                    "date": transaction.created_at.strftime("%Y-%m-%d %H:%M")
+                }
+            )
+        return error_response(
+            message="داده‌های ارسالی معتبر نیستند",
+            message_en="Invalid data",
+            extra_data={"errors": serializer.errors}
+        )
+
+
+class TransactionHistoryAPIView(APIView):
+    permission_classes = [AllowAny]   # ← بعداً محدود کنید
+
+    def get(self, request, user_id):
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return error_response(
+                message="کاربر یافت نشد",
+                message_en="User not found",
+                status_code=status.HTTP_404_NOT_FOUND
+            )
+
+        transactions = Transaction.objects.filter(user=user).order_by('-created_at')
+        serializer = TransactionHistorySerializer(transactions, many=True)
+
+        return success_response(
+            message="تاریخچه تراکنش‌ها دریافت شد",
+            message_en="Transaction history retrieved",
+            extra_data={"transactions": serializer.data}
         )

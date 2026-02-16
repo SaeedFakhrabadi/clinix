@@ -1,7 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 from rest_framework import serializers
-from .models import DoctorProfile, Comment, Reservation, UserRoles, Notification
+from .models import DoctorProfile, Comment, Reservation, UserRoles, Notification, TransactionType, TransactionMethod, \
+    Transaction, TransactionStatus
 from jdatetime import date as jdate
 from datetime import datetime, timedelta
 
@@ -229,4 +230,43 @@ class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
         fields = ['id', 'message', 'notification_type', 'is_read', 'created_at']
+        read_only_fields = fields
+
+# serializers.py   (add these classes)
+
+class TransactionCreateSerializer(serializers.Serializer):
+    price     = serializers.IntegerField(min_value=1000)   # حداقل مبلغ منطقی
+    user_id   = serializers.IntegerField()
+    type      = serializers.ChoiceField(choices=TransactionType.choices)
+    method    = serializers.ChoiceField(choices=TransactionMethod.choices)
+
+    def validate(self, data):
+        try:
+            user = User.objects.get(id=data['user_id'])
+            data['user'] = user
+        except User.DoesNotExist:
+            raise serializers.ValidationError({"user_id": "کاربر یافت نشد"})
+
+        return data
+
+    def create(self, validated_data):
+        # در فاز فعلی همه تراکنش‌ها موفق فرض می‌شوند
+        # بعداً اینجا درگاه پرداخت واقعی فراخوانی می‌شود
+        transaction = Transaction.objects.create(
+            user=validated_data['user'],
+            price=validated_data['price'],
+            transaction_type=validated_data['type'],
+            method=validated_data['method'],
+            status=TransactionStatus.SUCCESS,   # یا PENDING اگر درگاه واقعی باشد
+            # reservation=...   ← اگر از reservation آمد می‌توانید ست کنید
+        )
+        return transaction
+
+
+class TransactionHistorySerializer(serializers.ModelSerializer):
+    date = serializers.DateTimeField(source='created_at', format='%Y-%m-%d %H:%M')
+
+    class Meta:
+        model = Transaction
+        fields = ['price', 'status', 'date']
         read_only_fields = fields

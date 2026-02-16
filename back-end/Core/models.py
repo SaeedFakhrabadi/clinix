@@ -19,6 +19,18 @@ class NotificationType(models.TextChoices):
     RESERVE = "RESERVE", "رزرو نوبت"
     CANCEL  = "CANCEL",  "لغو نوبت"
 
+class TransactionType(models.TextChoices):
+    PAY    = "PAY",    "پرداخت"
+    REFUND = "REFUND", "بازگشت وجه"
+
+class TransactionMethod(models.TextChoices):
+    BANK   = "BANK",   "درگاه بانکی"
+    WALLET = "WALLET", "کیف پول"
+
+class TransactionStatus(models.TextChoices):
+    SUCCESS = "SUCCESS", "موفق"
+    FAILED  = "FAILED",  "ناموفق"
+    PENDING = "PENDING", "در انتظار"
 
 class UserManager(BaseUserManager):
     def create_user(self, username, email, phonenumber, password=None, role=UserRoles.PATIENT, **extra_fields):
@@ -333,3 +345,45 @@ class Notification(models.Model):
     def __str__(self):
         return f"{self.notification_type} - {self.created_at}"
 
+class Transaction(models.Model):
+    user        = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT,
+        related_name='transactions'
+    )
+    price       = models.PositiveIntegerField()           # به ریال
+    transaction_type = models.CharField(
+        max_length=10,
+        choices=TransactionType.choices,
+        verbose_name="نوع تراکنش"
+    )
+    method      = models.CharField(
+        max_length=10,
+        choices=TransactionMethod.choices,
+        verbose_name="روش پرداخت"
+    )
+    status      = models.CharField(
+        max_length=10,
+        choices=TransactionStatus.choices,
+        default=TransactionStatus.SUCCESS,
+        verbose_name="وضعیت"
+    )
+    created_at  = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="تاریخ تراکنش"
+    )
+    # optional: reference to reservation if payment is for appointment
+    reservation = models.ForeignKey(
+        'Reservation',
+        on_delete=models.SET_NULL,
+        null=True, blank=True,
+        related_name='transactions'
+    )
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = "تراکنش"
+        verbose_name_plural = "تراکنش‌ها"
+
+    def __str__(self):
+        return f"{self.user} – {self.price:,} – {self.get_transaction_type_display()}"
