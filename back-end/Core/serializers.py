@@ -1,6 +1,9 @@
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 from rest_framework import serializers
-from .models import DoctorProfile, Comment, Reservation
+from .models import DoctorProfile, Comment, Reservation, UserRoles
+from jdatetime import date as jdate
+from datetime import datetime, timedelta
 
 User = get_user_model()
 
@@ -81,29 +84,7 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ['score', 'username', 'comment']
-
-class DoctorDetailSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(source='user.username')
-    comments = serializers.SerializerMethodField()
-
-    class Meta:
-        model = DoctorProfile
-        fields = [
-            'id',
-            'name',
-            'field',
-            'location',
-            'score',
-            'price',
-            'experience',
-            'start_working_hour',
-            'end_working_hour',
-            'comments',
-        ]
-
-    def get_comments(self, obj):
-        comments = Comment.objects.filter(doctor=obj.user)
-        return CommentSerializer(comments, many=True).data
+        read_only_fields = fields
 
 class ReservationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -115,3 +96,149 @@ class ReservationSerializer(serializers.ModelSerializer):
             'end_reservation_hour'
         ]
         read_only_fields = ['patient']
+
+class ReservationCreateSerializer(serializers.Serializer):
+    doctor_id = serializers.IntegerField()   # این همون id که تو /doctors/ برمی‌گردونه (DoctorProfile.id)
+    user_id   = serializers.IntegerField()
+    time      = serializers.CharField()      # مثال: "1404-11-26-8"
+
+    def validate(self, data):
+        try:
+            y, m, d, hour = map(int, data['time'].split('-'))
+            jdt = jdate(y, m, d)
+            greg = jdt.togregorian()
+
+            # Create naive datetime first
+            naive_start = datetime.combine(greg, datetime.min.time().replace(hour=hour, minute=0, second=0))
+
+            # Make it timezone-aware (uses settings.TIME_ZONE)
+            aware_start = timezone.make_aware(naive_start)
+
+            data['start_reservation_hour'] = aware_start
+            data['end_reservation_hour'] = aware_start + timedelta(hours=1)
+
+        except Exception as e:
+            raise serializers.ValidationError(f"فرمت زمان اشتباه است یا تاریخ معتبر نیست: {str(e)}")
+
+        # 2. Get doctor (from DoctorProfile.id → User)
+        try:
+            profile = DoctorProfile.objects.get(id=data['doctor_id'])
+            data['doctor'] = profile.user
+        except DoctorProfile.DoesNotExist:
+            raise serializers.ValidationError("پزشک یافت نشد")
+
+        # 3. Get patient
+        try:
+            data['patient'] = User.objects.get(id=data['user_id'])
+        except User.DoesNotExist:
+            raise serializers.ValidationError("کاربر یافت نشد")
+
+        return data
+
+    def create(self, validated_data):
+        return Reservation.objects.create(
+            doctor=validated_data['doctor'],
+            patient=validated_data['patient'],
+            start_reservation_hour=validated_data['start_reservation_hour'],
+            end_reservation_hour=validated_data['end_reservation_hour']
+        )
+
+class DoctorDetailSerializer(serializers.ModelSerializer):
+    did = serializers.IntegerField(source='id')
+    name = serializers.CharField(source='user.username')
+
+    start_working_hour = serializers.SerializerMethodField()
+    end_working_hour   = serializers.SerializerMethodField()
+    reserved_times     = serializers.SerializerMethodField()
+    comments           = serializers.SerializerMethodField()
+
+    class Meta:
+        model = DoctorProfile
+        fields = [
+            'did', 'name', 'field', 'location', 'score', 'price',
+            'experience', 'start_working_hour', 'end_working_hour',
+            'reserved_times', 'comments'
+        ]
+
+    def get_start_working_hour(self, obj):
+        return obj.start_working_hour.hour
+
+    def get_end_working_hour(self, obj):
+        return obj.end_working_hour.hour
+
+    def get_reserved_times(self, obj):
+        today = jdate.today()
+        # شنبه هفته جاری (در jdatetime: weekday()=0 → شنبه)
+        saturday = today - timedelta(days=today.weekday())
+
+        reserved = {}
+        for i in range(12):                                 # 0 تا 11
+            day_jalali = saturday + timedelta(days=i)
+            day_greg = day_jalali.togregorian()
+
+            reservations = Reservation.objects.filter(
+                doctor=obj.user,
+                start_reservation_hour__date=day_greg
+            )
+
+            hours = [r.start_reservation_hour.hour for r in reservations]
+            reserved[i] = sorted(set(hours))                # بدون تکرار و مرتب
+
+        return reserved
+
+    def get_comments(self, obj):
+        comments = Comment.objects.filter(doctor=obj.user)
+        return CommentSerializer(comments, many=True).data
+
+class CommentCreateSerializer(serializers.Serializer):
+    doctor_id  = serializers.IntegerField()
+    user_id    = serializers.IntegerField()
+    comment    = serializers.CharField(max_length=1000, trim_whitespace=True)
+    score      = serializers.IntegerField(min_value=1, max_value=5)
+
+    def validate(self, data):
+        # 1. Get doctor (from DoctorProfile.id)
+        try:
+            doctor_profile = DoctorProfile.objects.get(id=data['doctor_id'])
+            data['doctor'] = doctor_profile.user
+        except DoctorProfile.DoesNotExist:
+            raise serializers.ValidationError({"doctor_id": "پزشک با این شناسه یافت نشد"})
+
+        # 2. Get patient / commenter
+        try:
+            patient = User.objects.get(id=data['user_id'])
+            if patient.role != UserRoles.PATIENT:
+                raise serializers.ValidationError({"user_id": "فقط بیماران می‌توانند نظر ثبت کنند"})
+            data['patient'] = patient
+        except User.DoesNotExist:
+            raise serializers.ValidationError({"user_id": "کاربر یافت نشد"})
+
+        return data
+
+    def create(self, validated_data):
+        # Important: Comment model requires a reservation (OneToOneField)
+        # → We need to find or handle a reservation
+        # Simplest approach for now: find the most recent past reservation
+
+        # reservation = Reservation.objects.filter(
+        #     patient=validated_data['patient'],
+        #     doctor=validated_data['doctor'],
+        #     end_reservation_hour__lt=timezone.now()
+        # ).order_by('-end_reservation_hour').first()
+        #
+        # if not reservation:
+        #     raise serializers.ValidationError(
+        #         "برای ثبت نظر باید حداقل یک نوبت گذشته با این پزشک داشته باشید"
+        #     )
+
+        # Create comment
+        comment = Comment.objects.create(
+            doctor=validated_data['doctor'],
+            patient=validated_data['patient'],
+            # reservation=reservation,
+            score=validated_data['score'],
+            comment=validated_data['comment']
+        )
+
+        # The post_save signal / .save() already updates doctor.score
+        return comment
