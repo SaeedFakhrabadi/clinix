@@ -1,10 +1,8 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import AuthViewSet, HomeAPIView
 from rest_framework.permissions import AllowAny
 from .views import (
     AuthViewSet,
-    HomeAPIView,
     DoctorsListAPIView,
     DoctorDetailAPIView,
     ReservationCreateAPIView,
@@ -27,9 +25,6 @@ urlpatterns = [
     path('api/v1/', include([
         path('', router.get_api_root_view(), name='api-root'),
         path('', include(router.urls)),
-
-        # Home
-        path('home/', HomeAPIView.as_view()),
 
         # Doctors
         path('doctors/', DoctorsListAPIView.as_view()),

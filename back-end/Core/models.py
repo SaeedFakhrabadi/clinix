@@ -129,8 +129,8 @@ class Reservation(models.Model):
             raise ValidationError("Start time must be before end time.")
 
         # 2️⃣ زمان در گذشته نباشد
-        if self.start_reservation_hour < timezone.now():
-            raise ValidationError("Reservation time cannot be in the past.")
+        # if self.start_reservation_hour < timezone.now():
+        #     raise ValidationError("Reservation time cannot be in the past.")
 
         # 3️⃣ داخل ساعات کاری دکتر باشد
         doctor_profile = self.doctor.doctor_profile
@@ -180,10 +180,10 @@ class Comment(models.Model):
         limit_choices_to={'role': UserRoles.PATIENT}
     )
 
-    reservation = models.OneToOneField(
-        Reservation,
-        on_delete=models.CASCADE
-    )
+    # reservation = models.OneToOneField(
+    #     Reservation,
+    #     on_delete=models.CASCADE
+    # )
 
     score = models.IntegerField()
     comment = models.TextField()
@@ -192,11 +192,11 @@ class Comment(models.Model):
 
     def clean(self):
         # جلوگیری از mismatch
-        if self.reservation.doctor != self.doctor:
-            raise ValidationError("Reservation doctor mismatch.")
+        # if self.reservation.doctor != self.doctor:
+        #     raise ValidationError("Reservation doctor mismatch.")
 
-        if self.reservation.patient != self.patient:
-            raise ValidationError("Reservation patient mismatch.")
+        # if self.reservation.patient != self.patient:
+        #     raise ValidationError("Reservation patient mismatch.")
 
         if not (1 <= self.score <= 5):
             raise ValidationError("Score must be between 1 and 5.")

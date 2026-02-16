@@ -21,7 +21,8 @@ from .serializers import (
     UserSerializer,
     DoctorListSerializer,
     DoctorDetailSerializer,
-    CommentSerializer
+    ReservationCreateSerializer,
+    CommentCreateSerializer
 )
 from kavenegar import *
 
@@ -241,16 +242,6 @@ class AuthViewSet(viewsets.ViewSet):
                 status_code=status.HTTP_404_NOT_FOUND
             )
 
-class HomeAPIView(APIView):
-    permission_classes = [IsAuthenticated]
-    
-    def get(self, request):
-        return success_response(
-            message=f"خوش آمدید {request.user.username}",
-            message_en=f"Welcome {request.user.username}",
-            extra_data={"user": UserSerializer(request.user).data}
-        )
-    
 class DoctorsListAPIView(APIView):
     permission_classes = [AllowAny]
 
@@ -258,41 +249,6 @@ class DoctorsListAPIView(APIView):
         doctors = DoctorProfile.objects.all()
         serializer = DoctorListSerializer(doctors, many=True)
         return Response(serializer.data)
-
-class DoctorDetailAPIView(APIView):
-    permission_classes = [AllowAny]
-
-    def get(self, request, pk):
-        try:
-            doctor = DoctorProfile.objects.get(pk=pk)
-        except DoctorProfile.DoesNotExist:
-            return Response({"detail": "Not found"}, status=404)
-
-        serializer = DoctorDetailSerializer(doctor)
-        return Response(serializer.data)
-
-class ReservationCreateAPIView(APIView):
-    # permission_classes = [IsAuthenticated]
-    permission_classes = [AllowAny]
-
-    def post(self, request):
-        serializer = ReservationSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save(patient=request.user)
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
-
-# class UserReservationsAPIView(APIView):
-#     permission_classes = [AllowAny]
-#
-#     def get(self, request):
-#         if request.user.is_authenticated:
-#             reservations = Reservation.objects.filter(patient=request.user)
-#         else:
-#             reservations = Reservation.objects.none()   # or .all() — be careful
-#
-#         serializer = ReservationSerializer(reservations, many=True)
-#         return Response(serializer.data)
 
 class UserReservationsAPIView(APIView):
     permission_classes = [AllowAny]   # ← no login required (dev phase)
@@ -337,15 +293,74 @@ class ReservationDeleteAPIView(APIView):
         reservation.delete()
         return Response(status=204)
 
-class CommentCreateAPIView(APIView):
-    permission_classes = [IsAuthenticated]
+class ReservationCreateAPIView(APIView):
+    permission_classes = [AllowAny]
 
     def post(self, request):
-        serializer = CommentSerializer(data=request.data)
+        serializer = ReservationCreateSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(patient=request.user)
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
+            reservation = serializer.save()
+            return success_response(
+                message="نوبت با موفقیت ثبت شد",
+                message_en="Reservation created successfully",
+                status_code=status.HTTP_201_CREATED,
+                extra_data={
+                    "reservation_id": reservation.id,
+                    "start": reservation.start_reservation_hour,
+                    "end": reservation.end_reservation_hour
+                }
+            )
+        return error_response(
+            message="داده‌های ارسالی معتبر نیستند",
+            message_en="Invalid data",
+            extra_data={"errors": serializer.errors}
+        )
+
+class DoctorDetailAPIView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, pk):
+        try:
+            doctor = DoctorProfile.objects.get(pk=pk)
+        except DoctorProfile.DoesNotExist:
+            return Response({"detail": "Not found"}, status=404)
+
+        serializer = DoctorDetailSerializer(doctor)
+        return Response(serializer.data)
+
+# class CommentCreateAPIView(APIView):
+#     permission_classes = [IsAuthenticated]
+#
+#     def post(self, request):
+#         serializer = CommentSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save(patient=request.user)
+#             return Response(serializer.data, status=201)
+#         return Response(serializer.errors, status=400)
+
+class CommentCreateAPIView(APIView):
+    permission_classes = [AllowAny]   # ← change to IsAuthenticated later
+
+    def post(self, request):
+        serializer = CommentCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            comment = serializer.save()
+            return success_response(
+                message="نظر با موفقیت ثبت شد",
+                message_en="Comment created successfully",
+                status_code=status.HTTP_201_CREATED,
+                extra_data={
+                    "comment_id": comment.id,
+                    "score": comment.score,
+                    "doctor_id": comment.doctor.doctor_profile.id
+                }
+            )
+        return error_response(
+            message="داده‌های ارسالی معتبر نیستند",
+            message_en="Invalid input",
+            status_code=status.HTTP_400_BAD_REQUEST,
+            extra_data={"errors": serializer.errors}
+        )
 
 def is_email(value):
     try:
