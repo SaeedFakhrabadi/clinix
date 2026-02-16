@@ -10,6 +10,8 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.utils import timezone
 from django.db import IntegrityError
+from rest_framework_simplejwt.tokens import RefreshToken
+
 from .auth_utils import CookieAuthMixin
 
 from .models import DoctorProfile, PasswordReset, Reservation, User, Notification, UserRoles, Transaction
@@ -131,7 +133,11 @@ class AuthViewSet(viewsets.ViewSet, CookieAuthMixin):
                 }
             )
 
-            return self.set_auth_cookies(response, user)
+            print("Setting auth cookies for user:", user.id)
+            response = self.set_auth_cookies(response, user)
+            print("Cookies set in response:", response.cookies.keys())
+
+            return response
 
         return error_response(
             message="اطلاعات وارد شده صحیح نمی‌باشند!",
@@ -301,7 +307,7 @@ class AuthViewSet(viewsets.ViewSet, CookieAuthMixin):
             )
 
 class DoctorsListAPIView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get(self, request):
         doctors = DoctorProfile.objects.all()
@@ -311,19 +317,12 @@ class DoctorsListAPIView(APIView):
 class UserReservationsAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, user_id):
-        if str(user_id) != str(request.user.id):
-            return error_response(
-                message="شما اجازه دسترسی به این منبع را ندارید",
-                message_en="You don't have permission to access this resource",
-                status_code=status.HTTP_403_FORBIDDEN
-            )
-
+    def get(self, request):
+        """
+        Get reservations for the authenticated user
+        """
         user = request.user
-        # user = get_object_or_404(User, id=user_id)
-
         reservations = Reservation.objects.filter(patient=user).order_by('-start_reservation_hour')
-
         serializer = ReservationSerializer(reservations, many=True)
 
         return Response({
@@ -339,7 +338,6 @@ class ReservationDeleteAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def delete(self, request, pk):
-        # WARNING: allows anyone to delete any reservation!
         try:
             reservation = Reservation.objects.get(id=pk)
 
@@ -356,15 +354,22 @@ class ReservationDeleteAPIView(APIView):
         except Reservation.DoesNotExist:
             return Response({"detail": "Not found"}, status=404)
 
+
 class ReservationCreateAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        # Add user_id from authenticated user
-        data = request.data.copy()
-        data['user_id'] = request.user.id
+        print(f"Authenticated user in view: {request.user.id}")
+        print(f"Request data: {request.data}")
 
-        serializer = ReservationCreateSerializer(data=request.data)
+        # Add user_id from authenticated user
+        # data = request.data.copy()
+        # data['user_id'] = request.user.id
+
+        serializer = ReservationCreateSerializer(
+            data=request.data,
+            context={'request': request}
+        )
         if serializer.is_valid():
             reservation = serializer.save()
             return success_response(
@@ -377,6 +382,8 @@ class ReservationCreateAPIView(APIView):
                     "end": reservation.end_reservation_hour
                 }
             )
+
+        print(f"Serializer errors: {serializer.errors}")  # Debug
         return error_response(
             message="داده‌های ارسالی معتبر نیستند",
             message_en="Invalid data",
@@ -427,70 +434,21 @@ class NotificationsListAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        user_id = request.query_params.get('user_id')
-        doctor_id = request.query_params.get('doctor_id')
+        # Don't accept user_id or doctor_id parameters
+        # Just return notifications for the authenticated user
 
-        # Verify that user_id matches authenticated user if querying user notifications
-        if user_id and str(user_id) != str(request.user.id):
-            return error_response(
-                message="شما اجازه دسترسی به اعلان‌های این کاربر را ندارید",
-                message_en="You don't have permission to access this user's notifications",
-                status_code=status.HTTP_403_FORBIDDEN
-            )
+        # For patients
+        if request.user.role == UserRoles.PATIENT:
+            notifications = Notification.objects.filter(user=request.user)
 
-        # Similar check for doctor notifications
-        if doctor_id and str(doctor_id) != str(request.user.id):
-            return error_response(
-                message="شما اجازه دسترسی به اعلان‌های این کاربر را ندارید",
-                message_en="You don't have permission to access this user's notifications",
-                status_code=status.HTTP_403_FORBIDDEN
-            )
+        # For doctors
+        elif request.user.role == UserRoles.DOCTOR:
+            notifications = Notification.objects.filter(doctor=request.user)
 
-        if not user_id and not doctor_id:
-            return error_response(
-                message="حداقل یکی از user_id یا doctor_id باید ارسال شود",
-                message_en="At least user_id or doctor_id is required",
-                status_code=status.HTTP_400_BAD_REQUEST
-            )
+        else:
+            notifications = Notification.objects.none()
 
-        if user_id and doctor_id:
-            return error_response(
-                message="فقط یکی از user_id یا doctor_id مجاز است",
-                message_en="Only one of user_id or doctor_id is allowed",
-                status_code=status.HTTP_400_BAD_REQUEST
-            )
-
-        queryset = Notification.objects.none()
-
-        if user_id:
-            try:
-                user = User.objects.get(id=user_id)
-                queryset = Notification.objects.filter(user=user)
-            except User.DoesNotExist:
-                return error_response(
-                    message="کاربر یافت نشد",
-                    message_en="User not found",
-                    status_code=status.HTTP_404_NOT_FOUND
-                )
-
-        elif doctor_id:
-            try:
-                doctor = User.objects.get(id=doctor_id)
-                if doctor.role != UserRoles.DOCTOR:
-                    return error_response(
-                        message="شناسه وارد شده پزشک نیست",
-                        message_en="Provided ID is not a doctor",
-                        status_code=status.HTTP_400_BAD_REQUEST
-                    )
-                queryset = Notification.objects.filter(doctor=doctor)
-            except User.DoesNotExist:
-                return error_response(
-                    message="پزشک یافت نشد",
-                    message_en="Doctor not found",
-                    status_code=status.HTTP_404_NOT_FOUND
-                )
-
-        serializer = NotificationSerializer(queryset.order_by('-created_at'), many=True)
+        serializer = NotificationSerializer(notifications.order_by('-created_at'), many=True)
 
         return success_response(
             message="لیست اعلان‌ها با موفقیت دریافت شد",
@@ -529,20 +487,21 @@ class TransactionCreateAPIView(APIView):
 class TransactionHistoryAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, user_id):
-        # Ensure user can only view their own transactions
-        if str(user_id) != str(request.user.id):
-            return error_response(
-                message="شما اجازه دسترسی به تاریخچه تراکنش‌های این کاربر را ندارید",
-                message_en="You don't have permission to access this user's transactions",
-                status_code=status.HTTP_403_FORBIDDEN
-            )
-        user = request.user
-        transactions = Transaction.objects.filter(user=user).order_by('-created_at')
+    def get(self, request):
+        """
+        Get transaction history for the authenticated user
+        """
+        # Get transactions for the authenticated user
+        transactions = Transaction.objects.filter(user=request.user).order_by('-created_at')
         serializer = TransactionHistorySerializer(transactions, many=True)
 
         return success_response(
             message="تاریخچه تراکنش‌ها دریافت شد",
             message_en="Transaction history retrieved",
-            extra_data={"transactions": serializer.data}
+            extra_data={
+                "user_id": request.user.id,
+                "transactions": serializer.data
+            }
         )
+
+

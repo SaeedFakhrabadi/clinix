@@ -128,21 +128,27 @@ class ReservationSerializer(serializers.ModelSerializer):
     def get_is_past(self, obj):
         return obj.start_reservation_hour < timezone.now()
 
+
 class ReservationCreateSerializer(serializers.Serializer):
-    doctor_id = serializers.IntegerField()   # این همون id که تو /doctors/ برمی‌گردونه (DoctorProfile.id)
-    user_id   = serializers.IntegerField()
-    time      = serializers.CharField()      # مثال: "1404-11-26-8"
+    doctor_id = serializers.IntegerField()
+    time = serializers.CharField()
 
     def validate(self, data):
+        # Get patient from request context (authenticated user)
+        request = self.context.get('request')
+        if not request or not request.user.is_authenticated:
+            raise serializers.ValidationError("User not authenticated")
+
+        # Set patient from authenticated user
+        data['patient'] = request.user
+
+        # Parse time
         try:
             y, m, d, hour = map(int, data['time'].split('-'))
             jdt = jdate(y, m, d)
             greg = jdt.togregorian()
 
-            # Create naive datetime first
             naive_start = datetime.combine(greg, datetime.min.time().replace(hour=hour, minute=0, second=0))
-
-            # Make it timezone-aware (uses settings.TIME_ZONE)
             aware_start = timezone.make_aware(naive_start)
 
             data['start_reservation_hour'] = aware_start
@@ -151,28 +157,69 @@ class ReservationCreateSerializer(serializers.Serializer):
         except Exception as e:
             raise serializers.ValidationError(f"فرمت زمان اشتباه است یا تاریخ معتبر نیست: {str(e)}")
 
-        # 2. Get doctor (from DoctorProfile.id → User)
+        # Get doctor
         try:
             profile = DoctorProfile.objects.get(id=data['doctor_id'])
             data['doctor'] = profile.user
         except DoctorProfile.DoesNotExist:
             raise serializers.ValidationError("پزشک یافت نشد")
 
-        # 3. Get patient
-        try:
-            data['patient'] = User.objects.get(id=data['user_id'])
-        except User.DoesNotExist:
-            raise serializers.ValidationError("کاربر یافت نشد")
-
         return data
 
     def create(self, validated_data):
         return Reservation.objects.create(
             doctor=validated_data['doctor'],
-            patient=validated_data['patient'],
+            patient=validated_data['patient'],  # Now from request.user
             start_reservation_hour=validated_data['start_reservation_hour'],
             end_reservation_hour=validated_data['end_reservation_hour']
         )
+
+
+# class ReservationCreateSerializer(serializers.Serializer):
+#     doctor_id = serializers.IntegerField()
+#     user_id   = serializers.IntegerField()
+#     time      = serializers.CharField()
+#
+#     def validate(self, data):
+#         try:
+#             y, m, d, hour = map(int, data['time'].split('-'))
+#             jdt = jdate(y, m, d)
+#             greg = jdt.togregorian()
+#
+#             # Create naive datetime first
+#             naive_start = datetime.combine(greg, datetime.min.time().replace(hour=hour, minute=0, second=0))
+#
+#             # Make it timezone-aware (uses settings.TIME_ZONE)
+#             aware_start = timezone.make_aware(naive_start)
+#
+#             data['start_reservation_hour'] = aware_start
+#             data['end_reservation_hour'] = aware_start + timedelta(hours=1)
+#
+#         except Exception as e:
+#             raise serializers.ValidationError(f"فرمت زمان اشتباه است یا تاریخ معتبر نیست: {str(e)}")
+#
+#         # 2. Get doctor (from DoctorProfile.id → User)
+#         try:
+#             profile = DoctorProfile.objects.get(id=data['doctor_id'])
+#             data['doctor'] = profile.user
+#         except DoctorProfile.DoesNotExist:
+#             raise serializers.ValidationError("پزشک یافت نشد")
+#
+#         # 3. Get patient
+#         try:
+#             data['patient'] = User.objects.get(id=data['user_id'])
+#         except User.DoesNotExist:
+#             raise serializers.ValidationError("کاربر یافت نشد")
+#
+#         return data
+#
+#     def create(self, validated_data):
+#         return Reservation.objects.create(
+#             doctor=validated_data['doctor'],
+#             patient=validated_data['patient'],
+#             start_reservation_hour=validated_data['start_reservation_hour'],
+#             end_reservation_hour=validated_data['end_reservation_hour']
+#         )
 
 class DoctorDetailSerializer(serializers.ModelSerializer):
     did = serializers.IntegerField(source='id')

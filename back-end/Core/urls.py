@@ -31,19 +31,19 @@ urlpatterns = [
         path('doctors/<int:pk>/', DoctorDetailAPIView.as_view()),
 
         # Reservations
-        path('reservations/<int:user_id>/', UserReservationsAPIView.as_view(), name='user-reservations'),
+        path('reservations/', UserReservationsAPIView.as_view(), name='user-reservations'),
         path('reservations/create/', ReservationCreateAPIView.as_view()), # POST
         path('reservations/delete/<int:pk>/', ReservationDeleteAPIView.as_view()), # DELETE
 
         # Comments
         path('comments/create/', CommentCreateAPIView.as_view()),
 
-        # inside the api/v1/ include block
+        # Notifications
         path('notifications/', NotificationsListAPIView.as_view(), name='notifications-list'),
 
         # Transactions
         path('transactions/create/', TransactionCreateAPIView.as_view(), name='transaction-create'), # POST
-        path('transactions/history/<int:user_id>/', TransactionHistoryAPIView.as_view(), name='transaction-history'), # GET
+        path('transactions/history/', TransactionHistoryAPIView.as_view(), name='transaction-history'), # GET
 
     ])),
 ]

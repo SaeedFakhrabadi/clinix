@@ -16,7 +16,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"username\": \"boogcookie3\",\r\n    \"email\": \"boogcookie3@gmail.com\",\r\n    \"phonenumber\": \"09144568908\",\r\n    \"password\": \"1234\"\r\n  }",
+          "raw": "{\r\n    \"username\": \"boogcookie4\",\r\n    \"email\": \"boogcookie4@gmail.com\",\r\n    \"phonenumber\": \"09144668908\",\r\n    \"password\": \"1234\"\r\n  }",
           "options": {
             "raw": {
               "language": "json"
@@ -144,7 +144,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"identifier\": \"boogcookie3@gmail.com\",\r\n    \"password\": \"1234\"\r\n}"
+          "raw": "{\r\n    \"identifier\": \"boogcookie4@gmail.com\",\r\n    \"password\": \"1234\"\r\n}"
         },
         "url": {
           "raw": "http://127.0.0.1:8000/api/v1/auth/login/",
@@ -738,7 +738,7 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://127.0.0.1:8000/api/v1/reservations/1/",
+          "raw": "http://127.0.0.1:8000/api/v1/reservations/",
           "protocol": "http",
           "host": [
             "127",
@@ -751,20 +751,19 @@
             "api",
             "v1",
             "reservations",
-            "1",
             ""
           ]
         }
       },
       "response": [
         {
-          "id": "4fd747cf-c3eb-4e26-bce0-4bc98b171e5c",
+          "id": "90823aa4-420e-426a-a483-ce20d3c9d3db",
           "name": "reservation_by_user_id_ex",
           "originalRequest": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://127.0.0.1:8000/api/v1/reservations/1/",
+              "raw": "http://127.0.0.1:8000/api/v1/reservations/",
               "protocol": "http",
               "host": [
                 "127",
@@ -777,22 +776,21 @@
                 "api",
                 "v1",
                 "reservations",
-                "1",
                 ""
               ]
             }
           },
           "status": "OK",
           "code": 200,
-          "_postman_previewlanguage": "Text",
+          "_postman_previewlanguage": "json",
           "header": [
             {
               "key": "Date",
-              "value": "Sun, 15 Feb 2026 13:41:08 GMT"
+              "value": "Mon, 16 Feb 2026 23:04:18 GMT"
             },
             {
               "key": "Server",
-              "value": "WSGIServer/0.2 CPython/3.14.2"
+              "value": "WSGIServer/0.2 CPython/3.13.3"
             },
             {
               "key": "Content-Type",
@@ -812,7 +810,7 @@
             },
             {
               "key": "Content-Length",
-              "value": "241"
+              "value": "129"
             },
             {
               "key": "X-Content-Type-Options",
@@ -828,7 +826,8 @@
             }
           ],
           "cookie": [],
-          "body": "{\n    \"user_id\": 1,\n    \"username\": \"erfan2\",\n    \"email\": \"erfanmahmudi123@gmail.com\",\n    \"role\": \"PATIENT\",\n    \"reservations_count\": 1,\n    \"reservations\": [\n        {\n            \"id\": 2,\n            \"patient\": 1,\n            \"start_reservation_hour\": \"2026-02-15T16:00:00Z\",\n            \"end_reservation_hour\": \"2026-02-15T18:00:00Z\"\n        }\n    ]\n}"
+          "responseTime": "2026-02-16T23:04:23.889Z",
+          "body": "{\n    \"user_id\": 12,\n    \"username\": \"boogcookie4\",\n    \"email\": \"boogcookie4@gmail.com\",\n    \"role\": \"PATIENT\",\n    \"reservations_count\": 0,\n    \"reservations\": []\n}"
         }
       ]
     },
@@ -840,7 +839,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"doctor_id\": 3,\r\n    \"user_id\": 1,\r\n    \"time\": \"1404-11-27-14\"\r\n}\r\n\r\n",
+          "raw": "{\r\n    \"doctor_id\": 3,\r\n    \"time\": \"1404-11-27-14\"\r\n}\r\n\r\n",
           "options": {
             "raw": {
               "language": "json"
@@ -958,7 +957,7 @@
         "method": "DELETE",
         "header": [],
         "url": {
-          "raw": "http://127.0.0.1:8000/api/v1/reservations/delete/9/",
+          "raw": "http://127.0.0.1:8000/api/v1/reservations/delete/13/",
           "protocol": "http",
           "host": [
             "127",
@@ -972,20 +971,20 @@
             "v1",
             "reservations",
             "delete",
-            "9",
+            "13",
             ""
           ]
         }
       },
       "response": [
         {
-          "id": "87d1a51c-d5de-425b-8762-7a5b74273829",
+          "id": "07be5177-290b-4b32-b2da-8b8b8c2c2e50",
           "name": "delete_reservation_ex",
           "originalRequest": {
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "http://127.0.0.1:8000/api/v1/reservations/delete/9/",
+              "raw": "http://127.0.0.1:8000/api/v1/reservations/delete/13/",
               "protocol": "http",
               "host": [
                 "127",
@@ -999,22 +998,22 @@
                 "v1",
                 "reservations",
                 "delete",
-                "9",
+                "13",
                 ""
               ]
             }
           },
           "status": "No Content",
           "code": 204,
-          "_postman_previewlanguage": "Text",
+          "_postman_previewlanguage": "json",
           "header": [
             {
               "key": "Date",
-              "value": "Mon, 16 Feb 2026 12:48:03 GMT"
+              "value": "Mon, 16 Feb 2026 23:07:50 GMT"
             },
             {
               "key": "Server",
-              "value": "WSGIServer/0.2 CPython/3.14.2"
+              "value": "WSGIServer/0.2 CPython/3.13.3"
             },
             {
               "key": "Vary",
@@ -1046,6 +1045,7 @@
             }
           ],
           "cookie": [],
+          "responseTime": "2026-02-16T23:07:54.543Z",
           "body": null
         }
       ]
@@ -1176,7 +1176,7 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://127.0.0.1:8000/api/v1/notifications/?user_id=1",
+          "raw": "http://127.0.0.1:8000/api/v1/notifications/",
           "protocol": "http",
           "host": [
             "127",
@@ -1190,24 +1190,18 @@
             "v1",
             "notifications",
             ""
-          ],
-          "query": [
-            {
-              "key": "user_id",
-              "value": "1"
-            }
           ]
         }
       },
       "response": [
         {
-          "id": "26ef3846-4d9d-4829-8cf1-830edcdbe5c3",
-          "name": "notifications_user_ex",
+          "id": "82192521-102b-423c-9f9e-21b04ca32844",
+          "name": "notifications_user",
           "originalRequest": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://127.0.0.1:8000/api/v1/notifications/?user_id=1",
+              "raw": "http://127.0.0.1:8000/api/v1/notifications/",
               "protocol": "http",
               "host": [
                 "127",
@@ -1220,226 +1214,6 @@
                 "api",
                 "v1",
                 "notifications",
-                ""
-              ],
-              "query": [
-                {
-                  "key": "user_id",
-                  "value": "1"
-                }
-              ]
-            }
-          },
-          "status": "OK",
-          "code": 200,
-          "_postman_previewlanguage": "Text",
-          "header": [
-            {
-              "key": "Date",
-              "value": "Mon, 16 Feb 2026 12:53:24 GMT"
-            },
-            {
-              "key": "Server",
-              "value": "WSGIServer/0.2 CPython/3.14.2"
-            },
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            },
-            {
-              "key": "Vary",
-              "value": "Accept, origin"
-            },
-            {
-              "key": "Allow",
-              "value": "GET, HEAD, OPTIONS"
-            },
-            {
-              "key": "X-Frame-Options",
-              "value": "DENY"
-            },
-            {
-              "key": "Content-Length",
-              "value": "641"
-            },
-            {
-              "key": "X-Content-Type-Options",
-              "value": "nosniff"
-            },
-            {
-              "key": "Referrer-Policy",
-              "value": "same-origin"
-            },
-            {
-              "key": "Cross-Origin-Opener-Policy",
-              "value": "same-origin"
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"message\": \"لیست اعلان\\u200cها با موفقیت دریافت شد\",\n    \"message_en\": \"Notifications retrieved successfully\",\n    \"notifications\": [\n        {\n            \"id\": 3,\n            \"message\": \"نوبت شما در ساعت 14:00 تا 15:00 در تاریخ 2026-02-16 توسط دکتر حسین آریانمهر لغو شد\",\n            \"notification_type\": \"CANCEL\",\n            \"is_read\": false,\n            \"created_at\": \"2026-02-16T12:48:03.239043Z\"\n        },\n        {\n            \"id\": 1,\n            \"message\": \"نوبت شما در ساعت 14:00 تا 15:00 در تاریخ 2026-02-16 با دکتر حسین آریانمهر با موفقیت رزرو شد\",\n            \"notification_type\": \"RESERVE\",\n            \"is_read\": false,\n            \"created_at\": \"2026-02-16T12:47:56.322379Z\"\n        }\n    ]\n}"
-        }
-      ]
-    },
-    {
-      "name": "notifications_doctor",
-      "id": "be6688ff-1b50-4113-b1d1-ab547dbd89e8",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://127.0.0.1:8000/api/v1/notifications/?doctor_id=6",
-          "protocol": "http",
-          "host": [
-            "127",
-            "0",
-            "0",
-            "1"
-          ],
-          "port": "8000",
-          "path": [
-            "api",
-            "v1",
-            "notifications",
-            ""
-          ],
-          "query": [
-            {
-              "key": "doctor_id",
-              "value": "6"
-            }
-          ]
-        }
-      },
-      "response": [
-        {
-          "id": "dbc4a511-19f7-426f-a749-bf1f367e4274",
-          "name": "notifications_doctor_ex",
-          "originalRequest": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://127.0.0.1:8000/api/v1/notifications/?doctor_id=6",
-              "protocol": "http",
-              "host": [
-                "127",
-                "0",
-                "0",
-                "1"
-              ],
-              "port": "8000",
-              "path": [
-                "api",
-                "v1",
-                "notifications",
-                ""
-              ],
-              "query": [
-                {
-                  "key": "doctor_id",
-                  "value": "6"
-                }
-              ]
-            }
-          },
-          "status": "OK",
-          "code": 200,
-          "_postman_previewlanguage": "Text",
-          "header": [
-            {
-              "key": "Date",
-              "value": "Mon, 16 Feb 2026 13:35:23 GMT"
-            },
-            {
-              "key": "Server",
-              "value": "WSGIServer/0.2 CPython/3.14.2"
-            },
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            },
-            {
-              "key": "Vary",
-              "value": "Accept, origin"
-            },
-            {
-              "key": "Allow",
-              "value": "GET, HEAD, OPTIONS"
-            },
-            {
-              "key": "X-Frame-Options",
-              "value": "DENY"
-            },
-            {
-              "key": "Content-Length",
-              "value": "637"
-            },
-            {
-              "key": "X-Content-Type-Options",
-              "value": "nosniff"
-            },
-            {
-              "key": "Referrer-Policy",
-              "value": "same-origin"
-            },
-            {
-              "key": "Cross-Origin-Opener-Policy",
-              "value": "same-origin"
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"message\": \"لیست اعلان\\u200cها با موفقیت دریافت شد\",\n    \"message_en\": \"Notifications retrieved successfully\",\n    \"notifications\": [\n        {\n            \"id\": 4,\n            \"message\": \"بیمار با شماره تلفن 09160643168 نوبت ساعت 14:00 تا 15:00 در تاریخ 2026-02-16 را لغو کرد\",\n            \"notification_type\": \"CANCEL\",\n            \"is_read\": false,\n            \"created_at\": \"2026-02-16T12:48:03.243588Z\"\n        },\n        {\n            \"id\": 2,\n            \"message\": \"بیمار با شماره تلفن 09160643168 نوبت ساعت 14:00 تا 15:00 در تاریخ 2026-02-16 را با شما رزرو کرد\",\n            \"notification_type\": \"RESERVE\",\n            \"is_read\": false,\n            \"created_at\": \"2026-02-16T12:47:56.327387Z\"\n        }\n    ]\n}"
-        }
-      ]
-    },
-    {
-      "name": "transactions_history",
-      "id": "a4cd7cf4-10a6-4a39-8e84-518632cf1ced",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://127.0.0.1:8000/api/v1/transactions/history/1/",
-          "protocol": "http",
-          "host": [
-            "127",
-            "0",
-            "0",
-            "1"
-          ],
-          "port": "8000",
-          "path": [
-            "api",
-            "v1",
-            "transactions",
-            "history",
-            "1",
-            ""
-          ]
-        }
-      },
-      "response": [
-        {
-          "id": "f9406b0a-ba13-49ec-899b-6177310a05c4",
-          "name": "transactions_history_ex",
-          "originalRequest": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://127.0.0.1:8000/api/v1/transactions/history/1/",
-              "protocol": "http",
-              "host": [
-                "127",
-                "0",
-                "0",
-                "1"
-              ],
-              "port": "8000",
-              "path": [
-                "api",
-                "v1",
-                "transactions",
-                "history",
-                "1",
                 ""
               ]
             }
@@ -1450,7 +1224,7 @@
           "header": [
             {
               "key": "Date",
-              "value": "Mon, 16 Feb 2026 18:58:33 GMT"
+              "value": "Mon, 16 Feb 2026 22:53:35 GMT"
             },
             {
               "key": "Server",
@@ -1474,7 +1248,7 @@
             },
             {
               "key": "Content-Length",
-              "value": "219"
+              "value": "147"
             },
             {
               "key": "X-Content-Type-Options",
@@ -1490,8 +1264,110 @@
             }
           ],
           "cookie": [],
-          "responseTime": "2026-02-16T18:58:40.061Z",
-          "body": "{\n    \"message\": \"تاریخچه تراکنش\\u200cها دریافت شد\",\n    \"message_en\": \"Transaction history retrieved\",\n    \"transactions\": [\n        {\n            \"price\": 350000,\n            \"status\": \"SUCCESS\",\n            \"date\": \"2026-02-16 17:16\",\n            \"method\": \"BANK\",\n            \"type\": \"PAY\"\n        }\n    ]\n}"
+          "responseTime": "2026-02-16T22:53:40.463Z",
+          "body": "{\n    \"message\": \"لیست اعلان\\u200cها با موفقیت دریافت شد\",\n    \"message_en\": \"Notifications retrieved successfully\",\n    \"notifications\": []\n}"
+        }
+      ]
+    },
+    {
+      "name": "transactions_history",
+      "id": "a4cd7cf4-10a6-4a39-8e84-518632cf1ced",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/transactions/history/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "transactions",
+            "history",
+            ""
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "1f9a859b-498f-4e91-9625-4931a17edab3",
+          "name": "transactions_history_ex",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/transactions/history/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "transactions",
+                "history",
+                ""
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Date",
+              "value": "Mon, 16 Feb 2026 23:02:18 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.13.3"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "GET, HEAD, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "142"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "responseTime": "2026-02-16T23:02:24.300Z",
+          "body": "{\n    \"message\": \"تاریخچه تراکنش\\u200cها دریافت شد\",\n    \"message_en\": \"Transaction history retrieved\",\n    \"user_id\": 12,\n    \"transactions\": []\n}"
         }
       ]
     },
