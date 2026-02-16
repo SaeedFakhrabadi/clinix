@@ -95,17 +95,6 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ['score', 'username', 'comment']
         read_only_fields = fields
 
-# class ReservationSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Reservation
-#         fields = [
-#             'id',
-#             'patient',
-#             'start_reservation_hour',
-#             'end_reservation_hour'
-#         ]
-#         read_only_fields = ['patient']
-
 class ReservationSerializer(serializers.ModelSerializer):
     doctor_name = serializers.CharField(source='doctor.username', read_only=True)
     # doctor_name = serializers.CharField(source='doctor.full_name', read_only=True)
@@ -127,7 +116,6 @@ class ReservationSerializer(serializers.ModelSerializer):
 
     def get_is_past(self, obj):
         return obj.start_reservation_hour < timezone.now()
-
 
 class ReservationCreateSerializer(serializers.Serializer):
     doctor_id = serializers.IntegerField()
@@ -173,53 +161,6 @@ class ReservationCreateSerializer(serializers.Serializer):
             start_reservation_hour=validated_data['start_reservation_hour'],
             end_reservation_hour=validated_data['end_reservation_hour']
         )
-
-
-# class ReservationCreateSerializer(serializers.Serializer):
-#     doctor_id = serializers.IntegerField()
-#     user_id   = serializers.IntegerField()
-#     time      = serializers.CharField()
-#
-#     def validate(self, data):
-#         try:
-#             y, m, d, hour = map(int, data['time'].split('-'))
-#             jdt = jdate(y, m, d)
-#             greg = jdt.togregorian()
-#
-#             # Create naive datetime first
-#             naive_start = datetime.combine(greg, datetime.min.time().replace(hour=hour, minute=0, second=0))
-#
-#             # Make it timezone-aware (uses settings.TIME_ZONE)
-#             aware_start = timezone.make_aware(naive_start)
-#
-#             data['start_reservation_hour'] = aware_start
-#             data['end_reservation_hour'] = aware_start + timedelta(hours=1)
-#
-#         except Exception as e:
-#             raise serializers.ValidationError(f"فرمت زمان اشتباه است یا تاریخ معتبر نیست: {str(e)}")
-#
-#         # 2. Get doctor (from DoctorProfile.id → User)
-#         try:
-#             profile = DoctorProfile.objects.get(id=data['doctor_id'])
-#             data['doctor'] = profile.user
-#         except DoctorProfile.DoesNotExist:
-#             raise serializers.ValidationError("پزشک یافت نشد")
-#
-#         # 3. Get patient
-#         try:
-#             data['patient'] = User.objects.get(id=data['user_id'])
-#         except User.DoesNotExist:
-#             raise serializers.ValidationError("کاربر یافت نشد")
-#
-#         return data
-#
-#     def create(self, validated_data):
-#         return Reservation.objects.create(
-#             doctor=validated_data['doctor'],
-#             patient=validated_data['patient'],
-#             start_reservation_hour=validated_data['start_reservation_hour'],
-#             end_reservation_hour=validated_data['end_reservation_hour']
-#         )
 
 class DoctorDetailSerializer(serializers.ModelSerializer):
     did = serializers.IntegerField(source='id')
@@ -322,7 +263,7 @@ class NotificationSerializer(serializers.ModelSerializer):
         read_only_fields = fields
 
 class TransactionCreateSerializer(serializers.Serializer):
-    price     = serializers.IntegerField(min_value=1000)   # حداقل مبلغ منطقی
+    price     = serializers.IntegerField(min_value=1000)
     user_id   = serializers.IntegerField()
     type      = serializers.ChoiceField(choices=TransactionType.choices)
     method    = serializers.ChoiceField(choices=TransactionMethod.choices)
@@ -343,6 +284,7 @@ class TransactionCreateSerializer(serializers.Serializer):
             type=validated_data['type'],
             method=validated_data['method'],
             status=TransactionStatus.SUCCESS,
+            created_at=LocalDateTimeField()
         )
         return transaction
 

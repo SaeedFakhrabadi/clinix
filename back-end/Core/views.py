@@ -31,7 +31,6 @@ from kavenegar import *
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
 
 User = django.contrib.auth.get_user_model()
 
@@ -353,7 +352,6 @@ class ReservationDeleteAPIView(APIView):
 
         except Reservation.DoesNotExist:
             return Response({"detail": "Not found"}, status=404)
-
 
 class ReservationCreateAPIView(APIView):
     permission_classes = [IsAuthenticated]
