@@ -16,7 +16,7 @@
 	const scoreFilter = ref('all');
 
 	const loading = ref(false);
-	const headers = [
+	const tableHeaders = [
 		{ label: 'نام پزشک', value: 'name' },
 		{ label: 'تخصص', value: 'specialty' },
 		{ label: 'موقعیت', value: 'location' },
@@ -133,7 +133,7 @@
 	const handleRowClick = ({ row }) => {
 		router.push({
 			name: 'DoctorDetails',
-			query: { id: row.id },
+			query: { did: row.id },
 		});
 	};
 
@@ -228,7 +228,7 @@
 			کنید:
 		</h4>
 		<TheTable
-			:headers="headers"
+			:headers="tableHeaders"
 			:rows="mappedDoctors"
 			:loading="loading"
 			@row-click="handleRowClick"
@@ -236,7 +236,7 @@
 	</section>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 	.doctors-list {
 		padding-left: space(6);
 		width: 100%;

@@ -2,41 +2,66 @@
 	import { toPersianDigits } from '@/utils/toPersianDigits';
 
 	const props = defineProps({
-		headers: {
-			type: Array,
-			required: true,
+		headers: { type: Array, required: true },
+		rows: { type: Array, required: true },
+		loading: { type: Boolean, default: false },
+		clickMode: {
+			type: String,
+			default: 'row',
+			validator: (v) => ['cell', 'row', 'readOnly'].includes(v),
 		},
-		rows: {
-			type: Array,
-			required: true,
-		},
-		loading: {
-			type: Boolean,
-			default: false,
-		},
+		getCellClass: { type: Function, default: undefined },
 	});
 
-	const emit = defineEmits(['row-click']);
+	const emit = defineEmits(['row-click', 'cell-click']);
+
+	const isClickable = (mode) => mode !== 'readOnly';
+	const isRowMode = (mode) => mode === 'row';
+	const isCellMode = (mode) => mode === 'cell';
 
 	const handleRowClick = (row, index) => {
+		if (props.clickMode !== 'row') return;
 		emit('row-click', { row, index });
+	};
+
+	const handleCellClick = (row, header) => {
+		const firstHeader = props.headers[0];
+		const firstCellValue = row[firstHeader.value];
+		const cellValue = row[header.value];
+		emit('cell-click', {
+			header: { label: header.label, value: header.value },
+			firstCellValue,
+			cellValue,
+		});
+	};
+
+	const onCellClick = (e, row, header) => {
+		if (props.clickMode === 'cell') {
+			e.stopPropagation();
+			handleCellClick(row, header);
+		}
 	};
 </script>
 
 <template>
 	<div class="the-table">
-		<div v-if="loading" class="the-table__state">
+		<div v-if="loading" class="the-table__state--loading">
 			<h2>در حال دریافت اطلاعات...</h2>
 		</div>
-		<div v-else-if="!rows?.length" class="the-table__state">
+		<div v-else-if="!rows?.length" class="the-table__state--error">
 			<h2>اطلاعاتی برای نمایش پیدا نشد!</h2>
 		</div>
-		<table v-else class="the-table__table table">
+		<table
+			v-else
+			class="the-table__table table"
+			:class="{
+				'table--row-click': isRowMode(clickMode),
+				'table--cell-click': isCellMode(clickMode),
+				'table--read-only': clickMode === 'readOnly',
+			}"
+		>
 			<thead class="table__head">
 				<tr>
-					<th class="table__head-cell">
-						<h4>ردیف</h4>
-					</th>
 					<th
 						v-for="header in headers"
 						:key="header.value"
@@ -51,15 +76,20 @@
 					v-for="(row, index) in rows"
 					:key="index"
 					class="table__row"
+					:class="{ 'table__row--clickable': isClickable(clickMode) }"
 					@click="handleRowClick(row, index)"
 				>
-					<td class="table__body-cell">
-						<h4>{{ toPersianDigits(index + 1) }}</h4>
-					</td>
 					<td
 						v-for="header in headers"
 						:key="header.value"
 						class="table__body-cell"
+						:class="[
+							{
+								'table__body-cell--clickable': isCellMode(clickMode),
+							},
+							getCellClass ? getCellClass(row[header.value]) : '',
+						]"
+						@click="onCellClick($event, row, header)"
 					>
 						<h4>{{ toPersianDigits(row[header.value]) }}</h4>
 					</td>
@@ -69,13 +99,18 @@
 	</div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 	.the-table {
 		width: 100%;
+		@include flexbox();
 
 		&__state {
-			color: var(--text-500);
-			@include flexbox();
+			&--loading {
+				color: var(--text-500);
+			}
+			&--error {
+				color: var(--danger-500);
+			}
 		}
 
 		.table {
@@ -92,27 +127,60 @@
 				border: space(1) solid var(--text-500);
 			}
 
+			&__head-cell h4 {
+				@media (max-width: $md) {
+					font-size: $font-size-md;
+				}
+				@media (max-width: $sm) {
+					font-size: $font-size-sm;
+				}
+			}
+
 			&__body-cell {
 				color: var(--text-900);
 				padding-block: space(4);
 				border: space(1) solid var(--text-500);
 				text-align: center;
+
+				&--clickable {
+					cursor: pointer;
+				}
+			}
+
+			&__body-cell h4 {
+				@media (max-width: $md) {
+					font-size: $font-size-md;
+				}
+				@media (max-width: $sm) {
+					font-size: $font-size-sm;
+				}
 			}
 
 			&__row {
+				&:nth-child(odd) {
+					background-color: var(--bg-900);
+				}
+
+				&:nth-child(even) {
+					background-color: var(--bg-700);
+				}
+			}
+
+			&--row-click .table__row--clickable {
 				cursor: pointer;
 			}
 
-			&__row:nth-child(odd) {
-				background-color: var(--bg-900);
-			}
-
-			&__row:nth-child(even) {
-				background-color: var(--bg-400);
-			}
-
-			&__row:hover {
+			&--row-click .table__row--clickable:hover {
 				background-color: var(--primary-600);
+			}
+
+			&--cell-click .table__body-cell--clickable:hover {
+				background-color: var(--primary-600);
+			}
+
+			&--read-only .table__row,
+			&--read-only .table__body-cell {
+				cursor: default;
 			}
 		}
 	}
