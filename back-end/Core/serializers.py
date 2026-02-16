@@ -293,7 +293,7 @@ class TransactionCreateSerializer(serializers.Serializer):
         transaction = Transaction.objects.create(
             user=validated_data['user'],
             price=validated_data['price'],
-            transaction_type=validated_data['type'],
+            type=validated_data['type'],
             method=validated_data['method'],
             status=TransactionStatus.SUCCESS,
         )
