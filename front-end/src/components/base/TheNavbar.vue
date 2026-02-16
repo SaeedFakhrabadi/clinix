@@ -36,8 +36,6 @@
 	const tabs = [
 		{ name: 'Landing', label: 'خانه' },
 		{ name: 'DoctorsList', label: 'جستجوی پزشکان' },
-		{ name: 'Profile', label: 'پروف' },
-		{ name: 'ChangePassword', label: 'تغییر رمز' },
 	];
 
 	const logout = () => {

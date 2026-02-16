@@ -2,18 +2,10 @@
 	import { computed } from 'vue';
 
 	const props = defineProps({
-		label: {
-			type: String,
-			required: true,
-		},
-		type: {
-			type: String,
-			required: true,
-		},
-		iconName: {
-			type: String,
-			default: '',
-		},
+		label: { type: String, required: true },
+		type: { type: String, required: true },
+		iconName: { type: String, default: '' },
+		isDisabled: { type: Boolean, default: false },
 	});
 
 	const TheButtonModifier = computed(() => {
@@ -29,7 +21,11 @@
 </script>
 
 <template>
-	<button class="the-button" :class="[TheButtonModifier]">
+	<button
+		class="the-button"
+		:class="[TheButtonModifier]"
+		:disabled="isDisabled"
+	>
 		<SvgLoader v-if="iconName" :name="iconName" />
 		<h5 class="the-button__label">{{ label }}</h5>
 	</button>
@@ -45,6 +41,12 @@
 		transition: all 0.4s ease;
 		cursor: pointer;
 		@include flexbox(row, center, center, space(2), nowrap);
+
+		&:disabled {
+			background-color: var(--bg-600);
+			opacity: 0.5;
+			cursor: not-allowed;
+		}
 
 		&--submit {
 			background-color: var(--primary-300);
@@ -73,7 +75,7 @@
 
 		&--hollow:hover {
 			background-color: var(--text-900);
-			color: var(--text-100);
+			color: var(--bg-900);
 		}
 
 		&__label {

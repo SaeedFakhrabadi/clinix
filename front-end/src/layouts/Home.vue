@@ -31,6 +31,7 @@
 		}
 
 		&__content {
+			width: 100%;
 			padding-block: space(8);
 
 			@media (max-width: $xl) {
