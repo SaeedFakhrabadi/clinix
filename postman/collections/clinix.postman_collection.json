@@ -1058,7 +1058,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n  \"doctor_id\": 3,\r\n  \"user_id\": 1,\r\n  \"comment\": \"خیلی خوب بود، ممنون\",\r\n  \"score\": 4\r\n}\r\n",
+          "raw": "{\r\n  \"doctor_id\": 3,\r\n  \"user_id\": 1,\r\n  \"comment\": \"\",\r\n  \"score\": 4\r\n}\r\n",
           "options": {
             "raw": {
               "language": "json"

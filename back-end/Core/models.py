@@ -140,16 +140,9 @@ class Reservation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def clean(self):
-
-        # 1️⃣ start باید قبل از end باشد
         if self.start_reservation_hour >= self.end_reservation_hour:
             raise ValidationError("Start time must be before end time.")
 
-        # 2️⃣ زمان در گذشته نباشد
-        # if self.start_reservation_hour < timezone.now():
-        #     raise ValidationError("Reservation time cannot be in the past.")
-
-        # 3️⃣ داخل ساعات کاری دکتر باشد
         doctor_profile = self.doctor.doctor_profile
 
         start_time = self.start_reservation_hour.time()
@@ -161,7 +154,6 @@ class Reservation(models.Model):
         ):
             raise ValidationError("Reservation time is outside doctor's working hours.")
 
-        # 4️⃣ جلوگیری از overlap
         overlapping = Reservation.objects.filter(
             doctor=self.doctor
         ).filter(

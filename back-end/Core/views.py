@@ -264,13 +264,6 @@ class UserReservationsAPIView(APIView):
         # 1. Get the user or return 404
         user = get_object_or_404(User, id=user_id)
 
-        # Optional: only allow patients (more strict)
-        # if user.role != UserRoles.PATIENT:
-        #     return Response(
-        #         {"detail": "This user is not a patient"},
-        #         status=status.HTTP_400_BAD_REQUEST
-        #     )
-
         # 2. Get their reservations
         reservations = Reservation.objects.filter(patient=user).order_by('-start_reservation_hour')
 

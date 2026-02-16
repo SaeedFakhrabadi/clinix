@@ -95,16 +95,38 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ['score', 'username', 'comment']
         read_only_fields = fields
 
+# class ReservationSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Reservation
+#         fields = [
+#             'id',
+#             'patient',
+#             'start_reservation_hour',
+#             'end_reservation_hour'
+#         ]
+#         read_only_fields = ['patient']
+
 class ReservationSerializer(serializers.ModelSerializer):
+    doctor_name = serializers.CharField(source='doctor.username', read_only=True)
+    # doctor_name = serializers.CharField(source='doctor.full_name', read_only=True)
+    start_reservation_time = serializers.DateTimeField(
+        source='start_reservation_hour',
+        format='%Y-%m-%dT%H:%M:%SZ',
+        read_only=True
+    )
+    is_past = serializers.SerializerMethodField()
+
     class Meta:
         model = Reservation
         fields = [
             'id',
-            'patient',
-            'start_reservation_hour',
-            'end_reservation_hour'
+            'doctor_name',
+            'is_past',
+            'start_reservation_time',
         ]
-        read_only_fields = ['patient']
+
+    def get_is_past(self, obj):
+        return obj.start_reservation_hour < timezone.now()
 
 class ReservationCreateSerializer(serializers.Serializer):
     doctor_id = serializers.IntegerField()   # این همون id که تو /doctors/ برمی‌گردونه (DoctorProfile.id)
@@ -268,15 +290,12 @@ class TransactionCreateSerializer(serializers.Serializer):
         return data
 
     def create(self, validated_data):
-        # در فاز فعلی همه تراکنش‌ها موفق فرض می‌شوند
-        # بعداً اینجا درگاه پرداخت واقعی فراخوانی می‌شود
         transaction = Transaction.objects.create(
             user=validated_data['user'],
             price=validated_data['price'],
             transaction_type=validated_data['type'],
             method=validated_data['method'],
-            status=TransactionStatus.SUCCESS,   # یا PENDING اگر درگاه واقعی باشد
-            # reservation=...   ← اگر از reservation آمد می‌توانید ست کنید
+            status=TransactionStatus.SUCCESS,
         )
         return transaction
 
