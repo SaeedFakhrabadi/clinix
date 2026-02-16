@@ -10,6 +10,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.utils import timezone
 from django.db import IntegrityError
+from .auth_utils import CookieAuthMixin
 
 from .models import DoctorProfile, PasswordReset, Reservation, User, Notification, UserRoles, Transaction
 from .serializers import (
@@ -57,7 +58,7 @@ def is_email(value):
     except ValidationError:
         return False
 
-class AuthViewSet(viewsets.ViewSet):
+class AuthViewSet(viewsets.ViewSet, CookieAuthMixin):
     permission_classes = [AllowAny]
     
     @action(detail=False, methods=['post'])
@@ -67,19 +68,18 @@ class AuthViewSet(viewsets.ViewSet):
             try:
                 user = serializer.save()
 
-                # refresh = RefreshToken.for_user(user)
-
-                return success_response(
+                # Create response
+                response = success_response(
                     message="ثبت‌نام با موفقیت انجام شد",
                     message_en="User registered successfully",
                     status_code=status.HTTP_201_CREATED,
                     extra_data={
                         "user": UserSerializer(user).data,
                     }
-                    # extra_data={
-                    #     "access_token": str(refresh.access_token),
-                    # }
                 )
+
+                # Set authentication cookies
+                return self.set_auth_cookies(response, user)
             
             except IntegrityError as e:
                 return error_response(
@@ -118,22 +118,20 @@ class AuthViewSet(viewsets.ViewSet):
 
         user = django.contrib.auth.authenticate(
             request,
-            identifier=serializer.validated_data['identifier'],   # ← use identifier
+            identifier=serializer.validated_data['identifier'],
             password=serializer.validated_data['password']
         )
 
         if user:
-            # refresh = RefreshToken.for_user(user)
-            return success_response(
+            response = success_response(
                 message="ورود با موفقیت انجام شد",
                 message_en="Login successful",
                 extra_data={
                     "user": UserSerializer(user).data,
                 }
-                # extra_data={
-                #     "access_token": str(refresh.access_token),
-                # }
             )
+
+            return self.set_auth_cookies(response, user)
 
         return error_response(
             message="اطلاعات وارد شده صحیح نمی‌باشند!",
@@ -144,6 +142,59 @@ class AuthViewSet(viewsets.ViewSet):
                 "detail_en": "Email/phonenumber or password is incorrect."
             }
         )
+
+    @action(detail=False, methods=['post'])
+    def logout(self, request):
+        """Logout user by clearing auth cookies."""
+        response = success_response(
+            message="با موفقیت خارج شدید",
+            message_en="Logged out successfully"
+        )
+        return self.clear_auth_cookies(response)
+
+    @action(detail=False, methods=['post'])
+    def refresh_token(self, request):
+        """Manually refresh access token."""
+        refresh_token = request.COOKIES.get('refresh_token')
+
+        if not refresh_token:
+            return error_response(
+                message="نشانه یافت نشد",
+                message_en="Token not found",
+                status_code=status.HTTP_401_UNAUTHORIZED
+            )
+
+        try:
+            refresh = RefreshToken(refresh_token)
+            new_access_token = str(refresh.access_token)
+
+            response = success_response(
+                message="نشانه با موفقیت به‌روزرسانی شد",
+                message_en="Token refreshed successfully",
+                extra_data={
+                    "access_token": new_access_token
+                }
+            )
+
+            # Set new access token cookie
+            response.set_cookie(
+                key='access_token',
+                value=new_access_token,
+                max_age=300,  # 5 minutes
+                httponly=True,
+                samesite='Lax',
+                secure=not settings.DEBUG,
+                path='/'
+            )
+
+            return response
+
+        except Exception as e:
+            return error_response(
+                message="نشانه نامعتبر است",
+                message_en="Invalid token",
+                status_code=status.HTTP_401_UNAUTHORIZED
+            )
 
     @action(detail=False, methods=['post'])
     def forgot_password(self, request):
@@ -250,7 +301,7 @@ class AuthViewSet(viewsets.ViewSet):
             )
 
 class DoctorsListAPIView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         doctors = DoctorProfile.objects.all()
@@ -258,19 +309,23 @@ class DoctorsListAPIView(APIView):
         return Response(serializer.data)
 
 class UserReservationsAPIView(APIView):
-    permission_classes = [AllowAny]   # ← no login required (dev phase)
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, user_id):
-        # 1. Get the user or return 404
-        user = get_object_or_404(User, id=user_id)
+        if str(user_id) != str(request.user.id):
+            return error_response(
+                message="شما اجازه دسترسی به این منبع را ندارید",
+                message_en="You don't have permission to access this resource",
+                status_code=status.HTTP_403_FORBIDDEN
+            )
 
-        # 2. Get their reservations
+        user = request.user
+        # user = get_object_or_404(User, id=user_id)
+
         reservations = Reservation.objects.filter(patient=user).order_by('-start_reservation_hour')
 
-        # 3. Serialize
         serializer = ReservationSerializer(reservations, many=True)
 
-        # 4. Optional: enrich response with some user info
         return Response({
             "user_id": user.id,
             "username": user.username,
@@ -281,22 +336,34 @@ class UserReservationsAPIView(APIView):
         })
 
 class ReservationDeleteAPIView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def delete(self, request, pk):
         # WARNING: allows anyone to delete any reservation!
         try:
             reservation = Reservation.objects.get(id=pk)
+
+            # Check if user owns this reservation
+            if reservation.patient.id != request.user.id:
+                return error_response(
+                    message="شما اجازه حذف این نوبت را ندارید",
+                    message_en="You don't have permission to delete this reservation",
+                    status_code=status.HTTP_403_FORBIDDEN
+                )
+            reservation.delete()
+            return Response(status=204)
+
         except Reservation.DoesNotExist:
             return Response({"detail": "Not found"}, status=404)
 
-        reservation.delete()
-        return Response(status=204)
-
 class ReservationCreateAPIView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
+        # Add user_id from authenticated user
+        data = request.data.copy()
+        data['user_id'] = request.user.id
+
         serializer = ReservationCreateSerializer(data=request.data)
         if serializer.is_valid():
             reservation = serializer.save()
@@ -329,9 +396,13 @@ class DoctorDetailAPIView(APIView):
         return Response(serializer.data)
 
 class CommentCreateAPIView(APIView):
-    permission_classes = [AllowAny]   # ← change to IsAuthenticated later
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
+        # Add user_id from authenticated user
+        data = request.data.copy()
+        data['user_id'] = request.user.id
+
         serializer = CommentCreateSerializer(data=request.data)
         if serializer.is_valid():
             comment = serializer.save()
@@ -353,11 +424,27 @@ class CommentCreateAPIView(APIView):
         )
 
 class NotificationsListAPIView(APIView):
-    permission_classes = [AllowAny]  # ← change to IsAuthenticated later
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         user_id = request.query_params.get('user_id')
         doctor_id = request.query_params.get('doctor_id')
+
+        # Verify that user_id matches authenticated user if querying user notifications
+        if user_id and str(user_id) != str(request.user.id):
+            return error_response(
+                message="شما اجازه دسترسی به اعلان‌های این کاربر را ندارید",
+                message_en="You don't have permission to access this user's notifications",
+                status_code=status.HTTP_403_FORBIDDEN
+            )
+
+        # Similar check for doctor notifications
+        if doctor_id and str(doctor_id) != str(request.user.id):
+            return error_response(
+                message="شما اجازه دسترسی به اعلان‌های این کاربر را ندارید",
+                message_en="You don't have permission to access this user's notifications",
+                status_code=status.HTTP_403_FORBIDDEN
+            )
 
         if not user_id and not doctor_id:
             return error_response(
@@ -412,9 +499,13 @@ class NotificationsListAPIView(APIView):
         )
 
 class TransactionCreateAPIView(APIView):
-    permission_classes = [AllowAny]   # ← بعداً به IsAuthenticated تغییر دهید
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
+        # Add user_id from authenticated user
+        data = request.data.copy()
+        data['user_id'] = request.user.id
+
         serializer = TransactionCreateSerializer(data=request.data)
         if serializer.is_valid():
             transaction = serializer.save()
@@ -436,18 +527,17 @@ class TransactionCreateAPIView(APIView):
         )
 
 class TransactionHistoryAPIView(APIView):
-    permission_classes = [AllowAny]   # ← بعداً محدود کنید
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, user_id):
-        try:
-            user = User.objects.get(id=user_id)
-        except User.DoesNotExist:
+        # Ensure user can only view their own transactions
+        if str(user_id) != str(request.user.id):
             return error_response(
-                message="کاربر یافت نشد",
-                message_en="User not found",
-                status_code=status.HTTP_404_NOT_FOUND
+                message="شما اجازه دسترسی به تاریخچه تراکنش‌های این کاربر را ندارید",
+                message_en="You don't have permission to access this user's transactions",
+                status_code=status.HTTP_403_FORBIDDEN
             )
-
+        user = request.user
         transactions = Transaction.objects.filter(user=user).order_by('-created_at')
         serializer = TransactionHistorySerializer(transactions, many=True)
 
