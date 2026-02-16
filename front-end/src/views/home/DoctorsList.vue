@@ -1,24 +1,26 @@
 <script setup>
 	import { computed, onMounted, ref } from 'vue';
 	import { useRouter } from 'vue-router';
+	import { useToast } from 'vue-toastification';
 	import { doctorsList } from '@/services/doctors';
 	import { addCommas } from '@/utils/addCommas';
 
 	const router = useRouter();
+	const toast = useToast();
 
 	const doctors = ref([]);
 
 	const searchQuery = ref('');
 	const sortQuery = ref('none');
 
-	const specialtyFilter = ref('all');
+	const fieldFilter = ref('all');
 	const locationFilter = ref('all');
 	const scoreFilter = ref('all');
 
 	const loading = ref(false);
 	const tableHeaders = [
 		{ label: 'نام پزشک', value: 'name' },
-		{ label: 'تخصص', value: 'specialty' },
+		{ label: 'تخصص', value: 'field' },
 		{ label: 'موقعیت', value: 'location' },
 		{ label: 'هزینه (به ازای هر ساعت)', value: 'price' },
 		{ label: 'امتیاز از 5', value: 'score' },
@@ -31,8 +33,8 @@
 		{ value: 'price-asc', label: 'ارزان ترین' },
 	];
 
-	const specialtyOptions = computed(() => {
-		const set = new Set(doctors.value.map((d) => d.specialty));
+	const fieldOptions = computed(() => {
+		const set = new Set(doctors.value.map((d) => d.field));
 		return [
 			{ value: 'all', label: 'همه تخصص ها' },
 			...Array.from(set).map((value) => ({ value, label: value })),
@@ -65,7 +67,7 @@
 			list = list.filter(
 				(d) =>
 					d.name.toLowerCase().includes(sq) ||
-					d.specialty.toLowerCase().includes(sq),
+					d.field.toLowerCase().includes(sq),
 			);
 		}
 
@@ -92,8 +94,8 @@
 	};
 
 	const filterBySpecialty = (list) => {
-		if (specialtyFilter.value !== 'all') {
-			list = list.filter((d) => d.specialty === specialtyFilter.value);
+		if (fieldFilter.value !== 'all') {
+			list = list.filter((d) => d.field === fieldFilter.value);
 		}
 
 		return list;
@@ -141,44 +143,12 @@
 		loading.value = true;
 		try {
 			const response = await doctorsList();
-			console.log('🚀 ~ response:', response.data);
+			doctors.value = response.data;
 		} catch (error) {
-			console.error('Failed to fetch doctors list:', error);
+			console.error('Error : ', error?.response?.data || error?.message);
+			toast.error(error?.response?.data?.message ?? 'خطا در برقراری ارتباط');
+			doctors.value = [];
 		} finally {
-			doctors.value = [
-				{
-					id: 1,
-					name: 'دکتر علی رضایی',
-					specialty: 'قلب و عروق',
-					location: 'تهران',
-					price: 200_000,
-					score: 5,
-				},
-				{
-					id: 2,
-					name: 'دکتر نسرین احمدی',
-					specialty: 'مغز و اعصاب',
-					location: 'اصفهان',
-					price: 300_000,
-					score: 4,
-				},
-				{
-					id: 3,
-					name: 'دکتر سارا کریمی',
-					specialty: 'پوست و مو',
-					location: 'شیراز',
-					price: 250_000,
-					score: 5,
-				},
-				{
-					id: 4,
-					name: 'دکتر مهدی حسینی',
-					specialty: 'اطفال',
-					location: 'تبریز',
-					price: 180_000,
-					score: 3,
-				},
-			];
 			loading.value = false;
 		}
 	});
@@ -204,8 +174,8 @@
 			</div>
 			<div class="doctors-list__filters">
 				<TheSelect
-					v-model="specialtyFilter"
-					:options="specialtyOptions"
+					v-model="fieldFilter"
+					:options="fieldOptions"
 					label="فیلتر بر اساس تخصص"
 					icon-name="filter"
 				/>

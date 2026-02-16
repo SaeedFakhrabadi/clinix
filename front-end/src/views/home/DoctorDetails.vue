@@ -1,6 +1,7 @@
 <script setup>
 	import { computed, onMounted, ref } from 'vue';
 	import { useRoute, useRouter } from 'vue-router';
+	import { useToast } from 'vue-toastification';
 	import { storeToRefs } from 'pinia';
 	import { doctorDetails } from '@/services/doctors';
 	import { createReservation } from '@/services/reservations';
@@ -11,6 +12,7 @@
 
 	const route = useRoute();
 	const router = useRouter();
+	const toast = useToast();
 
 	const currentUserStore = useCurrentUserStore();
 	const { currentUser } = storeToRefs(currentUserStore);
@@ -22,20 +24,25 @@
 	const did = computed(() => route.query.did);
 
 	const pay = (data) => {
-		// createTransaction(
-		// 	data?.transactionData.value?.method,
-		// 	data?.transactionData.value?.pid,
-		// 	data?.transactionData.value?.price,
-		// 	data?.transactionData.value?.type,
-		// );
+		try {
+			// createTransaction(
+			// 	data?.transactionData.value?.method,
+			// 	data?.transactionData.value?.pid,
+			// 	data?.transactionData.value?.price,
+			// 	data?.transactionData.value?.type,
+			// );
 
-		// createReservation(
-		// 	data?.reservationData.value?.did,
-		// 	data?.reservationData.value?.pid,
-		// 	data?.reservationData.value?.time,
-		// );
-
-		router.push({ name: 'Reservations' });
+			createReservation(
+				data?.reservationData.value?.did,
+				data?.reservationData.value?.pid,
+				data?.reservationData.value?.time,
+			);
+			toast.success('پرداخت با موفقیت انجام و نوبت رزرو شد');
+			router.push({ name: 'Reservations' });
+		} catch (error) {
+			console.error('Error : ', error?.response?.data || error?.message);
+			toast.error(error?.response?.data?.message ?? 'خطا در برقراری ارتباط');
+		}
 	};
 
 	onMounted(async () => {

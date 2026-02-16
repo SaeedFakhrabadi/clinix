@@ -92,6 +92,8 @@
 			end_working_hour,
 			reserved_times = {},
 		} = props.doctor;
+		const startHour = Number(start_working_hour.split(':')[0]);
+		const endHour = Number(end_working_hour.split(':')[0]);
 
 		const { dayIndex: todayDayIndex, hour: todayHour } = getIranDayAndHour();
 		const isCurrentWeek = weekOffset.value === 0;
@@ -99,8 +101,7 @@
 		const weekStartDayIndex = weekOffset.value * DAYS_IN_WEEK;
 
 		return SCHEDULE_HOURS.map((hour) => {
-			const inWorkingHours =
-				hour >= start_working_hour && hour < end_working_hour;
+			const inWorkingHours = hour >= startHour && hour < endHour;
 			const cells = [];
 
 			for (let dayOffset = 0; dayOffset < DAYS_IN_WEEK; dayOffset++) {
