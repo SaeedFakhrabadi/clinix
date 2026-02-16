@@ -2,13 +2,12 @@
   "info": {
     "_postman_id": "631fbc75-f6fd-40be-bf1c-27bd0dfafd94",
     "name": "clinix",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "29756279",
-    "_collection_link": "https://go.postman.co/collection/29756279-631fbc75-f6fd-40be-bf1c-27bd0dfafd94?source=collection_link"
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
     {
       "name": "register",
+      "id": "79921150-8708-4caa-b3e9-27fd4c182b4a",
       "request": {
         "auth": {
           "type": "noauth"
@@ -45,6 +44,7 @@
       },
       "response": [
         {
+          "id": "acc1076c-518d-4a75-b06e-3a75215a3420",
           "name": "register_final",
           "originalRequest": {
             "method": "POST",
@@ -130,6 +130,7 @@
     },
     {
       "name": "login",
+      "id": "0c6a27f8-665f-40fd-8e6b-4b7aa14debbd",
       "protocolProfileBehavior": {
         "disabledSystemHeaders": {}
       },
@@ -166,6 +167,7 @@
       },
       "response": [
         {
+          "id": "2d60b0f5-54ee-4196-9458-02f08f9330b5",
           "name": "login_final",
           "originalRequest": {
             "method": "POST",
@@ -251,6 +253,7 @@
     },
     {
       "name": "forgot_password",
+      "id": "327ebded-157c-4304-8e2c-96e30a98beed",
       "request": {
         "method": "POST",
         "header": [
@@ -284,6 +287,7 @@
       },
       "response": [
         {
+          "id": "b5823a91-8e75-412e-8940-99848d87d89f",
           "name": "forgot_password_final",
           "originalRequest": {
             "method": "POST",
@@ -369,6 +373,7 @@
     },
     {
       "name": "reset_password",
+      "id": "d3fb084b-db8f-4dfd-91a1-d5a8d82be03b",
       "request": {
         "method": "POST",
         "header": [
@@ -402,6 +407,7 @@
       },
       "response": [
         {
+          "id": "77e48e26-d939-429c-859d-5d1fca21ff13",
           "name": "reset_password_final",
           "originalRequest": {
             "method": "POST",
@@ -494,6 +500,7 @@
     },
     {
       "name": "admin",
+      "id": "6513be4d-df46-49c5-a5fb-f9a32279e667",
       "request": {
         "method": "POST",
         "header": [
@@ -526,6 +533,7 @@
     },
     {
       "name": "doctorsList",
+      "id": "59bfd05c-df55-4586-8303-4c85ca9b78a7",
       "request": {
         "method": "GET",
         "header": [],
@@ -549,6 +557,7 @@
       },
       "response": [
         {
+          "id": "cb874dfc-0486-4cb1-b184-bd3f1a235550",
           "name": "doctorsList_ex",
           "originalRequest": {
             "method": "GET",
@@ -573,7 +582,7 @@
           },
           "status": "OK",
           "code": 200,
-          "_postman_previewlanguage": null,
+          "_postman_previewlanguage": "Text",
           "header": [
             {
               "key": "Date",
@@ -623,6 +632,7 @@
     },
     {
       "name": "doctor_detail",
+      "id": "3d4829ab-f5e5-4e4f-bf97-665777a3b500",
       "request": {
         "method": "GET",
         "header": [],
@@ -647,6 +657,7 @@
       },
       "response": [
         {
+          "id": "40a2f56b-e875-4074-833e-54a471e9629f",
           "name": "doctor_detail_ex",
           "originalRequest": {
             "method": "GET",
@@ -672,7 +683,7 @@
           },
           "status": "OK",
           "code": 200,
-          "_postman_previewlanguage": null,
+          "_postman_previewlanguage": "Text",
           "header": [
             {
               "key": "Date",
@@ -722,6 +733,7 @@
     },
     {
       "name": "reservation_by_user_id",
+      "id": "4abecbff-0260-479d-901e-d03c87c0f2d5",
       "request": {
         "method": "GET",
         "header": [],
@@ -746,6 +758,7 @@
       },
       "response": [
         {
+          "id": "4fd747cf-c3eb-4e26-bce0-4bc98b171e5c",
           "name": "reservation_by_user_id_ex",
           "originalRequest": {
             "method": "GET",
@@ -771,7 +784,7 @@
           },
           "status": "OK",
           "code": 200,
-          "_postman_previewlanguage": null,
+          "_postman_previewlanguage": "Text",
           "header": [
             {
               "key": "Date",
@@ -821,6 +834,7 @@
     },
     {
       "name": "create_reservation",
+      "id": "085e0922-0ff2-46a4-90f2-45618d08b4aa",
       "request": {
         "method": "POST",
         "header": [],
@@ -854,6 +868,7 @@
       },
       "response": [
         {
+          "id": "4fd001bf-9ffa-4b2a-a9b8-03466e926aa0",
           "name": "create_reservation_ex",
           "originalRequest": {
             "method": "POST",
@@ -888,7 +903,7 @@
           },
           "status": "Created",
           "code": 201,
-          "_postman_previewlanguage": null,
+          "_postman_previewlanguage": "Text",
           "header": [
             {
               "key": "Date",
@@ -938,6 +953,7 @@
     },
     {
       "name": "delete_reservation",
+      "id": "9da27f96-aeb7-4f3e-9e15-d42aa04c1741",
       "request": {
         "method": "DELETE",
         "header": [],
@@ -963,6 +979,7 @@
       },
       "response": [
         {
+          "id": "87d1a51c-d5de-425b-8762-7a5b74273829",
           "name": "delete_reservation_ex",
           "originalRequest": {
             "method": "DELETE",
@@ -989,7 +1006,7 @@
           },
           "status": "No Content",
           "code": 204,
-          "_postman_previewlanguage": null,
+          "_postman_previewlanguage": "Text",
           "header": [
             {
               "key": "Date",
@@ -1035,6 +1052,7 @@
     },
     {
       "name": "create_comment",
+      "id": "304eec61-e588-40bf-acc4-485f976b1c4b",
       "request": {
         "method": "POST",
         "header": [],
@@ -1068,6 +1086,7 @@
       },
       "response": [
         {
+          "id": "44ae0b41-7ab2-425c-856a-322b06c520ae",
           "name": "create_comment_ex",
           "originalRequest": {
             "method": "POST",
@@ -1102,7 +1121,7 @@
           },
           "status": "Created",
           "code": 201,
-          "_postman_previewlanguage": null,
+          "_postman_previewlanguage": "Text",
           "header": [
             {
               "key": "Date",
@@ -1152,6 +1171,7 @@
     },
     {
       "name": "notifications_user",
+      "id": "ec4af305-7926-4c3a-9c5f-23e7c7fdfa5f",
       "request": {
         "method": "GET",
         "header": [],
@@ -1181,6 +1201,7 @@
       },
       "response": [
         {
+          "id": "26ef3846-4d9d-4829-8cf1-830edcdbe5c3",
           "name": "notifications_user_ex",
           "originalRequest": {
             "method": "GET",
@@ -1211,7 +1232,7 @@
           },
           "status": "OK",
           "code": 200,
-          "_postman_previewlanguage": null,
+          "_postman_previewlanguage": "Text",
           "header": [
             {
               "key": "Date",
@@ -1261,6 +1282,7 @@
     },
     {
       "name": "notifications_doctor",
+      "id": "be6688ff-1b50-4113-b1d1-ab547dbd89e8",
       "request": {
         "method": "GET",
         "header": [],
@@ -1290,6 +1312,7 @@
       },
       "response": [
         {
+          "id": "dbc4a511-19f7-426f-a749-bf1f367e4274",
           "name": "notifications_doctor_ex",
           "originalRequest": {
             "method": "GET",
@@ -1320,7 +1343,7 @@
           },
           "status": "OK",
           "code": 200,
-          "_postman_previewlanguage": null,
+          "_postman_previewlanguage": "Text",
           "header": [
             {
               "key": "Date",
@@ -1370,6 +1393,7 @@
     },
     {
       "name": "transactions_history",
+      "id": "a4cd7cf4-10a6-4a39-8e84-518632cf1ced",
       "request": {
         "method": "GET",
         "header": [],
@@ -1395,6 +1419,7 @@
       },
       "response": [
         {
+          "id": "f9406b0a-ba13-49ec-899b-6177310a05c4",
           "name": "transactions_history_ex",
           "originalRequest": {
             "method": "GET",
@@ -1421,15 +1446,15 @@
           },
           "status": "OK",
           "code": 200,
-          "_postman_previewlanguage": null,
+          "_postman_previewlanguage": "json",
           "header": [
             {
               "key": "Date",
-              "value": "Mon, 16 Feb 2026 13:46:36 GMT"
+              "value": "Mon, 16 Feb 2026 18:58:33 GMT"
             },
             {
               "key": "Server",
-              "value": "WSGIServer/0.2 CPython/3.14.2"
+              "value": "WSGIServer/0.2 CPython/3.13.3"
             },
             {
               "key": "Content-Type",
@@ -1449,7 +1474,7 @@
             },
             {
               "key": "Content-Length",
-              "value": "190"
+              "value": "219"
             },
             {
               "key": "X-Content-Type-Options",
@@ -1465,12 +1490,14 @@
             }
           ],
           "cookie": [],
-          "body": "{\n    \"message\": \"تاریخچه تراکنش\\u200cها دریافت شد\",\n    \"message_en\": \"Transaction history retrieved\",\n    \"transactions\": [\n        {\n            \"price\": 350000,\n            \"status\": \"SUCCESS\",\n            \"date\": \"2026-02-16 13:46\"\n        }\n    ]\n}"
+          "responseTime": "2026-02-16T18:58:40.061Z",
+          "body": "{\n    \"message\": \"تاریخچه تراکنش\\u200cها دریافت شد\",\n    \"message_en\": \"Transaction history retrieved\",\n    \"transactions\": [\n        {\n            \"price\": 350000,\n            \"status\": \"SUCCESS\",\n            \"date\": \"2026-02-16 17:16\",\n            \"method\": \"BANK\",\n            \"type\": \"PAY\"\n        }\n    ]\n}"
         }
       ]
     },
     {
       "name": "create_transaction",
+      "id": "2cc0d14d-36d2-42c4-b0f7-aa841c019e31",
       "request": {
         "method": "POST",
         "header": [],
@@ -1504,6 +1531,7 @@
       },
       "response": [
         {
+          "id": "ec86875a-ba44-4363-b480-7b04aea65325",
           "name": "create_transaction_ex",
           "originalRequest": {
             "method": "POST",
@@ -1538,7 +1566,7 @@
           },
           "status": "Created",
           "code": 201,
-          "_postman_previewlanguage": null,
+          "_postman_previewlanguage": "Text",
           "header": [
             {
               "key": "Date",
@@ -1588,6 +1616,7 @@
     },
     {
       "name": "create_complaint",
+      "id": "6f37adac-e6e0-473c-bf3e-f5d7d6fd047c",
       "request": {
         "method": "POST",
         "header": [],
@@ -1613,6 +1642,7 @@
     },
     {
       "name": "edit_profile",
+      "id": "cc5603bc-fa1a-426a-91a7-ac7c1dd9daca",
       "request": {
         "method": "PUT",
         "header": [],
