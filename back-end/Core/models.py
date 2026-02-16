@@ -15,6 +15,11 @@ class UserRoles(models.TextChoices):
     DOCTOR  = "DOCTOR",  "Doctor"
     ADMIN   = "ADMIN",   "Admin"
 
+class NotificationType(models.TextChoices):
+    RESERVE = "RESERVE", "رزرو نوبت"
+    CANCEL  = "CANCEL",  "لغو نوبت"
+
+
 class UserManager(BaseUserManager):
     def create_user(self, username, email, phonenumber, password=None, role=UserRoles.PATIENT, **extra_fields):
         if not username:
@@ -159,8 +164,67 @@ class Reservation(models.Model):
             raise ValidationError("This time slot is already booked.")
 
     def save(self, *args, **kwargs):
-        self.full_clean()
+        is_new = self.pk is None
         super().save(*args, **kwargs)
+
+        if is_new:
+            # Notify PATIENT
+            Notification.objects.create(
+                user=self.patient,
+                doctor=None,
+                notification_type=NotificationType.RESERVE,
+                message=(
+                    f"نوبت شما در ساعت {self.start_reservation_hour.strftime('%H:%M')} تا "
+                    f"{self.end_reservation_hour.strftime('%H:%M')} در تاریخ "
+                    f"{self.start_reservation_hour.strftime('%Y-%m-%d')} "
+                    f"با دکتر {self.doctor.username} با موفقیت رزرو شد"
+                )
+            )
+
+            # Notify DOCTOR
+            Notification.objects.create(
+                user=None,
+                doctor=self.doctor,
+                notification_type=NotificationType.RESERVE,
+                message=(
+                    f"بیمار با شماره تلفن {self.patient.phonenumber} "
+                    f"نوبت ساعت {self.start_reservation_hour.strftime('%H:%M')} تا "
+                    f"{self.end_reservation_hour.strftime('%H:%M')} در تاریخ "
+                    f"{self.start_reservation_hour.strftime('%Y-%m-%d')} "
+                    f"را با شما رزرو کرد"
+                )
+            )
+
+    def delete(self, *args, **kwargs):
+        # Before delete → create cancel notifications
+        start_str = self.start_reservation_hour.strftime('%H:%M')
+        end_str = self.end_reservation_hour.strftime('%H:%M')
+        date_str = self.start_reservation_hour.strftime('%Y-%m-%d')
+
+        # Notify PATIENT
+        Notification.objects.create(
+            user=self.patient,
+            doctor=None,
+            notification_type=NotificationType.CANCEL,
+            message=(
+                f"نوبت شما در ساعت {start_str} تا {end_str} در تاریخ {date_str} "
+                f"توسط دکتر {self.doctor.username} لغو شد"
+            )
+        )
+
+        # Notify DOCTOR
+        Notification.objects.create(
+            user=None,
+            doctor=self.doctor,
+            notification_type=NotificationType.CANCEL,
+            message=(
+                f"بیمار با شماره تلفن {self.patient.phonenumber} "
+                f"نوبت ساعت {start_str} تا {end_str} در تاریخ {date_str} "
+                f"را لغو کرد"
+            )
+        )
+
+        super().delete(*args, **kwargs)
 
     def __str__(self):
         return f"{self.patient} → Dr.{self.doctor} ({self.start_reservation_hour})"
@@ -235,4 +299,37 @@ class PasswordReset(models.Model):
     @property
     def is_expired(self):
         return timezone.now() > self.created_when + timezone.timedelta(minutes=2)
-    
+
+class Notification(models.Model):
+    user        = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='notifications_as_user',
+        null=True, blank=True,
+        help_text="برای بیمار (اگر اعلان برای بیمار باشد)"
+    )
+    doctor      = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='notifications_as_doctor',
+        null=True, blank=True,
+        help_text="برای پزشک (اگر اعلان برای پزشک باشد)"
+    )
+    notification_type = models.CharField(
+        max_length=20,
+        choices=NotificationType.choices
+    )
+    message     = models.TextField()
+    is_read     = models.BooleanField(default=False)
+    created_at  = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['user', 'created_at']),
+            models.Index(fields=['doctor', 'created_at']),
+        ]
+
+    def __str__(self):
+        return f"{self.notification_type} - {self.created_at}"
+

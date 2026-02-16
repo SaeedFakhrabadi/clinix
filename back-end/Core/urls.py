@@ -8,7 +8,7 @@ from .views import (
     ReservationCreateAPIView,
     UserReservationsAPIView,
     ReservationDeleteAPIView,
-    CommentCreateAPIView,
+    CommentCreateAPIView, NotificationsListAPIView,
 )
 
 # Custom router to allow anonymous access to root
@@ -31,14 +31,15 @@ urlpatterns = [
         path('doctors/<int:pk>/', DoctorDetailAPIView.as_view()),
 
         # Reservations
-        # path('reservations/', UserReservationsAPIView.as_view()),        # GET
-
         path('reservations/<int:user_id>/', UserReservationsAPIView.as_view(), name='user-reservations'),
-
         path('reservations/create/', ReservationCreateAPIView.as_view()), # POST
-        path('reservations/<int:pk>/', ReservationDeleteAPIView.as_view()), # DELETE
+        path('reservations/delete/<int:pk>/', ReservationDeleteAPIView.as_view()), # DELETE
 
         # Comments
         path('comments/create/', CommentCreateAPIView.as_view()),
+
+        # inside the api/v1/ include block
+        path('notifications/', NotificationsListAPIView.as_view(), name='notifications-list'),
+
     ])),
 ]

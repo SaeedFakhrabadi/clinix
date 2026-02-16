@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 from rest_framework import serializers
-from .models import DoctorProfile, Comment, Reservation, UserRoles
+from .models import DoctorProfile, Comment, Reservation, UserRoles, Notification
 from jdatetime import date as jdate
 from datetime import datetime, timedelta
 
@@ -197,14 +197,14 @@ class CommentCreateSerializer(serializers.Serializer):
     score      = serializers.IntegerField(min_value=1, max_value=5)
 
     def validate(self, data):
-        # 1. Get doctor (from DoctorProfile.id)
+        # Get doctor
         try:
             doctor_profile = DoctorProfile.objects.get(id=data['doctor_id'])
             data['doctor'] = doctor_profile.user
         except DoctorProfile.DoesNotExist:
             raise serializers.ValidationError({"doctor_id": "پزشک با این شناسه یافت نشد"})
 
-        # 2. Get patient / commenter
+        # Get patient
         try:
             patient = User.objects.get(id=data['user_id'])
             if patient.role != UserRoles.PATIENT:
@@ -216,29 +216,17 @@ class CommentCreateSerializer(serializers.Serializer):
         return data
 
     def create(self, validated_data):
-        # Important: Comment model requires a reservation (OneToOneField)
-        # → We need to find or handle a reservation
-        # Simplest approach for now: find the most recent past reservation
-
-        # reservation = Reservation.objects.filter(
-        #     patient=validated_data['patient'],
-        #     doctor=validated_data['doctor'],
-        #     end_reservation_hour__lt=timezone.now()
-        # ).order_by('-end_reservation_hour').first()
-        #
-        # if not reservation:
-        #     raise serializers.ValidationError(
-        #         "برای ثبت نظر باید حداقل یک نوبت گذشته با این پزشک داشته باشید"
-        #     )
-
-        # Create comment
         comment = Comment.objects.create(
             doctor=validated_data['doctor'],
             patient=validated_data['patient'],
-            # reservation=reservation,
             score=validated_data['score'],
             comment=validated_data['comment']
         )
 
-        # The post_save signal / .save() already updates doctor.score
         return comment
+
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notification
+        fields = ['id', 'message', 'notification_type', 'is_read', 'created_at']
+        read_only_fields = fields

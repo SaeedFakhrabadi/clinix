@@ -11,7 +11,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.db import IntegrityError
 
-from .models import DoctorProfile, PasswordReset, Reservation, User
+from .models import DoctorProfile, PasswordReset, Reservation, User, Notification, UserRoles
 from .serializers import (
     LoginSerializer,
     RegisterSerializer,
@@ -22,7 +22,7 @@ from .serializers import (
     DoctorListSerializer,
     DoctorDetailSerializer,
     ReservationCreateSerializer,
-    CommentCreateSerializer
+    CommentCreateSerializer, NotificationSerializer
 )
 from kavenegar import *
 
@@ -49,6 +49,13 @@ def error_response(message, message_en, status_code=status.HTTP_400_BAD_REQUEST,
     if extra_data:
         data.update(extra_data)
     return Response(data, status=status_code)
+
+def is_email(value):
+    try:
+        validate_email(value)
+        return True
+    except ValidationError:
+        return False
 
 class AuthViewSet(viewsets.ViewSet):
     permission_classes = [AllowAny]
@@ -282,11 +289,11 @@ class UserReservationsAPIView(APIView):
 
 class ReservationDeleteAPIView(APIView):
     permission_classes = [AllowAny]
-    # permission_classes = [IsAuthenticated]
 
     def delete(self, request, pk):
+        # WARNING: allows anyone to delete any reservation!
         try:
-            reservation = Reservation.objects.get(pk=pk, patient=request.user)
+            reservation = Reservation.objects.get(id=pk)
         except Reservation.DoesNotExist:
             return Response({"detail": "Not found"}, status=404)
 
@@ -328,16 +335,6 @@ class DoctorDetailAPIView(APIView):
         serializer = DoctorDetailSerializer(doctor)
         return Response(serializer.data)
 
-# class CommentCreateAPIView(APIView):
-#     permission_classes = [IsAuthenticated]
-#
-#     def post(self, request):
-#         serializer = CommentSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save(patient=request.user)
-#             return Response(serializer.data, status=201)
-#         return Response(serializer.errors, status=400)
-
 class CommentCreateAPIView(APIView):
     permission_classes = [AllowAny]   # ← change to IsAuthenticated later
 
@@ -362,9 +359,61 @@ class CommentCreateAPIView(APIView):
             extra_data={"errors": serializer.errors}
         )
 
-def is_email(value):
-    try:
-        validate_email(value)
-        return True
-    except ValidationError:
-        return False
+class NotificationsListAPIView(APIView):
+    permission_classes = [AllowAny]  # ← change to IsAuthenticated later
+
+    def get(self, request):
+        user_id = request.query_params.get('user_id')
+        doctor_id = request.query_params.get('doctor_id')
+
+        if not user_id and not doctor_id:
+            return error_response(
+                message="حداقل یکی از user_id یا doctor_id باید ارسال شود",
+                message_en="At least user_id or doctor_id is required",
+                status_code=status.HTTP_400_BAD_REQUEST
+            )
+
+        if user_id and doctor_id:
+            return error_response(
+                message="فقط یکی از user_id یا doctor_id مجاز است",
+                message_en="Only one of user_id or doctor_id is allowed",
+                status_code=status.HTTP_400_BAD_REQUEST
+            )
+
+        queryset = Notification.objects.none()
+
+        if user_id:
+            try:
+                user = User.objects.get(id=user_id)
+                queryset = Notification.objects.filter(user=user)
+            except User.DoesNotExist:
+                return error_response(
+                    message="کاربر یافت نشد",
+                    message_en="User not found",
+                    status_code=status.HTTP_404_NOT_FOUND
+                )
+
+        elif doctor_id:
+            try:
+                doctor = User.objects.get(id=doctor_id)
+                if doctor.role != UserRoles.DOCTOR:
+                    return error_response(
+                        message="شناسه وارد شده پزشک نیست",
+                        message_en="Provided ID is not a doctor",
+                        status_code=status.HTTP_400_BAD_REQUEST
+                    )
+                queryset = Notification.objects.filter(doctor=doctor)
+            except User.DoesNotExist:
+                return error_response(
+                    message="پزشک یافت نشد",
+                    message_en="Doctor not found",
+                    status_code=status.HTTP_404_NOT_FOUND
+                )
+
+        serializer = NotificationSerializer(queryset.order_by('-created_at'), many=True)
+
+        return success_response(
+            message="لیست اعلان‌ها با موفقیت دریافت شد",
+            message_en="Notifications retrieved successfully",
+            extra_data={"notifications": serializer.data}
+        )
