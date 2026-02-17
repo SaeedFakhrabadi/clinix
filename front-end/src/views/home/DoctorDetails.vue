@@ -80,12 +80,12 @@
 		});
 
 		try {
-			// createTransaction(
-			// 	data?.transactionData.value?.method,
-			// 	data?.transactionData.value?.pid,
-			// 	data?.transactionData.value?.price,
-			// 	data?.transactionData.value?.type,
-			// );
+			createTransaction(
+				data?.transactionData.value?.method,
+				data?.transactionData.value?.pid,
+				data?.transactionData.value?.price,
+				data?.transactionData.value?.type,
+			);
 
 			createReservation(
 				data?.reservationData.value?.did,
