@@ -200,10 +200,15 @@ class DoctorDetailSerializer(serializers.ModelSerializer):
         return CommentSerializer(comments, many=True).data
 
 class CommentCreateSerializer(serializers.Serializer):
-    doctor_id  = serializers.IntegerField()
-    user_id    = serializers.IntegerField()
-    comment    = serializers.CharField(max_length=1000, trim_whitespace=True)
-    score      = serializers.IntegerField(min_value=1, max_value=5)
+    doctor_id = serializers.IntegerField()
+    user_id = serializers.IntegerField()
+    comment = serializers.CharField(
+        max_length=1000,
+        trim_whitespace=True,
+        allow_blank=True,
+        required=True
+    )
+    score = serializers.IntegerField(min_value=1, max_value=5)
 
     def validate(self, data):
         # Get doctor
@@ -224,12 +229,18 @@ class CommentCreateSerializer(serializers.Serializer):
 
         return data
 
+    def validate_comment(self, value):
+        if value == "":
+            return ""
+
+        return value
+
     def create(self, validated_data):
         comment = Comment.objects.create(
             doctor=validated_data['doctor'],
             patient=validated_data['patient'],
             score=validated_data['score'],
-            comment=validated_data['comment']
+            comment=validated_data.get('comment', '').strip()
         )
 
         return comment

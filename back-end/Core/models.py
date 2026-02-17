@@ -256,13 +256,12 @@ class Comment(models.Model):
         limit_choices_to={'role': UserRoles.PATIENT}
     )
 
-    # reservation = models.OneToOneField(
-    #     Reservation,
-    #     on_delete=models.CASCADE
-    # )
-
     score = models.IntegerField()
-    comment = models.TextField()
+    comment = models.TextField(
+        blank=True,
+        default=""
+    )
+
 
     created_at = models.DateTimeField(auto_now_add=True)
 
