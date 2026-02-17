@@ -46,7 +46,7 @@
 			const userInfo = response?.data;
 			currentUserStore?.setCurrentUser(userInfo);
 
-			router.push({ name: 'Profile' });
+			router.push({ name: 'Notifications' });
 
 			toast.dismiss(toastId);
 			toast.success(response?.data?.message);

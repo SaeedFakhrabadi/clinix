@@ -109,7 +109,7 @@
 		</div>
 		<div v-else-if="reservations?.length" class="reservations__container">
 			<h2 class="reservations__title">لیست نوبت ها</h2>
-			<p class="transactions__text">
+			<p class="reservations__text">
 				برای لغو نوبت روی سطر نوبت مورد نظر در جدول کلیک کنید
 			</p>
 			<TheTable
@@ -143,10 +143,12 @@
 				color: var(--danger-500);
 			}
 		}
+
 		&__container {
 			width: 100%;
 			@include flexbox(column, center, start, space(14), nowrap);
 		}
+		
 		&__title {
 			color: var(--text-900);
 			padding-right: space(4);
