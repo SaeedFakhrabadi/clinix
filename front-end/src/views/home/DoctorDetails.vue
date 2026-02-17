@@ -56,13 +56,14 @@
 		try {
 			createComment(
 				currentUser.value?.id,
-				doctor.value?.id,
+				doctor.value?.did,
 				comment.value,
 				score.value,
 			);
 
 			toast.dismiss(toastId);
-			toast.success('نظر و امتیاز شما با موفقیت ثبت شد');
+			
+			location.reload();
 		} catch (error) {
 			console.error('Error : ', error?.response?.data || error?.message);
 
@@ -94,6 +95,7 @@
 
 			toast.dismiss(toastId);
 			toast.success('پرداخت با موفقیت انجام و نوبت رزرو شد');
+
 			router.push({ name: 'Reservations' });
 		} catch (error) {
 			console.error('Error : ', error?.response?.data || error?.message);

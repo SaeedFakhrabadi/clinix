@@ -18,6 +18,7 @@
 	const scoreFilter = ref('all');
 
 	const loading = ref(false);
+	
 	const tableHeaders = [
 		{ label: 'نام پزشک', value: 'name' },
 		{ label: 'تخصص', value: 'field' },
@@ -146,7 +147,9 @@
 			doctors.value = response.data;
 		} catch (error) {
 			console.error('Error : ', error?.response?.data || error?.message);
+			
 			toast.error(error?.response?.data?.message ?? 'خطا در برقراری ارتباط');
+			
 			doctors.value = [];
 		} finally {
 			loading.value = false;
