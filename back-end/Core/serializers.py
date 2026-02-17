@@ -1,12 +1,20 @@
 from django.contrib.auth import get_user_model
-from django.utils import timezone
 from rest_framework import serializers
 from .models import DoctorProfile, Comment, Reservation, UserRoles, Notification, TransactionType, TransactionMethod, \
     Transaction, TransactionStatus
 from jdatetime import date as jdate
 from datetime import datetime, timedelta
+from django.utils import timezone
 
 User = get_user_model()
+
+class LocalDateTimeField(serializers.DateTimeField):
+    def to_representation(self, value):
+        if value is None:
+            return None
+        local_value = timezone.localtime(value)
+        print("DEBUG: Converting", value, "→", local_value)
+        return local_value.strftime('%Y-%m-%d %H:%M')
 
 class RegisterSerializer(serializers.ModelSerializer):     
     password = serializers.CharField(
@@ -227,12 +235,11 @@ class CommentCreateSerializer(serializers.Serializer):
         return comment
 
 class NotificationSerializer(serializers.ModelSerializer):
+    created_at = LocalDateTimeField(source='created_at')
     class Meta:
         model = Notification
         fields = ['id', 'message', 'notification_type', 'is_read', 'created_at']
         read_only_fields = fields
-
-# serializers.py   (add these classes)
 
 class TransactionCreateSerializer(serializers.Serializer):
     price     = serializers.IntegerField(min_value=1000)   # حداقل مبلغ منطقی
@@ -262,11 +269,10 @@ class TransactionCreateSerializer(serializers.Serializer):
         )
         return transaction
 
-
 class TransactionHistorySerializer(serializers.ModelSerializer):
-    date = serializers.DateTimeField(source='created_at', format='%Y-%m-%d %H:%M')
+    date = LocalDateTimeField(source='created_at')
 
     class Meta:
         model = Transaction
-        fields = ['price', 'status', 'date']
+        fields = ['price', 'status', 'date', 'method', 'type']
         read_only_fields = fields

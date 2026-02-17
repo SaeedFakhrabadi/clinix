@@ -418,8 +418,6 @@ class NotificationsListAPIView(APIView):
             extra_data={"notifications": serializer.data}
         )
 
-# views.py   (add these two classes)
-
 class TransactionCreateAPIView(APIView):
     permission_classes = [AllowAny]   # ← بعداً به IsAuthenticated تغییر دهید
 
@@ -443,7 +441,6 @@ class TransactionCreateAPIView(APIView):
             message_en="Invalid data",
             extra_data={"errors": serializer.errors}
         )
-
 
 class TransactionHistoryAPIView(APIView):
     permission_classes = [AllowAny]   # ← بعداً محدود کنید

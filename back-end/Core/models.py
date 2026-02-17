@@ -351,8 +351,8 @@ class Transaction(models.Model):
         on_delete=models.PROTECT,
         related_name='transactions'
     )
-    price       = models.PositiveIntegerField()           # به ریال
-    transaction_type = models.CharField(
+    price       = models.PositiveIntegerField()
+    type = models.CharField(
         max_length=10,
         choices=TransactionType.choices,
         verbose_name="نوع تراکنش"
