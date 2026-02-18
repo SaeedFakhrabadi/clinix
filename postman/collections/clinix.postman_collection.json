@@ -1,13 +1,14 @@
 {
   "info": {
-    "_postman_id": "631fbc75-f6fd-40be-bf1c-27bd0dfafd94",
+    "_postman_id": "69bba1e7-d640-4ec3-9fde-55d43228b9f2",
     "name": "clinix",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "29756279",
+    "_collection_link": "https://go.postman.co/collection/29756279-69bba1e7-d640-4ec3-9fde-55d43228b9f2?source=collection_link"
   },
   "item": [
     {
       "name": "register",
-      "id": "79921150-8708-4caa-b3e9-27fd4c182b4a",
       "request": {
         "auth": {
           "type": "noauth"
@@ -44,7 +45,6 @@
       },
       "response": [
         {
-          "id": "acc1076c-518d-4a75-b06e-3a75215a3420",
           "name": "register_final",
           "originalRequest": {
             "method": "POST",
@@ -130,7 +130,6 @@
     },
     {
       "name": "login",
-      "id": "0c6a27f8-665f-40fd-8e6b-4b7aa14debbd",
       "protocolProfileBehavior": {
         "disabledSystemHeaders": {}
       },
@@ -167,7 +166,6 @@
       },
       "response": [
         {
-          "id": "2d60b0f5-54ee-4196-9458-02f08f9330b5",
           "name": "login_final",
           "originalRequest": {
             "method": "POST",
@@ -253,7 +251,6 @@
     },
     {
       "name": "forgot_password",
-      "id": "327ebded-157c-4304-8e2c-96e30a98beed",
       "request": {
         "method": "POST",
         "header": [
@@ -287,7 +284,6 @@
       },
       "response": [
         {
-          "id": "b5823a91-8e75-412e-8940-99848d87d89f",
           "name": "forgot_password_final",
           "originalRequest": {
             "method": "POST",
@@ -373,7 +369,6 @@
     },
     {
       "name": "reset_password",
-      "id": "d3fb084b-db8f-4dfd-91a1-d5a8d82be03b",
       "request": {
         "method": "POST",
         "header": [
@@ -407,7 +402,6 @@
       },
       "response": [
         {
-          "id": "77e48e26-d939-429c-859d-5d1fca21ff13",
           "name": "reset_password_final",
           "originalRequest": {
             "method": "POST",
@@ -500,7 +494,6 @@
     },
     {
       "name": "admin",
-      "id": "6513be4d-df46-49c5-a5fb-f9a32279e667",
       "request": {
         "method": "POST",
         "header": [
@@ -533,7 +526,6 @@
     },
     {
       "name": "doctorsList",
-      "id": "59bfd05c-df55-4586-8303-4c85ca9b78a7",
       "request": {
         "method": "GET",
         "header": [],
@@ -557,7 +549,6 @@
       },
       "response": [
         {
-          "id": "cb874dfc-0486-4cb1-b184-bd3f1a235550",
           "name": "doctorsList_ex",
           "originalRequest": {
             "method": "GET",
@@ -632,7 +623,6 @@
     },
     {
       "name": "doctor_detail",
-      "id": "3d4829ab-f5e5-4e4f-bf97-665777a3b500",
       "request": {
         "method": "GET",
         "header": [],
@@ -657,7 +647,6 @@
       },
       "response": [
         {
-          "id": "40a2f56b-e875-4074-833e-54a471e9629f",
           "name": "doctor_detail_ex",
           "originalRequest": {
             "method": "GET",
@@ -733,7 +722,6 @@
     },
     {
       "name": "reservation_by_user_id",
-      "id": "4abecbff-0260-479d-901e-d03c87c0f2d5",
       "request": {
         "method": "GET",
         "header": [],
@@ -757,7 +745,6 @@
       },
       "response": [
         {
-          "id": "90823aa4-420e-426a-a483-ce20d3c9d3db",
           "name": "reservation_by_user_id_ex",
           "originalRequest": {
             "method": "GET",
@@ -833,7 +820,6 @@
     },
     {
       "name": "create_reservation",
-      "id": "085e0922-0ff2-46a4-90f2-45618d08b4aa",
       "request": {
         "method": "POST",
         "header": [],
@@ -867,7 +853,6 @@
       },
       "response": [
         {
-          "id": "4fd001bf-9ffa-4b2a-a9b8-03466e926aa0",
           "name": "create_reservation_ex",
           "originalRequest": {
             "method": "POST",
@@ -952,7 +937,6 @@
     },
     {
       "name": "delete_reservation",
-      "id": "9da27f96-aeb7-4f3e-9e15-d42aa04c1741",
       "request": {
         "method": "DELETE",
         "header": [],
@@ -978,7 +962,6 @@
       },
       "response": [
         {
-          "id": "07be5177-290b-4b32-b2da-8b8b8c2c2e50",
           "name": "delete_reservation_ex",
           "originalRequest": {
             "method": "DELETE",
@@ -1046,13 +1029,12 @@
           ],
           "cookie": [],
           "responseTime": "2026-02-16T23:07:54.543Z",
-          "body": null
+          "body": ""
         }
       ]
     },
     {
       "name": "create_comment",
-      "id": "304eec61-e588-40bf-acc4-485f976b1c4b",
       "request": {
         "method": "POST",
         "header": [],
@@ -1086,7 +1068,6 @@
       },
       "response": [
         {
-          "id": "44ae0b41-7ab2-425c-856a-322b06c520ae",
           "name": "create_comment_ex",
           "originalRequest": {
             "method": "POST",
@@ -1171,7 +1152,6 @@
     },
     {
       "name": "notifications_user",
-      "id": "ec4af305-7926-4c3a-9c5f-23e7c7fdfa5f",
       "request": {
         "method": "GET",
         "header": [],
@@ -1195,7 +1175,6 @@
       },
       "response": [
         {
-          "id": "82192521-102b-423c-9f9e-21b04ca32844",
           "name": "notifications_user",
           "originalRequest": {
             "method": "GET",
@@ -1271,7 +1250,6 @@
     },
     {
       "name": "transactions_history",
-      "id": "a4cd7cf4-10a6-4a39-8e84-518632cf1ced",
       "request": {
         "method": "GET",
         "header": [],
@@ -1296,7 +1274,6 @@
       },
       "response": [
         {
-          "id": "1f9a859b-498f-4e91-9625-4931a17edab3",
           "name": "transactions_history_ex",
           "originalRequest": {
             "method": "GET",
@@ -1368,12 +1345,83 @@
           "cookie": [],
           "responseTime": "2026-02-16T23:02:24.300Z",
           "body": "{\n    \"message\": \"تاریخچه تراکنش\\u200cها دریافت شد\",\n    \"message_en\": \"Transaction history retrieved\",\n    \"user_id\": 12,\n    \"transactions\": []\n}"
+        },
+        {
+          "name": "transactions_history_shamsi",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/transactions/history/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "transactions",
+                "history",
+                ""
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Date",
+              "value": "Wed, 18 Feb 2026 09:15:27 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.14.2"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "GET, HEAD, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "232"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"message\": \"تاریخچه تراکنش\\u200cها دریافت شد\",\n    \"message_en\": \"Transaction history retrieved\",\n    \"user_id\": 13,\n    \"transactions\": [\n        {\n            \"price\": 350000,\n            \"status\": \"SUCCESS\",\n            \"date\": \"2026-02-18 12:42\",\n            \"method\": \"BANK\",\n            \"type\": \"PAY\"\n        }\n    ]\n}"
         }
       ]
     },
     {
       "name": "create_transaction",
-      "id": "2cc0d14d-36d2-42c4-b0f7-aa841c019e31",
       "request": {
         "method": "POST",
         "header": [],
@@ -1407,7 +1455,6 @@
       },
       "response": [
         {
-          "id": "ec86875a-ba44-4363-b480-7b04aea65325",
           "name": "create_transaction_ex",
           "originalRequest": {
             "method": "POST",
@@ -1492,7 +1539,6 @@
     },
     {
       "name": "create_complaint",
-      "id": "6f37adac-e6e0-473c-bf3e-f5d7d6fd047c",
       "request": {
         "method": "POST",
         "header": [],
@@ -1518,7 +1564,6 @@
     },
     {
       "name": "edit_profile",
-      "id": "cc5603bc-fa1a-426a-91a7-ac7c1dd9daca",
       "request": {
         "method": "PUT",
         "header": [],

@@ -5,15 +5,17 @@ from .models import DoctorProfile, Comment, Reservation, UserRoles, Notification
 from jdatetime import date as jdate
 from datetime import datetime, timedelta
 from django.utils import timezone
+from zoneinfo import ZoneInfo
 
 User = get_user_model()
+
+TEHRAN_TZ = ZoneInfo('Asia/Tehran')
 
 class LocalDateTimeField(serializers.DateTimeField):
     def to_representation(self, value):
         if value is None:
             return None
-        local_value = timezone.localtime(value)
-        print("DEBUG: Converting", value, "→", local_value)
+        local_value = value.astimezone(TEHRAN_TZ)
         return local_value.strftime('%Y-%m-%d %H:%M')
 
 class RegisterSerializer(serializers.ModelSerializer):     
@@ -284,7 +286,6 @@ class TransactionCreateSerializer(serializers.Serializer):
             type=validated_data['type'],
             method=validated_data['method'],
             status=TransactionStatus.SUCCESS,
-            created_at=LocalDateTimeField()
         )
         return transaction
 
