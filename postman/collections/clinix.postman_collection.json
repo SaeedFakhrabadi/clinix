@@ -825,7 +825,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"doctor_id\": 3,\r\n    \"time\": \"1404-11-27-14\"\r\n}\r\n\r\n",
+          "raw": "{\r\n    \"doctor_id\": 3,\r\n    \"time\": \"1404-11-30-18\"\r\n}\r\n\r\n",
           "options": {
             "raw": {
               "language": "json"
@@ -1245,6 +1245,77 @@
           "cookie": [],
           "responseTime": "2026-02-16T22:53:40.463Z",
           "body": "{\n    \"message\": \"لیست اعلان\\u200cها با موفقیت دریافت شد\",\n    \"message_en\": \"Notifications retrieved successfully\",\n    \"notifications\": []\n}"
+        },
+        {
+          "name": "notifications_user_jalali",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/notifications/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "notifications",
+                ""
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Date",
+              "value": "Wed, 18 Feb 2026 14:37:42 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.14.2"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "GET, HEAD, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "1113"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"message\": \"لیست اعلان\\u200cها با موفقیت دریافت شد\",\n    \"message_en\": \"Notifications retrieved successfully\",\n    \"notifications\": [\n        {\n            \"id\": 17,\n            \"message\": \"نوبت شما در ساعت 18:00 تا 19:00 در تاریخ 1404/11/30 با دکتر حسین آریانمهر با موفقیت رزرو شد\",\n            \"notification_type\": \"RESERVE\",\n            \"is_read\": false,\n            \"created_at\": \"2026-02-18 18:07\"\n        },\n        {\n            \"id\": 15,\n            \"message\": \"نوبت شما در ساعت 14:00 تا 15:00 در تاریخ 1404/11/27 با دکتر حسین آریانمهر با موفقیت رزرو شد\",\n            \"notification_type\": \"RESERVE\",\n            \"is_read\": false,\n            \"created_at\": \"2026-02-18 18:02\"\n        },\n        {\n            \"id\": 13,\n            \"message\": \"نوبت شما در ساعت 10:30 تا 11:30 در تاریخ 2026-02-16 توسط دکتر حسین آریانمهر لغو شد\",\n            \"notification_type\": \"CANCEL\",\n            \"is_read\": false,\n            \"created_at\": \"2026-02-17 02:37\"\n        },\n        {\n            \"id\": 11,\n            \"message\": \"نوبت شما در ساعت 14:00 تا 15:00 در تاریخ 2026-02-16 با دکتر حسین آریانمهر با موفقیت رزرو شد\",\n            \"notification_type\": \"RESERVE\",\n            \"is_read\": false,\n            \"created_at\": \"2026-02-17 02:37\"\n        }\n    ]\n}"
         }
       ]
     },

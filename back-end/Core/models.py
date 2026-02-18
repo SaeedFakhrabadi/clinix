@@ -9,6 +9,10 @@ from django.db.models import Q
 from django.utils import timezone
 from django.db.models import Avg
 from django.core.exceptions import ValidationError
+from jdatetime import datetime as jdatetime
+from zoneinfo import ZoneInfo
+
+TEHRAN_TZ = ZoneInfo('Asia/Tehran')
 
 class UserRoles(models.TextChoices):
     PATIENT = "PATIENT", "Patient"
@@ -172,15 +176,20 @@ class Reservation(models.Model):
         super().save(*args, **kwargs)
 
         if is_new:
+            # Convert to Tehran timezone and Jalali date
+            start_tehran = self.start_reservation_hour.astimezone(TEHRAN_TZ)
+            end_tehran = self.end_reservation_hour.astimezone(TEHRAN_TZ)
+            jalali_date = jdatetime.fromgregorian(datetime=start_tehran).strftime('%Y/%m/%d')
+
             # Notify PATIENT
             Notification.objects.create(
                 user=self.patient,
                 doctor=None,
                 notification_type=NotificationType.RESERVE,
                 message=(
-                    f"نوبت شما در ساعت {self.start_reservation_hour.strftime('%H:%M')} تا "
-                    f"{self.end_reservation_hour.strftime('%H:%M')} در تاریخ "
-                    f"{self.start_reservation_hour.strftime('%Y-%m-%d')} "
+                    f"نوبت شما در ساعت {start_tehran.strftime('%H:%M')} تا "
+                    f"{end_tehran.strftime('%H:%M')} در تاریخ "
+                    f"{jalali_date} "
                     f"با دکتر {self.doctor.username} با موفقیت رزرو شد"
                 )
             )
@@ -192,18 +201,22 @@ class Reservation(models.Model):
                 notification_type=NotificationType.RESERVE,
                 message=(
                     f"بیمار با شماره تلفن {self.patient.phonenumber} "
-                    f"نوبت ساعت {self.start_reservation_hour.strftime('%H:%M')} تا "
-                    f"{self.end_reservation_hour.strftime('%H:%M')} در تاریخ "
-                    f"{self.start_reservation_hour.strftime('%Y-%m-%d')} "
+                    f"نوبت ساعت {start_tehran.strftime('%H:%M')} تا "
+                    f"{end_tehran.strftime('%H:%M')} در تاریخ "
+                    f"{jalali_date} "
                     f"را با شما رزرو کرد"
                 )
             )
 
     def delete(self, *args, **kwargs):
         # Before delete → create cancel notifications
-        start_str = self.start_reservation_hour.strftime('%H:%M')
-        end_str = self.end_reservation_hour.strftime('%H:%M')
-        date_str = self.start_reservation_hour.strftime('%Y-%m-%d')
+        # Convert to Tehran timezone and Jalali date
+        start_tehran = self.start_reservation_hour.astimezone(TEHRAN_TZ)
+        end_tehran = self.end_reservation_hour.astimezone(TEHRAN_TZ)
+        jalali_date = jdatetime.fromgregorian(datetime=start_tehran).strftime('%Y/%m/%d')
+
+        start_str = start_tehran.strftime('%H:%M')
+        end_str = end_tehran.strftime('%H:%M')
 
         # Notify PATIENT
         Notification.objects.create(
@@ -211,7 +224,7 @@ class Reservation(models.Model):
             doctor=None,
             notification_type=NotificationType.CANCEL,
             message=(
-                f"نوبت شما در ساعت {start_str} تا {end_str} در تاریخ {date_str} "
+                f"نوبت شما در ساعت {start_str} تا {end_str} در تاریخ {jalali_date} "
                 f"توسط دکتر {self.doctor.username} لغو شد"
             )
         )
@@ -223,7 +236,7 @@ class Reservation(models.Model):
             notification_type=NotificationType.CANCEL,
             message=(
                 f"بیمار با شماره تلفن {self.patient.phonenumber} "
-                f"نوبت ساعت {start_str} تا {end_str} در تاریخ {date_str} "
+                f"نوبت ساعت {start_str} تا {end_str} در تاریخ {jalali_date} "
                 f"را لغو کرد"
             )
         )

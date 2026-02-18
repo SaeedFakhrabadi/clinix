@@ -139,7 +139,8 @@ class ReservationCreateSerializer(serializers.Serializer):
             greg = jdt.togregorian()
 
             naive_start = datetime.combine(greg, datetime.min.time().replace(hour=hour, minute=0, second=0))
-            aware_start = timezone.make_aware(naive_start)
+            # Use Tehran timezone explicitly
+            aware_start = naive_start.replace(tzinfo=TEHRAN_TZ)
 
             data['start_reservation_hour'] = aware_start
             data['end_reservation_hour'] = aware_start + timedelta(hours=1)
@@ -258,7 +259,7 @@ class CommentCreateSerializer(serializers.Serializer):
         return comment
 
 class NotificationSerializer(serializers.ModelSerializer):
-    created_at = LocalDateTimeField(source='created_at')
+    created_at = LocalDateTimeField()
     class Meta:
         model = Notification
         fields = ['id', 'message', 'notification_type', 'is_read', 'created_at']
