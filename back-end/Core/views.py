@@ -347,8 +347,19 @@ class ReservationDeleteAPIView(APIView):
                     message_en="You don't have permission to delete this reservation",
                     status_code=status.HTTP_403_FORBIDDEN
                 )
+            doctor_profile = reservation.doctor.doctor_profile
+            doctor_price = doctor_profile.price
+
             reservation.delete()
-            return Response(status=204)
+
+            return success_response(
+                message="نوبت با موفقیت حذف گردید",
+                message_en="reservation deleted successfully",
+                status_code=status.HTTP_204_NO_CONTENT,
+                extra_data={
+                    "price": doctor_price,
+                }
+            )
 
         except Reservation.DoesNotExist:
             return Response({"detail": "Not found"}, status=404)

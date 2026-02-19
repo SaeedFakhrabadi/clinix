@@ -172,6 +172,7 @@ class DoctorDetailSerializer(serializers.ModelSerializer):
     end_working_hour   = serializers.SerializerMethodField()
     reserved_times     = serializers.SerializerMethodField()
     comments           = serializers.SerializerMethodField()
+    price = serializers.SerializerMethodField()
 
     class Meta:
         model = DoctorProfile

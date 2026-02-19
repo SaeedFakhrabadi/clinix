@@ -1,0 +1,1550 @@
+{
+  "info": {
+    "_postman_id": "631fbc75-f6fd-40be-bf1c-27bd0dfafd94",
+    "name": "clinix",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "register",
+      "id": "79921150-8708-4caa-b3e9-27fd4c182b4a",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\": \"boogcookie4\",\r\n    \"email\": \"boogcookie4@gmail.com\",\r\n    \"phonenumber\": \"09144668908\",\r\n    \"password\": \"1234\"\r\n  }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/auth/register/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "register",
+            ""
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "acc1076c-518d-4a75-b06e-3a75215a3420",
+          "name": "register_final",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"erfan2\",\r\n    \"email\": \"erfanmahmudi123@gmail.com\",\r\n    \"phonenumber\": \"09160643168\",\r\n    \"password\": \"1234\"\r\n  }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/auth/register/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "register",
+                ""
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Date",
+              "value": "Wed, 11 Feb 2026 16:33:41 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.13.3"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "POST, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "207"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "responseTime": "2026-02-11T16:34:19.934Z",
+          "body": "{\n    \"message\": \"ثبت\\u200cنام با موفقیت انجام شد\",\n    \"message_en\": \"User registered successfully\",\n    \"user\": {\n        \"id\": 4,\n        \"username\": \"erfan2\",\n        \"email\": \"erfanmahmudi123@gmail.com\",\n        \"phonenumber\": \"09160643168\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "login",
+      "id": "0c6a27f8-665f-40fd-8e6b-4b7aa14debbd",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {}
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"identifier\": \"boogcookie4@gmail.com\",\r\n    \"password\": \"1234\"\r\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/auth/login/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "login",
+            ""
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "2d60b0f5-54ee-4196-9458-02f08f9330b5",
+          "name": "login_final",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"identifier\": \"erfanmahmudi123@gmail.com\",\r\n    \"password\": \"1234\"\r\n}"
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/auth/login/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "login",
+                ""
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Date",
+              "value": "Wed, 11 Feb 2026 16:34:05 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.13.3"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "POST, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "188"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "responseTime": "2026-02-11T16:34:34.769Z",
+          "body": "{\n    \"message\": \"ورود با موفقیت انجام شد\",\n    \"message_en\": \"Login successful\",\n    \"user\": {\n        \"id\": 4,\n        \"username\": \"erfan2\",\n        \"email\": \"erfanmahmudi123@gmail.com\",\n        \"phonenumber\": \"09160643168\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "forgot_password",
+      "id": "327ebded-157c-4304-8e2c-96e30a98beed",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"identifier\": \"09150643158\"\r\n}\r\n"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/auth/forgot_password/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "forgot_password",
+            ""
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "b5823a91-8e75-412e-8940-99848d87d89f",
+          "name": "forgot_password_final",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"identifier\": \"test1@example.com\"\r\n}\r\n"
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/auth/forgot_password/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "forgot_password",
+                ""
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Date",
+              "value": "Wed, 11 Feb 2026 07:07:56 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.13.3"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "POST, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "89"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "responseTime": "2026-02-11T07:08:04.670Z",
+          "body": "{\n    \"message\": \"کد بازنشانی ارسال شد\",\n    \"message_en\": \"Verification code sent\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "reset_password",
+      "id": "d3fb084b-db8f-4dfd-91a1-d5a8d82be03b",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"verificationCode\": \"617723\",\r\n    \"newPassword\": \"StrogPass\"\r\n  }"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/auth/reset_password/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "reset_password",
+            ""
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "77e48e26-d939-429c-859d-5d1fca21ff13",
+          "name": "reset_password_final",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"verificationCode\": \"617723\",\r\n    \"newPassword\": \"StrogPass\"\r\n  }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/auth/reset_password/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "reset_password",
+                ""
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Date",
+              "value": "Fri, 06 Feb 2026 20:31:24 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.13.3"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "POST, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "142"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "responseTime": "2026-02-06T20:31:26.631Z",
+          "body": "{\n    \"message\": \"رمز عبور با موفقیت تغییر یافت\",\n    \"message_en\": \"Password reset successfully\",\n    \"code\": \"password_reset_success\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "admin",
+      "id": "6513be4d-df46-49c5-a5fb-f9a32279e667",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"refresh\": \"YOUR_REFRESH_TOKEN\"\r\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/admin/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "admin",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "doctorsList",
+      "id": "59bfd05c-df55-4586-8303-4c85ca9b78a7",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/doctors/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "doctors",
+            ""
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "cb874dfc-0486-4cb1-b184-bd3f1a235550",
+          "name": "doctorsList_ex",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/doctors/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "doctors",
+                ""
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "Text",
+          "header": [
+            {
+              "key": "Date",
+              "value": "Sun, 15 Feb 2026 12:37:06 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.14.2"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "GET, HEAD, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "335"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"id\": 1,\n        \"name\": \"erfanmahmudi1383@gmail.com\",\n        \"field\": \"گوارش\",\n        \"location\": \"Mashhad\",\n        \"score\": 0,\n        \"price\": 10250000\n    },\n    {\n        \"id\": 2,\n        \"name\": \"drerfan\",\n        \"field\": \"قلب و عروق\",\n        \"location\": \"Isfahan\",\n        \"score\": 4,\n        \"price\": 25000000\n    },\n    {\n        \"id\": 3,\n        \"name\": \"drboog\",\n        \"field\": \"گوش و حلق و بینی\",\n        \"location\": \"Shiraz\",\n        \"score\": 5,\n        \"price\": 65000000\n    }\n]"
+        }
+      ]
+    },
+    {
+      "name": "doctor_detail",
+      "id": "3d4829ab-f5e5-4e4f-bf97-665777a3b500",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/doctors/3/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "doctors",
+            "3",
+            ""
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "40a2f56b-e875-4074-833e-54a471e9629f",
+          "name": "doctor_detail_ex",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/doctors/3/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "doctors",
+                "3",
+                ""
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "Text",
+          "header": [
+            {
+              "key": "Date",
+              "value": "Mon, 16 Feb 2026 09:24:37 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.14.2"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "GET, HEAD, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "631"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"did\": 3,\n    \"name\": \"drboog\",\n    \"field\": \"گوش و حلق و بینی\",\n    \"location\": \"Shiraz\",\n    \"score\": 4.5,\n    \"price\": 65000000,\n    \"experience\": 10,\n    \"start_working_hour\": 10,\n    \"end_working_hour\": 19,\n    \"reserved_times\": {\n        \"0\": [],\n        \"1\": [\n            12\n        ],\n        \"2\": [\n            14\n        ],\n        \"3\": [],\n        \"4\": [],\n        \"5\": [],\n        \"6\": [],\n        \"7\": [],\n        \"8\": [],\n        \"9\": [],\n        \"10\": [],\n        \"11\": []\n    },\n    \"comments\": [\n        {\n            \"score\": 5,\n            \"username\": \"er\",\n            \"comment\": \"دکتر بوگ پزشکی بسیار متخصص، خوش\\u200cبرخورد و دقیق هستند. از ایشان بابت درمان موفقیت\\u200cآمیزی که داشتم، بی\\u200cنهایت سپاسگزارم\"\n        },\n        {\n            \"score\": 4,\n            \"username\": \"erfan2\",\n            \"comment\": \"خیلی خوب بود، ممنون\"\n        }\n    ]\n}"
+        }
+      ]
+    },
+    {
+      "name": "reservation_by_user_id",
+      "id": "4abecbff-0260-479d-901e-d03c87c0f2d5",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/reservations/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "reservations",
+            ""
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "90823aa4-420e-426a-a483-ce20d3c9d3db",
+          "name": "reservation_by_user_id_ex",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/reservations/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "reservations",
+                ""
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Date",
+              "value": "Mon, 16 Feb 2026 23:04:18 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.13.3"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "GET, HEAD, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "129"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "responseTime": "2026-02-16T23:04:23.889Z",
+          "body": "{\n    \"user_id\": 12,\n    \"username\": \"boogcookie4\",\n    \"email\": \"boogcookie4@gmail.com\",\n    \"role\": \"PATIENT\",\n    \"reservations_count\": 0,\n    \"reservations\": []\n}"
+        }
+      ]
+    },
+    {
+      "name": "create_reservation",
+      "id": "085e0922-0ff2-46a4-90f2-45618d08b4aa",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"doctor_id\": 3,\r\n    \"time\": \"1404-12-2-15\"\r\n}\r\n\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/reservations/create/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "reservations",
+            "create",
+            ""
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "4fd001bf-9ffa-4b2a-a9b8-03466e926aa0",
+          "name": "create_reservation_ex",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"doctor_id\": 2,\r\n    \"user_id\": 1,\r\n    \"time\": \"1404-11-26-10\"\r\n}\r\n\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/reservations/create/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "reservations",
+                "create",
+                ""
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "Text",
+          "header": [
+            {
+              "key": "Date",
+              "value": "Mon, 16 Feb 2026 07:59:45 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.14.2"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "POST, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "179"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"message\": \"نوبت با موفقیت ثبت شد\",\n    \"message_en\": \"Reservation created successfully\",\n    \"reservation_id\": 3,\n    \"start\": \"2026-02-15T10:00:00Z\",\n    \"end\": \"2026-02-15T11:00:00Z\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "delete_reservation",
+      "id": "9da27f96-aeb7-4f3e-9e15-d42aa04c1741",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/reservations/delete/14/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "reservations",
+            "delete",
+            "14",
+            ""
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "f79f0425-33cc-4d37-9832-78048357d01a",
+          "name": "delete_reservation_with_price",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/reservations/delete/14/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "reservations",
+                "delete",
+                "14",
+                ""
+              ]
+            }
+          },
+          "status": "No Content",
+          "code": 204,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Date",
+              "value": "Thu, 19 Feb 2026 10:53:31 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.13.3"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "DELETE, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "121"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "responseTime": "2026-02-19T10:53:39.046Z",
+          "body": "{\n    \"message\": \"نوبت با موفقیت حذف گردید\",\n    \"message_en\": \"reservation deleted successfully\",\n    \"price\": 650000\n}"
+        }
+      ]
+    },
+    {
+      "name": "create_comment",
+      "id": "304eec61-e588-40bf-acc4-485f976b1c4b",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"doctor_id\": 3,\r\n  \"user_id\": 1,\r\n  \"comment\": \"\",\r\n  \"score\": 4\r\n}\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/comments/create/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "comments",
+            "create",
+            ""
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "44ae0b41-7ab2-425c-856a-322b06c520ae",
+          "name": "create_comment_ex",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"doctor_id\": 3,\r\n  \"user_id\": 1,\r\n  \"comment\": \"خیلی خوب بود، ممنون\",\r\n  \"score\": 4\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/comments/create/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "comments",
+                "create",
+                ""
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "Text",
+          "header": [
+            {
+              "key": "Date",
+              "value": "Mon, 16 Feb 2026 09:18:08 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.14.2"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "POST, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "133"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"message\": \"نظر با موفقیت ثبت شد\",\n    \"message_en\": \"Comment created successfully\",\n    \"comment_id\": 3,\n    \"score\": 4,\n    \"doctor_id\": 3\n}"
+        }
+      ]
+    },
+    {
+      "name": "notifications_user",
+      "id": "ec4af305-7926-4c3a-9c5f-23e7c7fdfa5f",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/notifications/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "notifications",
+            ""
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "82192521-102b-423c-9f9e-21b04ca32844",
+          "name": "notifications_user",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/notifications/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "notifications",
+                ""
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Date",
+              "value": "Mon, 16 Feb 2026 22:53:35 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.13.3"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "GET, HEAD, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "147"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "responseTime": "2026-02-16T22:53:40.463Z",
+          "body": "{\n    \"message\": \"لیست اعلان\\u200cها با موفقیت دریافت شد\",\n    \"message_en\": \"Notifications retrieved successfully\",\n    \"notifications\": []\n}"
+        }
+      ]
+    },
+    {
+      "name": "transactions_history",
+      "id": "a4cd7cf4-10a6-4a39-8e84-518632cf1ced",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/transactions/history/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "transactions",
+            "history",
+            ""
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "1f9a859b-498f-4e91-9625-4931a17edab3",
+          "name": "transactions_history_ex",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/transactions/history/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "transactions",
+                "history",
+                ""
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Date",
+              "value": "Mon, 16 Feb 2026 23:02:18 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.13.3"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "GET, HEAD, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "142"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "responseTime": "2026-02-16T23:02:24.300Z",
+          "body": "{\n    \"message\": \"تاریخچه تراکنش\\u200cها دریافت شد\",\n    \"message_en\": \"Transaction history retrieved\",\n    \"user_id\": 12,\n    \"transactions\": []\n}"
+        }
+      ]
+    },
+    {
+      "name": "create_transaction",
+      "id": "2cc0d14d-36d2-42c4-b0f7-aa841c019e31",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"price\": 350000,\r\n  \"user_id\": 1,\r\n  \"type\": \"PAY\",\r\n  \"method\": \"BANK\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/transactions/create/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "transactions",
+            "create",
+            ""
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "ec86875a-ba44-4363-b480-7b04aea65325",
+          "name": "create_transaction_ex",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"price\": 350000,\r\n  \"user_id\": 1,\r\n  \"type\": \"PAY\",\r\n  \"method\": \"BANK\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/transactions/create/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "transactions",
+                "create",
+                ""
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "Text",
+          "header": [
+            {
+              "key": "Date",
+              "value": "Mon, 16 Feb 2026 13:46:06 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.14.2"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "POST, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "183"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"message\": \"تراکنش با موفقیت ثبت شد\",\n    \"message_en\": \"Transaction created successfully\",\n    \"transaction_id\": 1,\n    \"price\": 350000,\n    \"status\": \"SUCCESS\",\n    \"date\": \"2026-02-16 13:46\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "create_complaint",
+      "id": "6f37adac-e6e0-473c-bf3e-f5d7d6fd047c",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/complaint/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "complaint",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "edit_profile",
+      "id": "cc5603bc-fa1a-426a-91a7-ac7c1dd9daca",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/edit_profile/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "edit_profile",
+            ""
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
