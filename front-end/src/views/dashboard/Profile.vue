@@ -20,8 +20,8 @@
 	const currentUserStore = useCurrentUserStore();
 	const { currentUser } = storeToRefs(currentUserStore);
 
-	const isPatient = computed(() => currentUser.value.role.value === 'PATIENT');
-	const isDoctor = computed(() => currentUser.value.role.value === 'DOCTOR');
+	const isPatient = computed(() => currentUser.value?.role?.value === 'PATIENT');
+	const isDoctor = computed(() => currentUser.value?.role?.value === 'DOCTOR');
 
 	const { handleSubmit } = useForm({
 		validationSchema: profileSchema,
@@ -88,7 +88,8 @@
 		if (isDoctor.value) {
 			loading.value = true;
 			try {
-				// const { data } = await doctorDetails(currentUser.value?.did);
+				const response = await doctorDetails(currentUser.value?.did);
+				// console.log('🚀 ~ response:', response?.data);
 
 				loading.value = false;
 			} catch (error) {

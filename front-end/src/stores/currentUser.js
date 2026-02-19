@@ -14,6 +14,7 @@ export const useCurrentUserStore = defineStore(
 		const setCurrentUser = (userInfo) => {
 			currentUser.value = {
 				id: userInfo?.user?.id,
+				...(userInfo?.user?.role === 'DOCTOR' && { did: userInfo?.user?.did }),
 				name: userInfo?.user?.username,
 				email: userInfo?.user?.email,
 				phoneNumber: userInfo?.user?.phonenumber,

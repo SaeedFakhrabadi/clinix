@@ -42,6 +42,16 @@
 				(item) => item.id !== reservationId.value,
 			);
 		} catch (error) {
+			if (
+				error?.response?.data?.detail ===
+				'Authentication credentials were not provided.'
+			) {
+				toast.error('!زمان ورود شما منقضی شده است، لطفا دوباره وارد شوید');
+				currentUserStore.removeCurrentUser();
+				router.push({ name: 'Login' });
+				return;
+			}
+
 			console.error('Error : ', error?.response?.data || error?.message);
 
 			toast.error(error?.response?.data?.message ?? 'خطا در برقراری ارتباط');
@@ -93,7 +103,6 @@
 		try {
 			const response = await getReservations(currentUser.value?.id);
 			reservations.value = response?.data?.reservations;
-			console.log("🚀 ~ reservations:", reservations.value)
 
 			loading.value = false;
 		} catch (error) {
