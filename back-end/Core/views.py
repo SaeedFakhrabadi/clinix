@@ -124,19 +124,27 @@ class AuthViewSet(viewsets.ViewSet, CookieAuthMixin):
         )
 
         if user:
+            user_data = UserSerializer(user).data
+
+            if user.role == UserRoles.DOCTOR:
+                try:
+                    user_data['did'] = user.doctor_profile.id
+                except DoctorProfile.DoesNotExist:
+                    return error_response(
+                        message="پروفایل دکتر در سیستم تعریف نشده است، به ادمین پیام دهید",
+                        message_en="The doctor's profile is not defined in the system, send a message to the admin.",
+                        status_code=status.HTTP_404_NOT_FOUND,
+                    )
+
             response = success_response(
                 message="ورود با موفقیت انجام شد",
                 message_en="Login successful",
                 extra_data={
-                    "user": UserSerializer(user).data,
+                    "user": user_data
                 }
             )
 
-            print("Setting auth cookies for user:", user.id)
-            response = self.set_auth_cookies(response, user)
-            print("Cookies set in response:", response.cookies.keys())
-
-            return response
+            return self.set_auth_cookies(response, user)
 
         return error_response(
             message="اطلاعات وارد شده صحیح نمی‌باشند!",

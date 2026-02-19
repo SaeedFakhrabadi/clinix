@@ -115,9 +115,6 @@ class ReservationSerializer(serializers.ModelSerializer):
             'start_reservation_time',
         ]
 
-    def get_is_past(self, obj):
-        return obj.start_reservation_hour < timezone.now()
-
 class ReservationCreateSerializer(serializers.Serializer):
     doctor_id = serializers.IntegerField()
     time = serializers.CharField()
