@@ -351,7 +351,7 @@ class ReservationDeleteAPIView(APIView):
             reservation = Reservation.objects.get(id=pk)
 
             # Check if user owns this reservation
-            if reservation.patient.id != request.user.id:
+            if reservation.patient.id != request.user.id and reservation.doctor.id != request.user.id:
                 return error_response(
                     message="شما اجازه حذف این نوبت را ندارید",
                     message_en="You don't have permission to delete this reservation",
