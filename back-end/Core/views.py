@@ -378,13 +378,6 @@ class ReservationCreateAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        print(f"Authenticated user in view: {request.user.id}")
-        print(f"Request data: {request.data}")
-
-        # Add user_id from authenticated user
-        # data = request.data.copy()
-        # data['user_id'] = request.user.id
-
         serializer = ReservationCreateSerializer(
             data=request.data,
             context={'request': request}
@@ -409,7 +402,6 @@ class ReservationCreateAPIView(APIView):
                     extra_data={"errors": e.messages if hasattr(e, 'messages') else [str(e)]}
                 )
 
-        print(f"Serializer errors: {serializer.errors}")  # Debug
         return error_response(
             message="داده‌های ارسالی معتبر نیستند",
             message_en="Invalid data",
@@ -500,8 +492,7 @@ class TransactionCreateAPIView(APIView):
                 extra_data={
                     "transaction_id": transaction.id,
                     "price": transaction.price,
-                    "status": transaction.status,
-                    "date": transaction.created_at.strftime("%Y-%m-%d %H:%M")
+                    "status": transaction.status
                 }
             )
         return error_response(
