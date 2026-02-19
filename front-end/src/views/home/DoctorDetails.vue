@@ -109,16 +109,18 @@
 
 	onMounted(async () => {
 		loading.value = true;
-		error.value = null;
-
 		try {
 			const { data } = await doctorDetails(did.value);
 			doctor.value = data;
-		} catch (e) {
-			error.value = 'دریافت اطلاعات پزشک با خطا مواجه شد.';
-			console.error(e);
-		} finally {
+
 			loading.value = false;
+		} catch (error) {
+			console.error('Error : ', error?.response?.data || error?.message);
+
+			toast.error(error?.response?.data?.message ?? 'خطا در برقراری ارتباط');
+
+			loading.value = false;
+			loadingError.value = true;
 		}
 	});
 </script>
@@ -128,10 +130,10 @@
 		<div v-if="loading" class="doctor-details__state--loading">
 			<h2>در حال دریافت اطلاعات پزشک...</h2>
 		</div>
-		<div v-else-if="error" class="doctor-details__state--error">
+		<div v-else-if="loadingError" class="doctor-details__state--error">
 			<h2>خطا در دریافت اطلاعات پزشک!</h2>
 		</div>
-		<div v-else-if="doctor" class="doctor-details__container">
+		<div v-else class="doctor-details__container">
 			<section class="doctor-details__info info"></section>
 			<ScheduleTable :doctor="doctor" :currentUser="currentUser" @pay="pay" />
 			<section class="doctor-details__comments comments">

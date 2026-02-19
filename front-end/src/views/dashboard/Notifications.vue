@@ -10,7 +10,7 @@
 
 	const notifications = ref(null);
 	const loading = ref(true);
-	const empty = ref(false);
+	const loadingError = ref(null);
 
 	const currentUserStore = useCurrentUserStore();
 	const { currentUser } = storeToRefs(currentUserStore);
@@ -20,15 +20,15 @@
 		try {
 			const response = await getNotifications(currentUser.value);
 			notifications.value = response?.data?.notifications;
+
+			loading.value = false;
 		} catch (error) {
 			console.error('Error : ', error?.response?.data || error?.message);
 
 			toast.error(error?.response?.data?.message ?? 'خطا در برقراری ارتباط');
 
-			notifications.value = [];
-			empty.value = true;
-		} finally {
 			loading.value = false;
+			loadingError.value = true;
 		}
 	});
 </script>
@@ -38,7 +38,7 @@
 		<div v-if="loading" class="notifications__state--loading">
 			<h2>در حال دریافت اعلان ها...</h2>
 		</div>
-		<div v-else-if="empty" class="notifications__state--empty">
+		<div v-else-if="loadingError" class="notifications__state--error">
 			<h2>خطا در دریافت اعلان ها!</h2>
 		</div>
 		<div v-else-if="notifications?.length" class="notifications__container">
@@ -58,21 +58,23 @@
 				</li>
 			</ul>
 		</div>
+		<div v-else class="notifications__state--empty">
+			<h2>در حال حاضر اعلانی وجود ندارد!</h2>
+		</div>
 	</div>
 </template>
 
 <style lang="scss" scoped>
 	.notifications {
-		padding-left: space(6);
-		width: 100%;
-		@include flexbox(column, center, center, space(14), nowrap);
-
 		&__state {
 			&--loading {
 				color: var(--text-500);
 			}
-			&--empty {
+			&--error {
 				color: var(--danger-500);
+			}
+			&--empty {
+				color: var(--text-500);
 			}
 		}
 

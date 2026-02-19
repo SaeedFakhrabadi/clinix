@@ -12,7 +12,7 @@
 
 	const reservations = ref(null);
 	const loading = ref(true);
-	const error = ref(null);
+	const loadingError = ref(null);
 
 	const currentUserStore = useCurrentUserStore();
 	const { currentUser } = storeToRefs(currentUserStore);
@@ -33,7 +33,7 @@
 		isModalOpen.value = false;
 		try {
 			deleteReservation(reservationId.value);
-			
+
 			createTransaction('BANK', currentUser.value?.id, 300_000, 'REFUND');
 
 			reservations.value = reservations.value.filter(
@@ -92,14 +92,15 @@
 		try {
 			const response = await getReservations(currentUser.value?.id);
 			reservations.value = response?.data?.reservations;
+
+			loading.value = false;
 		} catch (error) {
 			console.error('Error : ', error?.response?.data || error?.message);
 
 			toast.error(error?.response?.data?.message ?? 'خطا در برقراری ارتباط');
 
-			reservations.value = [];
-		} finally {
 			loading.value = false;
+			loadingError.value = true;
 		}
 	});
 </script>
@@ -109,7 +110,7 @@
 		<div v-if="loading" class="reservations__state--loading">
 			<h2>در حال دریافت اطلاعات نوبت ها...</h2>
 		</div>
-		<div v-else-if="error" class="reservations__state--error">
+		<div v-else-if="loadingError" class="reservations__state--error">
 			<h2>خطا در دریافت اطلاعات نوبت ها!</h2>
 		</div>
 		<div v-else-if="reservations?.length" class="reservations__container">
@@ -131,21 +132,23 @@
 				@submit="removeReservation"
 			/>
 		</div>
+		<div v-else class="reservations__state--empty">
+			<h2>در حال حاضر نوبتی وجود ندارد!</h2>
+		</div>
 	</div>
 </template>
 
 <style lang="scss" scoped>
 	.reservations {
-		padding-left: space(6);
-		width: 100%;
-		@include flexbox(column, center, center, space(14), nowrap);
-
 		&__state {
 			&--loading {
 				color: var(--text-500);
 			}
 			&--error {
 				color: var(--danger-500);
+			}
+			&--empty {
+				color: var(--text-500);
 			}
 		}
 

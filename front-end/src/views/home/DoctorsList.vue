@@ -10,6 +10,8 @@
 
 	const doctors = ref([]);
 
+	const loading = ref(false);
+
 	const searchQuery = ref('');
 	const sortQuery = ref('none');
 
@@ -17,8 +19,6 @@
 	const locationFilter = ref('all');
 	const scoreFilter = ref('all');
 
-	const loading = ref(false);
-	
 	const tableHeaders = [
 		{ label: 'نام پزشک', value: 'name' },
 		{ label: 'تخصص', value: 'field' },
@@ -147,9 +147,9 @@
 			doctors.value = response.data;
 		} catch (error) {
 			console.error('Error : ', error?.response?.data || error?.message);
-			
+
 			toast.error(error?.response?.data?.message ?? 'خطا در برقراری ارتباط');
-			
+
 			doctors.value = [];
 		} finally {
 			loading.value = false;
@@ -197,10 +197,14 @@
 			</div>
 		</div>
 		<h4 class="doctors-list__text">
-			برای مشاهده جزییات مربوط به پزشک و رزرو نوبت ، روی سطر پزشک مورد نظر در جدول کلیک
-			کنید
+			برای مشاهده جزییات مربوط به پزشک و رزرو نوبت ، روی سطر پزشک مورد نظر در
+			جدول کلیک کنید
 		</h4>
+		<div v-if="loading" class="doctors-list__state">
+			<h2>در حال دریافت اطلاعات پزشکان...</h2>
+		</div>
 		<TheTable
+			v-else
 			:headers="tableHeaders"
 			:rows="mappedDoctors"
 			:loading="loading"
@@ -246,6 +250,10 @@
 
 		&__text {
 			color: var(--text-900);
+		}
+
+		&__state {
+			color: var(--text-500);
 		}
 	}
 </style>

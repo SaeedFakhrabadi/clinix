@@ -96,7 +96,11 @@
 					برای مشاهده جزییات مربوط به پزشک و رزرو نوبت ، روی سطر پزشک مورد نظر
 					در جدول کلیک کنید
 				</h4>
+				<div v-if="loading" class="content__state">
+					<h2>در حال دریافت اطلاعات پزشکان...</h2>
+				</div>
 				<TheTable
+					v-else
 					:headers="tableHeaders"
 					:rows="mappedDoctors"
 					:loading="loading"
@@ -152,6 +156,10 @@
 		.content {
 			width: 100%;
 			@include flexbox(column, center, right);
+
+			&__state {
+				color: var(--text-500);
+			}
 
 			&__title {
 				color: var(--text-900);
