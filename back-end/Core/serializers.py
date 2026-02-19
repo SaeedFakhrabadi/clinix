@@ -98,7 +98,7 @@ class CommentSerializer(serializers.ModelSerializer):
         read_only_fields = fields
 
 class ReservationSerializer(serializers.ModelSerializer):
-    doctor_name = serializers.CharField(source='doctor.username', read_only=True)
+    username = serializers.CharField(source='doctor.username', read_only=True)
     start_reservation_time = serializers.DateTimeField(
         source='start_reservation_hour',
         format='%Y-%m-%dT%H:%M:%SZ',
@@ -110,7 +110,7 @@ class ReservationSerializer(serializers.ModelSerializer):
         model = Reservation
         fields = [
             'id',
-            'doctor_name',
+            'username',
             'is_past',
             'start_reservation_time',
         ]
