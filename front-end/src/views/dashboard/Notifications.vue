@@ -1,11 +1,13 @@
 <script setup>
 	import { onMounted, ref } from 'vue';
 	import { useToast } from 'vue-toastification';
+	import { useRouter } from 'vue-router';
 	import { storeToRefs } from 'pinia';
 	import { useCurrentUserStore } from '@/stores/currentUser';
 	import { toPersianDigits } from '@/utils/toPersianDigits';
 	import { getNotifications } from '@/services/notifications';
 
+	const router = useRouter();
 	const toast = useToast();
 
 	const notifications = ref(null);
@@ -23,6 +25,16 @@
 
 			loading.value = false;
 		} catch (error) {
+			if (
+				error?.response?.data?.detail ===
+				'Authentication credentials were not provided.'
+			) {
+				toast.error('!زمان ورود شما منقضی شده است، لطفا دوباره وارد شوید');
+				currentUserStore.removeCurrentUser();
+				router.push({ name: 'Login' });
+				return;
+			}
+
 			console.error('Error : ', error?.response?.data || error?.message);
 
 			toast.error(error?.response?.data?.message ?? 'خطا در برقراری ارتباط');

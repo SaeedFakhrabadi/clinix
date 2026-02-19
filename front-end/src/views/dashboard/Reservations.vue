@@ -1,5 +1,6 @@
 <script setup>
 	import { onMounted, ref, computed } from 'vue';
+	import { useRouter } from 'vue-router';
 	import { useToast } from 'vue-toastification';
 	import { storeToRefs } from 'pinia';
 	import { getReservations, deleteReservation } from '@/services/reservations';
@@ -8,6 +9,7 @@
 	import { toPersianDigits } from '@/utils/toPersianDigits';
 	import jalaali from 'jalaali-js';
 
+	const router = useRouter();
 	const toast = useToast();
 
 	const reservations = ref(null);
@@ -47,24 +49,22 @@
 	};
 
 	const handleRowClick = ({ row }) => {
-		if (row.is_active !== 'فعال') {
+		if (row?.is_active !== 'فعال') {
 			toast.error('!نوبت انتخاب شده منقضی شده است و نمی توان آن را لغو کرد');
 			return;
 		}
 
-		reservationId.value = row.id;
+		reservationId.value = row?.id;
 
 		modalText.value = `
-	     آیا از لغو نوبت دکتر ${row.doctor_name}
-	     در تاریخ ${toPersianDigits(row.date)}
-	     ساعت  ${toPersianDigits(row.hour)}
+	     آیا از لغو نوبت دکتر ${row?.doctor_name}
+	     در تاریخ ${toPersianDigits(row?.date)}
+	     ساعت  ${toPersianDigits(row?.hour)}
 	     اطمینان دارید؟`;
 		isModalOpen.value = true;
 	};
 
 	const mappedReservations = computed(() => {
-		if (!reservations.value) return [];
-
 		return reservations.value.map((reservation) => {
 			const dateObj = new Date(reservation.start_reservation_time);
 			const { jy, jm, jd } = jalaali.toJalaali(
@@ -78,9 +78,10 @@
 			const hour = dateObj.getUTCHours();
 
 			return {
-				id: reservation.id,
-				doctor_name: reservation.doctor_name,
-				is_active: reservation.is_past ? 'منقضی' : 'فعال',
+				id: reservation?.id,
+				// doctor_name: reservation?.doctor_name,
+				doctor_name: reservation?.username,
+				is_active: reservation?.is_past ? 'منقضی' : 'فعال',
 				date: persianDate,
 				hour: `${hour} تا ${hour + 1}`,
 			};
@@ -92,9 +93,20 @@
 		try {
 			const response = await getReservations(currentUser.value?.id);
 			reservations.value = response?.data?.reservations;
+			console.log("🚀 ~ reservations:", reservations.value)
 
 			loading.value = false;
 		} catch (error) {
+			if (
+				error?.response?.data?.detail ===
+				'Authentication credentials were not provided.'
+			) {
+				toast.error('!زمان ورود شما منقضی شده است، لطفا دوباره وارد شوید');
+				currentUserStore.removeCurrentUser();
+				router.push({ name: 'Login' });
+				return;
+			}
+
 			console.error('Error : ', error?.response?.data || error?.message);
 
 			toast.error(error?.response?.data?.message ?? 'خطا در برقراری ارتباط');
@@ -121,7 +133,6 @@
 			<TheTable
 				:headers="tableHeaders"
 				:rows="mappedReservations"
-				:loading="loading"
 				@row-click="handleRowClick"
 			/>
 			<TheModal
