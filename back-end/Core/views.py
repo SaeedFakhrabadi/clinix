@@ -19,13 +19,13 @@ from .serializers import (
     LoginSerializer,
     RegisterSerializer,
     ForgetPasswordSerializer,
-    ReservationSerializer,
     ResetPasswordSerializer,
     UserSerializer,
     DoctorListSerializer,
     DoctorDetailSerializer,
     ReservationCreateSerializer,
-    CommentCreateSerializer, NotificationSerializer, TransactionHistorySerializer, TransactionCreateSerializer
+    CommentCreateSerializer, NotificationSerializer, TransactionHistorySerializer, TransactionCreateSerializer,
+    DoctorReservationSerializer, PatientReservationSerializer
 )
 from kavenegar import *
 
@@ -325,12 +325,14 @@ class UserReservationsAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        """
-        Get reservations for the authenticated user
-        """
         user = request.user
-        reservations = Reservation.objects.filter(patient=user).order_by('-start_reservation_hour')
-        serializer = ReservationSerializer(reservations, many=True)
+
+        if user.role == UserRoles.DOCTOR:
+            reservations = Reservation.objects.filter(doctor=user).order_by('-start_reservation_hour')
+            serializer = DoctorReservationSerializer(reservations, many=True)
+        else:
+            reservations = Reservation.objects.filter(patient=user).order_by('-start_reservation_hour')
+            serializer = PatientReservationSerializer(reservations, many=True)
 
         return Response({
             "user_id": user.id,

@@ -97,7 +97,8 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ['score', 'username', 'comment']
         read_only_fields = fields
 
-class ReservationSerializer(serializers.ModelSerializer):
+# Patient sees doctor_name only
+class PatientReservationSerializer(serializers.ModelSerializer):
     doctor_name = serializers.CharField(source='doctor.username', read_only=True)
     start_reservation_time = serializers.DateTimeField(
         source='start_reservation_hour',
@@ -108,12 +109,25 @@ class ReservationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Reservation
-        fields = [
-            'id',
-            'doctor_name',
-            'is_past',
-            'start_reservation_time',
-        ]
+        fields = ['id', 'doctor_name', 'is_past', 'start_reservation_time']
+
+    def get_is_past(self, obj):
+        return obj.start_reservation_hour < timezone.now()
+
+# Doctor sees patient's username and phonenumber
+class DoctorReservationSerializer(serializers.ModelSerializer):
+    patient_username = serializers.CharField(source='patient.username', read_only=True)
+    patient_phonenumber = serializers.CharField(source='patient.phonenumber', read_only=True)
+    start_reservation_time = serializers.DateTimeField(
+        source='start_reservation_hour',
+        format='%Y-%m-%dT%H:%M:%SZ',
+        read_only=True
+    )
+    is_past = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Reservation
+        fields = ['id', 'patient_username', 'patient_phonenumber', 'is_past', 'start_reservation_time']
 
     def get_is_past(self, obj):
         return obj.start_reservation_hour < timezone.now()

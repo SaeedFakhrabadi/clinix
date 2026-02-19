@@ -732,7 +732,7 @@
       ]
     },
     {
-      "name": "reservation_by_user_id",
+      "name": "reservationsList",
       "id": "4abecbff-0260-479d-901e-d03c87c0f2d5",
       "request": {
         "method": "GET",
@@ -757,8 +757,8 @@
       },
       "response": [
         {
-          "id": "90823aa4-420e-426a-a483-ce20d3c9d3db",
-          "name": "reservation_by_user_id_ex",
+          "id": "9eb9951a-a3d7-4c49-a220-f6944da3a04e",
+          "name": "reservationsList_ex",
           "originalRequest": {
             "method": "GET",
             "header": [],
@@ -786,7 +786,7 @@
           "header": [
             {
               "key": "Date",
-              "value": "Mon, 16 Feb 2026 23:04:18 GMT"
+              "value": "Thu, 19 Feb 2026 12:44:07 GMT"
             },
             {
               "key": "Server",
@@ -810,7 +810,7 @@
             },
             {
               "key": "Content-Length",
-              "value": "129"
+              "value": "261"
             },
             {
               "key": "X-Content-Type-Options",
@@ -826,8 +826,8 @@
             }
           ],
           "cookie": [],
-          "responseTime": "2026-02-16T23:04:23.889Z",
-          "body": "{\n    \"user_id\": 12,\n    \"username\": \"boogcookie4\",\n    \"email\": \"boogcookie4@gmail.com\",\n    \"role\": \"PATIENT\",\n    \"reservations_count\": 0,\n    \"reservations\": []\n}"
+          "responseTime": "2026-02-19T12:44:35.115Z",
+          "body": "{\n    \"user_id\": 15,\n    \"username\": \"doctorB\",\n    \"email\": \"doctor@gmail.com\",\n    \"role\": \"DOCTOR\",\n    \"reservations_count\": 1,\n    \"reservations\": [\n        {\n            \"id\": 36,\n            \"patient_username\": \"boogcookie4\",\n            \"patient_phonenumber\": \"09144668908\",\n            \"is_past\": false,\n            \"start_reservation_time\": \"2026-02-21T17:00:00Z\"\n        }\n    ]\n}"
         }
       ]
     },
