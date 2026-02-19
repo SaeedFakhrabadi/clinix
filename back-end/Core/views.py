@@ -369,17 +369,24 @@ class ReservationCreateAPIView(APIView):
             context={'request': request}
         )
         if serializer.is_valid():
-            reservation = serializer.save()
-            return success_response(
-                message="نوبت با موفقیت ثبت شد",
-                message_en="Reservation created successfully",
-                status_code=status.HTTP_201_CREATED,
-                extra_data={
-                    "reservation_id": reservation.id,
-                    "start": reservation.start_reservation_hour,
-                    "end": reservation.end_reservation_hour
-                }
-            )
+            try:
+                reservation = serializer.save()
+                return success_response(
+                    message="نوبت با موفقیت ثبت شد",
+                    message_en="Reservation created successfully",
+                    status_code=status.HTTP_201_CREATED,
+                    extra_data={
+                        "reservation_id": reservation.id,
+                        "start": reservation.start_reservation_hour,
+                        "end": reservation.end_reservation_hour
+                    }
+                )
+            except ValidationError as e:
+                return error_response(
+                    message=str(e.message) if hasattr(e, 'message') else str(e.messages[0]),
+                    message_en="Reservation conflict",
+                    extra_data={"errors": e.messages if hasattr(e, 'messages') else [str(e)]}
+                )
 
         print(f"Serializer errors: {serializer.errors}")  # Debug
         return error_response(

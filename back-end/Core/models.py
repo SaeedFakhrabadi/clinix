@@ -158,7 +158,8 @@ class Reservation(models.Model):
         ):
             raise ValidationError("Reservation time is outside doctor's working hours.")
 
-        overlapping = Reservation.objects.filter(
+        # Check if doctor's time slot is already booked
+        doctor_overlapping = Reservation.objects.filter(
             doctor=self.doctor
         ).filter(
             Q(start_reservation_hour__lt=self.end_reservation_hour) &
@@ -166,12 +167,27 @@ class Reservation(models.Model):
         )
 
         if self.pk:
-            overlapping = overlapping.exclude(pk=self.pk)
+            doctor_overlapping = doctor_overlapping.exclude(pk=self.pk)
 
-        if overlapping.exists():
+        if doctor_overlapping.exists():
             raise ValidationError("This time slot is already booked.")
 
+        # Check if patient already has an appointment at this time
+        patient_overlapping = Reservation.objects.filter(
+            patient=self.patient
+        ).filter(
+            Q(start_reservation_hour__lt=self.end_reservation_hour) &
+            Q(end_reservation_hour__gt=self.start_reservation_hour)
+        )
+
+        if self.pk:
+            patient_overlapping = patient_overlapping.exclude(pk=self.pk)
+
+        if patient_overlapping.exists():
+            raise ValidationError("شما در این زمان نوبت دیگری دارید.")
+
     def save(self, *args, **kwargs):
+        self.full_clean()
         is_new = self.pk is None
         super().save(*args, **kwargs)
 
