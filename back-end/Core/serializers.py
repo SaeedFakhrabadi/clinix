@@ -98,7 +98,7 @@ class CommentSerializer(serializers.ModelSerializer):
         read_only_fields = fields
 
 class ReservationSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source='doctor.username', read_only=True)
+    doctor_name = serializers.CharField(source='doctor.username', read_only=True)
     start_reservation_time = serializers.DateTimeField(
         source='start_reservation_hour',
         format='%Y-%m-%dT%H:%M:%SZ',
@@ -110,10 +110,13 @@ class ReservationSerializer(serializers.ModelSerializer):
         model = Reservation
         fields = [
             'id',
-            'username',
+            'doctor_name',
             'is_past',
             'start_reservation_time',
         ]
+
+    def get_is_past(self, obj):
+        return obj.start_reservation_hour < timezone.now()
 
 class ReservationCreateSerializer(serializers.Serializer):
     doctor_id = serializers.IntegerField()
