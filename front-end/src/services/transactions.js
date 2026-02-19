@@ -9,6 +9,6 @@ export const createTransaction = (method, pid, price, type) => {
 	});
 };
 
-export const getTransactions = (uid) => {
-	return api.get(`/v1/transactions/history/${uid}/`);
+export const getTransactions = () => {
+	return api.get('/v1/transactions/history/');
 };

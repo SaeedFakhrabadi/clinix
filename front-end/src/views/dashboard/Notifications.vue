@@ -27,7 +27,6 @@
 
 			notifications.value = [];
 			empty.value = true;
-			console.log("🚀 ~ empty:", empty)
 		} finally {
 			loading.value = false;
 		}
@@ -89,6 +88,7 @@
 		}
 
 		&__list {
+			width: 100%;
 			list-style: none;
 			padding: space(0);
 			margin: space(0);
@@ -96,7 +96,7 @@
 		}
 
 		&__item {
-      width: calc(100% - space(12));
+			width: calc(100% - space(12));
 			border-radius: space(6);
 			padding: space(5);
 

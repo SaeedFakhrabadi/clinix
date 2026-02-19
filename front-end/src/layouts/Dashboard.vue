@@ -19,7 +19,7 @@
 				{ label: 'اعلان های دریافتی', name: 'Notifications' },
 				{ label: 'اطلاعات شخصی', name: 'Profile' },
 				{ label: 'مدیریت نوبت ها', name: 'Reservations' },
-				{ label: 'مدیریت ساعات کاری', name: 'Transactions' },
+				{ label: 'ثبت انتقادات و پیشنهادات', name: 'Home' },
 			];
 		}
 	});

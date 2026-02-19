@@ -62,7 +62,7 @@
 			);
 
 			toast.dismiss(toastId);
-			
+
 			location.reload();
 		} catch (error) {
 			console.error('Error : ', error?.response?.data || error?.message);
@@ -96,7 +96,9 @@
 			toast.dismiss(toastId);
 			toast.success('پرداخت با موفقیت انجام و نوبت رزرو شد');
 
-			router.push({ name: 'Reservations' });
+			setTimeout(() => {
+				router.push({ name: 'Reservations' });
+			}, 2000);
 		} catch (error) {
 			console.error('Error : ', error?.response?.data || error?.message);
 

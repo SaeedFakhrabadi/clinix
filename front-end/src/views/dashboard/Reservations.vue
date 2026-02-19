@@ -2,9 +2,10 @@
 	import { onMounted, ref, computed } from 'vue';
 	import { useToast } from 'vue-toastification';
 	import { storeToRefs } from 'pinia';
+	import { getReservations, deleteReservation } from '@/services/reservations';
+	import { createTransaction } from '@/services/transactions';
 	import { useCurrentUserStore } from '@/stores/currentUser';
 	import { toPersianDigits } from '@/utils/toPersianDigits';
-	import { getReservations, deleteReservation } from '@/services/reservations';
 	import jalaali from 'jalaali-js';
 
 	const toast = useToast();
@@ -28,12 +29,16 @@
 		{ label: 'وضعیت', value: 'is_active' },
 	];
 
-	const removeReservation = () => {
+	const removeReservation = async () => {
 		isModalOpen.value = false;
 		try {
 			deleteReservation(reservationId.value);
+			
+			createTransaction('BANK', currentUser.value?.id, 300_000, 'REFUND');
 
-			location.reload();
+			reservations.value = reservations.value.filter(
+				(item) => item.id !== reservationId.value,
+			);
 		} catch (error) {
 			console.error('Error : ', error?.response?.data || error?.message);
 
@@ -50,10 +55,10 @@
 		reservationId.value = row.id;
 
 		modalText.value = `
-      آیا از لغو نوبت دکتر ${row.doctor_name} 
-      در تاریخ ${toPersianDigits(row.date)} 
-      ساعت  ${toPersianDigits(row.hour)}
-      اطمینان دارید؟`;
+	     آیا از لغو نوبت دکتر ${row.doctor_name}
+	     در تاریخ ${toPersianDigits(row.date)}
+	     ساعت  ${toPersianDigits(row.hour)}
+	     اطمینان دارید؟`;
 		isModalOpen.value = true;
 	};
 
@@ -148,7 +153,7 @@
 			width: 100%;
 			@include flexbox(column, center, start, space(14), nowrap);
 		}
-		
+
 		&__title {
 			color: var(--text-900);
 			padding-right: space(4);

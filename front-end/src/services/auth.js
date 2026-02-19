@@ -30,7 +30,7 @@ export const changePassword = (verificationCode, newPassword) => {
 };
 
 export const editProfile = (name, email, phoneNumber) => {
-	return api.post('/v1/auth/profile/', {
+	return api.post('/v1/auth/edit_profile/', {
 		username: name,
 		email: email,
 		phonenumber: phoneNumber,

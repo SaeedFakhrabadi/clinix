@@ -5,6 +5,7 @@
 	import { storeToRefs } from 'pinia';
 	import { profileSchema } from '@/schemas';
 	import { editProfile } from '@/services/auth';
+	import { doctorDetails } from '@/services/doctors';
 	import { useCurrentUserStore } from '@/stores/currentUser';
 	import { toPersianDigits } from '@/utils/toPersianDigits';
 	import { addCommas } from '@/utils/addCommas';
@@ -67,11 +68,10 @@
 		phoneNumber.value = currentUser.value?.phoneNumber;
 	};
 
-	onMounted(() => {
-		if (isPatient.value) {
-			setDefaultInfo();
-		}
+	onMounted(async () => {
+		if (isPatient.value) setDefaultInfo();
 		if (isDoctor.value) {
+			// const { data } = await doctorDetails(currentUser.value?.did);
 		}
 	});
 </script>

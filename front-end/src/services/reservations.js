@@ -8,8 +8,8 @@ export const createReservation = (did, pid, time) => {
 	});
 };
 
-export const getReservations = (uid) => {
-	return api.get(`/v1/reservations/${uid}/`);
+export const getReservations = () => {
+	return api.get('/v1/reservations/');
 };
 
 export const deleteReservation = (rid) => {
