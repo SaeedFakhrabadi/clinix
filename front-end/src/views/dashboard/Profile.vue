@@ -1,5 +1,6 @@
 <script setup>
-	import { computed, onMounted } from 'vue';
+	import { ref, computed, onMounted } from 'vue';
+	import { useRouter } from 'vue-router';
 	import { useToast } from 'vue-toastification';
 	import { useForm, useField } from 'vee-validate';
 	import { storeToRefs } from 'pinia';
@@ -10,6 +11,7 @@
 	import { toPersianDigits } from '@/utils/toPersianDigits';
 	import { addCommas } from '@/utils/addCommas';
 
+	const router = useRouter();
 	const toast = useToast();
 
 	const loading = ref(true);
@@ -55,6 +57,16 @@
 			toast.dismiss(toastId);
 			toast.success(response?.data?.message);
 		} catch (error) {
+			if (
+				error?.response?.data?.detail ===
+				'Authentication credentials were not provided.'
+			) {
+				toast.error('!زمان ورود شما منقضی شده است، لطفا دوباره وارد شوید');
+				currentUserStore.removeCurrentUser();
+				router.push({ name: 'Login' });
+				return;
+			}
+
 			console.error('Error : ', error?.response?.data || error?.message);
 
 			toast.dismiss(toastId);

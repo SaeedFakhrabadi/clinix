@@ -20,8 +20,8 @@
 	const { currentUser } = storeToRefs(currentUserStore);
 
 	const doctor = ref(null);
+
 	const loading = ref(true);
-	const error = ref(null);
 
 	const did = computed(() => route.query.did);
 
