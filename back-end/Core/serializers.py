@@ -118,10 +118,8 @@ class PatientReservationSerializer(serializers.ModelSerializer):
 class DoctorReservationSerializer(serializers.ModelSerializer):
     patient_username = serializers.CharField(source='patient.username', read_only=True)
     patient_phonenumber = serializers.CharField(source='patient.phonenumber', read_only=True)
-    start_reservation_time = serializers.DateTimeField(
+    start_reservation_time = LocalDateTimeField(
         source='start_reservation_hour',
-        format='%Y-%m-%dT%H:%M:%SZ',
-        read_only=True
     )
     is_past = serializers.SerializerMethodField()
 
