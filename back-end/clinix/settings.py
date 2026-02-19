@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'Core',
     'corsheaders',
     'rest_framework',
-    'rest_framework_simplejwt',  # Keep only one
+    'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'drf_spectacular',
 ]
@@ -59,10 +59,7 @@ AUTHENTICATION_BACKENDS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'Core.authentication_classes.CookieJWTAuthentication'
-        # 'rest_framework.authentication.SessionAuthentication',
-        # 'rest_framework.authentication.BasicAuthentication',
-        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'Core.authentication_classes.CookieJWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
@@ -76,24 +73,23 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': True,
-    # 'BLACKLIST_AFTER_ROTATION': True,
     'ALGORITHM': 'HS256',
     'SIGNING_KEY': SECRET_KEY,
     'VERIFYING_KEY': None,
-    'AUTH_HEADER_TYPES': ('Bearer',),  # For Authorization header (if you still use it)
+    'AUTH_HEADER_TYPES': ('Bearer',),
     'USER_ID_FIELD': 'id',
     'USER_ID_CLAIM': 'user_id',
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
     'TOKEN_TYPE_CLAIM': 'token_type',
 }
 
-# Cookie settings (these are good)
+# Cookie settings
 JWT_ACCESS_COOKIE_NAME = 'access_token'
 JWT_REFRESH_COOKIE_NAME = 'refresh_token'
 JWT_SECURE_COOKIES = not DEBUG  # True in production (HTTPS only)
 JWT_COOKIE_SAMESITE = 'Lax'
-JWT_ACCESS_TOKEN_AGE = 300  # 5 minutes in seconds
-JWT_REFRESH_TOKEN_AGE = 86400  # 24 hours in seconds
+JWT_ACCESS_TOKEN_AGE = 60
+JWT_REFRESH_TOKEN_AGE = 86400
 
 # CSRF settings
 CSRF_COOKIE_AGE = 31449600  # 1 year (for persistent CSRF token)
@@ -117,7 +113,6 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'Core.middleware.CookieTokenRefreshMiddleware',
-    # 'Core.middleware.CookieJWTAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]

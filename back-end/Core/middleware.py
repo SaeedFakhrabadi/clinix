@@ -22,7 +22,7 @@ class CookieTokenRefreshMiddleware(MiddlewareMixin):
         super().__init__(get_response)
         self.access_token_cookie = getattr(settings, 'JWT_ACCESS_COOKIE_NAME', 'access_token')
         self.refresh_token_cookie = getattr(settings, 'JWT_REFRESH_COOKIE_NAME', 'refresh_token')
-        self.access_token_age = getattr(settings, 'JWT_ACCESS_TOKEN_AGE', 300)
+        self.access_token_age = getattr(settings, 'JWT_ACCESS_TOKEN_AGE', 60)
         self.secure_cookies = getattr(settings, 'JWT_SECURE_COOKIES', not settings.DEBUG)
         self.samesite = getattr(settings, 'JWT_COOKIE_SAMESITE', 'Lax')
 
