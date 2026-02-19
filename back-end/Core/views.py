@@ -365,7 +365,7 @@ class ReservationDeleteAPIView(APIView):
             return success_response(
                 message="نوبت با موفقیت حذف گردید",
                 message_en="reservation deleted successfully",
-                status_code=status.HTTP_204_NO_CONTENT,
+                status_code=status.HTTP_200_OK,
                 extra_data={
                     "price": doctor_price,
                 }
