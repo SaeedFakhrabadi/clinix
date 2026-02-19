@@ -99,7 +99,6 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class ReservationSerializer(serializers.ModelSerializer):
     doctor_name = serializers.CharField(source='doctor.username', read_only=True)
-    # doctor_name = serializers.CharField(source='doctor.full_name', read_only=True)
     start_reservation_time = serializers.DateTimeField(
         source='start_reservation_hour',
         format='%Y-%m-%dT%H:%M:%SZ',
@@ -189,13 +188,20 @@ class DoctorDetailSerializer(serializers.ModelSerializer):
         return obj.end_working_hour.hour
 
     def get_reserved_times(self, obj):
-        today = jdate.today()
+        import jdatetime as jdate
+        from datetime import timedelta
+        from django.utils import timezone
+
+        today = jdate.date.today()
         # شنبه هفته جاری (در jdatetime: weekday()=0 → شنبه)
         saturday = today - timedelta(days=today.weekday())
 
         reserved = {}
+        local_tz = timezone.get_default_timezone()  # Assumes 'Asia/Tehran' in settings.TIME_ZONE
+
         for i in range(12):                                 # 0 تا 11
-            day_jalali = saturday + timedelta(days=i)
+            delta = i + (i // 6)  # Skip جمعه (add extra day for second week)
+            day_jalali = saturday + timedelta(days=delta)
             day_greg = day_jalali.togregorian()
 
             reservations = Reservation.objects.filter(
@@ -203,7 +209,10 @@ class DoctorDetailSerializer(serializers.ModelSerializer):
                 start_reservation_hour__date=day_greg
             )
 
-            hours = [r.start_reservation_hour.hour for r in reservations]
+            hours = [
+                r.start_reservation_hour.astimezone(local_tz).hour
+                for r in reservations
+            ]
             reserved[i] = sorted(set(hours))                # بدون تکرار و مرتب
 
         return reserved
