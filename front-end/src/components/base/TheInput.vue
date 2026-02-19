@@ -53,7 +53,7 @@
 				<textarea
 					v-if="type === 'textarea'"
 					class="input-box__input"
-					style="height: 80px"
+					style="height: 80px; resize: vertical"
 					v-model="inputValue"
 					:placeholder="placeholder"
 					:disabled="isDisabled"

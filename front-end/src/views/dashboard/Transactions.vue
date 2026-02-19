@@ -12,7 +12,7 @@
 
 	const transactions = ref(null);
 	const loading = ref(true);
-	const error = ref(null);
+	const loadingError = ref(null);
 
 	const currentUserStore = useCurrentUserStore();
 	const { currentUser } = storeToRefs(currentUserStore);
@@ -139,14 +139,15 @@
 		try {
 			const response = await getTransactions(currentUser.value?.id);
 			transactions.value = response?.data?.transactions;
+
+			loading.value = false;
 		} catch (error) {
 			console.error('Error : ', error?.response?.data || error?.message);
 
 			toast.error(error?.response?.data?.message ?? 'خطا در برقراری ارتباط');
 
-			transactions.value = [];
-		} finally {
 			loading.value = false;
+			loadingError.value = true;
 		}
 	});
 </script>
@@ -156,7 +157,7 @@
 		<div v-if="loading" class="transactions__state--loading">
 			<h2>در حال دریافت اطلاعات تراکنش ها...</h2>
 		</div>
-		<div v-else-if="error" class="transactions__state--error">
+		<div v-else-if="loadingError" class="transactions__state--error">
 			<h2>خطا در دریافت اطلاعات تراکنش ها!</h2>
 		</div>
 		<div v-else-if="transactions?.length" class="transactions__container">
@@ -207,21 +208,23 @@
 				</template>
 			</TheModal>
 		</div>
+		<div v-else class="transactions__state--empty">
+			<h2>در حال حاضر تراکنشی وجود ندارد!</h2>
+		</div>
 	</div>
 </template>
 
 <style lang="scss" scoped>
 	.transactions {
-		padding-left: space(6);
-		width: 100%;
-		@include flexbox(column, center, center, space(14), nowrap);
-
 		&__state {
 			&--loading {
 				color: var(--text-500);
 			}
 			&--error {
 				color: var(--danger-500);
+			}
+			&--empty {
+				color: var(--text-500);
 			}
 		}
 

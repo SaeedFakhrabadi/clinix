@@ -45,10 +45,10 @@
 
 <template>
 	<div class="the-table">
-		<div v-if="loading" class="the-table__state--loading">
+		<div v-if="loading" class="the-table__state">
 			<h2>در حال دریافت اطلاعات...</h2>
 		</div>
-		<div v-else-if="!rows?.length" class="the-table__state--error">
+		<div v-else-if="!rows?.length" class="the-table__state">
 			<h2>اطلاعاتی برای نمایش پیدا نشد!</h2>
 		</div>
 		<table
@@ -105,12 +105,7 @@
 		@include flexbox();
 
 		&__state {
-			&--loading {
-				color: var(--text-500);
-			}
-			&--error {
-				color: var(--danger-500);
-			}
+			color: var(--text-500);
 		}
 
 		.table {

@@ -12,6 +12,9 @@
 
 	const toast = useToast();
 
+	const loading = ref(true);
+	const loadingError = ref(null);
+
 	const currentUserStore = useCurrentUserStore();
 	const { currentUser } = storeToRefs(currentUserStore);
 
@@ -71,13 +74,31 @@
 	onMounted(async () => {
 		if (isPatient.value) setDefaultInfo();
 		if (isDoctor.value) {
-			// const { data } = await doctorDetails(currentUser.value?.did);
+			loading.value = true;
+			try {
+				// const { data } = await doctorDetails(currentUser.value?.did);
+
+				loading.value = false;
+			} catch (error) {
+				console.error('Error : ', error?.response?.data || error?.message);
+
+				toast.error(error?.response?.data?.message ?? 'خطا در برقراری ارتباط');
+
+				loading.value = false;
+				loadingError.value = true;
+			}
 		}
 	});
 </script>
 
 <template>
 	<div class="profile">
+		<!-- <div v-if="loading" class="reservations__state--loading">
+			<h2>در حال دریافت اطلاعات نوبت ها...</h2>
+		</div>
+		<div v-else-if="loadingError" class="reservations__state--error">
+			<h2>خطا در دریافت اطلاعات نوبت ها!</h2>
+		</div> -->
 		<h2 class="profile__title">اطلاعات شخصی</h2>
 		<form v-if="isPatient" class="profile__form" @submit.prevent="submitForm">
 			<div class="profile__sections-patient">
@@ -179,6 +200,15 @@
 
 <style lang="scss" scoped>
 	.profile {
+		// &__state {
+		// 	&--loading {
+		// 		color: var(--text-500);
+		// 	}
+		// 	&--error {
+		// 		color: var(--danger-500);
+		// 	}
+		// }
+
 		&__title {
 			color: var(--text-900);
 			padding-right: space(4);
