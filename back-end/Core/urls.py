@@ -11,7 +11,7 @@ from .views import (
     ReservationDeleteAPIView,
     EditProfileAPIView,
     CommentCreateAPIView, NotificationsListAPIView, TransactionCreateAPIView, TransactionHistoryAPIView,
-    ComplaintAPIView,
+    ComplaintAPIView, WalletBalanceAPIView, WalletDepositAPIView, WalletWithdrawAPIView,
 )
 
 # Custom router to allow anonymous access to root
@@ -54,6 +54,12 @@ urlpatterns = [
 
         # Complaint
         path('complaint/', ComplaintAPIView.as_view(), name='complaint'),
+
+        # urls.py
+
+        path('wallet/balance/',     WalletBalanceAPIView.as_view(),     name='wallet-balance'),
+        path('wallet/deposit/',  WalletDepositAPIView.as_view(),  name='wallet-deposit'),
+        path('wallet/withdraw/', WalletWithdrawAPIView.as_view(), name='wallet-withdraw'),
 
     ])),
 ]

@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from .models import DoctorProfile, Comment, Reservation, Notification, NotificationType, Transaction, Complaint,\
-UserRoles, TransactionType, TransactionMethod, TransactionStatus
+from .models import DoctorProfile, Comment, Reservation, Notification, NotificationType, Transaction, Complaint, \
+    UserRoles, TransactionType, TransactionMethod, TransactionStatus, Wallet
 from jdatetime import date as jdate
 from datetime import datetime, timedelta
 from django.utils import timezone
@@ -375,3 +375,14 @@ class ComplaintCreateSerializer(serializers.ModelSerializer):
             user=request.user,
             **validated_data
         )
+
+class WalletDepositSerializer(serializers.Serializer):
+    amount = serializers.IntegerField(min_value=1000)
+
+class WalletWithdrawSerializer(serializers.Serializer):
+    amount = serializers.IntegerField(min_value=1000)
+
+class WalletSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Wallet
+        fields = ['balance', 'updated_at']

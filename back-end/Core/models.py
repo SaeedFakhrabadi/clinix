@@ -9,6 +9,7 @@ from django.utils import timezone
 from django.db.models import Avg, Q
 from django.core.exceptions import ValidationError
 from zoneinfo import ZoneInfo
+from django.core.exceptions import ObjectDoesNotExist
 
 TEHRAN_TZ = ZoneInfo('Asia/Tehran')
 
@@ -89,6 +90,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now, editable=False)
+
+    @property
+    def wallet_balance(self):
+        try:
+            wallet: 'Wallet' = self.wallet
+            return wallet.balance
+        except ObjectDoesNotExist:
+            return 0
 
     def get_full_name(self):
         return self.username  # or combine with other fields later
