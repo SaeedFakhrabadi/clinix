@@ -10,7 +10,7 @@ from .views import (
     ReservationDeleteAPIView,
     EditProfileAPIView,
     CommentCreateAPIView, NotificationsListAPIView, TransactionCreateAPIView, TransactionHistoryAPIView,
-    TransactionInvoiceAPIView,
+    TransactionInvoiceAPIView, ComplaintAPIView,
 )
 
 # Custom router to allow anonymous access to root
@@ -50,6 +50,9 @@ urlpatterns = [
 
         # Edit Profile
         path('edit_profile/', EditProfileAPIView.as_view(), name='edit_profile'),
+
+        # Complaint
+        path('complaint/', ComplaintAPIView.as_view(), name='complaint'),
 
     ])),
 ]

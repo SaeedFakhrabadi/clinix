@@ -9,7 +9,7 @@ from .models import (
     Reservation,
     Comment,
     PasswordReset,
-    Transaction, TransactionStatus, Wallet
+    Transaction, TransactionStatus, Wallet, Complaint, ComplaintStatus
 )
 
 
@@ -228,3 +228,47 @@ class WalletAdmin(admin.ModelAdmin):
     def balance_formatted(self, obj):
         return f"{obj.balance:,} تومان"
     balance_formatted.short_description = "موجودی"
+
+@admin.register(Complaint)
+class ComplaintAdmin(admin.ModelAdmin):
+    list_display  = ('user', 'subject', 'status_colored', 'created_at', 'updated_at')
+    list_filter   = ('status', 'created_at')
+    search_fields = ('user__username', 'user__email', 'subject', 'message')
+    date_hierarchy = 'created_at'
+    readonly_fields = ('user', 'subject', 'message', 'created_at', 'updated_at')
+    actions = ['mark_reviewed', 'mark_resolved', 'mark_rejected']
+
+    fieldsets = (
+        ('اطلاعات شکایت', {
+            'fields': ('user', 'subject', 'message', 'created_at', 'updated_at')
+        }),
+        ('بررسی ادمین', {
+            'fields': ('status', 'admin_note')
+        }),
+    )
+
+    def status_colored(self, obj):
+        colors_map = {
+            ComplaintStatus.PENDING:  ('orange', '⏳'),
+            ComplaintStatus.REVIEWED: ('blue',   '👁'),
+            ComplaintStatus.RESOLVED: ('green',  '✅'),
+            ComplaintStatus.REJECTED: ('red',    '❌'),
+        }
+        color, icon = colors_map.get(obj.status, ('gray', ''))
+        return format_html(
+            '<span style="color: {};">{} {}</span>',
+            color, icon, obj.get_status_display()
+        )
+    status_colored.short_description = "وضعیت"
+
+    def mark_reviewed(self, request, queryset):
+        queryset.update(status=ComplaintStatus.REVIEWED)
+    mark_reviewed.short_description = "علامت‌گذاری: بررسی شده"
+
+    def mark_resolved(self, request, queryset):
+        queryset.update(status=ComplaintStatus.RESOLVED)
+    mark_resolved.short_description = "علامت‌گذاری: حل شده"
+
+    def mark_rejected(self, request, queryset):
+        queryset.update(status=ComplaintStatus.REJECTED)
+    mark_rejected.short_description = "علامت‌گذاری: رد شده"

@@ -465,3 +465,36 @@ class Wallet(models.Model):
 
     def __str__(self):
         return f"{self.user.username} – {self.balance:,} تومان"
+
+class ComplaintStatus(models.TextChoices):
+    PENDING  = 'PENDING',  'در انتظار بررسی'
+    REVIEWED = 'REVIEWED', 'بررسی شده'
+    RESOLVED = 'RESOLVED', 'حل شده'
+    REJECTED = 'REJECTED', 'رد شده'
+
+class Complaint(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='complaints',
+        verbose_name="کاربر"
+    )
+    subject = models.CharField(max_length=255, verbose_name="موضوع")
+    message = models.TextField(verbose_name="متن شکایت")
+    status = models.CharField(
+        max_length=10,
+        choices=ComplaintStatus.choices,
+        default=ComplaintStatus.PENDING,
+        verbose_name="وضعیت"
+    )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="تاریخ ثبت")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="آخرین بروزرسانی")
+    admin_note = models.TextField(blank=True, verbose_name="یادداشت ادمین")
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = "شکایت"
+        verbose_name_plural = "شکایات"
+
+    def __str__(self):
+        return f"{self.user.username} – {self.subject[:50]}"

@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from .models import DoctorProfile, Comment, Reservation, UserRoles, Notification, TransactionType, TransactionMethod, \
-    Transaction, TransactionStatus
+    Transaction, TransactionStatus, Complaint
 from jdatetime import date as jdate
 from datetime import datetime, timedelta
 from django.utils import timezone
@@ -316,7 +316,7 @@ class TransactionHistorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Transaction
-        fields = ['price', 'status', 'date', 'method', 'type']
+        fields = ['id' , 'price', 'status', 'date', 'method', 'type']
         read_only_fields = fields
 
 class PatientUpdateSerializer(serializers.ModelSerializer):
@@ -363,3 +363,15 @@ class DoctorUpdateSerializer(serializers.ModelSerializer):
             if data['start_working_hour'] >= data['end_working_hour']:
                 raise serializers.ValidationError(_("ساعت شروع باید قبل از ساعت پایان باشد."))
         return data
+
+class ComplaintCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Complaint
+        fields = ['subject', 'message']
+
+    def create(self, validated_data):
+        request = self.context.get('request')
+        return Complaint.objects.create(
+            user=request.user,
+            **validated_data
+        )

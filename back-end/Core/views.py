@@ -35,7 +35,8 @@ from .serializers import (
     DoctorDetailSerializer,
     ReservationCreateSerializer,
     CommentCreateSerializer, NotificationSerializer, TransactionHistorySerializer, TransactionCreateSerializer,
-    DoctorReservationSerializer, PatientReservationSerializer, PatientUpdateSerializer, DoctorUpdateSerializer
+    DoctorReservationSerializer, PatientReservationSerializer, PatientUpdateSerializer, DoctorUpdateSerializer,
+    ComplaintCreateSerializer
 )
 from kavenegar import *
 
@@ -517,7 +518,6 @@ class TransactionHistoryAPIView(APIView):
         """
         Get transaction history for the authenticated user
         """
-        # Get transactions for the authenticated user
         transactions = Transaction.objects.filter(user=request.user).order_by('-created_at')
         serializer = TransactionHistorySerializer(transactions, many=True)
 
@@ -606,15 +606,34 @@ class TransactionInvoiceAPIView(APIView):
         local_time = transaction.created_at.astimezone(TEHRAN_TZ)
         formatted_date = local_time.strftime('%Y-%m-%d %H:%M')
 
+        # Map to English manually to avoid encoding issues with default reportlab fonts
+        TYPE_MAP = {
+            'DEPOSIT': 'Deposit',
+            'WITHDRAW': 'Withdraw',
+            'PAYMENT': 'Payment',
+            'REFUND': 'Refund',
+        }
+        METHOD_MAP = {
+            'WALLET': 'Wallet',
+            'GATEWAY': 'Bank Gateway',
+            'CASH': 'Cash',
+        }
+        STATUS_MAP = {
+            'SUCCESS': 'Success',
+            'FAILED': 'Failed',
+            'PENDING': 'Pending',
+            'REFUNDED': 'Refunded',
+        }
+
         data = [
             ["Field", "Value"],
             ["Transaction ID", str(transaction.id)],
             ["User", transaction.user.username],
             ["Email", transaction.user.email],
             ["Amount", f"{transaction.price:,} Toman"],
-            ["Type", transaction.get_type_display()],
-            ["Method", transaction.get_method_display()],
-            ["Status", transaction.get_status_display()],
+            ["Type", TYPE_MAP.get(transaction.type, transaction.type)],
+            ["Method", METHOD_MAP.get(transaction.method, transaction.method)],
+            ["Status", STATUS_MAP.get(transaction.status, transaction.status)],
             ["Date", formatted_date],
         ]
 
@@ -656,4 +675,26 @@ class TransactionInvoiceAPIView(APIView):
             as_attachment=True,
             filename=f"invoice_{transaction.id}.pdf",
             content_type='application/pdf'
+        )
+
+class ComplaintAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = ComplaintCreateSerializer(
+            data=request.data,
+            context={'request': request}
+        )
+        if not serializer.is_valid():
+            return error_response(
+                message="داده‌های ارسالی ناقص یا نامعتبر است",
+                message_en="Invalid or incomplete input data",
+                extra_data={"errors": serializer.errors}
+            )
+
+        serializer.save()
+
+        return success_response(
+            message="شکایت شما با موفقیت ثبت شد. از بازخورد شما متشکریم، ادمین به زودی آن را بررسی خواهد کرد.",
+            message_en="Your complaint has been successfully submitted. Thank you for your feedback, an admin will follow up shortly.",
         )

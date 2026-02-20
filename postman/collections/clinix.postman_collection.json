@@ -1301,7 +1301,7 @@
       },
       "response": [
         {
-          "id": "1f9a859b-498f-4e91-9625-4931a17edab3",
+          "id": "f04b6dca-c689-4869-9e7c-8e12e8b02512",
           "name": "transactions_history_ex",
           "originalRequest": {
             "method": "GET",
@@ -1331,7 +1331,7 @@
           "header": [
             {
               "key": "Date",
-              "value": "Mon, 16 Feb 2026 23:02:18 GMT"
+              "value": "Fri, 20 Feb 2026 11:23:27 GMT"
             },
             {
               "key": "Server",
@@ -1355,7 +1355,7 @@
             },
             {
               "key": "Content-Length",
-              "value": "142"
+              "value": "249"
             },
             {
               "key": "X-Content-Type-Options",
@@ -1371,8 +1371,8 @@
             }
           ],
           "cookie": [],
-          "responseTime": "2026-02-16T23:02:24.300Z",
-          "body": "{\n    \"message\": \"تاریخچه تراکنش\\u200cها دریافت شد\",\n    \"message_en\": \"Transaction history retrieved\",\n    \"user_id\": 12,\n    \"transactions\": []\n}"
+          "responseTime": "2026-02-20T11:24:02.894Z",
+          "body": "{\n    \"message\": \"تاریخچه تراکنش\\u200cها دریافت شد\",\n    \"message_en\": \"Transaction history retrieved\",\n    \"user_id\": 16,\n    \"transactions\": [\n        {\n            \"id\": 30,\n            \"price\": 350000,\n            \"status\": \"SUCCESS\",\n            \"date\": \"2026-02-20T12:38:57+03:30\",\n            \"method\": \"BANK\",\n            \"type\": \"PAY\"\n        }\n    ]\n}"
         }
       ]
     },
@@ -1496,11 +1496,48 @@
       ]
     },
     {
+      "name": "transaction_invoice",
+      "id": "2ecfcb51-8f47-42ff-a356-6dd389f2c052",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/transactions/30/invoice/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "transactions",
+            "30",
+            "invoice",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
       "name": "create_complaint",
       "id": "6f37adac-e6e0-473c-bf3e-f5d7d6fd047c",
       "request": {
         "method": "POST",
         "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"subject\": \"مشکل در رزرو نوبت\",\r\n    \"message\": \"من نوبت رزرو کردم اما در سیستم ثبت نشد و پول از حسابم کسر شد.\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
         "url": {
           "raw": "http://127.0.0.1:8000/api/v1/complaint/",
           "protocol": "http",
@@ -1519,7 +1556,90 @@
           ]
         }
       },
-      "response": []
+      "response": [
+        {
+          "id": "a3dba892-3793-4379-a953-e3d97dbd0212",
+          "name": "create_complaint_ex",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"subject\": \"مشکل در رزرو نوبت\",\r\n    \"message\": \"من نوبت رزرو کردم اما در سیستم ثبت نشد و پول از حسابم کسر شد.\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/complaint/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "complaint",
+                ""
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Date",
+              "value": "Fri, 20 Feb 2026 11:20:25 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.13.3"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "POST, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "296"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "responseTime": "2026-02-20T11:20:35.775Z",
+          "body": "{\n    \"message\": \"شکایت شما با موفقیت ثبت شد. از بازخورد شما متشکریم، ادمین به زودی آن را بررسی خواهد کرد.\",\n    \"message_en\": \"Your complaint has been successfully submitted. Thank you for your feedback, an admin will follow up shortly.\"\n}"
+        }
+      ]
     },
     {
       "name": "edit_profile",
