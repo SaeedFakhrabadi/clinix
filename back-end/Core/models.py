@@ -9,9 +9,37 @@ from django.utils import timezone
 from django.db.models import Avg, Q
 from django.core.exceptions import ValidationError
 from zoneinfo import ZoneInfo
-from .utils import UserRoles, NotificationType, TransactionType, TransactionMethod, TransactionStatus, ComplaintStatus
 
 TEHRAN_TZ = ZoneInfo('Asia/Tehran')
+
+class NotificationType(models.TextChoices):
+    RESERVE = "RESERVE", "رزرو نوبت"
+    CANCEL  = "CANCEL",  "لغو نوبت"
+
+class UserRoles(models.TextChoices):
+    PATIENT = "PATIENT", "Patient"
+    DOCTOR  = "DOCTOR",  "Doctor"
+    ADMIN   = "ADMIN",   "Admin"
+
+class TransactionType(models.TextChoices):
+    PAY    = "PAY",    "پرداخت"
+    REFUND = "REFUND", "بازگشت وجه"
+
+class TransactionMethod(models.TextChoices):
+    BANK   = "BANK",   "درگاه بانکی"
+    WALLET = "WALLET", "کیف پول"
+
+class TransactionStatus(models.TextChoices):
+    SUCCESS = "SUCCESS", "موفق"
+    FAILED  = "FAILED",  "ناموفق"
+    PENDING = "PENDING", "در انتظار"
+    REFUNDED = "REFUNDED", "بازپرداخت شده"
+
+class ComplaintStatus(models.TextChoices):
+    PENDING  = 'PENDING',  'در انتظار بررسی'
+    REVIEWED = 'REVIEWED', 'بررسی شده'
+    RESOLVED = 'RESOLVED', 'حل شده'
+    REJECTED = 'REJECTED', 'رد شده'
 
 class UserManager(BaseUserManager):
     def create_user(self, username, email, phonenumber, password=None, role=UserRoles.PATIENT, **extra_fields):
@@ -339,7 +367,6 @@ class Transaction(models.Model):
         verbose_name_plural = "تراکنش‌ها"
     def __str__(self):
         return f"{self.user} – {self.price:,} – {self.get_type_display()}"
-
 
 class Wallet(models.Model):
     user = models.OneToOneField(

@@ -1200,7 +1200,7 @@
       },
       "response": [
         {
-          "id": "645de1c2-92c5-413a-8369-833f81074243",
+          "id": "4a962e1c-041b-4fbb-8b08-4542c311dfbd",
           "name": "notifications_user_ex",
           "originalRequest": {
             "method": "GET",
@@ -1229,7 +1229,7 @@
           "header": [
             {
               "key": "Date",
-              "value": "Fri, 20 Feb 2026 08:22:31 GMT"
+              "value": "Fri, 20 Feb 2026 12:36:47 GMT"
             },
             {
               "key": "Server",
@@ -1253,7 +1253,7 @@
             },
             {
               "key": "Content-Length",
-              "value": "384"
+              "value": "1338"
             },
             {
               "key": "X-Content-Type-Options",
@@ -1269,8 +1269,8 @@
             }
           ],
           "cookie": [],
-          "responseTime": "2026-02-20T08:24:16.838Z",
-          "body": "{\n    \"message\": \"لیست اعلان\\u200cها با موفقیت دریافت شد\",\n    \"message_en\": \"Notifications retrieved successfully\",\n    \"notifications\": [\n        {\n            \"id\": 105,\n            \"message\": \"نوبت شما در ساعت 15:00 تا 16:00 در تاریخ 1404/12/02 با دکتر doctorB با موفقیت رزرو شد\",\n            \"notification_type\": \"RESERVE\",\n            \"is_read\": false,\n            \"created_at\": \"2026-02-20T11:45:30+03:30\"\n        }\n    ]\n}"
+          "responseTime": "2026-02-20T12:37:00.697Z",
+          "body": "{\n    \"message\": \"لیست اعلان\\u200cها با موفقیت دریافت شد\",\n    \"message_en\": \"Notifications retrieved successfully\",\n    \"notifications\": [\n        {\n            \"id\": 113,\n            \"message\": \"نوبت ساعت 15:00 تا 16:00 روز 1404/12/03 شما با دکتر حسین آریانمهر توسط شما لغو شد\",\n            \"notification_type\": \"CANCEL\",\n            \"is_read\": false,\n            \"created_at\": \"2026-02-20T16:06:43+03:30\"\n        },\n        {\n            \"id\": 111,\n            \"message\": \"نوبت ساعت 15:00 تا 16:00 روز 1404/12/03 شما با دکتر حسین آریانمهر توسط شما لغو شد\",\n            \"notification_type\": \"CANCEL\",\n            \"is_read\": false,\n            \"created_at\": \"2026-02-20T16:06:43+03:30\"\n        },\n        {\n            \"id\": 109,\n            \"message\": \"نوبت ساعت 15:00 تا 16:00 روز 1404/12/03 شما با دکتر حسین آریانمهر با موفقیت رزرو شد\",\n            \"notification_type\": \"RESERVE\",\n            \"is_read\": false,\n            \"created_at\": \"2026-02-20T16:06:13+03:30\"\n        },\n        {\n            \"id\": 107,\n            \"message\": \"نوبت شما در ساعت 16:00 تا 17:00 در تاریخ 1404/12/02 با دکتر doctorB با موفقیت رزرو شد\",\n            \"notification_type\": \"RESERVE\",\n            \"is_read\": false,\n            \"created_at\": \"2026-02-20T12:34:33+03:30\"\n        },\n        {\n            \"id\": 105,\n            \"message\": \"نوبت شما در ساعت 15:00 تا 16:00 در تاریخ 1404/12/02 با دکتر doctorB با موفقیت رزرو شد\",\n            \"notification_type\": \"RESERVE\",\n            \"is_read\": false,\n            \"created_at\": \"2026-02-20T11:45:30+03:30\"\n        }\n    ]\n}"
         }
       ]
     },

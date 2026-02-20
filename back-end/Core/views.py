@@ -23,9 +23,9 @@ from django.http import FileResponse
 from zoneinfo import ZoneInfo
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .utils import notify_reservation_cancelled, UserRoles
+from .utils import notify_reservation_cancelled
 
-from .models import DoctorProfile, PasswordReset, Reservation, User, Notification, Transaction
+from .models import DoctorProfile, PasswordReset, Reservation, User, Notification, Transaction, UserRoles
 from .serializers import (
     LoginSerializer,
     RegisterSerializer,

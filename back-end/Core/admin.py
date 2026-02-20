@@ -9,9 +9,9 @@ from .models import (
     Reservation,
     Comment,
     PasswordReset,
-    Transaction, Wallet, Complaint
+    Transaction, Wallet, Complaint,
+    UserRoles, TransactionStatus, ComplaintStatus
 )
-from .utils import UserRoles, TransactionStatus, ComplaintStatus
 
 
 @admin.register(Specialty)

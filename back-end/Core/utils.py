@@ -1,38 +1,8 @@
 from jdatetime import datetime as jdatetime
 from zoneinfo import ZoneInfo
-from .models import Notification
-from django.db import models
+from .models import Notification, NotificationType
 
 TEHRAN_TZ = ZoneInfo('Asia/Tehran')
-
-class UserRoles(models.TextChoices):
-    PATIENT = "PATIENT", "Patient"
-    DOCTOR  = "DOCTOR",  "Doctor"
-    ADMIN   = "ADMIN",   "Admin"
-
-class NotificationType(models.TextChoices):
-    RESERVE = "RESERVE", "رزرو نوبت"
-    CANCEL  = "CANCEL",  "لغو نوبت"
-
-class TransactionType(models.TextChoices):
-    PAY    = "PAY",    "پرداخت"
-    REFUND = "REFUND", "بازگشت وجه"
-
-class TransactionMethod(models.TextChoices):
-    BANK   = "BANK",   "درگاه بانکی"
-    WALLET = "WALLET", "کیف پول"
-
-class TransactionStatus(models.TextChoices):
-    SUCCESS = "SUCCESS", "موفق"
-    FAILED  = "FAILED",  "ناموفق"
-    PENDING = "PENDING", "در انتظار"
-    REFUNDED = "REFUNDED", "بازپرداخت شده"
-
-class ComplaintStatus(models.TextChoices):
-    PENDING  = 'PENDING',  'در انتظار بررسی'
-    REVIEWED = 'REVIEWED', 'بررسی شده'
-    RESOLVED = 'RESOLVED', 'حل شده'
-    REJECTED = 'REJECTED', 'رد شده'
 
 def _jalali_range(reservation):
     start = reservation.start_reservation_hour.astimezone(TEHRAN_TZ)
@@ -103,3 +73,4 @@ def notify_reservation_cancelled(reservation, cancelled_by):
             f"توسط {canceller_for_doctor} لغو شد"
         )
     )
+

@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from .models import DoctorProfile, Comment, Reservation, Notification, Transaction, Complaint
-from .utils import UserRoles, TransactionType, TransactionMethod, TransactionStatus
+from .models import DoctorProfile, Comment, Reservation, Notification, NotificationType, Transaction, Complaint,\
+UserRoles, TransactionType, TransactionMethod, TransactionStatus
 from jdatetime import date as jdate
 from datetime import datetime, timedelta
 from django.utils import timezone
