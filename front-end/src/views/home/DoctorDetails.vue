@@ -22,6 +22,7 @@
 	const doctor = ref(null);
 
 	const loading = ref(true);
+	const loadingError = ref(false);
 
 	const did = computed(() => route.query.did);
 
@@ -73,32 +74,30 @@
 	};
 	const submitForm = handleSubmit(onSubmit);
 
-	const pay = (data) => {
+	const pay = async (data) => {
 		const toastId = toast.info('...در حال ثبت اطلاعات', {
 			timeout: false,
 			closeOnClick: false,
 		});
 
 		try {
-			createTransaction(
+			await createReservation(
+				data?.reservationData.value?.did,
+				data?.reservationData.value?.pid,
+				data?.reservationData.value?.time,
+			);
+
+			await createTransaction(
 				data?.transactionData.value?.method,
 				data?.transactionData.value?.pid,
 				data?.transactionData.value?.price,
 				data?.transactionData.value?.type,
 			);
 
-			createReservation(
-				data?.reservationData.value?.did,
-				data?.reservationData.value?.pid,
-				data?.reservationData.value?.time,
-			);
-
 			toast.dismiss(toastId);
 			toast.success('پرداخت با موفقیت انجام و نوبت رزرو شد');
 
-			setTimeout(() => {
-				router.push({ name: 'Reservations' });
-			}, 2000);
+			router.push({ name: 'Reservations' });
 		} catch (error) {
 			console.error('Error : ', error?.response?.data || error?.message);
 
@@ -134,7 +133,50 @@
 			<h2>خطا در دریافت اطلاعات پزشک!</h2>
 		</div>
 		<div v-else class="doctor-details__container">
-			<section class="doctor-details__info info"></section>
+			<section class="doctor-details__info info">
+				<h2 class="doctor-details__section-title">اطلاعات پزشک</h2>
+				<div class="info__sections-doctor">
+					<h2 class="info__name">دکتر {{ doctor?.name }}</h2>
+					<section class="info__section-doctor">
+						<div class="info__item item">
+							<span class="item__label">تخصص:</span>
+							<h3 class="item__value">{{ doctor?.field }}</h3>
+						</div>
+						<div class="info__item item">
+							<span class="item__label">سابقه کار:</span>
+							<h3 class="item__value">
+								{{ toPersianDigits(doctor?.experience || 0) }} سال
+							</h3>
+						</div>
+					</section>
+					<section class="info__section-doctor">
+						<div class="info__item item">
+							<span class="item__label">قیمت ویزیت (ساعت):</span>
+							<h3 class="item__value">{{ addCommas(doctor?.price) }}</h3>
+						</div>
+						<div class="info__item item">
+							<span class="item__label">میانگین امتیازات دریافتی:</span>
+							<h3 v-if="doctor?.score !== 0" class="item__value">
+								{{ toPersianDigits(`${doctor?.score} از 5`) }}
+							</h3>
+							<h3 v-else class="item__value">بدون امتیاز</h3>
+						</div>
+					</section>
+					<section class="info__section-doctor">
+						<div class="info__item item">
+							<span class="item__label">موقعیت مطب:</span>
+							<h3 class="item__value">{{ doctor?.location }}</h3>
+						</div>
+						<div class="info__item item">
+							<span class="item__label">ساعت کاری:</span>
+							<h3 class="item__value">
+								از {{ toPersianDigits(doctor?.start_working_hour) }} تا
+								{{ toPersianDigits(doctor?.end_working_hour) }}
+							</h3>
+						</div>
+					</section>
+				</div>
+			</section>
 			<ScheduleTable :doctor="doctor" :currentUser="currentUser" @pay="pay" />
 			<section class="doctor-details__comments comments">
 				<h2 class="doctor-details__section-title">نظرات کاربران</h2>
@@ -143,15 +185,18 @@
 				</h2>
 				<ul v-else class="comments__list">
 					<li
-						v-for="(c, index) in doctor?.comments"
+						v-for="(c, index) in doctor?.comments.filter(
+							(c) => c.comment !== '',
+						)"
 						:key="index"
 						class="comments-list__comment comment"
 					>
 						<div class="comment__meta">
 							<span class="comment__user">{{ c.username }}</span>
+							<span class="comment__score">|</span>
 							<span class="comment__score">
-								امتیاز: {{ toPersianDigits(c.score) }}/۵</span
-							>
+								امتیاز: {{ toPersianDigits(`${c.score} از 5`) }}
+							</span>
 						</div>
 						<p class="comment__text">{{ c.comment }}</p>
 					</li>
@@ -217,6 +262,70 @@
 			border-right: space(4) solid var(--title-100);
 		}
 
+		.info {
+			width: 100%;
+			@include flexbox(column, center, start, space(10), nowrap);
+
+			&__name {
+				width: 100%;
+				text-align: center;
+				border-bottom: space(1) solid var(--text-100);
+				color: var(--title-100);
+				padding-bottom: space(6);
+				margin-bottom: space(6);
+			}
+
+			&__sections-doctor {
+				width: calc(100% - space(12));
+				background-color: var(--primary-700);
+				box-shadow: space(0) space(0) space(5) var(--text-500);
+				padding: space(6);
+				border-radius: space(14);
+				@include flexbox(column, center, center, space(4));
+
+				@media (min-width: $xl) {
+					width: calc(100% - space(18));
+					margin-right: space(6);
+				}
+				@media (max-width: $md) {
+					@include flexbox(column, center, start, space(0));
+				}
+			}
+
+			&__section-doctor {
+				width: 100%;
+				@include flexbox(row, center, start, space(0), nowrap);
+
+				@media (max-width: $md) {
+					@include flexbox(column, center, start, space(0));
+				}
+			}
+
+			.item {
+				width: 100%;
+				@include flexbox(row, start, center, space(2), nowrap);
+
+				&__label {
+					font-size: space(10);
+					color: var(--text-400);
+					@include lineClamp(1);
+
+					@media (max-width: $md) {
+						font-size: space(8);
+					}
+				}
+
+				&__value {
+					color: var(--text-800);
+					@include lineClamp(1);
+
+					@media (max-width: $md) {
+						font-size: space(8);
+					}
+				}
+			}
+		}
+
 		.comments {
 			width: 100%;
 			@include flexbox(column, center, start, space(10), nowrap);
@@ -226,37 +335,38 @@
 			}
 
 			&__list {
+				width: 100%;
 				list-style: none;
-				padding: 0;
-				margin: 0;
-				@include flexbox(column, stretch, start, space(6), nowrap);
+				@include flexbox(column, center, center, space(6), nowrap);
 			}
 
 			.comment {
-				background-color: var(--bg-400);
-				border: space(1) solid var(--text-500);
+				width: calc(100% - space(12));
+				background-color: var(--bg-900);
+				border: space(1) solid var(--text-200);
 				border-radius: space(4);
 				padding: space(6);
 				@include flexbox(column, center, start, space(2), nowrap);
+
+				@media (min-width: $xl) {
+					width: calc(100% - space(18));
+					margin-right: space(6);
+				}
 
 				&__meta {
 					@include flexbox(row, center, center, space(4), wrap);
 				}
 
 				&__user {
-					color: var(--primary-500);
-					font-weight: 600;
+					color: var(--primary-100);
 				}
 
 				&__score {
 					color: var(--text-600);
-					font-size: 0.875rem;
 				}
 
 				&__text {
 					color: var(--text-900);
-					margin: 0;
-					line-height: 1.6;
 				}
 			}
 
