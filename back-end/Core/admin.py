@@ -34,8 +34,8 @@ class PaymentGatewayAdmin(admin.ModelAdmin):
 
     def status_colored(self, obj):
         if obj.is_active:
-            return format_html('<span style="color:green;">✅ فعال</span>')
-        return format_html('<span style="color:red;">❌ غیرفعال</span>')
+            return format_html('<span style="color:green;">{}</span>', '✅ فعال')
+        return format_html('<span style="color:red;">{}</span>', '❌ غیرفعال')
     status_colored.short_description = "وضعیت"
 
     def activate_gateways(self, request, queryset):

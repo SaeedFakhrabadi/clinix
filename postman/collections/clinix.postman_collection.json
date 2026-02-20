@@ -1496,34 +1496,6 @@
       ]
     },
     {
-      "name": "transaction_invoice",
-      "id": "2ecfcb51-8f47-42ff-a356-6dd389f2c052",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://127.0.0.1:8000/api/v1/transactions/30/invoice/",
-          "protocol": "http",
-          "host": [
-            "127",
-            "0",
-            "0",
-            "1"
-          ],
-          "port": "8000",
-          "path": [
-            "api",
-            "v1",
-            "transactions",
-            "30",
-            "invoice",
-            ""
-          ]
-        }
-      },
-      "response": []
-    },
-    {
       "name": "create_complaint",
       "id": "6f37adac-e6e0-473c-bf3e-f5d7d6fd047c",
       "request": {
