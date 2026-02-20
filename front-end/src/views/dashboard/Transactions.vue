@@ -105,10 +105,23 @@
 		if (!transactions.value) return [];
 
 		return transactions.value.map((transaction) => {
-			const [datePart, timePart] = transaction.date.split(' ');
-			const [year, month, day] = datePart.split('-').map(Number);
-			const jalaaliDate = jalaali.toJalaali(year, month, day);
-			const persianDate = `${jalaaliDate.jy}/${String(jalaaliDate.jm).padStart(2, '0')}/${String(jalaaliDate.jd).padStart(2, '0')}`;
+			const dt = new Date(transaction.date);
+
+			const jy = dt.getFullYear();
+			const jm = dt.getMonth() + 1;
+			const jd = dt.getDate();
+
+			const {
+				jy: persianYear,
+				jm: persianMonth,
+				jd: persianDay,
+			} = jalaali.toJalaali(jy, jm, jd);
+
+			const persianDate = `${persianYear}/${String(persianMonth).padStart(2, '0')}/${String(persianDay).padStart(2, '0')}`;
+
+			const hourLocal = dt.getHours();
+			const minuteLocal = dt.getMinutes();
+			const timeStr = `${String(hourLocal).padStart(2, '0')}:${String(minuteLocal).padStart(2, '0')}`;
 
 			const typeMap = {
 				PAY: 'پرداخت وجه',
@@ -131,7 +144,7 @@
 				method: methodMap[transaction.method] || transaction.method,
 				status: statusMap[transaction.status] || transaction.status,
 				date: toPersianDigits(persianDate),
-				hour: toPersianDigits(timePart.substring(0, 5)),
+				hour: toPersianDigits(timeStr),
 			};
 		});
 	});

@@ -25,7 +25,7 @@
 	const isDoctor = computed(() => currentUser.value?.role?.value === 'DOCTOR');
 
 	const reservationId = ref(0);
-	const userId = ref(0);
+	const patientId = ref(0);
 
 	const modalText = ref('');
 	const isModalOpen = ref(false);
@@ -65,7 +65,7 @@
 			if (isDoctor.value) {
 				createTransaction(
 					'BANK',
-					userId.value,
+					patientId.value,
 					response.data?.price,
 					'REFUND',
 				);
@@ -107,7 +107,7 @@
 				 اطمینان دارید؟`;
 		}
 		if (isDoctor.value) {
-			// userId.value = 5;
+			patientId.value = row?.pid;
 
 			modalText.value = `
 				 آیا از لغو نوبت بیمار ${row?.username}
@@ -121,23 +121,32 @@
 	const mappedReservations = computed(() => {
 		return reservations.value.map((reservation) => {
 			const dateObj = new Date(reservation.start_reservation_time);
-			const { jy, jm, jd } = jalaali.toJalaali(
-				dateObj.getUTCFullYear(),
-				dateObj.getUTCMonth() + 1,
-				dateObj.getUTCDate(),
-			);
 
-			const persianDate = `${jy}/${String(jm).padStart(2, '0')}/${String(jd).padStart(2, '0')}`;
+			const jy = dateObj.getFullYear();
+			const jm = dateObj.getMonth() + 1;
+			const jd = dateObj.getDate();
 
-			const hour = dateObj.getUTCHours();
+			const {
+				jy: persianYear,
+				jm: persianMonth,
+				jd: persianDay,
+			} = jalaali.toJalaali(jy, jm, jd);
+
+			const persianDate = `${persianYear}/${String(persianMonth).padStart(2, '0')}/${String(persianDay).padStart(2, '0')}`;
+
+			const hour = dateObj.getHours();
 
 			return {
 				id: reservation?.id,
-				...(isPatient.value && { doctor_name: reservation?.doctor_name }),
-				...(isDoctor.value && { username: reservation?.patient_username }),
-				...(isDoctor.value && {
-					phoneNumber: reservation?.patient_phonenumber,
-				}),
+				...(isDoctor.value
+					? {
+							username: reservation.patient_username,
+							phoneNumber: reservation.patient_phonenumber,
+							pid: reservation.patient_id,
+						}
+					: {
+							doctor_name: reservation.doctor_name,
+						}),
 				is_active: reservation?.is_past ? 'منقضی' : 'فعال',
 				date: persianDate,
 				hour: `${hour} تا ${hour + 1}`,
