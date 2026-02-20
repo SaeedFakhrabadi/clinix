@@ -117,6 +117,7 @@ class PatientReservationSerializer(serializers.ModelSerializer):
 class DoctorReservationSerializer(serializers.ModelSerializer):
     patient_username = serializers.CharField(source='patient.username', read_only=True)
     patient_phonenumber = serializers.CharField(source='patient.phonenumber', read_only=True)
+    patient_id = serializers.IntegerField(source='patient.id', read_only=True)
     start_reservation_time = LocalDateTimeField(
         source='start_reservation_hour',
     )
@@ -124,7 +125,7 @@ class DoctorReservationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Reservation
-        fields = ['id', 'patient_username', 'patient_phonenumber', 'is_past', 'start_reservation_time']
+        fields = ['id', 'patient_id', 'patient_username', 'patient_phonenumber', 'is_past', 'start_reservation_time']
 
     def get_is_past(self, obj):
         return obj.start_reservation_hour < timezone.now()
