@@ -194,6 +194,9 @@ EMAIL_USE_SSL=True
 EMAIL_HOST_USER="erfanmahmudi1383@gmail.com"
 EMAIL_HOST_PASSWORD="tszw lset sxkm band"
 
+MEDIA_URL  = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 DEFAULT_FROM_EMAIL = "Clinixs <no-reply@clinixs.com>"
 
 CORS_ALLOWED_ORIGINS = [

@@ -2,6 +2,8 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework.permissions import AllowAny
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 from .views import (
     AuthViewSet,
     DoctorsListAPIView,
@@ -36,8 +38,8 @@ urlpatterns = [
 
         # Reservations
         path('reservations/', UserReservationsAPIView.as_view(), name='user-reservations'),
-        path('reservations/create/', ReservationCreateAPIView.as_view()), # POST
-        path('reservations/delete/<int:pk>/', ReservationDeleteAPIView.as_view()), # DELETE
+        path('reservations/create/', ReservationCreateAPIView.as_view()),
+        path('reservations/delete/<int:pk>/', ReservationDeleteAPIView.as_view()),
 
         # Comments
         path('comments/create/', CommentCreateAPIView.as_view()),
@@ -55,11 +57,13 @@ urlpatterns = [
         # Complaint
         path('complaint/', ComplaintAPIView.as_view(), name='complaint'),
 
-        # urls.py
-
-        path('wallet/balance/',     WalletBalanceAPIView.as_view(),     name='wallet-balance'),
+        # Wallet
+        path('wallet/balance/',  WalletBalanceAPIView.as_view(),  name='wallet-balance'),
         path('wallet/deposit/',  WalletDepositAPIView.as_view(),  name='wallet-deposit'),
         path('wallet/withdraw/', WalletWithdrawAPIView.as_view(), name='wallet-withdraw'),
-
     ])),
 ]
+
+# Media files — must be OUTSIDE the include() block
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

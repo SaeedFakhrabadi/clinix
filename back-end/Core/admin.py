@@ -11,7 +11,7 @@ from .models import (
     Comment,
     PasswordReset,
     Transaction, Wallet, Complaint,
-    UserRoles, TransactionStatus, ComplaintStatus, PaymentGateway
+    UserRoles, TransactionStatus, ComplaintStatus, PaymentGateway, MedicalRecord
 )
 
 from django.template.response import TemplateResponse
@@ -424,3 +424,34 @@ class ComplaintAdmin(admin.ModelAdmin):
     def mark_rejected(self, request, queryset):
         queryset.update(status=ComplaintStatus.REJECTED)
     mark_rejected.short_description = "علامت‌گذاری: رد شده"
+
+class MedicalRecordInline(admin.TabularInline):
+    model        = MedicalRecord
+    extra        = 1
+    readonly_fields  = ('uploaded_at', 'download_link')
+    fields           = ('title', 'file', 'note', 'uploaded_at', 'download_link')
+    show_change_link = False
+
+    def download_link(self, obj):
+        if obj.pk and obj.file:
+            url = f"/admin/download-medical-record/{obj.pk}/"
+            return format_html(
+                '<a href="{}" target="_blank">⬇ دانلود</a>', url
+            )
+        return "—"
+    download_link.short_description = "دانلود"
+
+@admin.register(MedicalRecord)
+class MedicalRecordAdmin(admin.ModelAdmin):
+    list_display   = ('doctor', 'title', 'filename', 'uploaded_at', 'download_link')
+    list_filter    = ('uploaded_at',)
+    search_fields  = ('doctor__user__username', 'title')
+    readonly_fields = ('uploaded_at',)
+
+    def download_link(self, obj):
+        if obj.file:
+            url = f"/admin/Core/doctorprofile/download-medical-record/{obj.pk}/"
+            return format_html('<a href="{}" target="_blank">⬇ دانلود</a>', url)
+        return "—"
+    download_link.short_description = "دانلود"
+

@@ -443,3 +443,34 @@ class PaymentGateway(models.Model):
 
     def __str__(self):
         return f"{self.name} ({'فعال' if self.is_active else 'غیرفعال'})"
+
+def medical_record_upload_path(instance, filename):
+    return f"medical_records/doctor_{instance.doctor.user.id}/{filename}"
+
+
+class MedicalRecord(models.Model):
+    doctor      = models.ForeignKey(
+        DoctorProfile,
+        on_delete=models.CASCADE,
+        related_name='medical_records',
+        verbose_name="پزشک"
+    )
+    title       = models.CharField(max_length=255, verbose_name="عنوان سند")
+    file        = models.FileField(
+        upload_to=medical_record_upload_path,
+        verbose_name="فایل"
+    )
+    uploaded_at = models.DateTimeField(auto_now_add=True, verbose_name="تاریخ آپلود")
+    note        = models.TextField(blank=True, verbose_name="توضیحات")
+
+    class Meta:
+        verbose_name = "سند پزشکی"
+        verbose_name_plural = "اسناد پزشکی"
+        ordering = ['-uploaded_at']
+
+    def __str__(self):
+        return f"{self.doctor} – {self.title}"
+
+    def filename(self):
+        import os
+        return os.path.basename(self.file.name)
