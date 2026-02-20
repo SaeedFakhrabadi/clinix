@@ -29,10 +29,6 @@ export const changePassword = (verificationCode, newPassword) => {
 	});
 };
 
-export const editProfile = (name, email, phoneNumber) => {
-	return api.post('/v1/auth/edit_profile/', {
-		username: name,
-		email: email,
-		phonenumber: phoneNumber,
-	});
+export const editProfile = (payload) => {
+	return api.put('/v1/edit_profile/', payload);
 };
