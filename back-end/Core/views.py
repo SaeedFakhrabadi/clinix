@@ -11,7 +11,9 @@ from django.conf import settings
 from django.utils import timezone
 from django.db import IntegrityError
 from rest_framework_simplejwt.tokens import RefreshToken
-
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
+from django.utils.translation import gettext_lazy as _
 from .auth_utils import CookieAuthMixin
 
 from .models import DoctorProfile, PasswordReset, Reservation, User, Notification, UserRoles, Transaction
@@ -25,7 +27,7 @@ from .serializers import (
     DoctorDetailSerializer,
     ReservationCreateSerializer,
     CommentCreateSerializer, NotificationSerializer, TransactionHistorySerializer, TransactionCreateSerializer,
-    DoctorReservationSerializer, PatientReservationSerializer
+    DoctorReservationSerializer, PatientReservationSerializer, PatientUpdateSerializer, DoctorUpdateSerializer
 )
 from kavenegar import *
 
@@ -521,4 +523,55 @@ class TransactionHistoryAPIView(APIView):
             }
         )
 
+class EditProfileAPIView(APIView):
+    """
+    PUT /api/v1/edit_profile/
+    - For normal users (patients): Updates email, username, phonenumber.
+    - For doctors: Updates only start_working_hour and end_working_hour in DoctorProfile.
+    - Password is NOT handled here (use /reset_password).
+    - Request body: JSON with only the allowed fields for the user's role (others ignored).
+    - Extra fields in request are ignored for security.
+    """
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request):
+        user = request.user
+
+        if user.role == UserRoles.DOCTOR:
+            # Doctor: only update working hours
+            try:
+                doctor_profile = DoctorProfile.objects.get(user=user)
+            except DoctorProfile.DoesNotExist:
+                return error_response(
+                    message=_("پروفایل پزشک یافت نشد."),
+                    message_en="Doctor profile not found.",
+                    status_code=status.HTTP_404_NOT_FOUND
+                )
+
+            serializer = DoctorUpdateSerializer(doctor_profile, data=request.data, partial=True)
+            if not serializer.is_valid():
+                return error_response(
+                    message=_("خطا در اعتبارسنجی داده‌ها."),
+                    message_en="Validation error.",
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    extra_data=serializer.errors
+                )
+            serializer.save()
+
+        else:
+            # Normal user (patient): update user fields
+            serializer = PatientUpdateSerializer(user, data=request.data, partial=True)
+            if not serializer.is_valid():
+                return error_response(
+                    message=_("خطا در اعتبارسنجی داده‌ها."),
+                    message_en="Validation error.",
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    extra_data=serializer.errors
+                )
+            serializer.save()
+
+        return success_response(
+            message=_("پروفایل با موفقیت به‌روزرسانی شد."),
+            message_en="Profile updated successfully."
+        )
 

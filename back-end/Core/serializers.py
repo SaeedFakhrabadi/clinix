@@ -6,6 +6,7 @@ from jdatetime import date as jdate
 from datetime import datetime, timedelta
 from django.utils import timezone
 from zoneinfo import ZoneInfo
+from django.utils.translation import gettext_lazy as _
 
 User = get_user_model()
 
@@ -318,3 +319,49 @@ class TransactionHistorySerializer(serializers.ModelSerializer):
         model = Transaction
         fields = ['price', 'status', 'date', 'method', 'type']
         read_only_fields = fields
+
+class PatientUpdateSerializer(serializers.ModelSerializer):
+    # Fields for normal users (patients)
+    class Meta:
+        model = User
+        fields = ['email', 'username', 'phonenumber']
+        extra_kwargs = {
+            'email': {'required': False},
+            'username': {'required': False},
+            'phonenumber': {'required': False},
+        }
+
+    def validate_email(self, value):
+        if User.objects.filter(email=value).exclude(id=self.instance.id).exists():
+            raise serializers.ValidationError(_("این ایمیل قبلاً استفاده شده است."))
+        return value
+
+    def validate_username(self, value):
+        if User.objects.filter(username=value).exclude(id=self.instance.id).exists():
+            raise serializers.ValidationError(_("این نام کاربری قبلاً استفاده شده است."))
+        return value
+
+    def validate_phonenumber(self, value):
+        if User.objects.filter(phonenumber=value).exclude(id=self.instance.id).exists():
+            raise serializers.ValidationError(_("این شماره تلفن قبلاً استفاده شده است."))
+        return value
+
+
+class DoctorUpdateSerializer(serializers.ModelSerializer):
+    # Limited fields for doctors: only working hours
+    class Meta:
+        model = DoctorProfile
+        fields = [
+            'start_working_hour',
+            'end_working_hour',
+        ]
+        extra_kwargs = {
+            'start_working_hour': {'required': False},
+            'end_working_hour': {'required': False},
+        }
+
+    def validate(self, data):
+        if 'start_working_hour' in data and 'end_working_hour' in data:
+            if data['start_working_hour'] >= data['end_working_hour']:
+                raise serializers.ValidationError(_("ساعت شروع باید قبل از ساعت پایان باشد."))
+        return data
