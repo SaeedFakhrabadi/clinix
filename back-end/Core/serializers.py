@@ -17,7 +17,7 @@ class LocalDateTimeField(serializers.DateTimeField):
         if value is None:
             return None
         local_value = value.astimezone(TEHRAN_TZ)
-        return local_value.strftime('%Y-%m-%d %H:%M')
+        return local_value.strftime('%Y-%m-%dT%H:%M:%S+03:30')  # ISO 8601 with Tehran offset
 
 class RegisterSerializer(serializers.ModelSerializer):     
     password = serializers.CharField(
@@ -101,10 +101,8 @@ class CommentSerializer(serializers.ModelSerializer):
 # Patient sees doctor_name only
 class PatientReservationSerializer(serializers.ModelSerializer):
     doctor_name = serializers.CharField(source='doctor.username', read_only=True)
-    start_reservation_time = serializers.DateTimeField(
-        source='start_reservation_hour',
-        format='%Y-%m-%dT%H:%M:%SZ',
-        read_only=True
+    start_reservation_time = LocalDateTimeField(
+        source='start_reservation_hour'
     )
     is_past = serializers.SerializerMethodField()
 
@@ -345,7 +343,6 @@ class PatientUpdateSerializer(serializers.ModelSerializer):
         if User.objects.filter(phonenumber=value).exclude(id=self.instance.id).exists():
             raise serializers.ValidationError(_("این شماره تلفن قبلاً استفاده شده است."))
         return value
-
 
 class DoctorUpdateSerializer(serializers.ModelSerializer):
     # Limited fields for doctors: only working hours

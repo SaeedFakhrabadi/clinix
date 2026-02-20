@@ -524,21 +524,12 @@ class TransactionHistoryAPIView(APIView):
         )
 
 class EditProfileAPIView(APIView):
-    """
-    PUT /api/v1/edit_profile/
-    - For normal users (patients): Updates email, username, phonenumber.
-    - For doctors: Updates only start_working_hour and end_working_hour in DoctorProfile.
-    - Password is NOT handled here (use /reset_password).
-    - Request body: JSON with only the allowed fields for the user's role (others ignored).
-    - Extra fields in request are ignored for security.
-    """
     permission_classes = [IsAuthenticated]
 
     def put(self, request):
         user = request.user
 
         if user.role == UserRoles.DOCTOR:
-            # Doctor: only update working hours
             try:
                 doctor_profile = DoctorProfile.objects.get(user=user)
             except DoctorProfile.DoesNotExist:
@@ -559,7 +550,6 @@ class EditProfileAPIView(APIView):
             serializer.save()
 
         else:
-            # Normal user (patient): update user fields
             serializer = PatientUpdateSerializer(user, data=request.data, partial=True)
             if not serializer.is_valid():
                 return error_response(
@@ -574,4 +564,5 @@ class EditProfileAPIView(APIView):
             message=_("پروفایل با موفقیت به‌روزرسانی شد."),
             message_en="Profile updated successfully."
         )
+
 
