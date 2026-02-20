@@ -13,18 +13,13 @@ from django.db import IntegrityError
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.utils.translation import gettext_lazy as _
 from .auth_utils import CookieAuthMixin
-import io
-from reportlab.lib.pagesizes import A4
-from reportlab.lib import colors
-from reportlab.lib.units import cm
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
-from reportlab.lib.styles import getSampleStyleSheet
-from django.http import FileResponse
 from zoneinfo import ZoneInfo
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from .utils import notify_reservation_cancelled
 
-from .models import DoctorProfile, PasswordReset, Reservation, User, Notification, UserRoles, Transaction
+from .models import DoctorProfile, PasswordReset, Reservation, User, Notification, Transaction, UserRoles, Wallet, \
+    TransactionType, TransactionMethod, TransactionStatus
 from .serializers import (
     LoginSerializer,
     RegisterSerializer,
@@ -36,7 +31,7 @@ from .serializers import (
     ReservationCreateSerializer,
     CommentCreateSerializer, NotificationSerializer, TransactionHistorySerializer, TransactionCreateSerializer,
     DoctorReservationSerializer, PatientReservationSerializer, PatientUpdateSerializer, DoctorUpdateSerializer,
-    ComplaintCreateSerializer
+    ComplaintCreateSerializer, WalletSerializer, WalletDepositSerializer, WalletWithdrawSerializer
 )
 from kavenegar import *
 
@@ -370,7 +365,8 @@ class ReservationDeleteAPIView(APIView):
             doctor_profile = reservation.doctor.doctor_profile
             doctor_price = doctor_profile.price
 
-            reservation.delete()
+            notify_reservation_cancelled(reservation, cancelled_by=request.user)
+            reservation.delete(cancelled_by=request.user)
 
             return success_response(
                 message="نوبت با موفقیت حذف گردید",
@@ -572,111 +568,6 @@ class EditProfileAPIView(APIView):
             message_en="Profile updated successfully."
         )
 
-class TransactionInvoiceAPIView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, transaction_id):
-        try:
-            transaction = Transaction.objects.get(id=transaction_id, user=request.user)
-        except Transaction.DoesNotExist:
-            return Response({"error": "تراکنش یافت نشد"}, status=status.HTTP_404_NOT_FOUND)
-
-        buffer = io.BytesIO()
-        doc = SimpleDocTemplate(
-            buffer,
-            pagesize=A4,
-            rightMargin=2*cm,
-            leftMargin=2*cm,
-            topMargin=2*cm,
-            bottomMargin=2*cm
-        )
-
-        styles = getSampleStyleSheet()
-        # RTL style for Persian text using a fallback approach
-        normal = styles['Normal']
-        normal.fontName = 'Helvetica'
-
-        story = []
-
-        # Header
-        story.append(Paragraph("INVOICE / فاکتور پرداخت", styles['Title']))
-        story.append(Spacer(1, 0.5*cm))
-
-        # Transaction details table
-        local_time = transaction.created_at.astimezone(TEHRAN_TZ)
-        formatted_date = local_time.strftime('%Y-%m-%d %H:%M')
-
-        # Map to English manually to avoid encoding issues with default reportlab fonts
-        TYPE_MAP = {
-            'DEPOSIT': 'Deposit',
-            'WITHDRAW': 'Withdraw',
-            'PAYMENT': 'Payment',
-            'REFUND': 'Refund',
-        }
-        METHOD_MAP = {
-            'WALLET': 'Wallet',
-            'GATEWAY': 'Bank Gateway',
-            'CASH': 'Cash',
-        }
-        STATUS_MAP = {
-            'SUCCESS': 'Success',
-            'FAILED': 'Failed',
-            'PENDING': 'Pending',
-            'REFUNDED': 'Refunded',
-        }
-
-        data = [
-            ["Field", "Value"],
-            ["Transaction ID", str(transaction.id)],
-            ["User", transaction.user.username],
-            ["Email", transaction.user.email],
-            ["Amount", f"{transaction.price:,} Toman"],
-            ["Type", TYPE_MAP.get(transaction.type, transaction.type)],
-            ["Method", METHOD_MAP.get(transaction.method, transaction.method)],
-            ["Status", STATUS_MAP.get(transaction.status, transaction.status)],
-            ["Date", formatted_date],
-        ]
-
-        if transaction.reservation:
-            data.append(["Reservation", str(transaction.reservation.id)])
-            data.append([
-                "Appointment",
-                transaction.reservation.start_reservation_hour.astimezone(TEHRAN_TZ).strftime('%Y-%m-%d %H:%M')
-            ])
-            data.append(["Doctor", transaction.reservation.doctor.username])
-
-        table = Table(data, colWidths=[6*cm, 10*cm])
-        table.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#2c3e50')),
-            ('TEXTCOLOR',  (0, 0), (-1, 0), colors.white),
-            ('FONTNAME',   (0, 0), (-1, 0), 'Helvetica-Bold'),
-            ('FONTSIZE',   (0, 0), (-1, 0), 12),
-            ('ALIGN',      (0, 0), (-1, -1), 'CENTER'),
-            ('BACKGROUND', (0, 1), (-1, -1), colors.HexColor('#ecf0f1')),
-            ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor('#f9f9f9')]),
-            ('GRID',       (0, 0), (-1, -1), 0.5, colors.grey),
-            ('FONTNAME',   (0, 1), (-1, -1), 'Helvetica'),
-            ('FONTSIZE',   (0, 1), (-1, -1), 10),
-            ('PADDING',    (0, 0), (-1, -1), 8),
-        ]))
-
-        story.append(table)
-        story.append(Spacer(1, 1*cm))
-        story.append(Paragraph(
-            f"Generated at: {local_time.strftime('%Y-%m-%d %H:%M')}",
-            styles['Normal']
-        ))
-
-        doc.build(story)
-        buffer.seek(0)
-
-        return FileResponse(
-            buffer,
-            as_attachment=True,
-            filename=f"invoice_{transaction.id}.pdf",
-            content_type='application/pdf'
-        )
-
 class ComplaintAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -697,4 +588,88 @@ class ComplaintAPIView(APIView):
         return success_response(
             message="شکایت شما با موفقیت ثبت شد. از بازخورد شما متشکریم، ادمین به زودی آن را بررسی خواهد کرد.",
             message_en="Your complaint has been successfully submitted. Thank you for your feedback, an admin will follow up shortly.",
+        )
+
+class WalletBalanceAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        wallet, _ = Wallet.objects.get_or_create(user=request.user)
+        serializer = WalletSerializer(wallet)
+        return success_response(
+            message="موجودی کیف پول",
+            message_en="Wallet balance",
+            extra_data={"wallet": serializer.data}
+        )
+
+
+class WalletDepositAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = WalletDepositSerializer(data=request.data)
+        if not serializer.is_valid():
+            return error_response(
+                message="داده‌های ارسالی نامعتبر است",
+                message_en="Invalid input data",
+                extra_data={"errors": serializer.errors}
+            )
+
+        amount = serializer.validated_data['amount']
+        wallet, _ = Wallet.objects.get_or_create(user=request.user)
+        wallet.deposit(amount)
+
+        # Record transaction
+        Transaction.objects.create(
+            user=request.user,
+            price=amount,
+            type=TransactionType.PAY,
+            method=TransactionMethod.WALLET,
+            status=TransactionStatus.SUCCESS,
+        )
+
+        return success_response(
+            message=f"مبلغ {amount:,} تومان با موفقیت به کیف پول شما افزوده شد",
+            message_en=f"{amount:,} Toman successfully deposited to your wallet",
+            extra_data={"new_balance": wallet.balance}
+        )
+
+
+class WalletWithdrawAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = WalletWithdrawSerializer(data=request.data)
+        if not serializer.is_valid():
+            return error_response(
+                message="داده‌های ارسالی نامعتبر است",
+                message_en="Invalid input data",
+                extra_data={"errors": serializer.errors}
+            )
+
+        amount = serializer.validated_data['amount']
+        wallet, _ = Wallet.objects.get_or_create(user=request.user)
+
+        try:
+            wallet.withdraw(amount)
+        except ValueError:
+            return error_response(
+                message=f"موجودی کافی نیست. موجودی فعلی شما {wallet.balance:,} تومان است",
+                message_en=f"Insufficient balance. Your current balance is {wallet.balance:,} Toman",
+                status_code=status.HTTP_400_BAD_REQUEST,
+            )
+
+        # Record transaction
+        Transaction.objects.create(
+            user=request.user,
+            price=amount,
+            type=TransactionType.REFUND,
+            method=TransactionMethod.WALLET,
+            status=TransactionStatus.SUCCESS,
+        )
+
+        return success_response(
+            message=f"مبلغ {amount:,} تومان با موفقیت از کیف پول شما برداشت شد",
+            message_en=f"{amount:,} Toman successfully withdrawn from your wallet",
+            extra_data={"new_balance": wallet.balance}
         )

@@ -1200,7 +1200,7 @@
       },
       "response": [
         {
-          "id": "645de1c2-92c5-413a-8369-833f81074243",
+          "id": "4a962e1c-041b-4fbb-8b08-4542c311dfbd",
           "name": "notifications_user_ex",
           "originalRequest": {
             "method": "GET",
@@ -1229,7 +1229,7 @@
           "header": [
             {
               "key": "Date",
-              "value": "Fri, 20 Feb 2026 08:22:31 GMT"
+              "value": "Fri, 20 Feb 2026 12:36:47 GMT"
             },
             {
               "key": "Server",
@@ -1253,7 +1253,7 @@
             },
             {
               "key": "Content-Length",
-              "value": "384"
+              "value": "1338"
             },
             {
               "key": "X-Content-Type-Options",
@@ -1269,8 +1269,8 @@
             }
           ],
           "cookie": [],
-          "responseTime": "2026-02-20T08:24:16.838Z",
-          "body": "{\n    \"message\": \"لیست اعلان\\u200cها با موفقیت دریافت شد\",\n    \"message_en\": \"Notifications retrieved successfully\",\n    \"notifications\": [\n        {\n            \"id\": 105,\n            \"message\": \"نوبت شما در ساعت 15:00 تا 16:00 در تاریخ 1404/12/02 با دکتر doctorB با موفقیت رزرو شد\",\n            \"notification_type\": \"RESERVE\",\n            \"is_read\": false,\n            \"created_at\": \"2026-02-20T11:45:30+03:30\"\n        }\n    ]\n}"
+          "responseTime": "2026-02-20T12:37:00.697Z",
+          "body": "{\n    \"message\": \"لیست اعلان\\u200cها با موفقیت دریافت شد\",\n    \"message_en\": \"Notifications retrieved successfully\",\n    \"notifications\": [\n        {\n            \"id\": 113,\n            \"message\": \"نوبت ساعت 15:00 تا 16:00 روز 1404/12/03 شما با دکتر حسین آریانمهر توسط شما لغو شد\",\n            \"notification_type\": \"CANCEL\",\n            \"is_read\": false,\n            \"created_at\": \"2026-02-20T16:06:43+03:30\"\n        },\n        {\n            \"id\": 111,\n            \"message\": \"نوبت ساعت 15:00 تا 16:00 روز 1404/12/03 شما با دکتر حسین آریانمهر توسط شما لغو شد\",\n            \"notification_type\": \"CANCEL\",\n            \"is_read\": false,\n            \"created_at\": \"2026-02-20T16:06:43+03:30\"\n        },\n        {\n            \"id\": 109,\n            \"message\": \"نوبت ساعت 15:00 تا 16:00 روز 1404/12/03 شما با دکتر حسین آریانمهر با موفقیت رزرو شد\",\n            \"notification_type\": \"RESERVE\",\n            \"is_read\": false,\n            \"created_at\": \"2026-02-20T16:06:13+03:30\"\n        },\n        {\n            \"id\": 107,\n            \"message\": \"نوبت شما در ساعت 16:00 تا 17:00 در تاریخ 1404/12/02 با دکتر doctorB با موفقیت رزرو شد\",\n            \"notification_type\": \"RESERVE\",\n            \"is_read\": false,\n            \"created_at\": \"2026-02-20T12:34:33+03:30\"\n        },\n        {\n            \"id\": 105,\n            \"message\": \"نوبت شما در ساعت 15:00 تا 16:00 در تاریخ 1404/12/02 با دکتر doctorB با موفقیت رزرو شد\",\n            \"notification_type\": \"RESERVE\",\n            \"is_read\": false,\n            \"created_at\": \"2026-02-20T11:45:30+03:30\"\n        }\n    ]\n}"
         }
       ]
     },
@@ -1494,34 +1494,6 @@
           "body": "{\n    \"message\": \"تراکنش با موفقیت ثبت شد\",\n    \"message_en\": \"Transaction created successfully\",\n    \"transaction_id\": 1,\n    \"price\": 350000,\n    \"status\": \"SUCCESS\",\n    \"date\": \"2026-02-16 13:46\"\n}"
         }
       ]
-    },
-    {
-      "name": "transaction_invoice",
-      "id": "2ecfcb51-8f47-42ff-a356-6dd389f2c052",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://127.0.0.1:8000/api/v1/transactions/30/invoice/",
-          "protocol": "http",
-          "host": [
-            "127",
-            "0",
-            "0",
-            "1"
-          ],
-          "port": "8000",
-          "path": [
-            "api",
-            "v1",
-            "transactions",
-            "30",
-            "invoice",
-            ""
-          ]
-        }
-      },
-      "response": []
     },
     {
       "name": "create_complaint",
@@ -1838,6 +1810,348 @@
           "cookie": [],
           "responseTime": "2026-02-20T07:58:42.775Z",
           "body": "{\n    \"message\": \"پروفایل با موفقیت به\\u200cروزرسانی شد.\",\n    \"message_en\": \"Profile updated successfully.\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "wallet_balance",
+      "id": "fdbb18ae-2d2a-47db-ac27-808db94f56e6",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/wallet/balance/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "wallet",
+            "balance",
+            ""
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "ae595d5e-7d7d-4b49-a1a0-996358708ebb",
+          "name": "wallet_balance_ex",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/wallet/balance/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "wallet",
+                "balance",
+                ""
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Date",
+              "value": "Fri, 20 Feb 2026 18:43:48 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.13.3"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "GET, HEAD, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "141"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "responseTime": "2026-02-20T18:44:08.572Z",
+          "body": "{\n    \"message\": \"موجودی کیف پول\",\n    \"message_en\": \"Wallet balance\",\n    \"wallet\": {\n        \"balance\": 0,\n        \"updated_at\": \"2026-02-20T22:13:48.564094+03:30\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "wallet_withdraw",
+      "id": "486bc785-a067-4ab6-8549-b9ba8f2a0be6",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"amount\": 2000\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/wallet/withdraw/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "wallet",
+            "withdraw",
+            ""
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "21a85327-609a-4c07-a9be-afc4b6cdc9de",
+          "name": "wallet_withdraw_ex",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"amount\": 2000\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/wallet/withdraw/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "wallet",
+                "withdraw",
+                ""
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Date",
+              "value": "Fri, 20 Feb 2026 18:48:46 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.13.3"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "POST, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "188"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "responseTime": "2026-02-20T18:48:56.307Z",
+          "body": "{\n    \"message\": \"مبلغ 2,000 تومان با موفقیت از کیف پول شما برداشت شد\",\n    \"message_en\": \"2,000 Toman successfully withdrawn from your wallet\",\n    \"new_balance\": 38000\n}"
+        }
+      ]
+    },
+    {
+      "name": "wallet_deposit",
+      "id": "2a04e521-8d03-4e56-bc69-fb333c2fa2bb",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"amount\": 20000\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/v1/wallet/deposit/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "wallet",
+            "deposit",
+            ""
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "83a9cc8d-5be3-4f2d-be60-d1e04b6a95b4",
+          "name": "wallet_deposit_ex",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"amount\": 20000\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/wallet/deposit/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "wallet",
+                "deposit",
+                ""
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Date",
+              "value": "Fri, 20 Feb 2026 18:48:25 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.13.3"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "POST, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "188"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "responseTime": "2026-02-20T18:48:31.133Z",
+          "body": "{\n    \"message\": \"مبلغ 20,000 تومان با موفقیت به کیف پول شما افزوده شد\",\n    \"message_en\": \"20,000 Toman successfully deposited to your wallet\",\n    \"new_balance\": 40000\n}"
         }
       ]
     }

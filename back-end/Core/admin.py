@@ -2,16 +2,168 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.html import format_html
 from django.utils import timezone
-from django.db.models import Count, Sum
+from django.db.models import Count, Sum , Q
+from django.db.models.functions import TruncDay, TruncMonth, TruncYear
 from .models import (
-    User, UserRoles,
+    User,
     DoctorProfile, Specialty,
     Reservation,
     Comment,
     PasswordReset,
-    Transaction, TransactionStatus, Wallet, Complaint, ComplaintStatus
+    Transaction, Wallet, Complaint,
+    UserRoles, TransactionStatus, ComplaintStatus, PaymentGateway, MedicalRecord
 )
 
+from django.template.response import TemplateResponse
+
+
+# ─── Payment Gateway ────────────────────────────────────────────────
+
+@admin.register(PaymentGateway)
+class PaymentGatewayAdmin(admin.ModelAdmin):
+    list_display  = ('name', 'code', 'status_colored', 'updated_at')
+    list_filter   = ('is_active',)
+    search_fields = ('name', 'code')
+    actions       = ['activate_gateways', 'deactivate_gateways']
+    readonly_fields = ('created_at', 'updated_at')
+
+    fieldsets = (
+        (None, {'fields': ('name', 'code', 'is_active')}),
+        ('تاریخ‌ها', {'fields': ('created_at', 'updated_at')}),
+    )
+
+    def status_colored(self, obj):
+        if obj.is_active:
+            return format_html('<span style="color:green;">{}</span>', '✅ فعال')
+        return format_html('<span style="color:red;">{}</span>', '❌ غیرفعال')
+    status_colored.short_description = "وضعیت"
+
+    def activate_gateways(self, request, queryset):
+        count = queryset.update(is_active=True)
+        self.message_user(request, f"{count} درگاه فعال شد.")
+    activate_gateways.short_description = "فعال‌سازی درگاه‌های انتخابی"
+
+    def deactivate_gateways(self, request, queryset):
+        count = queryset.update(is_active=False)
+        self.message_user(request, f"{count} درگاه غیرفعال شد.")
+    deactivate_gateways.short_description = "غیرفعال‌سازی درگاه‌های انتخابی"
+
+
+# ─── Reports Proxy Model ─────────────────────────────────────────────
+
+class ReportProxy(Transaction):
+    """Proxy model just to create a separate admin page for reports."""
+    class Meta:
+        proxy = True
+        verbose_name = "گزارش‌ها"
+        verbose_name_plural = "گزارش‌ها و آمار"
+
+
+@admin.register(ReportProxy)
+class ReportAdmin(admin.ModelAdmin):
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def changelist_view(self, request, extra_context=None):
+        # ── User stats ──
+        total_patients = User.objects.filter(role=UserRoles.PATIENT).count()
+        total_doctors  = User.objects.filter(role=UserRoles.DOCTOR).count()
+
+        # ── Reservation stats ──
+        total_reservations = Reservation.objects.count()
+        upcoming           = Reservation.objects.filter(
+            start_reservation_hour__gt=timezone.now()
+        ).count()
+        past = total_reservations - upcoming
+
+        # ── Transaction stats ──
+        total_transactions = Transaction.objects.count()
+        successful_tx      = Transaction.objects.filter(
+            status=TransactionStatus.SUCCESS
+        )
+        total_revenue = successful_tx.aggregate(
+            total=Sum('price')
+        )['total'] or 0
+
+        # ── Daily income (last 30 days) ──
+        daily_income = (
+            Transaction.objects
+            .filter(status=TransactionStatus.SUCCESS,
+                    created_at__gte=timezone.now() - timezone.timedelta(days=30))
+            .annotate(day=TruncDay('created_at'))
+            .values('day')
+            .annotate(total=Sum('price'))
+            .order_by('day')
+        )
+
+        # ── Monthly income (last 12 months) ──
+        monthly_income = (
+            Transaction.objects
+            .filter(status=TransactionStatus.SUCCESS,
+                    created_at__gte=timezone.now() - timezone.timedelta(days=365))
+            .annotate(month=TruncMonth('created_at'))
+            .values('month')
+            .annotate(total=Sum('price'))
+            .order_by('month')
+        )
+
+        # ── Yearly income ──
+        yearly_income = (
+            Transaction.objects
+            .filter(status=TransactionStatus.SUCCESS)
+            .annotate(year=TruncYear('created_at'))
+            .values('year')
+            .annotate(total=Sum('price'))
+            .order_by('year')
+        )
+
+        # ── Doctor performance ──
+        doctor_performance = (
+            Reservation.objects
+            .values('doctor__username')
+            .annotate(
+                total_reservations=Count('id'),
+                upcoming_reservations=Count(
+                    'id',
+                    filter=Q(start_reservation_hour__gt=timezone.now())
+                )
+            )
+            .order_by('-total_reservations')[:10]
+        )
+
+        extra_context = extra_context or {}
+        extra_context.update({
+            'title': 'گزارش‌ها و آمار',
+            # users
+            'total_patients':    total_patients,
+            'total_doctors':     total_doctors,
+            # reservations
+            'total_reservations': total_reservations,
+            'upcoming':           upcoming,
+            'past':               past,
+            # transactions
+            'total_transactions': total_transactions,
+            'total_revenue':      f"{total_revenue:,}",
+            # income breakdowns
+            'daily_income':   list(daily_income),
+            'monthly_income': list(monthly_income),
+            'yearly_income':  list(yearly_income),
+            # doctor performance
+            'doctor_performance': list(doctor_performance),
+        })
+
+        return TemplateResponse(
+            request,
+            'admin/reports.html',
+            extra_context
+        )
 
 @admin.register(Specialty)
 class SpecialtyAdmin(admin.ModelAdmin):
@@ -272,3 +424,34 @@ class ComplaintAdmin(admin.ModelAdmin):
     def mark_rejected(self, request, queryset):
         queryset.update(status=ComplaintStatus.REJECTED)
     mark_rejected.short_description = "علامت‌گذاری: رد شده"
+
+class MedicalRecordInline(admin.TabularInline):
+    model        = MedicalRecord
+    extra        = 1
+    readonly_fields  = ('uploaded_at', 'download_link')
+    fields           = ('title', 'file', 'note', 'uploaded_at', 'download_link')
+    show_change_link = False
+
+    def download_link(self, obj):
+        if obj.pk and obj.file:
+            url = f"/admin/download-medical-record/{obj.pk}/"
+            return format_html(
+                '<a href="{}" target="_blank">⬇ دانلود</a>', url
+            )
+        return "—"
+    download_link.short_description = "دانلود"
+
+@admin.register(MedicalRecord)
+class MedicalRecordAdmin(admin.ModelAdmin):
+    list_display   = ('doctor', 'title', 'filename', 'uploaded_at', 'download_link')
+    list_filter    = ('uploaded_at',)
+    search_fields  = ('doctor__user__username', 'title')
+    readonly_fields = ('uploaded_at',)
+
+    def download_link(self, obj):
+        if obj.file:
+            url = f"/admin/Core/doctorprofile/download-medical-record/{obj.pk}/"
+            return format_html('<a href="{}" target="_blank">⬇ دانلود</a>', url)
+        return "—"
+    download_link.short_description = "دانلود"
+
