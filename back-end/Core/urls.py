@@ -8,6 +8,7 @@ from .views import (
     ReservationCreateAPIView,
     UserReservationsAPIView,
     ReservationDeleteAPIView,
+    EditProfileAPIView,
     CommentCreateAPIView, NotificationsListAPIView, TransactionCreateAPIView, TransactionHistoryAPIView,
 )
 
@@ -44,6 +45,8 @@ urlpatterns = [
         # Transactions
         path('transactions/create/', TransactionCreateAPIView.as_view(), name='transaction-create'), # POST
         path('transactions/history/', TransactionHistoryAPIView.as_view(), name='transaction-history'), # GET
+
+        path('edit_profile/', EditProfileAPIView.as_view(), name='edit_profile'),
 
     ])),
 ]

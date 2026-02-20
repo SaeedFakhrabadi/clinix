@@ -6,6 +6,7 @@ from jdatetime import date as jdate
 from datetime import datetime, timedelta
 from django.utils import timezone
 from zoneinfo import ZoneInfo
+from django.utils.translation import gettext_lazy as _
 
 User = get_user_model()
 
@@ -16,7 +17,7 @@ class LocalDateTimeField(serializers.DateTimeField):
         if value is None:
             return None
         local_value = value.astimezone(TEHRAN_TZ)
-        return local_value.strftime('%Y-%m-%d %H:%M')
+        return local_value.strftime('%Y-%m-%dT%H:%M:%S+03:30')  # ISO 8601 with Tehran offset
 
 class RegisterSerializer(serializers.ModelSerializer):     
     password = serializers.CharField(
@@ -100,10 +101,8 @@ class CommentSerializer(serializers.ModelSerializer):
 # Patient sees doctor_name only
 class PatientReservationSerializer(serializers.ModelSerializer):
     doctor_name = serializers.CharField(source='doctor.username', read_only=True)
-    start_reservation_time = serializers.DateTimeField(
-        source='start_reservation_hour',
-        format='%Y-%m-%dT%H:%M:%SZ',
-        read_only=True
+    start_reservation_time = LocalDateTimeField(
+        source='start_reservation_hour'
     )
     is_past = serializers.SerializerMethodField()
 
@@ -118,16 +117,15 @@ class PatientReservationSerializer(serializers.ModelSerializer):
 class DoctorReservationSerializer(serializers.ModelSerializer):
     patient_username = serializers.CharField(source='patient.username', read_only=True)
     patient_phonenumber = serializers.CharField(source='patient.phonenumber', read_only=True)
-    start_reservation_time = serializers.DateTimeField(
+    patient_id = serializers.IntegerField(source='patient.id', read_only=True)
+    start_reservation_time = LocalDateTimeField(
         source='start_reservation_hour',
-        format='%Y-%m-%dT%H:%M:%SZ',
-        read_only=True
     )
     is_past = serializers.SerializerMethodField()
 
     class Meta:
         model = Reservation
-        fields = ['id', 'patient_username', 'patient_phonenumber', 'is_past', 'start_reservation_time']
+        fields = ['id', 'patient_id', 'patient_username', 'patient_phonenumber', 'is_past', 'start_reservation_time']
 
     def get_is_past(self, obj):
         return obj.start_reservation_hour < timezone.now()
@@ -320,3 +318,48 @@ class TransactionHistorySerializer(serializers.ModelSerializer):
         model = Transaction
         fields = ['price', 'status', 'date', 'method', 'type']
         read_only_fields = fields
+
+class PatientUpdateSerializer(serializers.ModelSerializer):
+    # Fields for normal users (patients)
+    class Meta:
+        model = User
+        fields = ['email', 'username', 'phonenumber']
+        extra_kwargs = {
+            'email': {'required': False},
+            'username': {'required': False},
+            'phonenumber': {'required': False},
+        }
+
+    def validate_email(self, value):
+        if User.objects.filter(email=value).exclude(id=self.instance.id).exists():
+            raise serializers.ValidationError(_("این ایمیل قبلاً استفاده شده است."))
+        return value
+
+    def validate_username(self, value):
+        if User.objects.filter(username=value).exclude(id=self.instance.id).exists():
+            raise serializers.ValidationError(_("این نام کاربری قبلاً استفاده شده است."))
+        return value
+
+    def validate_phonenumber(self, value):
+        if User.objects.filter(phonenumber=value).exclude(id=self.instance.id).exists():
+            raise serializers.ValidationError(_("این شماره تلفن قبلاً استفاده شده است."))
+        return value
+
+class DoctorUpdateSerializer(serializers.ModelSerializer):
+    # Limited fields for doctors: only working hours
+    class Meta:
+        model = DoctorProfile
+        fields = [
+            'start_working_hour',
+            'end_working_hour',
+        ]
+        extra_kwargs = {
+            'start_working_hour': {'required': False},
+            'end_working_hour': {'required': False},
+        }
+
+    def validate(self, data):
+        if 'start_working_hour' in data and 'end_working_hour' in data:
+            if data['start_working_hour'] >= data['end_working_hour']:
+                raise serializers.ValidationError(_("ساعت شروع باید قبل از ساعت پایان باشد."))
+        return data

@@ -757,7 +757,7 @@
       },
       "response": [
         {
-          "id": "9eb9951a-a3d7-4c49-a220-f6944da3a04e",
+          "id": "32c6a589-e7ca-4182-a837-8951cb64030b",
           "name": "reservationsList_ex",
           "originalRequest": {
             "method": "GET",
@@ -786,7 +786,7 @@
           "header": [
             {
               "key": "Date",
-              "value": "Thu, 19 Feb 2026 12:44:07 GMT"
+              "value": "Fri, 20 Feb 2026 08:32:16 GMT"
             },
             {
               "key": "Server",
@@ -810,7 +810,7 @@
             },
             {
               "key": "Content-Length",
-              "value": "261"
+              "value": "281"
             },
             {
               "key": "X-Content-Type-Options",
@@ -826,8 +826,8 @@
             }
           ],
           "cookie": [],
-          "responseTime": "2026-02-19T12:44:35.115Z",
-          "body": "{\n    \"user_id\": 15,\n    \"username\": \"doctorB\",\n    \"email\": \"doctor@gmail.com\",\n    \"role\": \"DOCTOR\",\n    \"reservations_count\": 1,\n    \"reservations\": [\n        {\n            \"id\": 36,\n            \"patient_username\": \"boogcookie4\",\n            \"patient_phonenumber\": \"09144668908\",\n            \"is_past\": false,\n            \"start_reservation_time\": \"2026-02-21T17:00:00Z\"\n        }\n    ]\n}"
+          "responseTime": "2026-02-20T08:32:20.311Z",
+          "body": "{\n    \"user_id\": 15,\n    \"username\": \"doctorB\",\n    \"email\": \"newdoctor@example.com\",\n    \"role\": \"DOCTOR\",\n    \"reservations_count\": 1,\n    \"reservations\": [\n        {\n            \"id\": 38,\n            \"patient_id\": 16,\n            \"patient_username\": \"boog4\",\n            \"patient_phonenumber\": \"09144668918\",\n            \"is_past\": false,\n            \"start_reservation_time\": \"2026-02-21T15:00:00+03:30\"\n        }\n    ]\n}"
         }
       ]
     },
@@ -867,14 +867,14 @@
       },
       "response": [
         {
-          "id": "4fd001bf-9ffa-4b2a-a9b8-03466e926aa0",
+          "id": "10e46f88-732a-4a6c-8732-24638ef985c1",
           "name": "create_reservation_ex",
           "originalRequest": {
             "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"doctor_id\": 2,\r\n    \"user_id\": 1,\r\n    \"time\": \"1404-11-26-10\"\r\n}\r\n\r\n",
+              "raw": "{\r\n    \"doctor_id\": 5,\r\n    \"time\": \"1404-12-2-15\"\r\n}\r\n\r\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -902,15 +902,15 @@
           },
           "status": "Created",
           "code": 201,
-          "_postman_previewlanguage": "Text",
+          "_postman_previewlanguage": "json",
           "header": [
             {
               "key": "Date",
-              "value": "Mon, 16 Feb 2026 07:59:45 GMT"
+              "value": "Fri, 20 Feb 2026 08:15:30 GMT"
             },
             {
               "key": "Server",
-              "value": "WSGIServer/0.2 CPython/3.14.2"
+              "value": "WSGIServer/0.2 CPython/3.13.3"
             },
             {
               "key": "Content-Type",
@@ -930,7 +930,7 @@
             },
             {
               "key": "Content-Length",
-              "value": "179"
+              "value": "190"
             },
             {
               "key": "X-Content-Type-Options",
@@ -946,7 +946,8 @@
             }
           ],
           "cookie": [],
-          "body": "{\n    \"message\": \"نوبت با موفقیت ثبت شد\",\n    \"message_en\": \"Reservation created successfully\",\n    \"reservation_id\": 3,\n    \"start\": \"2026-02-15T10:00:00Z\",\n    \"end\": \"2026-02-15T11:00:00Z\"\n}"
+          "responseTime": "2026-02-20T08:23:59.409Z",
+          "body": "{\n    \"message\": \"نوبت با موفقیت ثبت شد\",\n    \"message_en\": \"Reservation created successfully\",\n    \"reservation_id\": 38,\n    \"start\": \"2026-02-21T15:00:00+03:30\",\n    \"end\": \"2026-02-21T16:00:00+03:30\"\n}"
         }
       ]
     },
@@ -1199,8 +1200,8 @@
       },
       "response": [
         {
-          "id": "82192521-102b-423c-9f9e-21b04ca32844",
-          "name": "notifications_user",
+          "id": "645de1c2-92c5-413a-8369-833f81074243",
+          "name": "notifications_user_ex",
           "originalRequest": {
             "method": "GET",
             "header": [],
@@ -1228,7 +1229,7 @@
           "header": [
             {
               "key": "Date",
-              "value": "Mon, 16 Feb 2026 22:53:35 GMT"
+              "value": "Fri, 20 Feb 2026 08:22:31 GMT"
             },
             {
               "key": "Server",
@@ -1252,7 +1253,7 @@
             },
             {
               "key": "Content-Length",
-              "value": "147"
+              "value": "384"
             },
             {
               "key": "X-Content-Type-Options",
@@ -1268,8 +1269,8 @@
             }
           ],
           "cookie": [],
-          "responseTime": "2026-02-16T22:53:40.463Z",
-          "body": "{\n    \"message\": \"لیست اعلان\\u200cها با موفقیت دریافت شد\",\n    \"message_en\": \"Notifications retrieved successfully\",\n    \"notifications\": []\n}"
+          "responseTime": "2026-02-20T08:24:16.838Z",
+          "body": "{\n    \"message\": \"لیست اعلان\\u200cها با موفقیت دریافت شد\",\n    \"message_en\": \"Notifications retrieved successfully\",\n    \"notifications\": [\n        {\n            \"id\": 105,\n            \"message\": \"نوبت شما در ساعت 15:00 تا 16:00 در تاریخ 1404/12/02 با دکتر doctorB با موفقیت رزرو شد\",\n            \"notification_type\": \"RESERVE\",\n            \"is_read\": false,\n            \"created_at\": \"2026-02-20T11:45:30+03:30\"\n        }\n    ]\n}"
         }
       ]
     },
@@ -1526,6 +1527,15 @@
       "request": {
         "method": "PUT",
         "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\": \"boog21\",\r\n    \"email\": \"newpatient@example.com\",\r\n    \"phonenumber\": \"09123456789\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
         "url": {
           "raw": "http://127.0.0.1:8000/api/v1/edit_profile/",
           "protocol": "http",
@@ -1544,7 +1554,172 @@
           ]
         }
       },
-      "response": []
+      "response": [
+        {
+          "id": "2d6935fa-00c0-4493-896f-cf4ad2942e97",
+          "name": "edit_profile_patient",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"boog21\",\r\n    \"email\": \"newpatient@example.com\",\r\n    \"phonenumber\": \"09123456789\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/edit_profile/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "edit_profile",
+                ""
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Date",
+              "value": "Fri, 20 Feb 2026 07:55:18 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.13.3"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "PUT, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "121"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "responseTime": "2026-02-20T07:55:25.608Z",
+          "body": "{\n    \"message\": \"پروفایل با موفقیت به\\u200cروزرسانی شد.\",\n    \"message_en\": \"Profile updated successfully.\"\n}"
+        },
+        {
+          "id": "05355efa-f167-455e-846a-6a1da2d427c8",
+          "name": "edit_profile_doctor",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"start_working_hour\": \"09:00:00\",\r\n    \"end_working_hour\": \"18:00:00\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/v1/edit_profile/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "v1",
+                "edit_profile",
+                ""
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Date",
+              "value": "Fri, 20 Feb 2026 07:58:38 GMT"
+            },
+            {
+              "key": "Server",
+              "value": "WSGIServer/0.2 CPython/3.13.3"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "Allow",
+              "value": "PUT, OPTIONS"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Length",
+              "value": "121"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "responseTime": "2026-02-20T07:58:42.775Z",
+          "body": "{\n    \"message\": \"پروفایل با موفقیت به\\u200cروزرسانی شد.\",\n    \"message_en\": \"Profile updated successfully.\"\n}"
+        }
+      ]
     }
   ]
 }
