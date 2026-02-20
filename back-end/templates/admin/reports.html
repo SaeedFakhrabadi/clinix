@@ -1,0 +1,81 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<style>
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .stat-card { background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,.1); text-align: center; }
+  .stat-card h2 { font-size: 2rem; margin: 8px 0; color: #2c3e50; }
+  .stat-card p  { color: #7f8c8d; margin: 0; }
+  table.report  { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.1); }
+  table.report th { background: #2c3e50; color: #fff; padding: 10px 14px; text-align: right; }
+  table.report td { padding: 10px 14px; border-bottom: 1px solid #ecf0f1; }
+  table.report tr:last-child td { border-bottom: none; }
+  h2.section { margin: 32px 0 12px; color: #2c3e50; border-right: 4px solid #3498db; padding-right: 10px; }
+</style>
+
+<h2 class="section">👥 کاربران</h2>
+<div class="stat-grid">
+  <div class="stat-card"><h2>{{ total_patients }}</h2><p>بیماران</p></div>
+  <div class="stat-card"><h2>{{ total_doctors }}</h2><p>پزشکان</p></div>
+</div>
+
+<h2 class="section">📅 نوبت‌ها</h2>
+<div class="stat-grid">
+  <div class="stat-card"><h2>{{ total_reservations }}</h2><p>کل نوبت‌ها</p></div>
+  <div class="stat-card"><h2>{{ upcoming }}</h2><p>نوبت‌های آینده</p></div>
+  <div class="stat-card"><h2>{{ past }}</h2><p>نوبت‌های گذشته</p></div>
+</div>
+
+<h2 class="section">💰 تراکنش‌ها</h2>
+<div class="stat-grid">
+  <div class="stat-card"><h2>{{ total_transactions }}</h2><p>کل تراکنش‌ها</p></div>
+  <div class="stat-card"><h2>{{ total_revenue }} تومان</h2><p>درآمد کل</p></div>
+</div>
+
+<h2 class="section">📆 درآمد روزانه (۳۰ روز گذشته)</h2>
+<table class="report">
+  <thead><tr><th>روز</th><th>مبلغ (تومان)</th></tr></thead>
+  <tbody>
+    {% for row in daily_income %}
+    <tr><td>{{ row.day|date:"Y-m-d" }}</td><td>{{ row.total }}</td></tr>
+    {% empty %}<tr><td colspan="2">داده‌ای موجود نیست</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2 class="section">🗓 درآمد ماهانه (۱۲ ماه گذشته)</h2>
+<table class="report">
+  <thead><tr><th>ماه</th><th>مبلغ (تومان)</th></tr></thead>
+  <tbody>
+    {% for row in monthly_income %}
+    <tr><td>{{ row.month|date:"Y-m" }}</td><td>{{ row.total }}</td></tr>
+    {% empty %}<tr><td colspan="2">داده‌ای موجود نیست</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2 class="section">📊 درآمد سالانه</h2>
+<table class="report">
+  <thead><tr><th>سال</th><th>مبلغ (تومان)</th></tr></thead>
+  <tbody>
+    {% for row in yearly_income %}
+    <tr><td>{{ row.year|date:"Y" }}</td><td>{{ row.total }}</td></tr>
+    {% empty %}<tr><td colspan="2">داده‌ای موجود نیست</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2 class="section">🏆 عملکرد پزشکان (برترین ۱۰)</h2>
+<table class="report">
+  <thead><tr><th>پزشک</th><th>کل نوبت‌ها</th><th>نوبت‌های آینده</th></tr></thead>
+  <tbody>
+    {% for doc in doctor_performance %}
+    <tr>
+      <td>دکتر {{ doc.doctor__username }}</td>
+      <td>{{ doc.total_reservations }}</td>
+      <td>{{ doc.upcoming_reservations }}</td>
+    </tr>
+    {% empty %}<tr><td colspan="3">داده‌ای موجود نیست</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

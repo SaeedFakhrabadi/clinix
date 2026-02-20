@@ -1,6 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework.permissions import AllowAny
+from django.contrib import admin
 from .views import (
     AuthViewSet,
     DoctorsListAPIView,
@@ -10,7 +11,7 @@ from .views import (
     ReservationDeleteAPIView,
     EditProfileAPIView,
     CommentCreateAPIView, NotificationsListAPIView, TransactionCreateAPIView, TransactionHistoryAPIView,
-    TransactionInvoiceAPIView, ComplaintAPIView,
+    ComplaintAPIView,
 )
 
 # Custom router to allow anonymous access to root
@@ -24,6 +25,7 @@ router = CustomRouter()
 router.register(r'auth', AuthViewSet, basename='auth')
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('api/v1/', include([
         path('', router.get_api_root_view(), name='api-root'),
         path('', include(router.urls)),
@@ -46,7 +48,6 @@ urlpatterns = [
         # Transactions
         path('transactions/create/', TransactionCreateAPIView.as_view(), name='transaction-create'),
         path('transactions/history/', TransactionHistoryAPIView.as_view(), name='transaction-history'),
-        path('transactions/<int:transaction_id>/invoice/', TransactionInvoiceAPIView.as_view(), name='transaction-invoice'),
 
         # Edit Profile
         path('edit_profile/', EditProfileAPIView.as_view(), name='edit_profile'),

@@ -175,8 +175,8 @@ class Reservation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name = "رزرو"
-        verbose_name_plural = "رزرو‌ها"
+        verbose_name = "نوبت"
+        verbose_name_plural = "نوبت‌ها"
 
     def _check_overlap(self, queryset):
         overlapping = queryset.filter(
@@ -420,3 +420,17 @@ class Complaint(models.Model):
 
     def __str__(self):
         return f"{self.user.username} – {self.subject[:50]}"
+
+class PaymentGateway(models.Model):
+    name       = models.CharField(max_length=100, verbose_name="نام درگاه")
+    code       = models.CharField(max_length=50, unique=True, verbose_name="کد درگاه")  # e.g. 'ZARINPAL', 'MELLAT'
+    is_active  = models.BooleanField(default=True, verbose_name="فعال")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "درگاه پرداخت"
+        verbose_name_plural = "درگاه‌های پرداخت"
+
+    def __str__(self):
+        return f"{self.name} ({'فعال' if self.is_active else 'غیرفعال'})"
