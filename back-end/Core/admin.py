@@ -4,13 +4,14 @@ from django.utils.html import format_html
 from django.utils import timezone
 from django.db.models import Count, Sum
 from .models import (
-    User, UserRoles,
+    User,
     DoctorProfile, Specialty,
     Reservation,
     Comment,
     PasswordReset,
-    Transaction, TransactionStatus, Wallet, Complaint, ComplaintStatus
+    Transaction, Wallet, Complaint
 )
+from .utils import UserRoles, TransactionStatus, ComplaintStatus
 
 
 @admin.register(Specialty)

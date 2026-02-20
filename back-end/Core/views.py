@@ -23,8 +23,9 @@ from django.http import FileResponse
 from zoneinfo import ZoneInfo
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from .utils import notify_reservation_cancelled, UserRoles
 
-from .models import DoctorProfile, PasswordReset, Reservation, User, Notification, UserRoles, Transaction
+from .models import DoctorProfile, PasswordReset, Reservation, User, Notification, Transaction
 from .serializers import (
     LoginSerializer,
     RegisterSerializer,
@@ -370,7 +371,8 @@ class ReservationDeleteAPIView(APIView):
             doctor_profile = reservation.doctor.doctor_profile
             doctor_price = doctor_profile.price
 
-            reservation.delete()
+            notify_reservation_cancelled(reservation, cancelled_by=request.user)
+            reservation.delete(cancelled_by=request.user)
 
             return success_response(
                 message="نوبت با موفقیت حذف گردید",

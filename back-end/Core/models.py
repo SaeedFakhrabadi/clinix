@@ -5,37 +5,13 @@ from django.contrib.auth.models import (
     PermissionsMixin,
 )
 from django.conf import settings
-from django.db.models import Q
 from django.utils import timezone
-from django.db.models import Avg
+from django.db.models import Avg, Q
 from django.core.exceptions import ValidationError
-from jdatetime import datetime as jdatetime
 from zoneinfo import ZoneInfo
+from .utils import UserRoles, NotificationType, TransactionType, TransactionMethod, TransactionStatus, ComplaintStatus
 
 TEHRAN_TZ = ZoneInfo('Asia/Tehran')
-
-class UserRoles(models.TextChoices):
-    PATIENT = "PATIENT", "Patient"
-    DOCTOR  = "DOCTOR",  "Doctor"
-    ADMIN   = "ADMIN",   "Admin"
-
-class NotificationType(models.TextChoices):
-    RESERVE = "RESERVE", "رزرو نوبت"
-    CANCEL  = "CANCEL",  "لغو نوبت"
-
-class TransactionType(models.TextChoices):
-    PAY    = "PAY",    "پرداخت"
-    REFUND = "REFUND", "بازگشت وجه"
-
-class TransactionMethod(models.TextChoices):
-    BANK   = "BANK",   "درگاه بانکی"
-    WALLET = "WALLET", "کیف پول"
-
-class TransactionStatus(models.TextChoices):
-    SUCCESS = "SUCCESS", "موفق"
-    FAILED  = "FAILED",  "ناموفق"
-    PENDING = "PENDING", "در انتظار"
-    REFUNDED = "REFUNDED", "بازپرداخت شده"
 
 class UserManager(BaseUserManager):
     def create_user(self, username, email, phonenumber, password=None, role=UserRoles.PATIENT, **extra_fields):
@@ -174,47 +150,31 @@ class Reservation(models.Model):
         verbose_name = "رزرو"
         verbose_name_plural = "رزرو‌ها"
 
+    def _check_overlap(self, queryset):
+        overlapping = queryset.filter(
+            Q(start_reservation_hour__lt=self.end_reservation_hour) &
+            Q(end_reservation_hour__gt=self.start_reservation_hour)
+        )
+        if self.pk:
+            overlapping = overlapping.exclude(pk=self.pk)
+        return overlapping.exists()
+
     def clean(self):
         if self.start_reservation_hour >= self.end_reservation_hour:
             raise ValidationError("Start time must be before end time.")
 
         doctor_profile = self.doctor.doctor_profile
+        start_time = self.start_reservation_hour.astimezone(TEHRAN_TZ).time()
+        end_time = self.end_reservation_hour.astimezone(TEHRAN_TZ).time()
 
-        start_time = self.start_reservation_hour.time()
-        end_time = self.end_reservation_hour.time()
-
-        if not (
-            doctor_profile.start_working_hour <= start_time and
-            end_time <= doctor_profile.end_working_hour
-        ):
+        if not (doctor_profile.start_working_hour <= start_time and
+                end_time <= doctor_profile.end_working_hour):
             raise ValidationError("Reservation time is outside doctor's working hours.")
 
-        # Check if doctor's time slot is already booked
-        doctor_overlapping = Reservation.objects.filter(
-            doctor=self.doctor
-        ).filter(
-            Q(start_reservation_hour__lt=self.end_reservation_hour) &
-            Q(end_reservation_hour__gt=self.start_reservation_hour)
-        )
-
-        if self.pk:
-            doctor_overlapping = doctor_overlapping.exclude(pk=self.pk)
-
-        if doctor_overlapping.exists():
+        if self._check_overlap(Reservation.objects.filter(doctor=self.doctor)):
             raise ValidationError("This time slot is already booked.")
 
-        # Check if patient already has an appointment at this time
-        patient_overlapping = Reservation.objects.filter(
-            patient=self.patient
-        ).filter(
-            Q(start_reservation_hour__lt=self.end_reservation_hour) &
-            Q(end_reservation_hour__gt=self.start_reservation_hour)
-        )
-
-        if self.pk:
-            patient_overlapping = patient_overlapping.exclude(pk=self.pk)
-
-        if patient_overlapping.exists():
+        if self._check_overlap(Reservation.objects.filter(patient=self.patient)):
             raise ValidationError("شما در این زمان نوبت دیگری دارید.")
 
     def save(self, *args, **kwargs):
@@ -223,71 +183,12 @@ class Reservation(models.Model):
         super().save(*args, **kwargs)
 
         if is_new:
-            # Convert to Tehran timezone and Jalali date
-            start_tehran = self.start_reservation_hour.astimezone(TEHRAN_TZ)
-            end_tehran = self.end_reservation_hour.astimezone(TEHRAN_TZ)
-            jalali_date = jdatetime.fromgregorian(datetime=start_tehran).strftime('%Y/%m/%d')
+            from .utils import notify_reservation_created
+            notify_reservation_created(self)
 
-            # Notify PATIENT
-            Notification.objects.create(
-                user=self.patient,
-                doctor=None,
-                notification_type=NotificationType.RESERVE,
-                message=(
-                    f"نوبت شما در ساعت {start_tehran.strftime('%H:%M')} تا "
-                    f"{end_tehran.strftime('%H:%M')} در تاریخ "
-                    f"{jalali_date} "
-                    f"با دکتر {self.doctor.username} با موفقیت رزرو شد"
-                )
-            )
-
-            # Notify DOCTOR
-            Notification.objects.create(
-                user=None,
-                doctor=self.doctor,
-                notification_type=NotificationType.RESERVE,
-                message=(
-                    f"بیمار با شماره تلفن {self.patient.phonenumber} "
-                    f"نوبت ساعت {start_tehran.strftime('%H:%M')} تا "
-                    f"{end_tehran.strftime('%H:%M')} در تاریخ "
-                    f"{jalali_date} "
-                    f"را با شما رزرو کرد"
-                )
-            )
-
-    def delete(self, *args, **kwargs):
-        # Before delete → create cancel notifications
-        # Convert to Tehran timezone and Jalali date
-        start_tehran = self.start_reservation_hour.astimezone(TEHRAN_TZ)
-        end_tehran = self.end_reservation_hour.astimezone(TEHRAN_TZ)
-        jalali_date = jdatetime.fromgregorian(datetime=start_tehran).strftime('%Y/%m/%d')
-
-        start_str = start_tehran.strftime('%H:%M')
-        end_str = end_tehran.strftime('%H:%M')
-
-        # Notify PATIENT
-        Notification.objects.create(
-            user=self.patient,
-            doctor=None,
-            notification_type=NotificationType.CANCEL,
-            message=(
-                f"نوبت شما در ساعت {start_str} تا {end_str} در تاریخ {jalali_date} "
-                f"توسط دکتر {self.doctor.username} لغو شد"
-            )
-        )
-
-        # Notify DOCTOR
-        Notification.objects.create(
-            user=None,
-            doctor=self.doctor,
-            notification_type=NotificationType.CANCEL,
-            message=(
-                f"بیمار با شماره تلفن {self.patient.phonenumber} "
-                f"نوبت ساعت {start_str} تا {end_str} در تاریخ {jalali_date} "
-                f"را لغو کرد"
-            )
-        )
-
+    def delete(self, *args, cancelled_by=None, **kwargs):
+        from .utils import notify_reservation_cancelled
+        notify_reservation_cancelled(self, cancelled_by=cancelled_by or self.doctor)
         super().delete(*args, **kwargs)
 
     def __str__(self):
@@ -465,12 +366,6 @@ class Wallet(models.Model):
 
     def __str__(self):
         return f"{self.user.username} – {self.balance:,} تومان"
-
-class ComplaintStatus(models.TextChoices):
-    PENDING  = 'PENDING',  'در انتظار بررسی'
-    REVIEWED = 'REVIEWED', 'بررسی شده'
-    RESOLVED = 'RESOLVED', 'حل شده'
-    REJECTED = 'REJECTED', 'رد شده'
 
 class Complaint(models.Model):
     user = models.ForeignKey(
