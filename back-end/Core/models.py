@@ -35,6 +35,7 @@ class TransactionStatus(models.TextChoices):
     SUCCESS = "SUCCESS", "موفق"
     FAILED  = "FAILED",  "ناموفق"
     PENDING = "PENDING", "در انتظار"
+    REFUNDED = "REFUNDED", "بازپرداخت شده"
 
 class UserManager(BaseUserManager):
     def create_user(self, username, email, phonenumber, password=None, role=UserRoles.PATIENT, **extra_fields):
@@ -96,8 +97,24 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'phonenumber']
 
+    class Meta:
+        verbose_name = "کاربر"
+        verbose_name_plural = "کاربر‌ها"
+
     def __str__(self):
         return self.username
+
+class Specialty(models.Model):
+    name = models.CharField(max_length=150, unique=True, verbose_name="تخصص")
+    description = models.TextField(blank=True, verbose_name="توضیحات")
+    is_active = models.BooleanField(default=True, verbose_name="فعال")
+
+    class Meta:
+        verbose_name = "تخصص"
+        verbose_name_plural = "تخصص‌ها"
+
+    def __str__(self):
+        return self.name
 
 class DoctorProfile(models.Model):
     user = models.OneToOneField(
@@ -107,14 +124,24 @@ class DoctorProfile(models.Model):
         related_name='doctor_profile'
     )
 
-    field = models.CharField(max_length=150)
+    specialty = models.ForeignKey(          # replaces field CharField
+        Specialty,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='doctors',
+        verbose_name="تخصص"
+    )
+    field = models.CharField(max_length=150, blank=True)  # keep for backward compat, populate from specialty
     location = models.CharField(max_length=255)
     experience = models.PositiveIntegerField(help_text="Years of experience")
     price = models.PositiveIntegerField()
     score = models.FloatField(default=0)
-
     start_working_hour = models.TimeField()
     end_working_hour = models.TimeField()
+
+    class Meta:
+        verbose_name = "دکتر"
+        verbose_name_plural = "دکتر‌ها"
 
     def average_score_formatted(self):
         return f"{self.score:.1f}" if self.score else "بدون امتیاز"
@@ -142,6 +169,10 @@ class Reservation(models.Model):
     end_reservation_hour = models.DateTimeField()
 
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "رزرو"
+        verbose_name_plural = "رزرو‌ها"
 
     def clean(self):
         if self.start_reservation_hour >= self.end_reservation_hour:
@@ -286,14 +317,11 @@ class Comment(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name = "نظر"
+        verbose_name_plural = "نظرات"
+
     def clean(self):
-        # جلوگیری از mismatch
-        # if self.reservation.doctor != self.doctor:
-        #     raise ValidationError("Reservation doctor mismatch.")
-
-        # if self.reservation.patient != self.patient:
-        #     raise ValidationError("Reservation patient mismatch.")
-
         if not (1 <= self.score <= 5):
             raise ValidationError("Score must be between 1 and 5.")
 
@@ -320,6 +348,8 @@ class PasswordReset(models.Model):
     created_when = models.DateTimeField(auto_now_add=True)
 
     class Meta:
+        verbose_name = "ریست پسورد"
+        verbose_name_plural = "ریست پسوردها"
         ordering = ['-created_when']
         indexes = [
             models.Index(fields=['user', 'verificationCode']),
@@ -357,6 +387,8 @@ class Notification(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+        verbose_name = "اعلان"
+        verbose_name_plural = "اعلان‌ها"
         indexes = [
             models.Index(fields=['user', 'created_at']),
             models.Index(fields=['doctor', 'created_at']),
@@ -404,6 +436,32 @@ class Transaction(models.Model):
         ordering = ['-created_at']
         verbose_name = "تراکنش"
         verbose_name_plural = "تراکنش‌ها"
+    def __str__(self):
+        return f"{self.user} – {self.price:,} – {self.get_type_display()}"
+
+
+class Wallet(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='wallet'
+    )
+    balance = models.PositiveIntegerField(default=0, verbose_name="موجودی")
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "کیف پول"
+        verbose_name_plural = "کیف پول‌ها"
+
+    def deposit(self, amount):
+        self.balance += amount
+        self.save()
+
+    def withdraw(self, amount):
+        if amount > self.balance:
+            raise ValueError("موجودی کافی نیست")
+        self.balance -= amount
+        self.save()
 
     def __str__(self):
-        return f"{self.user} – {self.price:,} – {self.get_transaction_type_display()}"
+        return f"{self.user.username} – {self.balance:,} تومان"

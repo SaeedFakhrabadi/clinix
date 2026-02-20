@@ -16,9 +16,12 @@ jdatetime==5.2.0
 jsonschema==4.26.0
 jsonschema-specifications==2025.9.1
 kavenegar==1.1.2
+pillow==12.1.1
 PyJWT==2.11.0
+pytz==2025.2
 PyYAML==6.0.3
 referencing==0.37.0
+reportlab==4.4.10
 requests==2.32.5
 rpds-py==0.30.0
 sqlparse==0.5.5

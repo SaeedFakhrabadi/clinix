@@ -10,6 +10,7 @@ from .views import (
     ReservationDeleteAPIView,
     EditProfileAPIView,
     CommentCreateAPIView, NotificationsListAPIView, TransactionCreateAPIView, TransactionHistoryAPIView,
+    TransactionInvoiceAPIView,
 )
 
 # Custom router to allow anonymous access to root
@@ -43,9 +44,11 @@ urlpatterns = [
         path('notifications/', NotificationsListAPIView.as_view(), name='notifications-list'),
 
         # Transactions
-        path('transactions/create/', TransactionCreateAPIView.as_view(), name='transaction-create'), # POST
-        path('transactions/history/', TransactionHistoryAPIView.as_view(), name='transaction-history'), # GET
+        path('transactions/create/', TransactionCreateAPIView.as_view(), name='transaction-create'),
+        path('transactions/history/', TransactionHistoryAPIView.as_view(), name='transaction-history'),
+        path('transactions/<int:transaction_id>/invoice/', TransactionInvoiceAPIView.as_view(), name='transaction-invoice'),
 
+        # Edit Profile
         path('edit_profile/', EditProfileAPIView.as_view(), name='edit_profile'),
 
     ])),

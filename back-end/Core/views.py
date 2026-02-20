@@ -11,10 +11,18 @@ from django.conf import settings
 from django.utils import timezone
 from django.db import IntegrityError
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.permissions import IsAuthenticated
-from rest_framework import status
 from django.utils.translation import gettext_lazy as _
 from .auth_utils import CookieAuthMixin
+import io
+from reportlab.lib.pagesizes import A4
+from reportlab.lib import colors
+from reportlab.lib.units import cm
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+from reportlab.lib.styles import getSampleStyleSheet
+from django.http import FileResponse
+from zoneinfo import ZoneInfo
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 from .models import DoctorProfile, PasswordReset, Reservation, User, Notification, UserRoles, Transaction
 from .serializers import (
@@ -31,8 +39,7 @@ from .serializers import (
 )
 from kavenegar import *
 
-from rest_framework.views import APIView
-from rest_framework.response import Response
+TEHRAN_TZ = ZoneInfo('Asia/Tehran')
 
 User = django.contrib.auth.get_user_model()
 
@@ -565,4 +572,88 @@ class EditProfileAPIView(APIView):
             message_en="Profile updated successfully."
         )
 
+class TransactionInvoiceAPIView(APIView):
+    permission_classes = [IsAuthenticated]
 
+    def get(self, request, transaction_id):
+        try:
+            transaction = Transaction.objects.get(id=transaction_id, user=request.user)
+        except Transaction.DoesNotExist:
+            return Response({"error": "تراکنش یافت نشد"}, status=status.HTTP_404_NOT_FOUND)
+
+        buffer = io.BytesIO()
+        doc = SimpleDocTemplate(
+            buffer,
+            pagesize=A4,
+            rightMargin=2*cm,
+            leftMargin=2*cm,
+            topMargin=2*cm,
+            bottomMargin=2*cm
+        )
+
+        styles = getSampleStyleSheet()
+        # RTL style for Persian text using a fallback approach
+        normal = styles['Normal']
+        normal.fontName = 'Helvetica'
+
+        story = []
+
+        # Header
+        story.append(Paragraph("INVOICE / فاکتور پرداخت", styles['Title']))
+        story.append(Spacer(1, 0.5*cm))
+
+        # Transaction details table
+        local_time = transaction.created_at.astimezone(TEHRAN_TZ)
+        formatted_date = local_time.strftime('%Y-%m-%d %H:%M')
+
+        data = [
+            ["Field", "Value"],
+            ["Transaction ID", str(transaction.id)],
+            ["User", transaction.user.username],
+            ["Email", transaction.user.email],
+            ["Amount", f"{transaction.price:,} Toman"],
+            ["Type", transaction.get_type_display()],
+            ["Method", transaction.get_method_display()],
+            ["Status", transaction.get_status_display()],
+            ["Date", formatted_date],
+        ]
+
+        if transaction.reservation:
+            data.append(["Reservation", str(transaction.reservation.id)])
+            data.append([
+                "Appointment",
+                transaction.reservation.start_reservation_hour.astimezone(TEHRAN_TZ).strftime('%Y-%m-%d %H:%M')
+            ])
+            data.append(["Doctor", transaction.reservation.doctor.username])
+
+        table = Table(data, colWidths=[6*cm, 10*cm])
+        table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#2c3e50')),
+            ('TEXTCOLOR',  (0, 0), (-1, 0), colors.white),
+            ('FONTNAME',   (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('FONTSIZE',   (0, 0), (-1, 0), 12),
+            ('ALIGN',      (0, 0), (-1, -1), 'CENTER'),
+            ('BACKGROUND', (0, 1), (-1, -1), colors.HexColor('#ecf0f1')),
+            ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor('#f9f9f9')]),
+            ('GRID',       (0, 0), (-1, -1), 0.5, colors.grey),
+            ('FONTNAME',   (0, 1), (-1, -1), 'Helvetica'),
+            ('FONTSIZE',   (0, 1), (-1, -1), 10),
+            ('PADDING',    (0, 0), (-1, -1), 8),
+        ]))
+
+        story.append(table)
+        story.append(Spacer(1, 1*cm))
+        story.append(Paragraph(
+            f"Generated at: {local_time.strftime('%Y-%m-%d %H:%M')}",
+            styles['Normal']
+        ))
+
+        doc.build(story)
+        buffer.seek(0)
+
+        return FileResponse(
+            buffer,
+            as_attachment=True,
+            filename=f"invoice_{transaction.id}.pdf",
+            content_type='application/pdf'
+        )
