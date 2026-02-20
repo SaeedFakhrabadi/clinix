@@ -13,13 +13,6 @@ from django.db import IntegrityError
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.utils.translation import gettext_lazy as _
 from .auth_utils import CookieAuthMixin
-import io
-from reportlab.lib.pagesizes import A4
-from reportlab.lib import colors
-from reportlab.lib.units import cm
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
-from reportlab.lib.styles import getSampleStyleSheet
-from django.http import FileResponse
 from zoneinfo import ZoneInfo
 from rest_framework.views import APIView
 from rest_framework.response import Response
