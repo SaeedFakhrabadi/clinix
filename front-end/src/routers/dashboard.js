@@ -24,5 +24,10 @@ export default {
 			name: 'Transactions',
 			component: () => import('@/views/dashboard/Transactions.vue'),
 		},
+		{
+			path: 'complaint',
+			name: 'Complaint',
+			component: () => import('@/views/dashboard/Complaint.vue'),
+		},
 	],
 };

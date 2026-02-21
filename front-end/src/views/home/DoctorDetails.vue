@@ -55,7 +55,7 @@
 		});
 
 		try {
-			createComment(
+			await createComment(
 				currentUser.value?.id,
 				doctor.value?.did,
 				comment.value,

@@ -18,6 +18,8 @@ const REQUIRED = {
 	CONFIRM_PASSWORD: 'تکرار رمز عبور الزامی است',
 	IDENTIFIER: 'شماره تلفن یا ایمیل الزامی است',
 	CODE: 'کد تایید الزامی است',
+	SUBJECT: 'موضوع الزامی است',
+	MESSAGE: 'پیام الزامی است',
 };
 
 const INVALID = {
@@ -126,4 +128,9 @@ export const profileSchema = yup.object({
 
 export const commentSchema = yup.object({
 	comment: yup.string().trim().max(100, INVALID.MAX_100),
+});
+
+export const complaintSchema = yup.object({
+	subject: yup.string().trim().required(REQUIRED.SUBJECT),
+	message: yup.string().trim().max(100, INVALID.MAX_100).required(REQUIRED.MESSAGE),
 });	

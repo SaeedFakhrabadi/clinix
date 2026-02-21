@@ -57,8 +57,8 @@
 		},
 	});
 
+	const role = ref('')
 	const { value: name, errorMessage: nameError } = useField('name');
-	const { value: role, errorMessage: roleError } = useField('role');
 	const { value: email, errorMessage: emailError } = useField('email');
 	const { value: phoneNumber, errorMessage: phoneNumberError } =
 		useField('phoneNumber');
@@ -71,7 +71,7 @@
 
 		try {
 			const payload = {
-				name: name.value,
+				username: name.value,
 				email: email.value,
 				phonenumber: phoneNumber.value,
 			};
@@ -144,8 +144,8 @@
 	};
 
 	const setDefaultInfo = () => {
-		name.value = currentUser.value?.name;
 		role.value = currentUser.value.role?.label;
+		name.value = currentUser.value?.name;
 		email.value = currentUser.value?.email;
 		phoneNumber.value = currentUser.value?.phoneNumber;
 	};

@@ -12,6 +12,7 @@ declare module 'vue' {
     Auth: typeof import('./src/layouts/Auth.vue')['default']
     Card: typeof import('./src/components/Card.vue')['default']
     ChangePassword: typeof import('./src/views/auth/ChangePassword.vue')['default']
+    Complaint: typeof import('./src/views/dashboard/Complaint.vue')['default']
     Dashboard: typeof import('./src/layouts/Dashboard.vue')['default']
     DoctoeDetails: typeof import('./src/views/home/DoctorDetails.vue')['default']
     DoctorDetails: typeof import('./src/views/home/DoctorDetails.vue')['default']

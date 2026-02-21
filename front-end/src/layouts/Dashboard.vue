@@ -12,14 +12,14 @@
 				{ label: 'اطلاعات شخصی', name: 'Profile' },
 				{ label: 'نوبت ها', name: 'Reservations' },
 				{ label: 'تاریخچه تراکنش ها', name: 'Transactions' },
-				{ label: 'ثبت انتقادات و پیشنهادات', name: 'Home' },
+				{ label: 'ثبت انتقادات و پیشنهادات', name: 'Complaint' },
 			];
 		} else if (userRole.value === 'DOCTOR') {
 			return [
 				{ label: 'اعلان های دریافتی', name: 'Notifications' },
 				{ label: 'اطلاعات شخصی', name: 'Profile' },
 				{ label: 'مدیریت نوبت ها', name: 'Reservations' },
-				{ label: 'ثبت انتقادات و پیشنهادات', name: 'Home' },
+				{ label: 'ثبت انتقادات و پیشنهادات', name: 'Complaint' },
 			];
 		}
 	});
