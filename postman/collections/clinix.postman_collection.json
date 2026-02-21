@@ -499,39 +499,6 @@
       ]
     },
     {
-      "name": "admin",
-      "id": "6513be4d-df46-49c5-a5fb-f9a32279e667",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"refresh\": \"YOUR_REFRESH_TOKEN\"\r\n}"
-        },
-        "url": {
-          "raw": "http://127.0.0.1:8000/admin/",
-          "protocol": "http",
-          "host": [
-            "127",
-            "0",
-            "0",
-            "1"
-          ],
-          "port": "8000",
-          "path": [
-            "admin",
-            ""
-          ]
-        }
-      },
-      "response": []
-    },
-    {
       "name": "doctorsList",
       "id": "59bfd05c-df55-4586-8303-4c85ca9b78a7",
       "request": {

@@ -224,8 +224,6 @@ class Reservation(models.Model):
             notify_reservation_created(self)
 
     def delete(self, *args, cancelled_by=None, **kwargs):
-        from .utils import notify_reservation_cancelled
-        notify_reservation_cancelled(self, cancelled_by=cancelled_by or self.doctor)
         super().delete(*args, **kwargs)
 
     def __str__(self):
