@@ -218,11 +218,11 @@ const logout = () => {
 			color: var(--text-700);
 			cursor: pointer;
 			padding: space(3);
-			border-radius: space(3);
+			border-radius: 50%;
 			transition: all 0.4s ease;
 
 			&:hover {
-				background: var(--bg-500);
+				background: var(--bg-400);
 			}
 		}
 
@@ -314,11 +314,11 @@ const logout = () => {
 			color: var(--text-700);
 			cursor: pointer;
 			padding: space(4);
-			border-radius: space(3);
+			border-radius: 50%;
 			transition: all 0.4s ease;
 
 			&:hover {
-				background: var(--bg-700);
+				background: var(--bg-400);
 			}
 		}
 

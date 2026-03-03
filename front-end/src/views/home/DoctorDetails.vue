@@ -373,6 +373,11 @@
 			&__form {
 				width: 100%;
 				@include flexbox(column, center, start, space(0), nowrap);
+
+				@media (min-width: $xl) {
+					width: calc(100% - space(6));
+					margin-right: space(6);
+				}
 			}
 
 			&__row {

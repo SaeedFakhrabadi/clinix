@@ -56,6 +56,7 @@
 		position: absolute;
 		left: space(0);
 		top: space(0);
+		padding-left: space(6);
 		user-select: none;
 
 		&__timer {

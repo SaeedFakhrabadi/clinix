@@ -36,7 +36,7 @@
 		background-color: transparent;
 		width: 100%;
 		height: space(20);
-		border-radius: space(4);
+		border-radius: space(6);
 		user-select: none;
 		transition: all 0.4s ease;
 		cursor: pointer;

@@ -93,62 +93,60 @@
 
 			&__text {
 				color: var(--text-900);
+				padding-right: space(6);
 				@include lineClamp(1);
 			}
 
 			&__mandatory {
-				color: var(--danger-100);
+				color: var(--danger-400);
 			}
 		}
 
 		.select-box {
 			background-color: var(--bg-900);
-			border-right: space(4) solid var(--text-100);
-			border-top-left-radius: space(4);
-			border-bottom-left-radius: space(4);
+			border-radius: space(6);
 			position: relative;
-			transition: all 0.2s ease;
 			outline: space(0.5) solid var(--text-500);
 			@include flexbox(row, center, center, space(0), nowrap);
 
 			&:focus-within,
 			&:hover {
-				border-right: space(2) solid var(--text-100);
+				outline: space(1) solid var(--text-500);
 			}
 
 			&--error {
-				border-right: space(4) solid var(--danger-100);
+				outline: space(0.5) solid var(--danger-200);
 			}
 
 			&--error:focus-within,
 			&--error:hover {
-				border-right: space(2) solid var(--danger-100);
+				outline: space(1) solid var(--danger-200);
 			}
 
 			&__icon {
 				position: absolute;
 				right: space(0);
 				color: var(--primary-100);
-				padding: space(4.5) space(3);
+				padding: space(4.5);
+				padding-left: space(2.5);
 			}
 
 			&__select {
-				background-color: transparent;
-				border-top-left-radius: space(4);
-				border-bottom-left-radius: space(4);
-				color: var(--text-900);
-				padding-right: space(17);
-				margin-left: space(2);
-				border: none;
-				outline: none;
-				width: 100%;
 				height: space(20);
 				cursor: pointer;
+				background-color: transparent;
+				color: var(--text-900);
+				padding: space(2) space(18) space(2) space(6);
+				border-radius: space(6);
+				border: none;
+				outline: none;
+				flex: 1;
 
 				&:disabled {
-					background-color: var(--bg-600);
+					background-color: var(--bg-700);
 					opacity: 0.5;
 					cursor: not-allowed;
+					z-index: 2;
 				}
 			}
 
@@ -159,9 +157,10 @@
 
 		.error-message {
 			user-select: none;
+			padding-right: space(6);
 			line-height: space(10);
 			min-height: space(10);
-			color: var(--danger-600);
+			color: var(--danger-400);
 			@include flexbox();
 			@include lineClamp(1);
 		}
