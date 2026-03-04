@@ -266,21 +266,11 @@
 			width: 100%;
 			@include flexbox(column, center, start, space(10), nowrap);
 
-			&__name {
-				width: 100%;
-				text-align: center;
-				border-bottom: space(1) solid var(--text-100);
-				color: var(--title-100);
-				padding-bottom: space(6);
-				margin-bottom: space(6);
-			}
-
 			&__sections-doctor {
 				width: calc(100% - space(12));
-				background-color: var(--primary-700);
-				box-shadow: space(0) space(0) space(5) var(--text-500);
+				background-color: var(--primary-500);
 				padding: space(6);
-				border-radius: space(14);
+				border-radius: space(10);
 				@include flexbox(column, center, center, space(4));
 
 				@media (min-width: $xl) {
@@ -290,6 +280,15 @@
 				@media (max-width: $md) {
 					@include flexbox(column, center, start, space(0));
 				}
+			}
+
+			&__name {
+				width: 100%;
+				text-align: center;
+				border-bottom: space(1) solid var(--text-100);
+				color: var(--title-100);
+				padding-bottom: space(6);
+				margin-bottom: space(6);
 			}
 
 			&__section-doctor {

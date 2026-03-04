@@ -217,7 +217,7 @@ const logout = () => {
 		&__theme-icon {
 			color: var(--text-700);
 			cursor: pointer;
-			padding: space(3);
+			padding: space(2.5);
 			border-radius: 50%;
 			transition: all 0.4s ease;
 
@@ -313,7 +313,7 @@ const logout = () => {
 		&__theme-icon {
 			color: var(--text-700);
 			cursor: pointer;
-			padding: space(4);
+			padding: space(2.5);
 			border-radius: 50%;
 			transition: all 0.4s ease;
 

@@ -145,7 +145,7 @@
 							pid: reservation.patient_id,
 						}
 					: {
-							doctor_name: reservation.doctor_name,
+							doctor_name: `دکتر ${reservation.doctor_name}`,
 						}),
 				is_active: reservation?.is_past ? 'منقضی' : 'فعال',
 				date: persianDate,

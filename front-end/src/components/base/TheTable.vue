@@ -119,7 +119,17 @@
 			&__head-cell {
 				color: var(--text-900);
 				padding-block: space(6);
-				border: space(1) solid var(--text-500);
+				border-inline: space(0.5) solid var(--bg-900);
+
+				&:first-child {
+					border-right: none;
+					border-top-right-radius: space(10);
+				}
+				
+				&:last-child {
+					border-left: none;
+					border-top-left-radius: space(10);
+				}
 			}
 
 			&__head-cell h4 {
@@ -134,7 +144,7 @@
 			&__body-cell {
 				color: var(--text-900);
 				padding-block: space(4);
-				border: space(1) solid var(--text-500);
+				border: space(0.5) solid var(--primary-300);
 				text-align: center;
 
 				&--clickable {
@@ -159,6 +169,26 @@
 				&:nth-child(even) {
 					background-color: var(--bg-700);
 				}
+
+				& td:first-child {
+					border-right: none;
+				}
+
+				& td:last-child {
+					border-left: none;
+				}
+
+				&:last-child td{
+					border-bottom: none;
+				}
+
+				&:last-child td:first-child {
+					border-bottom-right-radius: space(10);
+				}
+
+				&:last-child td:last-child {
+					border-bottom-left-radius: space(10);
+				}
 			}
 
 			&--row-click .table__row--clickable {
@@ -171,6 +201,11 @@
 
 			&--cell-click .table__body-cell--clickable:hover {
 				background-color: var(--primary-600);
+			}
+
+			&--cell-click .table__body-cell--clickable:first-child {
+					cursor: auto;
+					background-color: inherit;
 			}
 
 			&--read-only .table__row,

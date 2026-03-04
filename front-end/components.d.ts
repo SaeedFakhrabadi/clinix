@@ -18,6 +18,7 @@ declare module 'vue' {
     DoctorDetails: typeof import('./src/views/home/DoctorDetails.vue')['default']
     DoctorsList: typeof import('./src/views/home/DoctorsList.vue')['default']
     Home: typeof import('./src/layouts/Home.vue')['default']
+    InfoCard: typeof import('./src/components/InfoCard.vue')['default']
     Landing: typeof import('./src/views/home/Landing.vue')['default']
     Login: typeof import('./src/views/auth/Login.vue')['default']
     Notifications: typeof import('./src/views/dashboard/Notifications.vue')['default']
