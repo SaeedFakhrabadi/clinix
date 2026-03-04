@@ -71,7 +71,7 @@
 		</header>
 		<main class="home__content content">
 			<section>
-				<h2 class="content__title">درباره ما</h2>
+				<TheTitle label="درباره ما" has-divider/>
 				<p class="content__about-us">
 					کلینیکس جایی است که سلامت، تخصص و آرامش در کنار هم معنا پیدا می‌کنند.
 					ما در کلینیکس با بهره‌گیری از تیمی مجرب از پزشکان و کادر درمانی
@@ -91,7 +91,7 @@
 				</p>
 			</section>
 			<section class="content__doctors-list">
-				<h2 class="content__title">لیست پزشکان برتر کلینیک</h2>
+				<TheTitle label="لیست پزشکان برتر کلینیک" has-divider/>
 				<h4 class="content__text">
 					برای مشاهده جزییات مربوط به پزشک و رزرو نوبت ، روی سطر پزشک مورد نظر
 					در جدول کلیک کنید
@@ -113,17 +113,19 @@
 
 <style lang="scss" scoped>
 	.landing {
-		@include flexbox(column, center, center, space(10));
+		padding-left: space(6);
+		@include flexbox(column, center, start, space(10));
 
 		.header {
-			width: 100%;
-			background-color: var(--bg-600);
-			padding-block: space(10);
+			width: calc(100% - space(12));
+			background-color: var(--primary-600);
+			padding: space(10) space(6);
+			border-radius: space(10);
 			text-align: center;
 			@include flexbox(column, center, center, space(20));
 
 			&__slogan {
-				color: var(--title-500);
+				color: var(--title-600);
 				animation: subtle-shake 3s infinite alternate ease;
 				@include flexbox(row, center, center, space(0), wrap);
 			}
@@ -144,7 +146,7 @@
 			}
 
 			&__sub-slogan {
-				color: var(--title-100);
+				color: var(--title-400);
 			}
 
 			&__button {
@@ -161,19 +163,12 @@
 				color: var(--text-500);
 			}
 
-			&__title {
-				color: var(--text-900);
-				padding-right: space(4);
-				border-right: space(4) solid var(--title-100);
-			}
-
 			&__about-us {
 				color: var(--text-800);
 			}
 
 			&__doctors-list {
-				padding-left: space(6);
-				@include flexbox(column, center, start, space(14), nowrap);
+				@include flexbox(column, center, start, space(10), nowrap);
 
 				@media (max-width: $xl) {
 					padding-left: space(0);

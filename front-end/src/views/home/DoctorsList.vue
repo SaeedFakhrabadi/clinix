@@ -159,7 +159,7 @@
 
 <template>
 	<section class="doctors-list">
-		<h2 class="doctors-list__title">لیست پزشکان کلینیک</h2>
+		<TheTitle label="لیست پزشکان کلینیک" />
 		<div class="doctors-list__controls">
 			<div class="doctors-list__search-sort">
 				<TheInput
@@ -219,19 +219,13 @@
 		width: 100%;
 		@include flexbox(column, center, start, space(14), nowrap);
 
-		&__title {
-			color: var(--text-900);
-			padding-right: space(4);
-			border-right: space(4) solid var(--title-100);
-		}
-
 		&__controls {
 			width: 100%;
 			@include flexbox(column, center, start, space(0), nowrap);
 
 			@media (min-width: $xl) {
-					width: calc(100% - space(6));
-					margin-right: space(6);
+					width: calc(100% - space(0.5));
+					margin-right: space(0.5);
 			}
 		}
 

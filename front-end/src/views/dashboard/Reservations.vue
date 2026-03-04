@@ -191,7 +191,7 @@
 			<h2>خطا در دریافت اطلاعات نوبت ها!</h2>
 		</div>
 		<div v-else-if="reservations?.length" class="reservations__container">
-			<h2 class="reservations__title">لیست نوبت ها</h2>
+			<TheTitle label="لیست نوبت ها" />
 			<p class="reservations__text">
 				برای لغو نوبت روی سطر نوبت مورد نظر در جدول کلیک کنید
 			</p>
@@ -231,12 +231,6 @@
 		&__container {
 			width: 100%;
 			@include flexbox(column, center, start, space(14), nowrap);
-		}
-
-		&__title {
-			color: var(--text-900);
-			padding-right: space(4);
-			border-right: space(4) solid var(--title-100);
 		}
 
 		&__text {

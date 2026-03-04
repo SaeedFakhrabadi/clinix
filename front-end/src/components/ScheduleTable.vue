@@ -264,7 +264,7 @@
 
 <template>
 	<div class="schedule-table">
-		<h2 class="schedule-table__title">برنامه زمانی</h2>
+		<TheTitle label="برنامه زمانی" has-divider/>
 		<div class="schedule-table__week-nav">
 			<TheButton
 				type="hollow"
@@ -327,12 +327,6 @@
 	.schedule-table {
 		width: 100%;
 		@include flexbox(column, center, start, space(10));
-
-		&__title {
-			color: var(--text-900);
-			padding-right: space(4);
-			border-right: space(4) solid var(--title-100);
-		}
 
 		&__week-nav {
 			width: 100%;

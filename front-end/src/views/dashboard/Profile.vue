@@ -176,7 +176,7 @@
 
 <template>
 	<div class="profile">
-		<h2 class="profile__title">اطلاعات شخصی</h2>
+		<TheTitle label="اطلاعات شخصی" />
 		<form v-if="isPatient" class="profile__form" @submit.prevent="submitForm">
 			<div class="profile__sections-patient">
 				<section class="profile__section-patient">
@@ -241,7 +241,7 @@
 				</section>
 			</div>
 		</div>
-		<h2 v-if="isDoctor" class="profile__title">اطلاعات پزشکی</h2>
+		<TheTitle v-if="isDoctor" label="اطلاعات پزشکی" has-divider/>
 		<div v-if="isDoctor" class="profile__container">
 			<div class="profile__sections-doctor">
 				<section class="profile__section-doctor">
@@ -277,7 +277,7 @@
 				</section>
 			</div>
 		</div>
-		<h2 v-if="isDoctor" class="profile__title">ساعت کاری</h2>
+		<TheTitle v-if="isDoctor" label="ساعت کاری" has-divider/>
 		<form v-if="isDoctor" class="profile__form" @submit.prevent="editSchedule">
 			<div class="profile__section-patient">
 				<TheSelect
@@ -300,12 +300,6 @@
 
 <style lang="scss" scoped>
 	.profile {
-		&__title {
-			color: var(--text-900);
-			padding-right: space(4);
-			border-right: space(4) solid var(--title-100);
-		}
-
 		&__form {
 			width: 100%;
 			@include flexbox(column, center, center, space(10));
@@ -336,16 +330,14 @@
 
 		&__container {
 			width: 100%;
-			padding-bottom: space(10);
 			@include flexbox(column, center, start, space(10));
 		}
 
 		&__sections-doctor {
 			width: calc(100% - space(12));
-			background-color: var(--primary-700);
-			box-shadow: space(0) space(0) space(5) var(--text-500);
+			background-color: var(--primary-600);
 			padding: space(6);
-			border-radius: space(14);
+			border-radius: space(10);
 			@include flexbox(column, center, center, space(4));
 
 			@media (max-width: $lg) {

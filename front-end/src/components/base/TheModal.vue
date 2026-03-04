@@ -17,11 +17,11 @@
 </script>
 
 <template>
-	<div class="modal" @click="close">
-		<form class="modal__container" @click.stop>
-			<p class="modal__text">{{ text }}</p>
+	<div class="the-modal" @click="close">
+		<form class="the-modal__container" @click.stop>
+			<p class="the-modal__text">{{ text }}</p>
 			<slot name="content"></slot>
-			<div class="modal__buttons">
+			<div class="the-modal__buttons">
 				<TheButton type="cancel" label="لغو" @click="close" />
 				<TheButton type="submit" :label="submitLabel" @click="submit" />
 			</div>
@@ -30,7 +30,7 @@
 </template>
 
 <style lang="scss" scoped>
-	.modal {
+	.the-modal {
 		position: fixed;
 		width: 100vw;
 		height: 100vh;

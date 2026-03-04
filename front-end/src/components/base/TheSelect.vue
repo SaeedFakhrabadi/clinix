@@ -118,8 +118,8 @@ onMounted(() => {
 
 		&__select {
 			height: space(20);
-			padding: space(2) space(18) space(2) space(0);
-			margin-left: space(6);
+			padding: space(2) space(12) space(2) space(0);
+			margin-inline: space(6);
 			cursor: pointer;
 			background-color: transparent;
 			color: var(--text-900);
@@ -129,8 +129,8 @@ onMounted(() => {
 			flex: 1;
 
 			&:disabled {
-				padding-left: space(6);
-				margin-left: space(0);
+				padding: space(2) space(18) space(2) space(6);
+				margin-inline: space(0);
 				background-color: var(--bg-700);
 				opacity: 0.5;
 				cursor: not-allowed;

@@ -140,7 +140,7 @@
 		</div>
 		<div v-else class="doctor-details__container">
 			<section class="doctor-details__info info">
-				<h2 class="doctor-details__section-title">اطلاعات پزشک</h2>
+				<TheTitle label="اطلاعات پزشک"/>
 				<div class="info__sections-doctor">
 					<h2 class="info__name">دکتر {{ doctor?.name }}</h2>
 					<section class="info__section-doctor">
@@ -185,12 +185,12 @@
 			</section>
 			<ScheduleTable :doctor="doctor" :currentUser="currentUser" @pay="pay" />
 			<section class="doctor-details__comments comments">
-				<h2 class="doctor-details__section-title">نظرات کاربران</h2>
+				<TheTitle label="نظرات کاربران" has-divider/>
 				<h2 v-if="!doctor?.comments?.length" class="comments__empty">
 					هنوز نظری ثبت نشده است!
 				</h2>
 				<Comments v-else :comments="doctor?.comments"/>
-				<h2 class="doctor-details__section-title">ثبت نظر و امتیاز دهی</h2>
+				<TheTitle label="ثبت نظر و امتیاز دهی" has-divider/>
 				<form class="comments__form" @submit.prevent="submitForm">
 					<TheInput
 						type="textarea"
@@ -245,19 +245,13 @@
 			@include flexbox(column, center, center, space(14), nowrap);
 		}
 
-		&__section-title {
-			color: var(--text-900);
-			padding-right: space(4);
-			border-right: space(4) solid var(--title-100);
-		}
-
 		.info {
 			width: 100%;
 			@include flexbox(column, center, start, space(10), nowrap);
 
 			&__sections-doctor {
 				width: calc(100% - space(12));
-				background-color: var(--primary-500);
+				background-color: var(--primary-600);
 				padding: space(6);
 				border-radius: space(10);
 				@include flexbox(column, center, center, space(4));

@@ -54,7 +54,7 @@
 			<h2>خطا در دریافت اعلان ها!</h2>
 		</div>
 		<div v-else-if="notifications?.length" class="notifications__container">
-			<h2 class="notifications__title">لیست اعلان ها</h2>
+			<TheTitle label="لیست اعلان ها" />
 			<ul class="notifications__list">
 				<li
 					v-for="(n, index) in notifications"
@@ -93,12 +93,6 @@
 		&__container {
 			width: 100%;
 			@include flexbox(column, center, start, space(14), nowrap);
-		}
-
-		&__title {
-			color: var(--text-900);
-			padding-right: space(4);
-			border-right: space(4) solid var(--title-100);
 		}
 
 		&__list {

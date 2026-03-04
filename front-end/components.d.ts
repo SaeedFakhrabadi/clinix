@@ -38,9 +38,11 @@ declare module 'vue' {
     TheInput: typeof import('./src/components/base/TheInput.vue')['default']
     TheModal: typeof import('./src/components/base/TheModal.vue')['default']
     TheNavbar: typeof import('./src/components/base/TheNavbar.vue')['default']
+    TheSectionTitle: typeof import('./src/components/base/TheSectionTitle.vue')['default']
     TheSelect: typeof import('./src/components/base/TheSelect.vue')['default']
     TheSidebar: typeof import('./src/components/base/TheSidebar.vue')['default']
     TheTable: typeof import('./src/components/base/TheTable.vue')['default']
+    TheTitle: typeof import('./src/components/base/TheTitle.vue')['default']
     Transactions: typeof import('./src/views/dashboard/Transactions.vue')['default']
   }
 }

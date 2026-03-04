@@ -39,20 +39,20 @@
 </script>
 
 <template>
-	<div class="countdown-timer">
+	<div class="the-countdown-timer">
 		<router-link
 			v-if="timer === '00:00'"
-			class="countdown-timer__link"
+			class="the-countdown-timer__link"
 			:to="{ name: 'RecoveryPassword' }"
 		>
 			<h5>درخواست ارسال مجدد کد تایید</h5>
 		</router-link>
-		<h5 v-else class="countdown-timer__timer">{{ timer }}</h5>
+		<h5 v-else class="the-countdown-timer__timer">{{ timer }}</h5>
 	</div>
 </template>
 
 <style lang="scss" scoped>
-	.countdown-timer {
+	.the-countdown-timer {
 		position: absolute;
 		left: space(0);
 		top: space(0);

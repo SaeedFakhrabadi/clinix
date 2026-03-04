@@ -21,8 +21,8 @@ const logout = () => {
 </script>
 
 <template>
-	<aside class="sidebar">
-		<header class="sidebar__header header">
+	<aside class="the-sidebar">
+		<header class="the-sidebar__header header">
 			<TheIcon class="header__profile" name="profile-circle" />
 			<div class="header__user-info">
 				<span style="color: var(--text-900)">
@@ -33,8 +33,8 @@ const logout = () => {
 				</span>
 			</div>
 		</header>
-		<div class="sidebar__content">
-			<ul class="sidebar__menu menu">
+		<div class="the-sidebar__content">
+			<ul class="the-sidebar__menu menu">
 				<li v-for="(item, index) in props.items" :key="index" class="menu__item">
 					<router-link class="menu__tab" :class="{ 'menu__tab--active': isActiveTab(item?.name) }"
 						:to="{ name: item?.name }">
@@ -43,13 +43,13 @@ const logout = () => {
 					<hr class="menu__divider" />
 				</li>
 			</ul>
-			<TheButton class="sidebar__exit" label="خروج" type="cancel" icon-name="logout" @click="logout" />
+			<TheButton class="the-sidebar__exit" label="خروج" type="cancel" icon-name="logout" @click="logout" />
 		</div>
 	</aside>
 </template>
 
 <style lang="scss" scoped>
-.sidebar {
+.the-sidebar {
 	background-color: var(--bg-900);
 	width: space(180);
 	height: 100%;

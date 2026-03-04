@@ -186,7 +186,7 @@
 			<h2>خطا در دریافت اطلاعات تراکنش ها!</h2>
 		</div>
 		<div v-else-if="transactions?.length" class="transactions__container">
-			<h2 class="transactions__title">لیست تراکنش ها</h2>
+			<TheTitle label="لیست تراکنش ها" />
 			<p class="transactions__text">
 				برای مشاهده و دانلود فاکتور تراکنش روی سطر تراکنش مورد نظر در جدول کلیک
 				کنید
@@ -255,12 +255,6 @@
 		&__container {
 			width: 100%;
 			@include flexbox(column, center, start, space(14), nowrap);
-		}
-
-		&__title {
-			color: var(--text-900);
-			padding-right: space(4);
-			border-right: space(4) solid var(--title-100);
 		}
 
 		&__text {

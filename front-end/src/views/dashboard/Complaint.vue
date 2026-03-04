@@ -43,7 +43,7 @@ const submitForm = handleSubmit(onSubmit);
 
 <template>
   <div class="complaint">
-    <h2 class="complaint__title">پشتیبانی و ثبت انتقادات و پیشنهادات</h2>
+		<TheTitle label="پشتیبانی و ثبت انتقادات و پیشنهادات" />
     <form class="complaint__form" @submit.prevent="submitForm">
       <TheInput icon-name="id-card" v-model="subject" :error-message="subjectError" label="موضوع"
         placeholder="لطفا موضوع انتقاد یا پیشنهاد خود را وارد کنید" />
@@ -57,12 +57,6 @@ const submitForm = handleSubmit(onSubmit);
 
 <style lang="scss" scoped>
 .complaint {
-  &__title {
-    color: var(--text-900);
-    padding-right: space(4);
-    border-right: space(4) solid var(--title-100);
-  }
-
   &__form {
     width: 100%;
     @include flexbox(column, center, start, space(0), nowrap);

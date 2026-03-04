@@ -57,15 +57,15 @@ const logout = () => {
 </script>
 
 <template>
-	<nav class="navbar">
-		<div class="navbar__container">
-			<router-link class="navbar__brand brand" :to="{ name: 'Landing' }">
+	<nav class="the-navbar">
+		<div class="the-navbar__container">
+			<router-link class="the-navbar__brand brand" :to="{ name: 'Landing' }">
 				<h1 class="brand__text">CLINIX</h1>
 			</router-link>
-			<div class="navbar__burger burger" @click="openMenu">
+			<div class="the-navbar__burger burger" @click="openMenu">
 				<TheIcon class="burger__icon" name="burger-menu" />
 			</div>
-			<ul class="navbar__menu menu">
+			<ul class="the-navbar__menu menu">
 				<li v-for="(tab, index) in tabs" :key="index" class="menu__item">
 					<h4 v-if="index > 0" class="menu__divider">|</h4>
 					<router-link :to="{ name: tab.name }" class="menu__tab"
@@ -74,7 +74,7 @@ const logout = () => {
 					</router-link>
 				</li>
 			</ul>
-			<section class="navbar__buttons buttons">
+			<section class="the-navbar__buttons buttons">
 				<TheIcon class="buttons__theme-icon" :name="isLightTheme ? 'moon' : 'sun'" @click="toggleTheme" />
 				<TheButton v-if="!currentUser" class="buttons__button" type="cancel" label="ثبت نام"
 					@click="router.push({ name: 'Register' })" />
@@ -120,7 +120,7 @@ const logout = () => {
 </template>
 
 <style lang="scss" scoped>
-.navbar {
+.the-navbar {
 	position: fixed;
 	top: space(0);
 	background-color: var(--bg-900);
