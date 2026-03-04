@@ -49,6 +49,12 @@
 			return;
 		}
 
+		const isCommented = doctor.value?.comments.find((c)=> c?.username === currentUser.value?.name);
+		if (isCommented) {
+			toast.error('!شما قبلا نظر خود را برای این پزشک ثبت کرده اید');
+			return;
+		}
+
 		const toastId = toast.info('...در حال ثبت اطلاعات', {
 			timeout: false,
 			closeOnClick: false,
@@ -109,8 +115,8 @@
 	onMounted(async () => {
 		loading.value = true;
 		try {
-			const { data } = await doctorDetails(did.value);
-			doctor.value = data;
+			const response = await doctorDetails(did.value);
+			doctor.value = response?.data;
 
 			loading.value = false;
 		} catch (error) {
@@ -183,24 +189,7 @@
 				<h2 v-if="!doctor?.comments?.length" class="comments__empty">
 					هنوز نظری ثبت نشده است!
 				</h2>
-				<ul v-else class="comments__list">
-					<li
-						v-for="(c, index) in doctor?.comments.filter(
-							(c) => c.comment !== '',
-						)"
-						:key="index"
-						class="comments-list__comment comment"
-					>
-						<div class="comment__meta">
-							<span class="comment__user">{{ c.username }}</span>
-							<span class="comment__score">|</span>
-							<span class="comment__score">
-								امتیاز: {{ toPersianDigits(`${c.score} از 5`) }}
-							</span>
-						</div>
-						<p class="comment__text">{{ c.comment }}</p>
-					</li>
-				</ul>
+				<Comments v-else :comments="doctor?.comments"/>
 				<h2 class="doctor-details__section-title">ثبت نظر و امتیاز دهی</h2>
 				<form class="comments__form" @submit.prevent="submitForm">
 					<TheInput
@@ -273,10 +262,6 @@
 				border-radius: space(10);
 				@include flexbox(column, center, center, space(4));
 
-				@media (min-width: $xl) {
-					width: calc(100% - space(18));
-					margin-right: space(6);
-				}
 				@media (max-width: $md) {
 					@include flexbox(column, center, start, space(0));
 				}
@@ -285,8 +270,8 @@
 			&__name {
 				width: 100%;
 				text-align: center;
-				border-bottom: space(1) solid var(--text-100);
-				color: var(--title-100);
+				border-bottom: space(0.5) solid var(--text-500);
+				color: var(--title-500);
 				padding-bottom: space(6);
 				margin-bottom: space(6);
 			}
@@ -306,7 +291,7 @@
 
 				&__label {
 					font-size: space(10);
-					color: var(--text-400);
+					color: var(--text-600);
 					@include lineClamp(1);
 
 					@media (max-width: $md) {
@@ -333,49 +318,13 @@
 				color: var(--text-500);
 			}
 
-			&__list {
-				width: 100%;
-				list-style: none;
-				@include flexbox(column, center, center, space(6), nowrap);
-			}
-
-			.comment {
-				width: calc(100% - space(12));
-				background-color: var(--bg-900);
-				border: space(1) solid var(--text-200);
-				border-radius: space(4);
-				padding: space(6);
-				@include flexbox(column, center, start, space(2), nowrap);
-
-				@media (min-width: $xl) {
-					width: calc(100% - space(18));
-					margin-right: space(6);
-				}
-
-				&__meta {
-					@include flexbox(row, center, center, space(4), wrap);
-				}
-
-				&__user {
-					color: var(--primary-100);
-				}
-
-				&__score {
-					color: var(--text-600);
-				}
-
-				&__text {
-					color: var(--text-900);
-				}
-			}
-
 			&__form {
 				width: 100%;
 				@include flexbox(column, center, start, space(0), nowrap);
 
 				@media (min-width: $xl) {
-					width: calc(100% - space(6));
-					margin-right: space(6);
+					width: calc(100% - space(0.5));
+					margin-right: space(0.5);
 				}
 			}
 

@@ -144,7 +144,7 @@
 		loading.value = true;
 		try {
 			const response = await doctorsList();
-			doctors.value = response.data;
+			doctors.value = response?.data;
 		} catch (error) {
 			console.error('Error : ', error?.response?.data || error?.message);
 

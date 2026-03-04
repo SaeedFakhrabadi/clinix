@@ -63,7 +63,7 @@ const logout = () => {
 				<h1 class="brand__text">CLINIX</h1>
 			</router-link>
 			<div class="navbar__burger burger" @click="openMenu">
-				<SvgLoader class="burger__icon" name="burger-menu" />
+				<TheIcon class="burger__icon" name="burger-menu" />
 			</div>
 			<ul class="navbar__menu menu">
 				<li v-for="(tab, index) in tabs" :key="index" class="menu__item">
@@ -75,7 +75,7 @@ const logout = () => {
 				</li>
 			</ul>
 			<section class="navbar__buttons buttons">
-				<SvgLoader class="buttons__theme-icon" :name="isLightTheme ? 'moon' : 'sun'" @click="toggleTheme" />
+				<TheIcon class="buttons__theme-icon" :name="isLightTheme ? 'moon' : 'sun'" @click="toggleTheme" />
 				<TheButton v-if="!currentUser" class="buttons__button" type="cancel" label="ثبت نام"
 					@click="router.push({ name: 'Register' })" />
 				<TheButton v-if="!currentUser" class="buttons__button" type="submit" label="ورود"
@@ -104,7 +104,7 @@ const logout = () => {
 					</li>
 				</ul>
 				<div class="mobile-sidebar__buttons buttons">
-					<SvgLoader class="buttons__theme-icon" :name="isLightTheme ? 'moon' : 'sun'" @click="toggleTheme" />
+					<TheIcon class="buttons__theme-icon" :name="isLightTheme ? 'moon' : 'sun'" @click="toggleTheme" />
 					<TheButton v-if="!currentUser" class="buttons__button" type="cancel" label="ثبت نام"
 						@click="router.push({ name: 'Register' })" />
 					<TheButton v-if="!currentUser" class="buttons__button" type="submit" label="ورود"
