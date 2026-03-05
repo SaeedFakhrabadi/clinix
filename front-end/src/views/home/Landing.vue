@@ -3,7 +3,6 @@
 	import { useRouter } from 'vue-router';
 	import { useToast } from 'vue-toastification';
 	import { doctorsList } from '@/services/doctors';
-	import { addCommas } from '@/utils/addCommas';
 
 	const router = useRouter();
 	const toast = useToast();
@@ -12,27 +11,14 @@
 
 	const loading = ref(false);
 
-	const tableHeaders = [
-		{ label: 'نام پزشک', value: 'name' },
-		{ label: 'تخصص', value: 'field' },
-		{ label: 'موقعیت', value: 'location' },
-		{ label: 'هزینه (به ازای هر ساعت)', value: 'price' },
-		{ label: 'امتیاز از 5', value: 'score' },
-	];
-
 	const mappedDoctors = computed(() => {
-		const bestDoctors = doctors.value.filter((doctor) => doctor.score >= 4);
-
-		return bestDoctors.map((doctor) => ({
-			...doctor,
-			price: addCommas(doctor.price),
-		}));
+		return doctors.value.filter((doctor) => doctor.score >= 4);
 	});
 
-	const handleRowClick = ({ row }) => {
+	const goToDoctorDetails = ({id}) => {
 		router.push({
 			name: 'DoctorDetails',
-			query: { did: row.id },
+			query: { did: id },
 		});
 	};
 
@@ -93,19 +79,22 @@
 			<section class="content__doctors-list">
 				<TheTitle label="لیست پزشکان برتر کلینیک" has-divider/>
 				<h4 class="content__text">
-					برای مشاهده جزییات مربوط به پزشک و رزرو نوبت ، روی سطر پزشک مورد نظر
-					در جدول کلیک کنید
-				</h4>
+					برای مشاهده جزییات مربوط به پزشک و رزرو نوبت ، روی کارت پزشک مورد نظر کلیک کنید				</h4>
 				<div v-if="loading" class="content__state">
 					<h2>در حال دریافت اطلاعات پزشکان...</h2>
 				</div>
-				<TheTable
-					v-else
-					:headers="tableHeaders"
-					:rows="mappedDoctors"
-					:loading="loading"
-					@row-click="handleRowClick"
-				/>
+				<ul v-else class="content__list">
+					<DoctorCard
+						v-for="doctor in mappedDoctors" 
+						:id="doctor?.id"
+						:name="doctor?.name"
+						:field="doctor?.field"
+						:location="doctor?.location"
+						:price="doctor?.price"
+						:score="doctor?.score"
+						@select="goToDoctorDetails"
+					/>
+				</ul>
 			</section>
 		</main>
 	</div>
@@ -177,6 +166,17 @@
 
 			&__text {
 				color: var(--text-900);
+			}
+			
+			&__list{
+				width: 100%;
+				user-select: none;
+				@include flexbox(row, start, center, space(12));
+
+				@media (min-width: $xl) {
+					width: calc(100% - space(6));
+					margin-right: space(6);
+				}
 			}
 		}
 	}

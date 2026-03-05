@@ -163,7 +163,7 @@
 						<div class="info__item item">
 							<span class="item__label">میانگین امتیازات دریافتی:</span>
 							<h3 v-if="doctor?.score !== 0" class="item__value">
-								{{ toPersianDigits(`${doctor?.score} از 5`) }}
+								{{ toPersianDigits(`${doctor?.score} (${doctor?.comments?.length} امتیاز)`) }}
 							</h3>
 							<h3 v-else class="item__value">بدون امتیاز</h3>
 						</div>

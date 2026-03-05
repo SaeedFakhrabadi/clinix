@@ -16,6 +16,7 @@ declare module 'vue' {
     Complaint: typeof import('./src/views/dashboard/Complaint.vue')['default']
     Dashboard: typeof import('./src/layouts/Dashboard.vue')['default']
     DoctoeDetails: typeof import('./src/views/home/DoctorDetails.vue')['default']
+    DoctorCard: typeof import('./src/components/DoctorCard.vue')['default']
     DoctorDetails: typeof import('./src/views/home/DoctorDetails.vue')['default']
     DoctorsList: typeof import('./src/views/home/DoctorsList.vue')['default']
     Home: typeof import('./src/layouts/Home.vue')['default']

@@ -3,7 +3,6 @@
 	import { useRouter } from 'vue-router';
 	import { useToast } from 'vue-toastification';
 	import { doctorsList } from '@/services/doctors';
-	import { addCommas } from '@/utils/addCommas';
 
 	const router = useRouter();
 	const toast = useToast();
@@ -18,14 +17,6 @@
 	const fieldFilter = ref('all');
 	const locationFilter = ref('all');
 	const scoreFilter = ref('all');
-
-	const tableHeaders = [
-		{ label: 'نام پزشک', value: 'name' },
-		{ label: 'تخصص', value: 'field' },
-		{ label: 'موقعیت', value: 'location' },
-		{ label: 'هزینه (به ازای هر ساعت)', value: 'price' },
-		{ label: 'امتیاز از 5', value: 'score' },
-	];
 
 	const sortOptions = [
 		{ value: 'score-desc', label: 'بیشترین امتیاز' },
@@ -57,7 +48,7 @@
 			{ value: 'all', label: 'همه امتیاز ها' },
 			...scores.map((value) => ({
 				value: String(value),
-				label: value,
+				label: (value !== 0 ? value : 'بدون امتیاز'),
 			})),
 		];
 	});
@@ -126,17 +117,13 @@
 		const filteredByLocationty = filterByLocation(filteredBySpecialty);
 		const filteredByScore = filterByScore(filteredByLocationty);
 		const sortedDoctors = sortDoctors(filteredByScore);
-
-		return sortedDoctors.map((doctor) => ({
-			...doctor,
-			price: addCommas(doctor.price),
-		}));
+		return sortedDoctors;
 	});
-
-	const handleRowClick = ({ row }) => {
+	
+	const goToDoctorDetails = ({ id }) => {
 		router.push({
 			name: 'DoctorDetails',
-			query: { did: row.id },
+			query: { did: id },
 		});
 	};
 
@@ -197,19 +184,23 @@
 			</div>
 		</div>
 		<h4 class="doctors-list__text">
-			برای مشاهده جزییات مربوط به پزشک و رزرو نوبت ، روی سطر پزشک مورد نظر در
-			جدول کلیک کنید
+			برای مشاهده جزییات مربوط به پزشک و رزرو نوبت ، روی کارت پزشک مورد نظر کلیک کنید
 		</h4>
 		<div v-if="loading" class="doctors-list__state">
 			<h2>در حال دریافت اطلاعات پزشکان...</h2>
 		</div>
-		<TheTable
-			v-else
-			:headers="tableHeaders"
-			:rows="mappedDoctors"
-			:loading="loading"
-			@row-click="handleRowClick"
-		/>
+		<ul v-else class="doctors-list__list">
+			<DoctorCard
+				v-for="doctor in mappedDoctors" 
+				:id="doctor?.id"
+				:name="doctor?.name"
+				:field="doctor?.field"
+				:location="doctor?.location"
+				:price="doctor?.price"
+				:score="doctor?.score"
+				@select="goToDoctorDetails"
+			/>
+		</ul>
 	</section>
 </template>
 
@@ -253,6 +244,17 @@
 
 		&__state {
 			color: var(--text-500);
+		}
+
+		&__list{
+			width: 100%;
+			user-select: none;
+			@include flexbox(row, start, center, space(12));
+
+			@media (min-width: $xl) {
+				width: calc(100% - space(6));
+				margin-right: space(6);
+			}
 		}
 	}
 </style>
