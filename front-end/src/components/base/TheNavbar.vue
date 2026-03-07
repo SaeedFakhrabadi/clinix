@@ -179,7 +179,7 @@ const logout = () => {
 		}
 
 		&__divider {
-			color: var(--text-100);
+			color: var(--text-500);
 			user-select: none;
 		}
 
@@ -188,17 +188,15 @@ const logout = () => {
 			color: var(--title-500);
 			transition: all 0.5s ease;
 			padding-inline: space(4);
-			border-top-left-radius: space(3);
-			border-top-right-radius: space(3);
-			border-bottom: space(1) solid transparent;
+			border-radius: space(6);
 			@include flexbox();
 
 			&:hover {
-				background-color: var(--primary-600);
+				background-color: var(--primary-500);
 			}
 
 			&--active {
-				border-bottom: space(1) solid var(--title-100);
+				background-color: var(--primary-700);
 			}
 		}
 	}

@@ -146,7 +146,7 @@
 
 		.content {
 			width: 100%;
-			@include flexbox(column, center, right);
+			@include flexbox(column, center, right, space(10));
 
 			&__state {
 				color: var(--text-500);
@@ -157,7 +157,7 @@
 			}
 
 			&__doctors-list {
-				@include flexbox(column, center, start, space(10), nowrap);
+				@include flexbox(column, start, start, space(10), nowrap);
 
 				@media (max-width: $xl) {
 					padding-left: space(0);

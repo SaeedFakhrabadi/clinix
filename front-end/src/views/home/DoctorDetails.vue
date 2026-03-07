@@ -317,8 +317,8 @@
 				@include flexbox(column, center, start, space(0), nowrap);
 
 				@media (min-width: $xl) {
-					width: calc(100% - space(0.5));
-					margin-right: space(0.5);
+					width: calc(100% - space(1));
+					margin-right: space(1);
 				}
 			}
 

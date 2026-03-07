@@ -23,16 +23,15 @@ const logout = () => {
 <template>
 	<aside class="the-sidebar">
 		<header class="the-sidebar__header header">
-			<TheIcon class="header__profile" name="profile-circle" />
+			<!-- <TheIcon class="header__profile" name="profile-circle" /> -->
+			<img class="header__profile" src="/Boog.png">
+			<hr class="header__divider" />
 			<div class="header__user-info">
-				<span style="color: var(--text-900)">
-					{{ currentUserStore?.currentUser?.name }}
-				</span>
-				<span style="color: var(--text-100)">|</span>
-				<span style="color: var(--title-300)">{{ currentUserStore?.currentUser?.role?.label }}
-				</span>
+				<h4 class="header__user-name">{{ currentUserStore?.currentUser?.name }}</h4>
+				<h4>{{ currentUserStore?.currentUser?.role?.label }}</h4>
 			</div>
 		</header>
+		<hr class="the-sidebar__divider" />
 		<div class="the-sidebar__content">
 			<ul class="the-sidebar__menu menu">
 				<li v-for="(item, index) in props.items" :key="index" class="menu__item">
@@ -40,10 +39,9 @@ const logout = () => {
 						:to="{ name: item?.name }">
 						{{ item?.label }}
 					</router-link>
-					<hr class="menu__divider" />
 				</li>
 			</ul>
-			<TheButton class="the-sidebar__exit" label="خروج" type="cancel" icon-name="logout" @click="logout" />
+			<TheButton class="the-sidebar__exit" label="خروج" type="submit" icon-name="logout" @click="logout" />
 		</div>
 	</aside>
 </template>
@@ -51,95 +49,103 @@ const logout = () => {
 <style lang="scss" scoped>
 .the-sidebar {
 	background-color: var(--bg-900);
-	width: space(180);
-	height: 100%;
-	border-left: space(1) solid var(--primary-500);
-	transition: none;
-	@include flexbox(column, start, center);
+	width: space(150);
+	padding: space(8) space(5) space(6) space(6);
+	height: calc(100% - space(14));
+	box-shadow: space(0) space(2) space(4) var(--text-100);
+	@include flexbox(column, start, center, space(8), nowrap);
 
 	@media (max-width: $lg) {
-		width: space(150);
+		width: space(110);
 	}
 
 	@media (max-width: $md) {
-		width: space(120);
-	}
-
-	@media (max-width: $sm) {
 		display: none;
 	}
 
 	.header {
-		width: 90%;
-		height: space(100);
-		color: white;
-		border-bottom: space(1) solid var(--text-100);
-		@include flexbox(column, center, center, space(0));
+		width: calc(100% - space(12));
+		height: space(50);
+		padding: space(6);
+		border-radius: space(6);
+		background-color: var(--primary-700);
+		@include flexbox(row, center, center, space(6), nowrap);
 
 		&__profile {
 			width: space(50);
 			height: space(50);
+			border-radius: 50%;
 			color: var(--text-900);
+		}
+
+		&__divider {
+			height: 100%;
+			border-right: space(0.5) solid var(--text-900);
 		}
 
 		&__user-info {
-			width: 100%;
+			flex: 1;
+			color: var(--title-300);
+			@include flexbox(column, center, start, space(2));
+		}
+
+		&__user-name {
 			color: var(--text-900);
-			@include flexbox(row, center, center, space(4));
+			@include lineClamp(2);
 		}
 	}
 
+	&__divider {
+		width: 100%;
+		border-top: space(0.5) solid var(--text-900);
+	}
+
 	&__content {
-		width: 90%;
+		width: 100%;
 		flex: 1;
-		padding-bottom: space(10);
-		@include flexbox(column, space-between, start, space(0));
+		overflow: auto;
+		@include flexbox(column, space-between, start, space(0), nowrap);
 	}
 
 	.menu {
 		width: 100%;
-		@include flexbox(column, start, center, space(0));
+		flex: 1;
+		overflow: auto;
+		@include flexbox(column, start, center, space(6), nowrap);
 
 		&__item {
 			width: 100%;
 			@include flexbox(column, center, center, space(0));
 		}
 
-		&__divider {
-			width: 100%;
-			border: none;
-			border-top: space(0.5) solid var(--text-100);
-		}
-
 		&__tab {
-			width: calc(100% - space(10));
-			height: space(30);
-			border-right: space(5) solid transparent;
-			padding-right: space(5);
-			color: var(--title-500);
+			width: 100%;
+			height: space(25);
+			background-color: var(--bg-600);
+			border-radius: space(6);
+			color: var(--text-900);
 			transition: all 0.5s ease;
-			cursor: pointer;
-			@include flexbox(row, start, center, space(0));
+			@include flexbox(row, center, center, space(0));
 
 			&:hover {
-				background-color: var(--primary-600);
+				background-color: var(--primary-400);
 			}
 
 			&--active {
-				background-color: var(--primary-800);
-				border-right: space(5) solid var(--title-100);
+				color: var(--title-100);
+				background-color: var(--primary-600);
 			}
 		}
 	}
 
 	&__exit {
-		background-color: var(--red-800);
-		border: space(1) solid var(--red-100);
-		color: var(--red-100);
+		margin-top: space(6);
+		background-color: var(--red-300);
+		color: var(--text-900);
 		height: space(25);
 
 		&:hover {
-			background-color: var(--red-600);
+			background-color: var(--red-500);
 		}
 	}
 }
