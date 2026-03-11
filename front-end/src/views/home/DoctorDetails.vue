@@ -227,8 +227,6 @@
 
 <style lang="scss" scoped>
 	.doctor-details {
-		padding-left: space(6);
-		width: 100%;
 		@include flexbox(column, center, center, space(14), nowrap);
 
 		&__state {

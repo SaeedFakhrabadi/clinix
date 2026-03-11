@@ -206,8 +206,6 @@
 
 <style lang="scss" scoped>
 	.doctors-list {
-		padding-left: space(6);
-		width: 100%;
 		@include flexbox(column, center, start, space(14), nowrap);
 
 		&__controls {
@@ -250,11 +248,6 @@
 			width: 100%;
 			user-select: none;
 			@include flexbox(row, start, center, space(12));
-
-			@media (min-width: $xl) {
-				width: calc(100% - space(6));
-				margin-right: space(6);
-			}
 		}
 	}
 </style>

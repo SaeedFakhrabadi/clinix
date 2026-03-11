@@ -50,7 +50,7 @@ const logout = () => {
 .the-sidebar {
 	background-color: var(--bg-900);
 	width: space(150);
-	padding: space(8) space(5) space(6) space(6);
+	padding: space(8) space(6) space(6) space(6);
 	height: calc(100% - space(14));
 	box-shadow: space(0) space(2) space(4) var(--text-100);
 	@include flexbox(column, start, center, space(8), nowrap);

@@ -14,14 +14,18 @@
 		&__main-content {
 			height: calc(100vh - space(32));
 			padding-top: space(32);
-			margin: 0 auto;
 			overflow: auto;
-			max-width: $xl;
 			@include flexbox(row, start, start, space(0));
+
+			@media (min-width: $xl) {
+				padding-right: space(6);
+			}
 		}
 
 		&__content {
 			width: 100%;
+			margin-inline: auto;
+			max-width: $xl;
 			padding-block: space(8);
 
 			@media (max-width: $xl) {

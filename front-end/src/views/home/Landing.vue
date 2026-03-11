@@ -79,7 +79,8 @@
 			<section class="content__doctors-list">
 				<TheTitle label="لیست پزشکان برتر کلینیک" has-divider/>
 				<h4 class="content__text">
-					برای مشاهده جزییات مربوط به پزشک و رزرو نوبت ، روی کارت پزشک مورد نظر کلیک کنید				</h4>
+					برای مشاهده جزییات مربوط به پزشک و رزرو نوبت ، روی کارت پزشک مورد نظر کلیک کنید
+				</h4>
 				<div v-if="loading" class="content__state">
 					<h2>در حال دریافت اطلاعات پزشکان...</h2>
 				</div>
@@ -102,7 +103,6 @@
 
 <style lang="scss" scoped>
 	.landing {
-		padding-left: space(6);
 		@include flexbox(column, center, start, space(10));
 
 		.header {
@@ -158,25 +158,16 @@
 
 			&__doctors-list {
 				@include flexbox(column, start, start, space(10), nowrap);
-
-				@media (max-width: $xl) {
-					padding-left: space(0);
-				}
 			}
 
 			&__text {
 				color: var(--text-900);
 			}
 			
-			&__list{
+			&__list {
 				width: 100%;
 				user-select: none;
 				@include flexbox(row, start, center, space(12));
-
-				@media (min-width: $xl) {
-					width: calc(100% - space(6));
-					margin-right: space(6);
-				}
 			}
 		}
 	}

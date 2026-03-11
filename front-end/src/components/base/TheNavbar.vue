@@ -187,7 +187,7 @@ const logout = () => {
 			height: 100%;
 			color: var(--title-500);
 			transition: all 0.5s ease;
-			padding-inline: space(4);
+			padding-inline: space(6);
 			border-radius: space(6);
 			@include flexbox();
 

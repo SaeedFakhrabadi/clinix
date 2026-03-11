@@ -265,6 +265,7 @@
 <template>
 	<div class="schedule-table">
 		<TheTitle label="برنامه زمانی" has-divider/>
+		<h4 class="schedule-table__text">{{ toPersianDigits('برای رزرو نوبت باید حداقل 24 ساعت پیش از زمان مورد نظر خود اقدام نمایید') }}</h4>
 		<div class="schedule-table__week-nav">
 			<TheButton
 				type="hollow"
@@ -327,6 +328,10 @@
 	.schedule-table {
 		width: 100%;
 		@include flexbox(column, center, start, space(10));
+
+		&__text{
+			color: var(--text-900);
+		}
 
 		&__week-nav {
 			width: 100%;
