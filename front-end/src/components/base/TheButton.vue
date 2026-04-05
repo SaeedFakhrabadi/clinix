@@ -55,13 +55,13 @@ const TheButtonModifier = computed(() => {
 	}
 
 	&--cancel {
-		background-color: var(--primary-700);
+		background-color: var(--primary-600);
 		border: space(1) solid var(--primary-100);
 		color: var(--text-900);
 	}
 
 	&--cancel:hover {
-		background-color: var(--primary-600);
+		background-color: var(--primary-400);
 	}
 
 	&--hollow {

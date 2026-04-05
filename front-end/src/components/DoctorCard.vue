@@ -45,7 +45,7 @@ const handleClick = (id) => emits('select', { id });
 
 <style lang="scss" scoped>
 .doctor-card {
-	background-color: var(--bg-900);
+	background-color: var(--primary-900);
 	box-shadow: space(0) space(0) space(6) var(--text-100);
 	border-radius: space(10);
 	cursor: pointer;
@@ -67,7 +67,7 @@ const handleClick = (id) => emits('select', { id });
 	}
 
 	&:hover {
-		background-color: var(--primary-700);
+		background-color: var(--primary-600);
 		box-shadow: space(0) space(0) space(6) var(--text-900);
 	}
 

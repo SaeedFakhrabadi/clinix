@@ -118,7 +118,7 @@ const handleInput = (event) => {
 		}
 
 		&__input {
-			height: space(16);
+			min-height: space(16);
 			padding: space(2) space(18) space(2) space(6);
 			background-color: transparent;
 			color: var(--text-900);

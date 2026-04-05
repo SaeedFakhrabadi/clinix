@@ -185,17 +185,20 @@ const logout = () => {
 
 		&__tab {
 			height: 100%;
-			color: var(--title-500);
+			color: var(--text-500);
 			transition: all 0.5s ease;
+			background-color: var(--bg-700);
 			padding-inline: space(6);
 			border-radius: space(6);
 			@include flexbox();
 
 			&:hover {
+				color: var(--title-500);
 				background-color: var(--primary-500);
 			}
 
 			&--active {
+				color: var(--title-500);
 				background-color: var(--primary-700);
 			}
 		}
@@ -220,7 +223,7 @@ const logout = () => {
 			transition: all 0.4s ease;
 
 			&:hover {
-				background: var(--bg-400);
+				background: var(--bg-700);
 			}
 		}
 
@@ -259,7 +262,7 @@ const logout = () => {
 		left: space(0);
 		width: 80vw;
 		max-width: space(160);
-		background-color: var(--bg-800);
+		background-color: var(--bg-900);
 		pointer-events: auto;
 		display: flex;
 		flex-direction: column;
@@ -316,7 +319,7 @@ const logout = () => {
 			transition: all 0.4s ease;
 
 			&:hover {
-				background: var(--bg-400);
+				background: var(--bg-700);
 			}
 		}
 

@@ -227,8 +227,6 @@
 
 <style lang="scss" scoped>
 	.doctor-details {
-		@include flexbox(column, center, center, space(14), nowrap);
-
 		&__state {
 			&--loading {
 				color: var(--text-500);

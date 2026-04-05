@@ -206,8 +206,6 @@
 
 <style lang="scss" scoped>
 	.doctors-list {
-		@include flexbox(column, center, start, space(14), nowrap);
-
 		&__controls {
 			width: 100%;
 			@include flexbox(column, center, start, space(0), nowrap);

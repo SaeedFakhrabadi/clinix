@@ -53,6 +53,7 @@
 			height: 100%;
 			flex: 1;
 			overflow: auto;
+			background-color: var(--primary-700);
 			@include flexbox(row, start, start, space(0));
 		}
 

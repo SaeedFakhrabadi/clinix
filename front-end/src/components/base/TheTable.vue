@@ -62,6 +62,9 @@
 		>
 			<thead class="table__head">
 				<tr>
+					<th v-if="isRowMode(clickMode)" class="table__head-cell">
+						ردیف
+					</th>
 					<th
 						v-for="header in headers"
 						:key="header.value"
@@ -79,6 +82,9 @@
 					:class="{ 'table__row--clickable': isClickable(clickMode) }"
 					@click="handleRowClick(row, index)"
 				>
+					<td v-if="isRowMode(clickMode)" class="table__body-cell">
+						{{ toPersianDigits(index + 1) }}
+					</td>
 					<td
 						v-for="header in headers"
 						:key="header.value"
@@ -123,12 +129,12 @@
 
 				&:first-child {
 					border-right: none;
-					border-top-right-radius: space(10);
+					border-top-right-radius: space(6);
 				}
 				
 				&:last-child {
 					border-left: none;
-					border-top-left-radius: space(10);
+					border-top-left-radius: space(6);
 				}
 			}
 
@@ -183,11 +189,11 @@
 				}
 
 				&:last-child td:first-child {
-					border-bottom-right-radius: space(10);
+					border-bottom-right-radius: space(6);
 				}
 
 				&:last-child td:last-child {
-					border-bottom-left-radius: space(10);
+					border-bottom-left-radius: space(6);
 				}
 			}
 

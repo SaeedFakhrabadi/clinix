@@ -29,7 +29,7 @@ const filteredComments = computed(() =>
 <style lang="scss" scoped>
 .comment {
   width: calc(100% - space(12));
-  background-color: var(--primary-600);
+  background-color: var(--bg-800);
   border-radius: space(6);
   border-bottom-right-radius: space(0);
   padding: space(6);

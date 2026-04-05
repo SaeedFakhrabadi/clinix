@@ -16,6 +16,7 @@ const props = defineProps({
   width: 100%;
 
   &__label {
+    padding-right: space(3);
     color: var(--text-900);
 
     &--has-divider {

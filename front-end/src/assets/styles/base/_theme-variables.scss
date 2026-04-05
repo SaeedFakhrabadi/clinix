@@ -13,7 +13,7 @@
 			$light-color: mix($light, $base, $light-mix);
 			--#{$name}-light-#{$shade}: #{$light-color};
 
-			$dark-mix: clamp-value((($shade - 500) / 400) * 50 + 10, 0, 100);
+			$dark-mix: clamp-value((($shade - 400) / 500) * 100, 0, 100);
 			$dark-color: mix($dark, $base, $dark-mix);
 			--#{$name}-dark-#{$shade}: #{$dark-color};
 		}

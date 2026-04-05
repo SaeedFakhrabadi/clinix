@@ -24,11 +24,11 @@ const logout = () => {
 	<aside class="the-sidebar">
 		<header class="the-sidebar__header header">
 			<!-- <TheIcon class="header__profile" name="profile-circle" /> -->
-			<img class="header__profile" src="/Boog.png">
+			<img class="header__profile" src="/Eliot.png">
 			<hr class="header__divider" />
 			<div class="header__user-info">
 				<h4 class="header__user-name">{{ currentUserStore?.currentUser?.name }}</h4>
-				<h4>{{ currentUserStore?.currentUser?.role?.label }}</h4>
+				<h4 class="header__user-role">{{ currentUserStore?.currentUser?.role?.label }}</h4>
 			</div>
 		</header>
 		<hr class="the-sidebar__divider" />
@@ -65,16 +65,16 @@ const logout = () => {
 
 	.header {
 		width: calc(100% - space(12));
-		height: space(50);
 		padding: space(6);
 		border-radius: space(6);
 		background-color: var(--primary-700);
 		@include flexbox(row, center, center, space(6), nowrap);
 
 		&__profile {
-			width: space(50);
-			height: space(50);
+			width: space(40);
+			height: space(40);
 			border-radius: 50%;
+			object-fit: cover;
 			color: var(--text-900);
 		}
 
@@ -85,13 +85,16 @@ const logout = () => {
 
 		&__user-info {
 			flex: 1;
-			color: var(--title-300);
+			color: var(--text-900);
 			@include flexbox(column, center, start, space(2));
 		}
 
 		&__user-name {
-			color: var(--text-900);
 			@include lineClamp(2);
+		}
+
+		&__user-role {
+			color: var(--title-300);
 		}
 	}
 
@@ -110,7 +113,6 @@ const logout = () => {
 	.menu {
 		width: 100%;
 		flex: 1;
-		overflow: auto;
 		@include flexbox(column, start, center, space(6), nowrap);
 
 		&__item {
@@ -121,7 +123,7 @@ const logout = () => {
 		&__tab {
 			width: 100%;
 			height: space(25);
-			background-color: var(--bg-600);
+			background-color: var(--bg-700);
 			border-radius: space(6);
 			color: var(--text-900);
 			transition: all 0.5s ease;
@@ -142,7 +144,7 @@ const logout = () => {
 		margin-top: space(6);
 		background-color: var(--red-300);
 		color: var(--text-900);
-		height: space(25);
+		min-height: space(25);
 
 		&:hover {
 			background-color: var(--red-500);

@@ -72,7 +72,7 @@
 					"
 				>
 					<p class="notifications__message">{{ toPersianDigits(n?.message) }}</p>
-					<p class="notifications__delete" @click="closeNotification(n?.id)">X</p>
+					<h2 class="notifications__delete" @click="closeNotification(n?.id)">&times;</h2>
 				</li>
 			</ul>
 		</div>
@@ -98,7 +98,7 @@
 
 		&__container {
 			width: 100%;
-			@include flexbox(column, center, start, space(14), nowrap);
+			@include flexbox(column, center, start, space(6), nowrap);
 		}
 
 		&__list {
@@ -116,24 +116,20 @@
 			@include flexbox(row, space-between, center, space(0), nowrap);
 
 			&--reserve {
-				border: space(1) solid var(--green-100);
-				background-color: var(--green-700);
+				color: var(--success-600);
+				background-color: var(--green-600);
 			}
 
 			&--cancel {
-				border: space(1) solid var(--red-100);
-				background-color: var(--red-700);
+				color: var(--danger-600);
+				background-color: var(--red-600);
 			}
-		}
-
-		&__message {
-			color: var(--text-600);
 		}
 
 		&__delete {
 			cursor: pointer;
-			color: var(--text-900);
-			padding-inline: space(6);
+			line-height: space(16);
+			padding-inline: space(4);
 		}
 	}
 </style>

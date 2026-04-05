@@ -103,8 +103,6 @@
 
 <style lang="scss" scoped>
 	.landing {
-		@include flexbox(column, center, start, space(10));
-
 		.header {
 			width: calc(100% - space(12));
 			background-color: var(--primary-600);
