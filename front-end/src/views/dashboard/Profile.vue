@@ -57,7 +57,7 @@
 		},
 	});
 
-	const role = ref('')
+	const role = ref('');
 	const { value: name, errorMessage: nameError } = useField('name');
 	const { value: email, errorMessage: emailError } = useField('email');
 	const { value: phoneNumber, errorMessage: phoneNumberError } =
@@ -241,7 +241,7 @@
 				</section>
 			</div>
 		</div>
-		<TheTitle v-if="isDoctor" label="اطلاعات پزشکی" has-divider/>
+		<TheTitle v-if="isDoctor" label="اطلاعات پزشکی" has-divider />
 		<div v-if="isDoctor" class="profile__container">
 			<div class="profile__sections-doctor">
 				<section class="profile__section-doctor">
@@ -277,7 +277,7 @@
 				</section>
 			</div>
 		</div>
-		<TheTitle v-if="isDoctor" label="ساعت کاری" has-divider/>
+		<TheTitle v-if="isDoctor" label="ساعت کاری" has-divider />
 		<form v-if="isDoctor" class="profile__form" @submit.prevent="editSchedule">
 			<div class="profile__section-patient">
 				<TheSelect

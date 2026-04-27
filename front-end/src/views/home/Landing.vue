@@ -15,7 +15,7 @@
 		return doctors.value.filter((doctor) => doctor.score >= 4);
 	});
 
-	const goToDoctorDetails = ({id}) => {
+	const goToDoctorDetails = ({ id }) => {
 		router.push({
 			name: 'DoctorDetails',
 			query: { did: id },
@@ -57,7 +57,7 @@
 		</header>
 		<main class="home__content content">
 			<section>
-				<TheTitle label="درباره ما" has-divider/>
+				<TheTitle label="درباره ما" has-divider />
 				<p class="content__about-us">
 					کلینیکس جایی است که سلامت، تخصص و آرامش در کنار هم معنا پیدا می‌کنند.
 					ما در کلینیکس با بهره‌گیری از تیمی مجرب از پزشکان و کادر درمانی
@@ -77,16 +77,17 @@
 				</p>
 			</section>
 			<section class="content__doctors-list">
-				<TheTitle label="لیست پزشکان برتر کلینیک" has-divider/>
+				<TheTitle label="لیست پزشکان برتر کلینیک" has-divider />
 				<h4 class="content__text">
-					برای مشاهده جزییات مربوط به پزشک و رزرو نوبت ، روی کارت پزشک مورد نظر کلیک کنید
+					برای مشاهده جزییات مربوط به پزشک و رزرو نوبت ، روی کارت پزشک مورد نظر
+					کلیک کنید
 				</h4>
 				<div v-if="loading" class="content__state">
 					<h2>در حال دریافت اطلاعات پزشکان...</h2>
 				</div>
 				<ul v-else class="content__list">
 					<DoctorCard
-						v-for="doctor in mappedDoctors" 
+						v-for="doctor in mappedDoctors"
 						:id="doctor?.id"
 						:name="doctor?.name"
 						:field="doctor?.field"
@@ -161,7 +162,7 @@
 			&__text {
 				color: var(--text-900);
 			}
-			
+
 			&__list {
 				width: 100%;
 				user-select: none;

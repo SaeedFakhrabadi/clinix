@@ -48,7 +48,7 @@
 			{ value: 'all', label: 'همه امتیاز ها' },
 			...scores.map((value) => ({
 				value: String(value),
-				label: (value !== 0 ? value : 'بدون امتیاز'),
+				label: value !== 0 ? value : 'بدون امتیاز',
 			})),
 		];
 	});
@@ -119,7 +119,7 @@
 		const sortedDoctors = sortDoctors(filteredByScore);
 		return sortedDoctors;
 	});
-	
+
 	const goToDoctorDetails = ({ id }) => {
 		router.push({
 			name: 'DoctorDetails',
@@ -184,14 +184,15 @@
 			</div>
 		</div>
 		<h4 class="doctors-list__text">
-			برای مشاهده جزییات مربوط به پزشک و رزرو نوبت ، روی کارت پزشک مورد نظر کلیک کنید
+			برای مشاهده جزییات مربوط به پزشک و رزرو نوبت ، روی کارت پزشک مورد نظر کلیک
+			کنید
 		</h4>
 		<div v-if="loading" class="doctors-list__state">
 			<h2>در حال دریافت اطلاعات پزشکان...</h2>
 		</div>
 		<ul v-else class="doctors-list__list">
 			<DoctorCard
-				v-for="doctor in mappedDoctors" 
+				v-for="doctor in mappedDoctors"
 				:id="doctor?.id"
 				:name="doctor?.name"
 				:field="doctor?.field"
@@ -211,8 +212,8 @@
 			@include flexbox(column, center, start, space(0), nowrap);
 
 			@media (min-width: $xl) {
-					width: calc(100% - space(1));
-					margin-right: space(1);
+				width: calc(100% - space(1));
+				margin-right: space(1);
 			}
 		}
 
@@ -242,7 +243,7 @@
 			color: var(--text-500);
 		}
 
-		&__list{
+		&__list {
 			width: 100%;
 			user-select: none;
 			@include flexbox(row, start, center, space(12));

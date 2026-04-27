@@ -1,154 +1,171 @@
 <script setup>
-import { defineProps } from 'vue';
-import { useRouter } from 'vue-router';
-import { useActiveTabStore } from '@/stores/activeTab';
-import { useCurrentUserStore } from '@/stores/currentUser';
+	import { defineProps } from 'vue';
+	import { useRouter } from 'vue-router';
+	import { useActiveTabStore } from '@/stores/activeTab';
+	import { useCurrentUserStore } from '@/stores/currentUser';
 
-const props = defineProps({
-	items: { type: Array, required: true },
-});
+	const props = defineProps({
+		items: { type: Array, required: true },
+	});
 
-const router = useRouter();
-const activeTabStore = useActiveTabStore();
-const currentUserStore = useCurrentUserStore();
+	const router = useRouter();
+	const activeTabStore = useActiveTabStore();
+	const currentUserStore = useCurrentUserStore();
 
-const isActiveTab = (tab) => activeTabStore.activeTab === tab;
+	const isActiveTab = (tab) => activeTabStore.activeTab === tab;
 
-const logout = () => {
-	router.push({ name: 'Login' });
-	currentUserStore.removeCurrentUser();
-};
+	const logout = () => {
+		router.push({ name: 'Login' });
+		currentUserStore.removeCurrentUser();
+	};
 </script>
 
 <template>
 	<aside class="the-sidebar">
 		<header class="the-sidebar__header header">
 			<!-- <TheIcon class="header__profile" name="profile-circle" /> -->
-			<img class="header__profile" src="/Eliot.png">
+			<img class="header__profile" src="/Eliot.png" />
 			<hr class="header__divider" />
 			<div class="header__user-info">
-				<h4 class="header__user-name">{{ currentUserStore?.currentUser?.name }}</h4>
-				<h4 class="header__user-role">{{ currentUserStore?.currentUser?.role?.label }}</h4>
+				<h4 class="header__user-name">
+					{{ currentUserStore?.currentUser?.name }}
+				</h4>
+				<h4 class="header__user-role">
+					{{ currentUserStore?.currentUser?.role?.label }}
+				</h4>
 			</div>
 		</header>
 		<hr class="the-sidebar__divider" />
 		<div class="the-sidebar__content">
 			<ul class="the-sidebar__menu menu">
-				<li v-for="(item, index) in props.items" :key="index" class="menu__item">
-					<router-link class="menu__tab" :class="{ 'menu__tab--active': isActiveTab(item?.name) }"
-						:to="{ name: item?.name }">
+				<li
+					v-for="(item, index) in props.items"
+					:key="index"
+					class="menu__item"
+				>
+					<router-link
+						class="menu__tab"
+						:class="{ 'menu__tab--active': isActiveTab(item?.name) }"
+						:to="{ name: item?.name }"
+					>
 						{{ item?.label }}
 					</router-link>
 				</li>
 			</ul>
-			<TheButton class="the-sidebar__exit" label="خروج" type="submit" icon-name="logout" @click="logout" />
+			<TheButton
+				class="the-sidebar__exit"
+				label="خروج"
+				type="submit"
+				icon-name="logout"
+				@click="logout"
+			/>
 		</div>
 	</aside>
 </template>
 
 <style lang="scss" scoped>
-.the-sidebar {
-	background-color: var(--bg-900);
-	width: space(150);
-	padding: space(8) space(6) space(6) space(6);
-	height: calc(100% - space(14));
-	box-shadow: space(0) space(2) space(4) var(--text-100);
-	@include flexbox(column, start, center, space(8), nowrap);
+	.the-sidebar {
+		background-color: var(--bg-900);
+		width: space(150);
+		padding: space(8) space(6) space(6) space(6);
+		height: calc(100% - space(14));
+		box-shadow: space(0) space(2) space(4) var(--text-100);
+		@include flexbox(column, start, center, space(8), nowrap);
 
-	@media (max-width: $lg) {
-		width: space(110);
-	}
+		@media (max-width: $lg) {
+			width: space(110);
+		}
 
-	@media (max-width: $md) {
-		display: none;
-	}
+		@media (max-width: $md) {
+			display: none;
+		}
 
-	.header {
-		width: calc(100% - space(12));
-		padding: space(6);
-		border-radius: space(6);
-		background-color: var(--primary-700);
-		@include flexbox(row, center, center, space(6), nowrap);
+		.header {
+			width: calc(100% - space(12));
+			padding: space(6);
+			border-radius: space(6);
+			background-color: var(--primary-700);
+			@include flexbox(row, center, center, space(6), nowrap);
 
-		&__profile {
-			width: space(40);
-			height: space(40);
-			border-radius: 50%;
-			object-fit: cover;
-			color: var(--text-900);
+			&__profile {
+				width: space(40);
+				height: space(40);
+				border-radius: 50%;
+				object-fit: cover;
+				color: var(--text-900);
+			}
+
+			&__divider {
+				height: 100%;
+				border-right: space(0.5) solid var(--text-900);
+			}
+
+			&__user-info {
+				flex: 1;
+				color: var(--text-900);
+				@include flexbox(column, center, start, space(2));
+			}
+
+			&__user-name {
+				@include lineClamp(2);
+			}
+
+			&__user-role {
+				color: var(--title-300);
+			}
 		}
 
 		&__divider {
-			height: 100%;
-			border-right: space(0.5) solid var(--text-900);
+			width: 100%;
+			border-top: space(0.5) solid var(--text-900);
 		}
 
-		&__user-info {
+		&__content {
+			width: 100%;
 			flex: 1;
-			color: var(--text-900);
-			@include flexbox(column, center, start, space(2));
+			overflow: auto;
+			@include flexbox(column, space-between, start, space(0), nowrap);
 		}
 
-		&__user-name {
-			@include lineClamp(2);
-		}
-
-		&__user-role {
-			color: var(--title-300);
-		}
-	}
-
-	&__divider {
-		width: 100%;
-		border-top: space(0.5) solid var(--text-900);
-	}
-
-	&__content {
-		width: 100%;
-		flex: 1;
-		overflow: auto;
-		@include flexbox(column, space-between, start, space(0), nowrap);
-	}
-
-	.menu {
-		width: 100%;
-		flex: 1;
-		@include flexbox(column, start, center, space(6), nowrap);
-
-		&__item {
+		.menu {
 			width: 100%;
-			@include flexbox(column, center, center, space(0));
+			flex: 1;
+			@include flexbox(column, start, center, space(6), nowrap);
+
+			&__item {
+				width: 100%;
+				@include flexbox(column, center, center, space(0));
+			}
+
+			&__tab {
+				width: 100%;
+				height: space(25);
+				background-color: var(--bg-700);
+				border-radius: space(6);
+				color: var(--text-900);
+				transition: all 0.5s ease;
+				@include flexbox(row, center, center, space(0));
+
+				&:hover {
+					background-color: var(--primary-400);
+				}
+
+				&--active {
+					color: var(--title-100);
+					background-color: var(--primary-600);
+				}
+			}
 		}
 
-		&__tab {
-			width: 100%;
-			height: space(25);
-			background-color: var(--bg-700);
-			border-radius: space(6);
+		&__exit {
+			margin-top: space(6);
+			background-color: var(--red-300);
 			color: var(--text-900);
-			transition: all 0.5s ease;
-			@include flexbox(row, center, center, space(0));
+			min-height: space(25);
 
 			&:hover {
-				background-color: var(--primary-400);
-			}
-
-			&--active {
-				color: var(--title-100);
-				background-color: var(--primary-600);
+				background-color: var(--red-500);
 			}
 		}
 	}
-
-	&__exit {
-		margin-top: space(6);
-		background-color: var(--red-300);
-		color: var(--text-900);
-		min-height: space(25);
-
-		&:hover {
-			background-color: var(--red-500);
-		}
-	}
-}
 </style>

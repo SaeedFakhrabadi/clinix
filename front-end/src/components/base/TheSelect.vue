@@ -1,40 +1,40 @@
 <script setup>
-import { computed, onMounted } from 'vue';
-import { toPersianDigits } from '@/utils/toPersianDigits';
+	import { computed, onMounted } from 'vue';
+	import { toPersianDigits } from '@/utils/toPersianDigits';
 
-const props = defineProps({
-	label: { type: String, required: true },
-	isMandatory: { type: Boolean, default: false },
-	iconName: { type: String, default: '' },
-	options: { type: Array, required: true },
-	errorMessage: { type: String, default: '' },
-	isDisabled: { type: Boolean, default: false },
-});
+	const props = defineProps({
+		label: { type: String, required: true },
+		isMandatory: { type: Boolean, default: false },
+		iconName: { type: String, default: '' },
+		options: { type: Array, required: true },
+		errorMessage: { type: String, default: '' },
+		isDisabled: { type: Boolean, default: false },
+	});
 
-const emit = defineEmits(['blur', 'focus', 'change']);
+	const emit = defineEmits(['blur', 'focus', 'change']);
 
-const selectedValue = defineModel();
+	const selectedValue = defineModel();
 
-const mappedOptions = () => {
-	return props.options.map((opt) => ({
-		value: opt.value,
-		label: opt.label,
-	}));
-};
+	const mappedOptions = () => {
+		return props.options.map((opt) => ({
+			value: opt.value,
+			label: opt.label,
+		}));
+	};
 
-const firstOptionValue = computed(() => mappedOptions()[0]?.value);
+	const firstOptionValue = computed(() => mappedOptions()[0]?.value);
 
-const handleChange = (event) => {
-	selectedValue.value = event?.target?.value;
-	emit('change', selectedValue.value);
-};
+	const handleChange = (event) => {
+		selectedValue.value = event?.target?.value;
+		emit('change', selectedValue.value);
+	};
 
-const handleBlur = () => emit('blur', selectedValue.value);
-const handleFocus = () => emit('focus', selectedValue.value);
+	const handleBlur = () => emit('blur', selectedValue.value);
+	const handleFocus = () => emit('focus', selectedValue.value);
 
-onMounted(() => {
-	selectedValue.value = firstOptionValue.value;
-});
+	onMounted(() => {
+		selectedValue.value = firstOptionValue.value;
+	});
 </script>
 
 <template>
@@ -44,11 +44,26 @@ onMounted(() => {
 				<h5 class="label-box__text">{{ label }}</h5>
 				<h5 v-if="isMandatory" class="label-box__mandatory">*</h5>
 			</label>
-			<div class="the-select__select-box select-box" :class="{ 'input-box--error': errorMessage }">
+			<div
+				class="the-select__select-box select-box"
+				:class="{ 'input-box--error': errorMessage }"
+			>
 				<TheIcon v-if="iconName" class="select-box__icon" :name="iconName" />
-				<select class="select-box__select" :value="selectedValue ?? firstOptionValue" :disabled="isDisabled"
-					:aria-invalid="!!errorMessage" @change="handleChange" @blur="handleBlur" @focus="handleFocus">
-					<option class="select-box__option" v-for="(opt, index) in mappedOptions()" :key="index" :value="opt.value">
+				<select
+					class="select-box__select"
+					:value="selectedValue ?? firstOptionValue"
+					:disabled="isDisabled"
+					:aria-invalid="!!errorMessage"
+					@change="handleChange"
+					@blur="handleBlur"
+					@focus="handleFocus"
+				>
+					<option
+						class="select-box__option"
+						v-for="(opt, index) in mappedOptions()"
+						:key="index"
+						:value="opt.value"
+					>
 						{{ toPersianDigits(opt.label) }}
 					</option>
 				</select>
@@ -62,99 +77,100 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-.the-select {
-	width: 100%;
-
-	&__container {
+	.the-select {
 		width: 100%;
-		@include flexbox(column, start, right, space(0));
-	}
 
-	.label-box {
-		width: 100%;
-		user-select: none;
-		flex: 1;
-		@include flexbox(row, start, right, space(1), nowrap);
-
-		&__text {
-			color: var(--text-900);
-			padding-right: space(6);
-			@include lineClamp(1);
+		&__container {
+			width: 100%;
+			@include flexbox(column, start, right, space(0));
 		}
 
-		&__mandatory {
-			color: var(--danger-400);
-		}
-	}
-
-	.select-box {
-		background-color: var(--bg-900);
-		border-radius: space(6);
-		position: relative;
-		outline: space(0.5) solid var(--text-500);
-		@include flexbox(row, center, center, space(0), nowrap);
-
-		&:focus-within,
-		&:hover {
-			outline: space(1) solid var(--text-500);
-		}
-
-		&--error {
-			outline: space(0.5) solid var(--danger-200);
-		}
-
-		&--error:focus-within,
-		&--error:hover {
-			outline: space(1) solid var(--danger-200);
-		}
-
-		&__icon {
-			position: absolute;
-			right: space(0);
-			color: var(--primary-100);
-			padding: space(4.5);
-			padding-left: space(2.5);
-		}
-
-		&__select {
-			height: space(20);
-			padding: space(2) space(12) space(2) space(0);
-			margin-inline: space(6);
-			cursor: pointer;
-			background-color: transparent;
-			color: var(--text-900);
-			border-radius: space(6);
-			border: none;
-			outline: none;
+		.label-box {
+			width: 100%;
+			user-select: none;
 			flex: 1;
+			@include flexbox(row, start, right, space(1), nowrap);
 
-			&:disabled {
-				padding: space(2) space(18) space(2) space(6);
-				margin-inline: space(0);
-				background-color: var(--bg-700);
-				opacity: 0.5;
-				cursor: not-allowed;
-				z-index: 2;
+			&__text {
+				color: var(--text-900);
+				padding-right: space(6);
+				@include lineClamp(1);
+			}
+
+			&__mandatory {
+				color: var(--danger-400);
 			}
 		}
 
-		&__option {
+		.select-box {
 			background-color: var(--bg-900);
+			border-radius: space(6);
+			position: relative;
+			outline: space(0.5) solid var(--text-500);
+			@include flexbox(row, center, center, space(0), nowrap);
+
+			&:focus-within,
+			&:hover {
+				outline: space(1) solid var(--text-500);
+			}
+
+			&--error {
+				outline: space(0.5) solid var(--danger-200);
+			}
+
+			&--error:focus-within,
+			&--error:hover {
+				outline: space(1) solid var(--danger-200);
+			}
+
+			&__icon {
+				position: absolute;
+				right: space(0);
+				color: var(--primary-100);
+				padding: space(4.5);
+				padding-left: space(2.5);
+			}
+
+			&__select {
+				height: space(20);
+				padding: space(2) space(12) space(2) space(0);
+				margin-inline: space(6);
+				cursor: pointer;
+				background-color: transparent;
+				color: var(--text-900);
+				border-radius: space(6);
+				border: none;
+				outline: none;
+				z-index: 1;
+				flex: 1;
+
+				&:disabled {
+					padding: space(2) space(18) space(2) space(6);
+					margin-inline: space(0);
+					background-color: var(--bg-700);
+					opacity: 0.5;
+					cursor: not-allowed;
+					z-index: 2;
+				}
+			}
+
+			&__option {
+				background-color: var(--bg-900);
+			}
+		}
+
+		.error-message {
+			user-select: none;
+			padding-right: space(6);
+			line-height: space(10);
+			min-height: space(10);
+			color: var(--danger-400);
+			@include flexbox();
+			@include lineClamp(1);
+		}
+
+		&__error-space {
+			min-height: space(4);
 		}
 	}
-
-	.error-message {
-		user-select: none;
-		padding-right: space(6);
-		line-height: space(10);
-		min-height: space(10);
-		color: var(--danger-400);
-		@include flexbox();
-		@include lineClamp(1);
-	}
-
-	&__error-space {
-		min-height: space(4);
-	}
-}
 </style>

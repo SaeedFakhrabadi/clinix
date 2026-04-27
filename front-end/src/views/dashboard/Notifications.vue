@@ -18,9 +18,9 @@
 	const { currentUser } = storeToRefs(currentUserStore);
 
 	const closeNotification = (id) => {
-		notifications.value = notifications.value.filter(n => n?.id !== id)
+		notifications.value = notifications.value.filter((n) => n?.id !== id);
 		// const data = deleteNotification()
-	}
+	};
 
 	onMounted(async () => {
 		loading.value = true;
@@ -71,8 +71,12 @@
 							: 'notifications__item--cancel'
 					"
 				>
-					<p class="notifications__message">{{ toPersianDigits(n?.message) }}</p>
-					<h2 class="notifications__delete" @click="closeNotification(n?.id)">&times;</h2>
+					<p class="notifications__message">
+						{{ toPersianDigits(n?.message) }}
+					</p>
+					<h2 class="notifications__delete" @click="closeNotification(n?.id)">
+						&times;
+					</h2>
 				</li>
 			</ul>
 		</div>
@@ -129,6 +133,7 @@
 		&__delete {
 			cursor: pointer;
 			line-height: space(16);
+			user-select: none;
 			padding-inline: space(4);
 		}
 	}

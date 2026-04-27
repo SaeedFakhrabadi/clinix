@@ -132,5 +132,9 @@ export const commentSchema = yup.object({
 
 export const complaintSchema = yup.object({
 	subject: yup.string().trim().required(REQUIRED.SUBJECT),
-	message: yup.string().trim().max(100, INVALID.MAX_100).required(REQUIRED.MESSAGE),
-});	
+	message: yup
+		.string()
+		.trim()
+		.max(100, INVALID.MAX_100)
+		.required(REQUIRED.MESSAGE),
+});

@@ -62,9 +62,7 @@
 		>
 			<thead class="table__head">
 				<tr>
-					<th v-if="isRowMode(clickMode)" class="table__head-cell">
-						ردیف
-					</th>
+					<th v-if="isRowMode(clickMode)" class="table__head-cell">ردیف</th>
 					<th
 						v-for="header in headers"
 						:key="header.value"
@@ -131,7 +129,7 @@
 					border-right: none;
 					border-top-right-radius: space(6);
 				}
-				
+
 				&:last-child {
 					border-left: none;
 					border-top-left-radius: space(6);
@@ -184,7 +182,7 @@
 					border-left: none;
 				}
 
-				&:last-child td{
+				&:last-child td {
 					border-bottom: none;
 				}
 
@@ -210,8 +208,8 @@
 			}
 
 			&--cell-click .table__body-cell--clickable:first-child {
-					cursor: auto;
-					background-color: inherit;
+				cursor: auto;
+				background-color: inherit;
 			}
 
 			&--read-only .table__row,

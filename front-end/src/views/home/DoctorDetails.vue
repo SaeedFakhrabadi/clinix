@@ -49,7 +49,9 @@
 			return;
 		}
 
-		const isCommented = doctor.value?.comments.find((c)=> c?.username === currentUser.value?.name);
+		const isCommented = doctor.value?.comments.find(
+			(c) => c?.username === currentUser.value?.name,
+		);
 		if (isCommented) {
 			toast.error('!شما قبلا نظر خود را برای این پزشک ثبت کرده اید');
 			return;
@@ -140,7 +142,7 @@
 		</div>
 		<div v-else class="doctor-details__container">
 			<section class="doctor-details__info info">
-				<TheTitle label="اطلاعات پزشک"/>
+				<TheTitle label="اطلاعات پزشک" />
 				<div class="info__sections-doctor">
 					<h2 class="info__name">دکتر {{ doctor?.name }}</h2>
 					<section class="info__section-doctor">
@@ -163,7 +165,11 @@
 						<div class="info__item item">
 							<span class="item__label">میانگین امتیازات دریافتی:</span>
 							<h3 v-if="doctor?.score !== 0" class="item__value">
-								{{ toPersianDigits(`${doctor?.score} (${doctor?.comments?.length} امتیاز)`) }}
+								{{
+									toPersianDigits(
+										`${doctor?.score} (${doctor?.comments?.length} امتیاز)`,
+									)
+								}}
 							</h3>
 							<h3 v-else class="item__value">بدون امتیاز</h3>
 						</div>
@@ -185,12 +191,12 @@
 			</section>
 			<ScheduleTable :doctor="doctor" :currentUser="currentUser" @pay="pay" />
 			<section class="doctor-details__comments comments">
-				<TheTitle label="نظرات کاربران" has-divider/>
+				<TheTitle label="نظرات کاربران" has-divider />
 				<h2 v-if="!doctor?.comments?.length" class="comments__empty">
 					هنوز نظری ثبت نشده است!
 				</h2>
-				<Comments v-else :comments="doctor?.comments"/>
-				<TheTitle label="ثبت نظر و امتیاز دهی" has-divider/>
+				<Comments v-else :comments="doctor?.comments" />
+				<TheTitle label="ثبت نظر و امتیاز دهی" has-divider />
 				<form class="comments__form" @submit.prevent="submitForm">
 					<TheInput
 						type="textarea"

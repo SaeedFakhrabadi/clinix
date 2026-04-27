@@ -1,59 +1,59 @@
 <script setup>
-// Theme
-import { ref, onMounted, watch, computed } from 'vue';
+	// Theme
+	import { ref, onMounted, watch, computed } from 'vue';
 
-const savedTheme = sessionStorage.getItem('theme');
-const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-const theme = ref(savedTheme || (prefersDark ? 'dark' : 'light'));
-const isLightTheme = computed(() => theme.value === 'light');
+	const savedTheme = sessionStorage.getItem('theme');
+	const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+	const theme = ref(savedTheme || (prefersDark ? 'dark' : 'light'));
+	const isLightTheme = computed(() => theme.value === 'light');
 
-const toggleTheme = () => {
-	theme.value = theme.value === 'light' ? 'dark' : 'light';
-};
+	const toggleTheme = () => {
+		theme.value = theme.value === 'light' ? 'dark' : 'light';
+	};
 
-watch(theme, (newTheme) => {
-	document.documentElement.setAttribute('data-theme', newTheme);
-	sessionStorage.setItem('theme', newTheme);
-});
+	watch(theme, (newTheme) => {
+		document.documentElement.setAttribute('data-theme', newTheme);
+		sessionStorage.setItem('theme', newTheme);
+	});
 
-onMounted(() => {
-	document.documentElement.setAttribute('data-theme', theme.value);
-});
+	onMounted(() => {
+		document.documentElement.setAttribute('data-theme', theme.value);
+	});
 
-// Tabs
-import { useRouter } from 'vue-router';
-import { storeToRefs } from 'pinia';
-import { useActiveTabStore } from '@/stores/activeTab';
-import { useCurrentUserStore } from '@/stores/currentUser';
+	// Tabs
+	import { useRouter } from 'vue-router';
+	import { storeToRefs } from 'pinia';
+	import { useActiveTabStore } from '@/stores/activeTab';
+	import { useCurrentUserStore } from '@/stores/currentUser';
 
-const router = useRouter();
-const activeTabStore = useActiveTabStore();
-const currentUserStore = useCurrentUserStore();
-const { currentUser } = storeToRefs(currentUserStore);
+	const router = useRouter();
+	const activeTabStore = useActiveTabStore();
+	const currentUserStore = useCurrentUserStore();
+	const { currentUser } = storeToRefs(currentUserStore);
 
-const isActiveTab = (tab) => activeTabStore.activeTab === tab;
+	const isActiveTab = (tab) => activeTabStore.activeTab === tab;
 
-const tabs = [
-	{ name: 'Landing', label: 'خانه' },
-	{ name: 'DoctorsList', label: 'جستجوی پزشکان' },
-];
+	const tabs = [
+		{ name: 'Landing', label: 'خانه' },
+		{ name: 'DoctorsList', label: 'جستجوی پزشکان' },
+	];
 
-// Mobile menu
-const isMenuOpen = ref(false);
+	// Mobile menu
+	const isMenuOpen = ref(false);
 
-const openMenu = () => {
-	isMenuOpen.value = true;
-};
+	const openMenu = () => {
+		isMenuOpen.value = true;
+	};
 
-const closeMenu = () => {
-	isMenuOpen.value = false;
-};
+	const closeMenu = () => {
+		isMenuOpen.value = false;
+	};
 
-const logout = () => {
-	router.push({ name: 'Login' });
-	currentUserStore.removeCurrentUser();
-	closeMenu();
-};
+	const logout = () => {
+		router.push({ name: 'Login' });
+		currentUserStore.removeCurrentUser();
+		closeMenu();
+	};
 </script>
 
 <template>
@@ -68,22 +68,49 @@ const logout = () => {
 			<ul class="the-navbar__menu menu">
 				<li v-for="(tab, index) in tabs" :key="index" class="menu__item">
 					<h4 v-if="index > 0" class="menu__divider">|</h4>
-					<router-link :to="{ name: tab.name }" class="menu__tab"
-						:class="{ 'menu__tab--active': isActiveTab(tab.name) }">
+					<router-link
+						:to="{ name: tab.name }"
+						class="menu__tab"
+						:class="{ 'menu__tab--active': isActiveTab(tab.name) }"
+					>
 						{{ tab.label }}
 					</router-link>
 				</li>
 			</ul>
 			<section class="the-navbar__buttons buttons">
-				<TheIcon class="buttons__theme-icon" :name="isLightTheme ? 'moon' : 'sun'" @click="toggleTheme" />
-				<TheButton v-if="!currentUser" class="buttons__button" type="cancel" label="ثبت نام"
-					@click="router.push({ name: 'Register' })" />
-				<TheButton v-if="!currentUser" class="buttons__button" type="submit" label="ورود"
-					@click="router.push({ name: 'Login' })" />
-				<TheButton v-if="currentUser" class="buttons__button" type="cancel" label="مشاهده پروفایل"
-					@click="router.push({ name: 'Notifications' })" />
-				<TheButton v-if="currentUser" class="buttons__button buttons__exit" type="submit" label="خروج"
-					@click="logout" />
+				<TheIcon
+					class="buttons__theme-icon"
+					:name="isLightTheme ? 'moon' : 'sun'"
+					@click="toggleTheme"
+				/>
+				<TheButton
+					v-if="!currentUser"
+					class="buttons__button"
+					type="cancel"
+					label="ثبت نام"
+					@click="router.push({ name: 'Register' })"
+				/>
+				<TheButton
+					v-if="!currentUser"
+					class="buttons__button"
+					type="submit"
+					label="ورود"
+					@click="router.push({ name: 'Login' })"
+				/>
+				<TheButton
+					v-if="currentUser"
+					class="buttons__button"
+					type="cancel"
+					label="مشاهده پروفایل"
+					@click="router.push({ name: 'Notifications' })"
+				/>
+				<TheButton
+					v-if="currentUser"
+					class="buttons__button buttons__exit"
+					type="submit"
+					label="خروج"
+					@click="logout"
+				/>
 			</section>
 		</div>
 	</nav>
@@ -96,23 +123,55 @@ const logout = () => {
 					<TheButton label="بستن منو" type="hollow" @click="closeMenu" />
 				</div>
 				<ul class="mobile-sidebar__menu">
-					<li v-for="(tab, index) in tabs" :key="index" class="mobile-sidebar__item">
-						<router-link :to="{ name: tab.name }" class="mobile-sidebar__link"
-							:class="{ 'mobile-sidebar__link--active': isActiveTab(tab.name) }" @click="closeMenu">
+					<li
+						v-for="(tab, index) in tabs"
+						:key="index"
+						class="mobile-sidebar__item"
+					>
+						<router-link
+							:to="{ name: tab.name }"
+							class="mobile-sidebar__link"
+							:class="{ 'mobile-sidebar__link--active': isActiveTab(tab.name) }"
+							@click="closeMenu"
+						>
 							{{ tab.label }}
 						</router-link>
 					</li>
 				</ul>
 				<div class="mobile-sidebar__buttons buttons">
-					<TheIcon class="buttons__theme-icon" :name="isLightTheme ? 'moon' : 'sun'" @click="toggleTheme" />
-					<TheButton v-if="!currentUser" class="buttons__button" type="cancel" label="ثبت نام"
-						@click="router.push({ name: 'Register' })" />
-					<TheButton v-if="!currentUser" class="buttons__button" type="submit" label="ورود"
-						@click="router.push({ name: 'Login' })" />
-					<TheButton v-if="currentUser" class="buttons__button" type="cancel" label="مشاهده پروفایل"
-						@click="router.push({ name: 'Notifications' })" />
-					<TheButton v-if="currentUser" class="buttons__button buttons__exit" type="submit" label="خروج"
-						@click="logout" />
+					<TheIcon
+						class="buttons__theme-icon"
+						:name="isLightTheme ? 'moon' : 'sun'"
+						@click="toggleTheme"
+					/>
+					<TheButton
+						v-if="!currentUser"
+						class="buttons__button"
+						type="cancel"
+						label="ثبت نام"
+						@click="router.push({ name: 'Register' })"
+					/>
+					<TheButton
+						v-if="!currentUser"
+						class="buttons__button"
+						type="submit"
+						label="ورود"
+						@click="router.push({ name: 'Login' })"
+					/>
+					<TheButton
+						v-if="currentUser"
+						class="buttons__button"
+						type="cancel"
+						label="مشاهده پروفایل"
+						@click="router.push({ name: 'Notifications' })"
+					/>
+					<TheButton
+						v-if="currentUser"
+						class="buttons__button buttons__exit"
+						type="submit"
+						label="خروج"
+						@click="logout"
+					/>
 				</div>
 			</div>
 		</div>
@@ -120,216 +179,216 @@ const logout = () => {
 </template>
 
 <style lang="scss" scoped>
-.the-navbar {
-	position: fixed;
-	top: space(0);
-	background-color: var(--bg-900);
-	box-shadow: space(0) space(2) space(4) var(--text-100);
-	width: 100%;
-	height: space(32);
-	z-index: 1;
-	@include flexbox();
-
-	&__container {
-		width: $xl;
-		@include flexbox(row, space-between, center, space(0), nowrap);
-	}
-
-	.brand {
-		background-color: var(--primary-500);
-		width: space(100);
+	.the-navbar {
+		position: fixed;
+		top: space(0);
+		background-color: var(--bg-900);
+		box-shadow: space(0) space(2) space(4) var(--text-100);
+		width: 100%;
 		height: space(32);
-		transition: all 0.4s ease;
+		z-index: 1;
 		@include flexbox();
 
-		&:hover {
-			background-color: var(--primary-100);
+		&__container {
+			width: $xl;
+			@include flexbox(row, space-between, center, space(0), nowrap);
 		}
 
-		&__text {
-			color: var(--text-900);
-		}
-	}
-
-	.burger {
-		height: space(20);
-		margin-left: space(6);
-
-		@media (min-width: $md) {
-			display: none;
-		}
-
-		&__icon {
-			cursor: pointer;
-			color: var(--text-900);
-		}
-	}
-
-	.menu {
-		height: space(20);
-		@include flexbox(column, center, center, space(5));
-
-		@media (max-width: $md) {
-			display: none;
-		}
-
-		&__item {
-			height: 100%;
-			@include flexbox(column, center, center, space(5));
-		}
-
-		&__divider {
-			color: var(--text-500);
-			user-select: none;
-		}
-
-		&__tab {
-			height: 100%;
-			color: var(--text-500);
-			transition: all 0.5s ease;
-			background-color: var(--bg-700);
-			padding-inline: space(6);
-			border-radius: space(6);
+		.brand {
+			background-color: var(--primary-500);
+			width: space(100);
+			height: space(32);
+			transition: all 0.4s ease;
 			@include flexbox();
 
 			&:hover {
-				color: var(--title-500);
-				background-color: var(--primary-500);
+				background-color: var(--primary-100);
 			}
 
-			&--active {
-				color: var(--title-500);
-				background-color: var(--primary-700);
+			&__text {
+				color: var(--text-900);
+			}
+		}
+
+		.burger {
+			height: space(20);
+			margin-left: space(6);
+
+			@media (min-width: $md) {
+				display: none;
+			}
+
+			&__icon {
+				cursor: pointer;
+				color: var(--text-900);
+			}
+		}
+
+		.menu {
+			height: space(20);
+			@include flexbox(column, center, center, space(5));
+
+			@media (max-width: $md) {
+				display: none;
+			}
+
+			&__item {
+				height: 100%;
+				@include flexbox(column, center, center, space(5));
+			}
+
+			&__divider {
+				color: var(--text-500);
+				user-select: none;
+			}
+
+			&__tab {
+				height: 100%;
+				color: var(--text-500);
+				transition: all 0.5s ease;
+				background-color: var(--bg-700);
+				padding-inline: space(6);
+				border-radius: space(6);
+				@include flexbox();
+
+				&:hover {
+					color: var(--title-500);
+					background-color: var(--primary-500);
+				}
+
+				&--active {
+					color: var(--title-500);
+					background-color: var(--primary-700);
+				}
+			}
+		}
+
+		.buttons {
+			@include flexbox(row, space-between, center, space(6), nowrap);
+
+			@media (max-width: $xl) {
+				padding-inline: space(6);
+			}
+
+			@media (max-width: $md) {
+				display: none;
+			}
+
+			&__theme-icon {
+				color: var(--text-700);
+				cursor: pointer;
+				padding: space(2.5);
+				border-radius: 50%;
+				transition: all 0.4s ease;
+
+				&:hover {
+					background: var(--bg-700);
+				}
+			}
+
+			&__button {
+				width: space(50);
+			}
+
+			&__exit {
+				background-color: var(--red-300);
+
+				&:hover {
+					background-color: var(--red-500);
+				}
 			}
 		}
 	}
 
-	.buttons {
-		@include flexbox(row, space-between, center, space(6), nowrap);
-
-		@media (max-width: $xl) {
-			padding-inline: space(6);
-		}
-
-		@media (max-width: $md) {
-			display: none;
-		}
-
-		&__theme-icon {
-			color: var(--text-700);
-			cursor: pointer;
-			padding: space(2.5);
-			border-radius: 50%;
-			transition: all 0.4s ease;
-
-			&:hover {
-				background: var(--bg-700);
-			}
-		}
-
-		&__button {
-			width: space(50);
-		}
-
-		&__exit {
-			background-color: var(--red-300);
-
-			&:hover {
-				background-color: var(--red-500);
-			}
-		}
-	}
-}
-
-.mobile-sidebar {
-	position: fixed;
-	inset: 0;
-	z-index: 1000;
-	pointer-events: none;
-
-	&__overlay {
-		position: absolute;
+	.mobile-sidebar {
+		position: fixed;
 		inset: 0;
-		background: rgba(0, 0, 0, 0.5);
-		backdrop-filter: blur(2px);
-		pointer-events: auto;
-	}
+		z-index: 1000;
+		pointer-events: none;
 
-	&__content {
-		position: absolute;
-		top: space(0);
-		bottom: space(0);
-		left: space(0);
-		width: 80vw;
-		max-width: space(160);
-		background-color: var(--bg-900);
-		pointer-events: auto;
-		display: flex;
-		flex-direction: column;
-	}
-
-	&__header {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		padding: space(6) space(6) space(4);
-		border-bottom: 1px solid var(--text-200);
-	}
-
-	&__menu {
-		flex: 1;
-		padding: space(4) 0;
-		list-style: none;
-	}
-
-	&__item {
-		padding: 0 space(6);
-		margin-bottom: space(9);
-	}
-
-	&__link {
-		display: block;
-		padding: space(5) space(4);
-		color: var(--title-900);
-		font-size: 1.1rem;
-		border-radius: space(3);
-		background: var(--primary-600);
-		transition: all 0.4s;
-
-		&:hover,
-		&--active {
-			background: var(--primary-100);
-			color: white;
+		&__overlay {
+			position: absolute;
+			inset: 0;
+			background: rgba(0, 0, 0, 0.5);
+			backdrop-filter: blur(2px);
+			pointer-events: auto;
 		}
-	}
 
-	.buttons {
-		padding: space(6);
-		border-top: 1px solid var(--text-200);
-		display: flex;
-		align-items: center;
-		flex-direction: column;
-		gap: space(5);
+		&__content {
+			position: absolute;
+			top: space(0);
+			bottom: space(0);
+			left: space(0);
+			width: 80vw;
+			max-width: space(160);
+			background-color: var(--bg-900);
+			pointer-events: auto;
+			display: flex;
+			flex-direction: column;
+		}
 
-		&__theme-icon {
-			color: var(--text-700);
-			cursor: pointer;
-			padding: space(2.5);
-			border-radius: 50%;
-			transition: all 0.4s ease;
+		&__header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: space(6) space(6) space(4);
+			border-bottom: 1px solid var(--text-200);
+		}
 
-			&:hover {
-				background: var(--bg-700);
+		&__menu {
+			flex: 1;
+			padding: space(4) 0;
+			list-style: none;
+		}
+
+		&__item {
+			padding: 0 space(6);
+			margin-bottom: space(9);
+		}
+
+		&__link {
+			display: block;
+			padding: space(5) space(4);
+			color: var(--title-900);
+			font-size: 1.1rem;
+			border-radius: space(3);
+			background: var(--primary-600);
+			transition: all 0.4s;
+
+			&:hover,
+			&--active {
+				background: var(--primary-100);
+				color: white;
 			}
 		}
 
-		&__exit {
-			background-color: var(--red-300);
+		.buttons {
+			padding: space(6);
+			border-top: 1px solid var(--text-200);
+			display: flex;
+			align-items: center;
+			flex-direction: column;
+			gap: space(5);
 
-			&:hover {
-				background-color: var(--red-500);
+			&__theme-icon {
+				color: var(--text-700);
+				cursor: pointer;
+				padding: space(2.5);
+				border-radius: 50%;
+				transition: all 0.4s ease;
+
+				&:hover {
+					background: var(--bg-700);
+				}
+			}
+
+			&__exit {
+				background-color: var(--red-300);
+
+				&:hover {
+					background-color: var(--red-500);
+				}
 			}
 		}
 	}
-}
 </style>
