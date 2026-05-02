@@ -29,6 +29,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     ScheduleTable: typeof import('./src/components/ScheduleTable.vue')['default']
+    Test: typeof import('./src/views/dashboard/Test.vue')['default']
     TheButton: typeof import('./src/components/base/TheButton.vue')['default']
     TheCountdownTimer: typeof import('./src/components/base/TheCountdownTimer.vue')['default']
     TheFooter: typeof import('./src/components/base/TheFooter.vue')['default']

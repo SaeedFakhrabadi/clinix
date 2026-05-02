@@ -37,10 +37,11 @@
 
 <style lang="scss" scoped>
 	.comment {
-		width: calc(100% - space(12));
-		background-color: var(--bg-800);
+		width: 100%;
+		background-color: var(--bg-900);
 		border-radius: space(6);
 		border-bottom-right-radius: space(0);
+		box-sizing: border-box;
 		padding: space(6);
 		@include flexbox(column, center, start, space(2), nowrap);
 

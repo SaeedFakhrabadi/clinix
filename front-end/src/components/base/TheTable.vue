@@ -171,7 +171,7 @@
 				}
 
 				&:nth-child(even) {
-					background-color: var(--bg-700);
+					background-color: var(--bg-800);
 				}
 
 				& td:first-child {

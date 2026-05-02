@@ -186,7 +186,7 @@
 		box-shadow: space(0) space(2) space(4) var(--text-100);
 		width: 100%;
 		height: space(32);
-		z-index: 1;
+		z-index: 10;
 		@include flexbox();
 
 		&__container {
@@ -264,7 +264,7 @@
 		}
 
 		.buttons {
-			@include flexbox(row, space-between, center, space(6), nowrap);
+			@include flexbox(row, space-between, center, space(4), nowrap);
 
 			@media (max-width: $xl) {
 				padding-inline: space(6);
@@ -287,14 +287,14 @@
 			}
 
 			&__button {
-				width: space(50);
+				width: space(60);
 			}
 
 			&__exit {
-				background-color: var(--red-300);
+				background-color: var(--red-100);
 
 				&:hover {
-					background-color: var(--red-500);
+					background-color: var(--red-300);
 				}
 			}
 		}
@@ -383,10 +383,10 @@
 			}
 
 			&__exit {
-				background-color: var(--red-300);
+				background-color: var(--red-100);
 
 				&:hover {
-					background-color: var(--red-500);
+					background-color: var(--red-300);
 				}
 			}
 		}

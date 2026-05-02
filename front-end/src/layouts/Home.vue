@@ -13,18 +13,19 @@
 <style lang="scss" scoped>
 	.home {
 		&__main-content {
-			height: calc(100vh - space(32));
+			height: 100vh;
 			padding-top: space(32);
+			box-sizing: border-box;
 			@include flexbox(row, start, start, space(0));
 		}
 
 		&__content {
-			width: calc($xl - space(12));
-			min-height: calc(100% - space(80));
-			max-width: $xl;
+			width: $xl;
+			min-height: calc(100vh - space(80));
+			box-sizing: border-box;
 			margin-inline: auto;
 			padding: space(8) space(6);
-			background-color: var(--primary-700);
+			background-color: var(--bg-700);
 			@include flexbox(column, start, start, space(10), nowrap);
 		}
 	}

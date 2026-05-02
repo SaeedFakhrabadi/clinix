@@ -12,8 +12,9 @@
 		height: 100vh;
 
 		&__main-content {
-			height: calc(100% - space(32));
+			height: 100%;
 			padding-top: space(32);
+			box-sizing: border-box;
 			max-width: $xl;
 			margin: 0 auto;
 			@include flexbox(row, center, center);
@@ -21,8 +22,8 @@
 
 		&__form {
 			width: 30%;
-			background-color: var(--primary-700);
-			box-shadow: space(0) space(0) space(5) var(--text-500);
+			background-color: var(--primary-800);
+			box-shadow: space(0) space(0) space(5) var(--bg-400);
 			padding: space(14);
 			border-radius: space(14);
 			@include flexbox(column, center, center, space(6));

@@ -334,7 +334,8 @@
 		}
 
 		&__sections-doctor {
-			width: calc(100% - space(12));
+			width: 100%;
+			box-sizing: border-box;
 			background-color: var(--primary-600);
 			padding: space(6);
 			border-radius: space(10);

@@ -114,8 +114,9 @@
 		}
 
 		&__item {
-			width: calc(100% - space(12));
+			width: 100%;
 			border-radius: space(6);
+			box-sizing: border-box;
 			padding: space(5);
 			@include flexbox(row, space-between, center, space(0), nowrap);
 

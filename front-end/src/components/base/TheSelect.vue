@@ -127,12 +127,11 @@
 				position: absolute;
 				right: space(0);
 				color: var(--primary-100);
-				padding: space(4.5);
-				padding-left: space(2.5);
+				padding: space(6.5) space(4.5) space(6.5) space(2.5);
 			}
 
 			&__select {
-				height: space(20);
+				height: space(24);
 				padding: space(2) space(12) space(2) space(0);
 				margin-inline: space(6);
 				cursor: pointer;

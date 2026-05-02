@@ -42,8 +42,9 @@
 		height: 100vh;
 
 		&__main-content {
-			height: calc(100% - space(32));
+			height: 100%;
 			padding-top: space(32);
+			box-sizing: border-box;
 			margin: 0 auto;
 			max-width: $xl;
 			@include flexbox(row, start, start, space(0));
@@ -53,7 +54,7 @@
 			height: 100%;
 			flex: 1;
 			overflow: auto;
-			background-color: var(--primary-700);
+			background-color: var(--bg-700);
 			@include flexbox(row, start, start, space(0));
 		}
 

@@ -252,8 +252,9 @@
 			@include flexbox(column, center, start, space(10), nowrap);
 
 			&__sections-doctor {
-				width: calc(100% - space(12));
-				background-color: var(--primary-600);
+				width: 100%;
+				background-color: var(--bg-900);
+				box-sizing: border-box;
 				padding: space(6);
 				border-radius: space(10);
 				@include flexbox(column, center, center, space(4));
@@ -317,11 +318,6 @@
 			&__form {
 				width: 100%;
 				@include flexbox(column, center, start, space(0), nowrap);
-
-				@media (min-width: $xl) {
-					width: calc(100% - space(1));
-					margin-right: space(1);
-				}
 			}
 
 			&__row {

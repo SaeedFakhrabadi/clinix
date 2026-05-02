@@ -29,5 +29,10 @@ export default {
 			name: 'Complaint',
 			component: () => import('@/views/dashboard/Complaint.vue'),
 		},
+		{
+			path: 'test',
+			name: 'Test',
+			component: () => import('@/views/dashboard/Test.vue'),
+		}
 	],
 };

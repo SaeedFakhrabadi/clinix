@@ -42,8 +42,7 @@
 
 		&__container {
 			width: 30%;
-			background-color: var(--primary-700);
-			box-shadow: space(0) space(0) space(5) var(--text-500);
+			background-color: var(--bg-600);
 			padding: space(14);
 			border-radius: space(14);
 			@include flexbox(column, center, center, space(6));

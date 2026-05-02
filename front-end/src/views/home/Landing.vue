@@ -105,10 +105,11 @@
 <style lang="scss" scoped>
 	.landing {
 		.header {
-			width: calc(100% - space(12));
-			background-color: var(--primary-600);
+			width: 100%;
+			background-color: var(--bg-900);
 			padding: space(10) space(6);
 			border-radius: space(10);
+			box-sizing: border-box;
 			text-align: center;
 			@include flexbox(column, center, center, space(20));
 
@@ -138,7 +139,7 @@
 			}
 
 			&__button {
-				width: space(80);
+				width: space(100);
 				height: space(30);
 			}
 		}
@@ -166,7 +167,7 @@
 			&__list {
 				width: 100%;
 				user-select: none;
-				@include flexbox(row, start, center, space(12));
+				@include flexbox(row, start, center, space(8));
 			}
 		}
 	}

@@ -210,11 +210,6 @@
 		&__controls {
 			width: 100%;
 			@include flexbox(column, center, start, space(0), nowrap);
-
-			@media (min-width: $xl) {
-				width: calc(100% - space(1));
-				margin-right: space(1);
-			}
 		}
 
 		&__search-sort {
@@ -246,7 +241,7 @@
 		&__list {
 			width: 100%;
 			user-select: none;
-			@include flexbox(row, start, center, space(12));
+			@include flexbox(row, start, center, space(8));
 		}
 	}
 </style>

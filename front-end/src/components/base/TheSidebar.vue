@@ -68,8 +68,8 @@
 		background-color: var(--bg-900);
 		width: space(150);
 		padding: space(8) space(6) space(6) space(6);
-		height: calc(100% - space(14));
-		box-shadow: space(0) space(2) space(4) var(--text-100);
+		height: 100%;
+		box-sizing: border-box;
 		@include flexbox(column, start, center, space(8), nowrap);
 
 		@media (max-width: $lg) {
@@ -81,8 +81,9 @@
 		}
 
 		.header {
-			width: calc(100% - space(12));
+			width: 100%;
 			padding: space(6);
+			box-sizing: border-box;
 			border-radius: space(6);
 			background-color: var(--primary-700);
 			@include flexbox(row, center, center, space(6), nowrap);
@@ -159,12 +160,12 @@
 
 		&__exit {
 			margin-top: space(6);
-			background-color: var(--red-300);
+			background-color: var(--red-100);
 			color: var(--text-900);
 			min-height: space(25);
 
 			&:hover {
-				background-color: var(--red-500);
+				background-color: var(--red-300);
 			}
 		}
 	}

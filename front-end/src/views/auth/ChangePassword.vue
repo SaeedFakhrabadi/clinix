@@ -100,7 +100,7 @@
 		&__title {
 			text-align: center;
 			color: var(--text-900);
-			border-bottom: space(0.5) solid var(--primary-100);
+			border-bottom: space(1) dashed var(--primary-100);
 		}
 
 		&__text {

@@ -15,11 +15,12 @@
 		width: 100vw;
 		height: space(48);
 		padding-block: space(8);
-		background-color: var(--primary-300);
+		box-sizing: border-box;
+		background-color: var(--text-200);
 		@include flexbox(column, center, center);
 
 		&__copyright {
-			color: var(--text-900);
+			color: var(--bg-900);
 		}
 	}
 </style>

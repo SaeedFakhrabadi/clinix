@@ -138,12 +138,11 @@
 				position: absolute;
 				right: space(0);
 				color: var(--primary-100);
-				padding: space(4.5);
-				padding-left: space(2.5);
+				padding: space(6.5) space(4.5) space(6.5) space(2.5);
 			}
 
 			&__input {
-				min-height: space(16);
+				min-height: space(20);
 				padding: space(2) space(18) space(2) space(6);
 				background-color: transparent;
 				color: var(--text-900);

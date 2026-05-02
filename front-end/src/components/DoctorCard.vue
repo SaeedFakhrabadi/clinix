@@ -45,21 +45,22 @@
 
 <style lang="scss" scoped>
 	.doctor-card {
-		background-color: var(--primary-900);
-		box-shadow: space(0) space(0) space(6) var(--text-100);
+		background-color: var(--bg-900);
+		box-shadow: space(0) space(0) space(6) var(--bg-400);
 		border-radius: space(10);
 		cursor: pointer;
-		width: calc(25% - space(21));
+		width: calc(25% - space(6));
+		box-sizing: border-box;
 		padding: space(6);
 		transition: all 0.4s ease;
 		@include flexbox(column, center, right, space(2));
 
 		@media (max-width: $lg) {
-			width: calc(33% - space(19));
+			width: calc(33% - space(4.5));
 		}
 
 		@media (max-width: $md) {
-			width: calc(50% - space(18));
+			width: calc(50% - space(4));
 		}
 
 		@media (max-width: $sm) {
@@ -67,8 +68,8 @@
 		}
 
 		&:hover {
-			background-color: var(--primary-600);
-			box-shadow: space(0) space(0) space(6) var(--text-900);
+			background-color: var(--primary-800);
+			box-shadow: space(0) space(0) space(0) var(--bg-400);
 		}
 
 		&__header {

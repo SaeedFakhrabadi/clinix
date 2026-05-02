@@ -27,7 +27,7 @@
 		:disabled="isDisabled"
 	>
 		<TheIcon v-if="iconName" :name="iconName" />
-		<h5 class="the-button__label">{{ label }}</h5>
+		<h4 class="the-button__label">{{ label }}</h4>
 	</button>
 </template>
 
@@ -35,9 +35,10 @@
 	.the-button {
 		background-color: transparent;
 		width: 100%;
-		height: space(20);
+		height: space(24);
 		border-radius: space(6);
 		user-select: none;
+		box-sizing: border-box;
 		transition: all 0.4s ease;
 		cursor: pointer;
 		@include flexbox(row, center, center, space(2), nowrap);
@@ -59,13 +60,13 @@
 		}
 
 		&--cancel {
-			background-color: var(--primary-600);
+			background-color: var(--primary-800);
 			border: space(1) solid var(--primary-100);
-			color: var(--text-900);
+			color: var(--title-100);
 		}
 
 		&--cancel:hover {
-			background-color: var(--primary-400);
+			background-color: var(--primary-600);
 		}
 
 		&--hollow {
