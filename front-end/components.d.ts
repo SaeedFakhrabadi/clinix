@@ -8,6 +8,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AboutUs: typeof import('./src/components/AboutUs.vue')['default']
     App: typeof import('./src/App.vue')['default']
     Auth: typeof import('./src/layouts/Auth.vue')['default']
     ChangePassword: typeof import('./src/views/auth/ChangePassword.vue')['default']
@@ -17,6 +18,7 @@ declare module 'vue' {
     DoctoeDetails: typeof import('./src/views/home/DoctorDetails.vue')['default']
     DoctorCard: typeof import('./src/components/DoctorCard.vue')['default']
     DoctorDetails: typeof import('./src/views/home/DoctorDetails.vue')['default']
+    DoctorInfo: typeof import('./src/components/DoctorInfo.vue')['default']
     DoctorsList: typeof import('./src/views/home/DoctorsList.vue')['default']
     Home: typeof import('./src/layouts/Home.vue')['default']
     Landing: typeof import('./src/views/home/Landing.vue')['default']

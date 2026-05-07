@@ -195,14 +195,14 @@
 		}
 
 		.brand {
-			background-color: var(--primary-500);
+			background-color: var(--primary-100);
 			width: space(100);
 			height: space(32);
 			transition: all 0.4s ease;
 			@include flexbox();
 
 			&:hover {
-				background-color: var(--primary-100);
+				background-color: var(--primary-400);
 			}
 
 			&__text {
@@ -225,7 +225,7 @@
 		}
 
 		.menu {
-			height: space(20);
+			height: space(24);
 			@include flexbox(column, center, center, space(5));
 
 			@media (max-width: $md) {
@@ -246,19 +246,11 @@
 				height: 100%;
 				color: var(--text-500);
 				transition: all 0.5s ease;
-				background-color: var(--bg-700);
-				padding-inline: space(6);
-				border-radius: space(6);
+				padding-inline: space(8);
 				@include flexbox();
 
-				&:hover {
-					color: var(--title-500);
-					background-color: var(--primary-500);
-				}
-
 				&--active {
-					color: var(--title-500);
-					background-color: var(--primary-700);
+					color: var(--title-100);
 				}
 			}
 		}

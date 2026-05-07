@@ -1,3 +1,5 @@
+<script setup></script>
+
 <template>
 	<div class="auth">
 		<TheNavbar />
@@ -24,7 +26,7 @@
 			width: 30%;
 			background-color: var(--primary-800);
 			box-shadow: space(0) space(0) space(5) var(--bg-400);
-			padding: space(14);
+			padding: space(10);
 			border-radius: space(14);
 			@include flexbox(column, center, center, space(6));
 

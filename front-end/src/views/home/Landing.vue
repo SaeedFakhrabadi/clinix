@@ -42,6 +42,7 @@
 <template>
 	<div class="landing">
 		<header class="landing__header header">
+			<img src="/landing.png" class="header__image" />
 			<h1 class="header__slogan">
 				کلینیکس، بزرگترین کلینیک آنلاین مدیریت و رزرو نوبت های پزشکی
 			</h1>
@@ -56,26 +57,7 @@
 			/>
 		</header>
 		<main class="home__content content">
-			<section>
-				<TheTitle label="درباره ما" has-divider />
-				<p class="content__about-us">
-					کلینیکس جایی است که سلامت، تخصص و آرامش در کنار هم معنا پیدا می‌کنند.
-					ما در کلینیکس با بهره‌گیری از تیمی مجرب از پزشکان و کادر درمانی
-					حرفه‌ای، تلاش می‌کنیم تجربه‌ای متفاوت و مطمئن از خدمات درمانی را برای
-					مراجعان فراهم کنیم. در کلینیکس، تمرکز ما بر ارائه خدمات دقیق، به روز و
-					مبتنی بر استاندارد های علمی است. از مشاوره‌های تخصصی گرفته تا خدمات
-					تشخیصی و درمانی، همه چیز با هدف ارتقای کیفیت زندگی شما طراحی شده است.
-					فضای مدرن و آرام کلینیک نیز به گونه‌ای آماده شده تا مراجعان در محیطی
-					امن و صمیمی خدمات مورد نیاز خود را دریافت کنند.
-				</p>
-				<p class="content__about-us">
-					ما باور داریم که هر مراجعه‌کننده نیازها و شرایط منحصربه‌فردی دارد. به
-					همین دلیل، در کلینیکس رویکرد ما شخصی‌سازی خدمات درمانی و همراهی کامل
-					در مسیر بهبود است. پاسخگویی دقیق، نوبت‌دهی منظم و احترام به زمان
-					بیماران از اصول اصلی کار ماست. کلینیکس فقط یک مرکز درمانی نیست؛ بلکه
-					همراهی قابل اعتماد برای حفظ و ارتقای سلامت شماست.
-				</p>
-			</section>
+			<AboutUs />
 			<section class="content__doctors-list">
 				<TheTitle label="لیست پزشکان برتر کلینیک" has-divider />
 				<h4 class="content__text">
@@ -106,12 +88,28 @@
 	.landing {
 		.header {
 			width: 100%;
-			background-color: var(--bg-900);
 			padding: space(10) space(6);
 			border-radius: space(10);
 			box-sizing: border-box;
 			text-align: center;
+			position: relative;
+			background-image: linear-gradient(
+				0deg,
+				var(--primary-100),
+				rgba(0, 0, 0, 0)
+			);
+			z-index: 1;
 			@include flexbox(column, center, center, space(20));
+
+			&__image {
+				width: 100%;
+				height: 100%;
+				border-radius: space(10);
+				object-fit: cover;
+				opacity: 0.3;
+				position: absolute;
+				z-index: -1;
+			}
 
 			&__slogan {
 				color: var(--title-600);
@@ -141,6 +139,12 @@
 			&__button {
 				width: space(100);
 				height: space(30);
+				background-color: var(--title-500);
+				color: var(--bg-900);
+
+				&:hover {
+					background-color: var(--title-300);
+				}
 			}
 		}
 
@@ -150,10 +154,6 @@
 
 			&__state {
 				color: var(--text-500);
-			}
-
-			&__about-us {
-				color: var(--text-800);
 			}
 
 			&__doctors-list {

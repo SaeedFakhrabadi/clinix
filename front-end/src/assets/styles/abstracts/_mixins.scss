@@ -22,24 +22,3 @@
 	display: -webkit-box;
 	overflow: hidden;
 }
-
-@mixin media-sm {
-	@media (max-width: $sm) {
-		@content;
-	}
-}
-
-// @mixin card-shadow {
-//   box-shadow: 0 20px 60px rgba(red, 0.2);
-// }
-
-// @keyframes fadeInUp {
-//   from {
-//     opacity: 0;
-//     transform: translateY(30px);
-//   }
-//   to {
-//     opacity: 1;
-//     transform: translateY(0);
-//   }
-// }

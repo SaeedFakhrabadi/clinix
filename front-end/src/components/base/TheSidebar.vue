@@ -24,7 +24,7 @@
 	<aside class="the-sidebar">
 		<header class="the-sidebar__header header">
 			<!-- <TheIcon class="header__profile" name="profile-circle" /> -->
-			<img class="header__profile" src="/Eliot.png" />
+			<img class="header__profile" src="/doctor.png" />
 			<hr class="header__divider" />
 			<div class="header__user-info">
 				<h4 class="header__user-name">

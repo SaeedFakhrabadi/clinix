@@ -1,7 +1,7 @@
 {
 	"name": "clinix",
 	"private": true,
-	"version": "0.1.0-beta.1",
+	"version": "1.0.0",
 	"type": "module",
 	"author": "Saeed Fakhrabadi, Erfan Mahmoudi",
 	"scripts": {

@@ -4,7 +4,7 @@
 
 	const props = defineProps({
 		id: { type: Number, required: true },
-		image: { type: String, default: '/Boog.png' },
+		image: { type: String, default: '/doctor.png' },
 		name: { type: String, required: true },
 		field: { type: String, required: true },
 		location: { type: String, required: true },
@@ -35,7 +35,7 @@
 		</div>
 		<div class="doctor-card__section">
 			<h4 class="doctor-card__item">
-				<TheIcon name="sort" class="doctor-card__icon" />
+				<TheIcon name="location" class="doctor-card__icon" />
 				{{ location }}
 			</h4>
 			<h4 class="doctor-card__item">{{ addCommas(price) }}</h4>
@@ -45,7 +45,7 @@
 
 <style lang="scss" scoped>
 	.doctor-card {
-		background-color: var(--bg-900);
+		background-color: var(--bg-800);
 		box-shadow: space(0) space(0) space(6) var(--bg-400);
 		border-radius: space(10);
 		cursor: pointer;
@@ -75,7 +75,7 @@
 		&__header {
 			width: 100%;
 			padding-bottom: space(6);
-			border-bottom: space(0.5) solid var(--text-100);
+			border-bottom: space(0.5) dashed var(--text-100);
 			@include flexbox(row, center, center, space(6));
 		}
 
