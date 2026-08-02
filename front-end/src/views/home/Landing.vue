@@ -27,6 +27,11 @@
 		try {
 			const response = await doctorsList();
 			doctors.value = response.data;
+
+			doctors.value = doctors.value.map((doctor, index) => ({
+				...doctor,
+				imageId: (index % 4) + 1,
+			}));
 		} catch (error) {
 			console.error('Error : ', error?.response?.data || error?.message);
 
@@ -69,8 +74,9 @@
 				</div>
 				<ul v-else class="content__list">
 					<DoctorCard
-						v-for="doctor in mappedDoctors"
+						v-for="(doctor, index) in mappedDoctors"
 						:id="doctor?.id"
+						:image="`/doctor${doctor?.imageId}.png`"
 						:name="doctor?.name"
 						:field="doctor?.field"
 						:location="doctor?.location"

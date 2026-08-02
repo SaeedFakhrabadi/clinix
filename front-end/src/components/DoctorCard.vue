@@ -4,7 +4,7 @@
 
 	const props = defineProps({
 		id: { type: Number, required: true },
-		image: { type: String, default: '/doctor.png' },
+		image: { type: String, default: '/doctor1.png' },
 		name: { type: String, required: true },
 		field: { type: String, required: true },
 		location: { type: String, required: true },

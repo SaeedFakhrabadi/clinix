@@ -15,7 +15,7 @@
 		<TheTitle label="اطلاعات پزشک" />
 		<div class="doctor-info__container">
 			<section class="doctor-info__header">
-				<img src="/doctor.png" class="doctor-info__avatar" />
+				<img src="/doctor1.png" class="doctor-info__avatar" />
 				<h2 class="doctor-info__name">دکتر {{ doctor?.name }}</h2>
 			</section>
 			<section class="doctor-info__row">
